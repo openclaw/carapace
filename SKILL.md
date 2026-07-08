@@ -10,10 +10,10 @@ only when the task genuinely crosses them.
 
 | Skill | Use for |
 | --- | --- |
-| [`openclaw-brand`](openclaw-brand/SKILL.md) | Identity decisions, typography, logos, imagery, voice, and non-product brand artifacts |
-| [`openclaw-design-system`](openclaw-design-system/SKILL.md) | Application UI, semantic tokens, themes, component reuse, and framework adapters |
-| [`openclaw-marketing-pages`](openclaw-marketing-pages/SKILL.md) | Public-page composition, landing/content pages, navigation, SEO, and responsive layout |
-| [`openclaw-design-audit`](openclaw-design-audit/SKILL.md) | Design drift, token misuse, component substitution, accessibility, and recurring audits |
+| `openclaw-brand` | Identity decisions, typography, logos, imagery, voice, and non-product brand artifacts |
+| `openclaw-design-system` | Application UI, semantic tokens, themes, component reuse, and framework adapters |
+| `openclaw-marketing-pages` | Public-page composition, landing/content pages, navigation, SEO, and responsive layout |
+| `openclaw-design-audit` | Design drift, token misuse, component substitution, accessibility, and recurring audits |
 
 For a public website change, start with `openclaw-marketing-pages` and add
 `openclaw-brand` only when the task changes identity, logo, imagery, typography,

@@ -53,4 +53,11 @@ for (const skillFile of skillFiles) {
 
 }
 
+const rootSkill = await readFile("SKILL.md", "utf8");
+if (/\]\(openclaw-[^)]+\/SKILL\.md\)/.test(rootSkill)) {
+  throw new Error(
+    "SKILL.md must route by installed skill name, not source-repository sibling links",
+  );
+}
+
 console.log(`Validated ${skillFiles.length} skills`);

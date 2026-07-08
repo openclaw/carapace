@@ -6,7 +6,7 @@ Produce both `design-audit.json` and `design-audit.md`.
 
 ```json
 {
-  "designSystemVersion": "v0.0.2",
+  "designSystemVersion": "v0.0.3",
   "consumerSha": "<sha>",
   "summary": {
     "errors": 0,
