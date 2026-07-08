@@ -81,3 +81,21 @@ Release. A release tag must match the version in `package.json`.
 
 Font binaries, logos, mascot artwork, and site-specific media are not included.
 Consumers must load licensed assets locally.
+
+## Preview
+
+Run the design-system reference surface locally:
+
+```bash
+bun run preview:dev
+```
+
+Build the static preview:
+
+```bash
+bun run preview:build
+```
+
+The Pages workflow is ready for `https://openclaw.github.io/design-system/`.
+Public deployment remains deferred while organization policy keeps this
+repository private.

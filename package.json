@@ -32,6 +32,8 @@
   },
   "scripts": {
     "check": "bun run test && bun run skills:check && bun run pack:check",
+    "preview:build": "vite build --config preview/vite.config.ts",
+    "preview:dev": "vite --config preview/vite.config.ts --host 127.0.0.1 --port 4173",
     "test": "bun test",
     "skills:check": "bun scripts/validate-skills.ts",
     "pack:check": "bun scripts/check-package.ts",
@@ -40,6 +42,7 @@
   "devDependencies": {
     "lightningcss": "1.30.2",
     "tailwindcss": "4.3.1",
+    "vite": "8.0.16",
     "yaml": "2.9.0"
   },
   "engines": {

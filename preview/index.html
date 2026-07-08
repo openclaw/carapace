@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="OpenClaw design-system token and interface preview."
+    />
+    <title>OpenClaw Design System</title>
+    <script>
+      document.documentElement.dataset.theme =
+        localStorage.getItem("openclaw-preview-theme") || "dark";
+    </script>
+    <link rel="stylesheet" href="./preview.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#foundations" aria-label="OpenClaw design system home">
+        <span class="brand-mark" aria-hidden="true">OC</span>
+        <span>
+          <strong>OpenClaw</strong>
+          <small>Design system</small>
+        </span>
+      </a>
+      <nav class="topnav" aria-label="Preview sections">
+        <a href="#foundations">Foundations</a>
+        <a href="#product">Product</a>
+        <a href="#content">Content</a>
+      </nav>
+      <div class="theme-control" aria-label="Color theme">
+        <button type="button" data-theme-choice="light">Light</button>
+        <button type="button" data-theme-choice="dark">Dark</button>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <p class="eyebrow">Reference</p>
+        <nav aria-label="Component index">
+          <a href="#foundations">Color and type</a>
+          <a href="#dimensions">Dimensions</a>
+          <a href="#controls">Controls</a>
+          <a href="#product">Product surface</a>
+          <a href="#content">Content surface</a>
+          <a href="#composition">Public composition</a>
+        </nav>
+        <div class="version">
+          <span>Release</span>
+          <strong>v0.0.2</strong>
+        </div>
+      </aside>
+
+      <main>
+        <section class="intro" aria-labelledby="preview-title">
+          <p class="eyebrow">Canonical contract</p>
+          <h1 id="preview-title">One visual foundation for OpenClaw.</h1>
+          <p>
+            Live tokens and representative interface patterns for public sites,
+            product workflows, and technical documentation.
+          </p>
+          <div class="intro-actions">
+            <button class="button button-primary" type="button" data-open-dialog>
+              Open dialog
+            </button>
+            <a class="button button-secondary" href="#foundations">Inspect tokens</a>
+          </div>
+        </section>
+
+        <section id="foundations" aria-labelledby="foundations-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Foundations</p>
+              <h2 id="foundations-title">Color and typography</h2>
+            </div>
+            <p>Values below are read from computed package variables.</p>
+          </div>
+
+          <div class="swatch-grid" data-token-grid></div>
+
+          <div class="type-specimens">
+            <div>
+              <span class="specimen-label">Display</span>
+              <p class="type-display">Agents that work where you do.</p>
+            </div>
+            <div>
+              <span class="specimen-label">Body</span>
+              <p class="type-body">
+                OpenClaw connects tools, channels, and models without hiding the
+                operational details that matter.
+              </p>
+            </div>
+            <div>
+              <span class="specimen-label">Editorial</span>
+              <p class="type-serif">A useful system should make judgment visible.</p>
+            </div>
+            <div>
+              <span class="specimen-label">Code</span>
+              <code class="type-code">openclaw skills install @owner/skill</code>
+            </div>
+          </div>
+        </section>
+
+        <section id="dimensions" aria-labelledby="dimensions-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Dimensions</p>
+              <h2 id="dimensions-title">Spacing, radius, and shadow</h2>
+            </div>
+          </div>
+          <div class="dimension-layout">
+            <div class="spacing-scale" aria-label="Spacing scale">
+              <div style="--space: var(--oc-space-1)">1</div>
+              <div style="--space: var(--oc-space-2)">2</div>
+              <div style="--space: var(--oc-space-3)">3</div>
+              <div style="--space: var(--oc-space-4)">4</div>
+              <div style="--space: var(--oc-space-5)">5</div>
+              <div style="--space: var(--oc-space-6)">6</div>
+              <div style="--space: var(--oc-space-7)">7</div>
+              <div style="--space: var(--oc-space-8)">8</div>
+            </div>
+            <div class="radius-shadow-grid">
+              <div class="radius-sample radius-sm">4px</div>
+              <div class="radius-sample radius-md">8px</div>
+              <div class="shadow-sample shadow-sm">Small</div>
+              <div class="shadow-sample shadow-md">Medium</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="controls" aria-labelledby="controls-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Interaction</p>
+              <h2 id="controls-title">Controls and states</h2>
+            </div>
+          </div>
+          <div class="control-grid">
+            <form class="form-sample">
+              <label>
+                Search skills
+                <input type="search" placeholder="Search by name or capability" />
+              </label>
+              <label>
+                Category
+                <select>
+                  <option>All categories</option>
+                  <option>Developer tools</option>
+                  <option>Communication</option>
+                </select>
+              </label>
+              <label class="check-row">
+                <input type="checkbox" checked />
+                Include verified publishers
+              </label>
+              <div class="button-row">
+                <button class="button button-primary" type="button">Apply filters</button>
+                <button class="button button-secondary" type="reset">Reset</button>
+              </div>
+            </form>
+            <div class="state-sample">
+              <div class="segmented" aria-label="Display density">
+                <button type="button" aria-pressed="true">Comfortable</button>
+                <button type="button" aria-pressed="false">Compact</button>
+              </div>
+              <button class="button button-danger" type="button">Remove access</button>
+              <button class="button button-secondary" type="button" disabled>
+                Processing
+              </button>
+              <div class="status-row">
+                <span class="badge badge-success">Ready</span>
+                <span class="badge badge-warning">Review</span>
+                <span class="badge badge-error">Blocked</span>
+                <span class="badge badge-info">Official</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="product" aria-labelledby="product-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Product surface</p>
+              <h2 id="product-title">Dense, quiet, operational</h2>
+            </div>
+            <button class="button button-secondary button-small" type="button">
+              Export
+            </button>
+          </div>
+          <div class="product-toolbar">
+            <div class="tabs" role="tablist" aria-label="Package view">
+              <button role="tab" aria-selected="true">Skills</button>
+              <button role="tab" aria-selected="false">Plugins</button>
+              <button role="tab" aria-selected="false">Publishers</button>
+            </div>
+            <span>24 results</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Package</th>
+                  <th scope="col">Publisher</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>design-audit</strong><small>UI compliance checks</small></td>
+                  <td>openclaw</td>
+                  <td><span class="badge badge-success">Verified</span></td>
+                  <td>2m ago</td>
+                </tr>
+                <tr>
+                  <td><strong>convex</strong><small>Backend workflow router</small></td>
+                  <td>openclaw</td>
+                  <td><span class="badge badge-info">Official</span></td>
+                  <td>1h ago</td>
+                </tr>
+                <tr>
+                  <td><strong>release-notes</strong><small>Draft release summaries</small></td>
+                  <td>community</td>
+                  <td><span class="badge badge-warning">Review</span></td>
+                  <td>Yesterday</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="content" aria-labelledby="content-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Content surface</p>
+              <h2 id="content-title">Readable technical guidance</h2>
+            </div>
+          </div>
+          <article class="prose-sample">
+            <p class="lead">
+              Skills are versioned instruction bundles that teach an agent how to
+              perform a focused workflow.
+            </p>
+            <h3>Install from a pinned source</h3>
+            <p>
+              Use an immutable tag so local development and automation resolve
+              the same design contract.
+            </p>
+            <pre><code>bun add "git+ssh://git@github.com/openclaw/design-system.git#v0.0.2"</code></pre>
+            <aside class="callout">
+              <strong>Private rollout</strong>
+              <p>CI needs a credential with read access until the repository is public.</p>
+            </aside>
+          </article>
+        </section>
+
+        <section id="composition" aria-labelledby="composition-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Public composition</p>
+              <h2 id="composition-title">OpenClaw</h2>
+            </div>
+          </div>
+          <div class="public-composition">
+            <div>
+              <p class="eyebrow">Personal AI infrastructure</p>
+              <h3>Your tools. Your channels. Your agent.</h3>
+              <p>
+                Run an assistant that can meet you in the software you already use.
+              </p>
+            </div>
+            <div class="signal-panel" aria-label="Connected services">
+              <span>Discord</span>
+              <span>GitHub</span>
+              <span>Notion</span>
+              <span>Terminal</span>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog>
+      <form method="dialog">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow">Confirmation</p>
+            <h2>Publish this package?</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="Close dialog">x</button>
+        </div>
+        <p>
+          The release will preserve the current semantic token and skill contract.
+        </p>
+        <div class="button-row">
+          <button class="button button-secondary" value="cancel">Cancel</button>
+          <button class="button button-primary" value="confirm">Publish</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script type="module" src="./preview.js"></script>
+  </body>
+</html>
