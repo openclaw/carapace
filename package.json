@@ -1,6 +1,6 @@
 {
   "name": "@openclaw/design-system",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Canonical web design tokens, styles, and agent guidance for OpenClaw.",
   "license": "MIT",
   "type": "module",
