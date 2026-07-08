@@ -14,8 +14,12 @@ This repository becomes canonical once `v0.0.1` is released.
 Install an immutable GitHub release without publishing to npm:
 
 ```bash
-bun add github:openclaw/design-system#v0.0.1
+bun add "git+ssh://git@github.com/openclaw/design-system.git#v0.0.1"
 ```
+
+The repository is private during initial rollout, so package installation
+requires GitHub SSH access. Consumer CI will also require a credential that can
+read this repository until it becomes public.
 
 Import the complete CSS contract:
 
@@ -46,7 +50,7 @@ Install the root router and focused design skills from the same release:
 
 ```bash
 npx skills add \
-  "https://github.com/openclaw/design-system.git#v0.0.1" \
+  "git@github.com:openclaw/design-system.git#v0.0.1" \
   --copy \
   --yes
 ```
@@ -54,7 +58,8 @@ npx skills add \
 OpenClaw's native skill installer can use the same immutable tag:
 
 ```bash
-openclaw skills install git:openclaw/design-system@v0.0.1
+openclaw skills install \
+  "git:ssh://git@github.com/openclaw/design-system.git@v0.0.1"
 ```
 
 The root `openclaw-design` skill routes work to:
