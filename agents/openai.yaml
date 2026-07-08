@@ -1,4 +1,0 @@
-interface:
-  display_name: "OpenClaw Design"
-  short_description: "Route OpenClaw brand and UI design work"
-  default_prompt: "Use $openclaw-design to choose and apply the right OpenClaw design guidance."

@@ -7,14 +7,14 @@ The initial contract was extracted from `openclaw/openclaw.ai` at
 `b94b43b24f728c902ebb4c09ca3f89aa21e4f1d5` and checked against
 `openclaw/clawhub` at `0e898b1dfd309728a031416cd57fa1262af0d064` and
 `openclaw/docs` at `2a10e88b244232f9a91d7c9a97f2816297eb2eb4`.
-This repository becomes canonical once `v0.0.1` is released.
+This repository became canonical with `v0.0.1`. Current release: `v0.0.2`.
 
 ## Install
 
 Install an immutable GitHub release without publishing to npm:
 
 ```bash
-bun add "git+ssh://git@github.com/openclaw/design-system.git#v0.0.1"
+bun add "git+ssh://git@github.com/openclaw/design-system.git#v0.0.2"
 ```
 
 The repository is private during initial rollout, so package installation
@@ -50,7 +50,7 @@ Install the root router and focused design skills from the same release:
 
 ```bash
 npx skills add \
-  "git@github.com:openclaw/design-system.git#v0.0.1" \
+  "git@github.com:openclaw/design-system.git#v0.0.2" \
   --copy \
   --yes
 ```
@@ -59,7 +59,7 @@ OpenClaw's native skill installer can use the same immutable tag:
 
 ```bash
 openclaw skills install \
-  "git:ssh://git@github.com/openclaw/design-system.git@v0.0.1"
+  "git:ssh://git@github.com/openclaw/design-system.git@v0.0.2"
 ```
 
 The root `openclaw-design` skill routes work to:

@@ -51,28 +51,6 @@ for (const skillFile of skillFiles) {
     }
   }
 
-  const agentConfig = join(dirname(skillFile), "agents/openai.yaml");
-  if (!existsSync(agentConfig)) {
-    throw new Error(`${skillFile} is missing ${agentConfig}`);
-  }
-
-  const agentSource = await readFile(agentConfig, "utf8");
-  const agentConfigData = parse(agentSource) as {
-    interface?: {
-      default_prompt?: unknown;
-      display_name?: unknown;
-      short_description?: unknown;
-    };
-  };
-  const metadata = agentConfigData.interface;
-  if (
-    typeof metadata?.display_name !== "string" ||
-    typeof metadata.short_description !== "string" ||
-    typeof metadata.default_prompt !== "string"
-  ) {
-    throw new Error(`${agentConfig} has incomplete interface metadata`);
-  }
 }
 
 console.log(`Validated ${skillFiles.length} skills`);
-

@@ -1,4 +1,0 @@
-interface:
-  display_name: "OpenClaw Brand"
-  short_description: "Apply OpenClaw brand identity consistently"
-  default_prompt: "Use $openclaw-brand to apply OpenClaw brand identity to this work."

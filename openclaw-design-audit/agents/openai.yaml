@@ -1,4 +1,0 @@
-interface:
-  display_name: "OpenClaw Design Audit"
-  short_description: "Audit UI against OpenClaw design contracts"
-  default_prompt: "Use $openclaw-design-audit to audit this interface and report actionable design drift."

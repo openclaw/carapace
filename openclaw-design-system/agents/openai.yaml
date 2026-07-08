@@ -1,4 +1,0 @@
-interface:
-  display_name: "OpenClaw Design System"
-  short_description: "Build UI with canonical OpenClaw foundations"
-  default_prompt: "Use $openclaw-design-system to build this interface with canonical OpenClaw tokens and patterns."

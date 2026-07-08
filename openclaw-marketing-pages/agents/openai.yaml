@@ -1,4 +1,0 @@
-interface:
-  display_name: "OpenClaw Marketing Pages"
-  short_description: "Design OpenClaw public and marketing pages"
-  default_prompt: "Use $openclaw-marketing-pages to design this OpenClaw public page."
