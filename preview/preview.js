@@ -1,17 +1,8 @@
-const tokenDefinitions = [
-  ["Page", "--oc-bg-page"],
-  ["Surface", "--oc-bg-surface"],
-  ["Elevated", "--oc-bg-elevated"],
-  ["Primary text", "--oc-text-primary"],
-  ["Secondary text", "--oc-text-secondary"],
-  ["Muted text", "--oc-text-muted"],
-  ["Primary accent", "--oc-accent-primary"],
-  ["Accent hover", "--oc-accent-primary-hover"],
-  ["Secondary accent", "--oc-accent-secondary"],
-];
+import { groupTokenDefinitions } from "./token-catalog.js";
 
 const root = document.documentElement;
 const tokenGrid = document.querySelector("[data-token-grid]");
+const tokenCount = document.querySelector("[data-token-count]");
 const themeButtons = document.querySelectorAll("[data-theme-choice]");
 const dialog = document.querySelector("dialog");
 const dialogTrigger = document.querySelector("[data-open-dialog]");
@@ -20,23 +11,76 @@ const previewSections = [...document.querySelectorAll("[data-preview-section]")]
 const previewContextTitle = document.querySelector("[data-preview-context-title]");
 const previewContextMeta = document.querySelector("[data-preview-context-meta]");
 
+function createTokenSample(sample, value) {
+  const element = document.createElement("div");
+  element.className = `token-sample token-sample--${sample}`;
+  element.style.setProperty("--token-value", value);
+  element.setAttribute("aria-hidden", "true");
+
+  if (sample === "text" || sample === "type-scale" || sample === "font") {
+    element.textContent = "Ag";
+  } else if (sample === "motion") {
+    element.textContent = "↗";
+  }
+
+  return element;
+}
+
+function createTokenCard(token, sample, styles) {
+  const value = styles.getPropertyValue(token.variable).trim();
+  const card = document.createElement("article");
+  card.className = "token-card";
+
+  const meta = document.createElement("div");
+  meta.className = "token-meta";
+
+  const variable = document.createElement("code");
+  variable.className = "token-variable";
+  variable.textContent = token.variable;
+  variable.title = token.variable;
+
+  const resolvedValue = document.createElement("code");
+  resolvedValue.className = "token-value";
+  resolvedValue.textContent = value;
+  resolvedValue.title = value;
+
+  meta.append(variable, resolvedValue);
+  card.append(createTokenSample(sample, value), meta);
+  return card;
+}
+
+function createTokenGroup(group, styles) {
+  const section = document.createElement("section");
+  section.className = "token-group";
+
+  const heading = document.createElement("header");
+  heading.className = "token-group-heading";
+
+  const title = document.createElement("h3");
+  title.textContent = group.label;
+
+  const count = document.createElement("span");
+  count.textContent = `${group.tokens.length} token${group.tokens.length === 1 ? "" : "s"}`;
+
+  heading.append(title, count);
+
+  const grid = document.createElement("div");
+  grid.className = "token-group-grid";
+  grid.append(...group.tokens.map((token) => createTokenCard(token, group.sample, styles)));
+
+  section.append(heading, grid);
+  return section;
+}
+
 function renderTokens() {
+  if (!tokenGrid) return;
+
   const styles = getComputedStyle(root);
-  tokenGrid.replaceChildren(
-    ...tokenDefinitions.map(([label, variable]) => {
-      const value = styles.getPropertyValue(variable).trim();
-      const swatch = document.createElement("div");
-      swatch.className = "swatch";
-      swatch.innerHTML = `
-        <div class="swatch-color" style="--swatch: ${value}"></div>
-        <div class="swatch-meta">
-          <strong>${label}</strong>
-          <code>${variable} · ${value}</code>
-        </div>
-      `;
-      return swatch;
-    }),
-  );
+  const groups = groupTokenDefinitions();
+  const count = groups.reduce((total, group) => total + group.tokens.length, 0);
+
+  if (tokenCount) tokenCount.textContent = String(count);
+  tokenGrid.replaceChildren(...groups.map((group) => createTokenGroup(group, styles)));
 }
 
 function setTheme(theme) {
