@@ -72,6 +72,29 @@ class AutoreviewHardeningTests(unittest.TestCase):
             self.assertIn("## image.bin\n[binary file omitted]", bundle)
             self.assertFalse(truncated)
 
+    def test_full_file_secret_scan_blocks_truncated_tail(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = init_repo(Path(tempdir))
+            tail_secret = "\ntoken=" + "A" * 24 + "\n"
+            content = "x" * (64_000 * 3 - 4) + tail_secret
+
+            untracked = repo / "untracked.txt"
+            untracked.write_text(content, encoding="utf-8")
+            with self.assertRaisesRegex(SystemExit, "secret-like content"):
+                self.helper["safe_untracked_files"](repo)
+
+            untracked.unlink()
+            binary = repo / "binary.bin"
+            binary.write_bytes(b"\0" + content.encode())
+            with self.assertRaisesRegex(SystemExit, "secret-like content"):
+                self.helper["safe_untracked_files"](repo)
+
+            binary.unlink()
+            evidence = repo / "evidence.txt"
+            evidence.write_text(content, encoding="utf-8")
+            with self.assertRaisesRegex(SystemExit, "secret-like content"):
+                self.helper["validate_evidence_file"](repo, "evidence.txt", "--dataset")
+
     def test_local_bundle_blocks_secret_in_staged_diff(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
             repo = init_repo(Path(tempdir))

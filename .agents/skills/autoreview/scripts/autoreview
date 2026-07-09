@@ -85,6 +85,8 @@ SECRET_VALUE_PATTERNS = [
     re.compile(r"\bya29\.[0-9A-Za-z_-]{20,}\b"),
 ]
 MAX_BUNDLE_TEXT_BYTES = 180_000
+SECRET_SCAN_CHUNK_CHARS = 64_000
+SECRET_SCAN_OVERLAP_CHARS = 512
 DEFAULT_ENGINE_PATHS = ("/usr/local/bin", "/usr/bin", "/bin")
 DEFAULT_MODEL_BY_ENGINE = {
     "codex": "gpt-5.5",
@@ -796,6 +798,20 @@ def secret_text_risk(text: str) -> bool:
     return any(pattern.search(text) for pattern in SECRET_VALUE_PATTERNS)
 
 
+def file_secret_text_risk(path: Path) -> bool:
+    overlap = ""
+    try:
+        with path.open("r", encoding="utf-8", errors="replace") as handle:
+            while chunk := handle.read(SECRET_SCAN_CHUNK_CHARS):
+                text = overlap + chunk
+                if secret_text_risk(text):
+                    return True
+                overlap = text[-SECRET_SCAN_OVERLAP_CHARS:]
+    except OSError as exc:
+        raise SystemExit(f"unreadable file: {path}: {exc}") from exc
+    return False
+
+
 def require_no_secret_values(label: str, text: str) -> None:
     if secret_text_risk(text):
         raise SystemExit(
@@ -831,10 +847,14 @@ def file_bundle_risk(
         data, _ = read_prefix(path, MAX_BUNDLE_TEXT_BYTES)
     except SystemExit as exc:
         return str(exc)
+    try:
+        sensitive_value_found = file_secret_text_risk(path)
+    except SystemExit as exc:
+        return str(exc)
+    if sensitive_value_found:
+        return "secret-like content"
     if b"\0" in data:
         return None if allow_binary_omission else "binary file"
-    if secret_text_risk(data.decode("utf-8", errors="replace")):
-        return "secret-like content"
     return None
 
 
