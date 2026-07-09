@@ -27,7 +27,8 @@ Keep consumer-specific behavior, data, routes, and layout composition local.
 - Use status colors for status, warning, success, error, and informational meaning.
 - Keep cards, controls, and repeated fixed-format elements dimensionally stable.
 - Avoid nested decorative cards and page sections styled as floating cards.
-- Use an 8px maximum default radius unless a documented consumer pattern requires otherwise.
+- Keep surfaces, controls, and insets square through their semantic radius tokens.
+- Reserve round geometry for avatars, status dots, and other truly circular indicators.
 - Keep focus, hover, active, disabled, loading, and invalid states coherent.
 - Keep text within its container at supported viewport sizes.
 - Prefer dense, scan-friendly composition for operational product surfaces.

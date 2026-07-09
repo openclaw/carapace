@@ -102,7 +102,7 @@
 
 .oc-card {
   border: 1px solid var(--oc-component-border);
-  border-radius: var(--oc-radius-md);
+  border-radius: var(--oc-radius-surface);
   background: var(--oc-component-surface);
   color: var(--oc-text-primary);
   box-shadow: var(--oc-component-shadow);
@@ -137,7 +137,7 @@
   gap: var(--oc-space-2);
   padding: var(--oc-space-2) var(--oc-space-4);
   border: 1px solid transparent;
-  border-radius: var(--oc-radius-md);
+  border-radius: var(--oc-radius-control);
   font: inherit;
   font-size: var(--oc-font-size-base);
   font-weight: 700;
@@ -210,7 +210,7 @@
   gap: var(--oc-space-1);
   padding: var(--oc-space-1);
   border: 1px solid var(--oc-border-subtle);
-  border-radius: var(--oc-radius-md);
+  border-radius: var(--oc-radius-control);
   background: var(--oc-surface-card);
 }
 
@@ -222,7 +222,7 @@
   gap: var(--oc-space-2);
   padding: var(--oc-space-1) var(--oc-space-3);
   border: 0;
-  border-radius: var(--oc-radius-sm);
+  border-radius: var(--oc-radius-inset);
   background: transparent;
   color: var(--oc-text-secondary);
   font: inherit;
@@ -258,7 +258,7 @@
   gap: var(--oc-space-2);
   padding: var(--oc-space-1) var(--oc-space-3);
   border: 1px solid var(--oc-border-subtle);
-  border-radius: var(--oc-radius-full);
+  border-radius: var(--oc-radius-control);
   background: var(--oc-surface-card);
   color: var(--oc-text-secondary);
   font-size: var(--oc-font-size-xs);

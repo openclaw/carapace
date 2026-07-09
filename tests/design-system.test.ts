@@ -81,6 +81,11 @@ describe("CSS contract", () => {
     ]) {
       expect(components).toContain(className);
     }
+
+    expect(components).toContain("border-radius: var(--oc-radius-surface)");
+    expect(components).toContain("border-radius: var(--oc-radius-control)");
+    expect(components).toContain("border-radius: var(--oc-radius-inset)");
+    expect(references).not.toContain("--oc-radius-full");
   });
 
   test("ClawHub compatibility covers explicit and system light modes", async () => {

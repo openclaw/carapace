@@ -46,6 +46,10 @@
   --radius-lg: var(--oc-radius-lg);
   --radius-xl: var(--oc-radius-xl);
   --radius-full: var(--oc-radius-full);
+  --radius-surface: var(--oc-radius-surface);
+  --radius-control: var(--oc-radius-control);
+  --radius-inset: var(--oc-radius-inset);
+  --radius-round: var(--oc-radius-round);
 
   --font-display: var(--oc-font-display);
   --font-body: var(--oc-font-body);

@@ -63,6 +63,11 @@ their own content and behavior while composing the same visual implementation:
 </section>
 ```
 
+OpenClaw surfaces and controls use square corners by default. Use the semantic
+`--oc-radius-surface`, `--oc-radius-control`, and `--oc-radius-inset` roles
+instead of choosing from the raw radius scale. Reserve `--oc-radius-round` for
+genuinely circular avatars, status dots, and similar indicators.
+
 ## Skills
 
 Install the root router and focused design skills from the same release:

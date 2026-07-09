@@ -33,9 +33,16 @@ new shared semantic token only when the same intent recurs across consumers.
 
 ## Radius
 
-The shared default is `--oc-radius-md` (8px). Larger radii require an existing
-consumer pattern or a clear content reason. Pills are reserved for compact
-status, filtering, or segmented-control semantics.
+Use semantic geometry roles in product UI:
+
+- `--oc-radius-surface`: cards, panels, and framed sections
+- `--oc-radius-control`: buttons, fields, chips, and segmented controls
+- `--oc-radius-inset`: nested interactive or decorative surfaces
+- `--oc-radius-round`: avatars, status dots, and genuinely circular indicators
+
+The first three roles are square in the canonical OpenClaw system. Raw
+`--oc-radius-*` scale values remain available for documented exceptions, but
+must not replace the semantic defaults.
 
 ## Ownership
 
