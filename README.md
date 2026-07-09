@@ -47,7 +47,7 @@ opt-in adapters rather than a second design system.
 
 ## Skills
 
-Install the root router and focused design skills from the same release:
+Install the root router from the tagged release:
 
 ```bash
 npx skills add \
@@ -56,7 +56,24 @@ npx skills add \
   --yes
 ```
 
-OpenClaw's native skill installer can use the same immutable tag:
+Install the four focused skills from their tagged subdirectories:
+
+```bash
+for skill in \
+  openclaw-brand \
+  openclaw-design-system \
+  openclaw-marketing-pages \
+  openclaw-design-audit
+do
+  npx skills add \
+    "https://github.com/openclaw/design-system/tree/v0.0.1/${skill}" \
+    --copy \
+    --yes
+done
+```
+
+OpenClaw's native skill installer can install the root router from the same
+immutable tag:
 
 ```bash
 openclaw skills install \
@@ -69,6 +86,9 @@ The root `openclaw-design` skill routes work to:
 - `openclaw-design-system`
 - `openclaw-marketing-pages`
 - `openclaw-design-audit`
+
+Install the focused skills above when you want the router to hand work off by
+skill name.
 
 ## Development
 
