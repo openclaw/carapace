@@ -49,9 +49,19 @@
   --oc-radius-lg: 0.75rem;
   --oc-radius-xl: 1rem;
   --oc-radius-full: 999px;
+  --oc-radius-surface: 0;
+  --oc-radius-control: 0;
+  --oc-radius-inset: 0;
+  --oc-radius-round: var(--oc-radius-full);
 
   --oc-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.12);
   --oc-shadow-md: 0 8px 24px -6px rgb(0 0 0 / 0.28);
   --oc-shadow-lg: 0 24px 48px -12px rgb(0 0 0 / 0.42);
-}
 
+  --oc-duration-fast: 160ms;
+  --oc-duration-ui: 200ms;
+  --oc-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --oc-content-max: 75rem;
+  --oc-content-narrow: 48rem;
+}

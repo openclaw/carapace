@@ -45,6 +45,7 @@ for (const required of [
   "styles/themes/product.css",
   "styles/typography.css",
   "styles/base.css",
+  "styles/components.css",
   "styles/tailwind.css",
   "styles/compat/clawhub.css",
 ]) {

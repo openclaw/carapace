@@ -58,11 +58,12 @@
   --fs-2xl: var(--oc-font-size-2xl);
   --fs-3xl: var(--oc-font-size-3xl);
 
-  --r-xs: var(--oc-radius-md);
-  --r-sm: var(--oc-radius-md);
-  --r-md: var(--oc-radius-md);
-  --r-lg: var(--oc-radius-md);
-  --r-pill: var(--oc-radius-md);
+  --r-xs: var(--oc-radius-inset);
+  --r-sm: var(--oc-radius-control);
+  --r-md: var(--oc-radius-surface);
+  --r-lg: var(--oc-radius-surface);
+  --r-pill: var(--oc-radius-control);
+  --r-btn: var(--oc-radius-control);
 }
 
 [data-theme-family="claw"][data-theme-resolved="light"] {

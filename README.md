@@ -35,6 +35,7 @@ Consumers can instead import focused entry points:
 @import "@openclaw/design-system/themes.css";
 @import "@openclaw/design-system/typography.css";
 @import "@openclaw/design-system/base.css";
+@import "@openclaw/design-system/components.css";
 @import "@openclaw/design-system/themes/product.css";
 @import "@openclaw/design-system/compat/clawhub.css";
 @import "@openclaw/design-system/tailwind.css";
@@ -44,6 +45,28 @@ The Tailwind entry point only maps canonical custom properties into Tailwind
 4. Applications continue to own their components and product-specific layout.
 The product theme and ClawHub compatibility entry points are transitional,
 opt-in adapters rather than a second design system.
+
+`components.css` provides framework-neutral primitives for shared heroes,
+section headings, cards, actions, pills, and segmented controls. Consumers keep
+their own content and behavior while composing the same visual implementation:
+
+```html
+<section class="oc-section">
+  <header class="oc-section-header">
+    <div class="oc-section-heading">
+      <p class="oc-eyebrow">Featured</p>
+      <h2 class="oc-section-title">Build with OpenClaw</h2>
+      <p class="oc-section-copy">Shared copy and surface styling across products.</p>
+    </div>
+    <a class="oc-action oc-action-secondary" href="/skills">Browse skills</a>
+  </header>
+</section>
+```
+
+OpenClaw surfaces and controls use square corners by default. Use the semantic
+`--oc-radius-surface`, `--oc-radius-control`, and `--oc-radius-inset` roles
+instead of choosing from the raw radius scale. Reserve `--oc-radius-round` for
+genuinely circular avatars, status dots, and similar indicators.
 
 ## Skills
 

@@ -1,6 +1,6 @@
 {
   "name": "@openclaw/design-system",
-  "version": "0.0.3",
+  "version": "0.0.1",
   "description": "Canonical web design tokens, styles, and agent guidance for OpenClaw.",
   "license": "MIT",
   "type": "module",
@@ -26,6 +26,7 @@
     "./themes/product.css": "./styles/themes/product.css",
     "./typography.css": "./styles/typography.css",
     "./base.css": "./styles/base.css",
+    "./components.css": "./styles/components.css",
     "./tailwind.css": "./styles/tailwind.css",
     "./compat/clawhub.css": "./styles/compat/clawhub.css",
     "./package.json": "./package.json"
