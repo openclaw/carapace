@@ -7,19 +7,20 @@ The initial contract was extracted from `openclaw/openclaw.ai` at
 `b94b43b24f728c902ebb4c09ca3f89aa21e4f1d5` and checked against
 `openclaw/clawhub` at `0e898b1dfd309728a031416cd57fa1262af0d064` and
 `openclaw/docs` at `2a10e88b244232f9a91d7c9a97f2816297eb2eb4`.
-This repository became canonical with the initial rollout release, `v0.0.1`.
+This repository became canonical with `v0.0.1`. Latest tagged release:
+`v0.0.1`.
 
 ## Install
 
 Install an immutable GitHub release without publishing to npm:
 
 ```bash
-bun add "git+ssh://git@github.com/openclaw/design-system.git#v0.0.1"
+bun add "git+https://github.com/openclaw/design-system.git#v0.0.1"
 ```
 
-The repository is private during initial rollout, so package installation
-requires GitHub SSH access. Consumer CI will also require a credential that can
-read this repository until it becomes public.
+The package is distributed through immutable Git tags rather than npm. Its
+`private` package field prevents accidental npm publication; it does not limit
+access to this public repository.
 
 Import the complete CSS contract:
 
@@ -69,20 +70,37 @@ genuinely circular avatars, status dots, and similar indicators.
 
 ## Skills
 
-Install the root router and focused design skills from the same release:
+Install the root router from the tagged release:
 
 ```bash
 npx skills add \
-  "git@github.com:openclaw/design-system.git#v0.0.1" \
+  "openclaw/design-system#v0.0.1" \
   --copy \
   --yes
 ```
 
-OpenClaw's native skill installer can use the same immutable tag:
+Install the four focused skills from their tagged subdirectories:
+
+```bash
+for skill in \
+  openclaw-brand \
+  openclaw-design-system \
+  openclaw-marketing-pages \
+  openclaw-design-audit
+do
+  npx skills add \
+    "https://github.com/openclaw/design-system/tree/v0.0.1/${skill}" \
+    --copy \
+    --yes
+done
+```
+
+OpenClaw's native skill installer can install the root router from the same
+immutable tag:
 
 ```bash
 openclaw skills install \
-  "git:ssh://git@github.com/openclaw/design-system.git@v0.0.1"
+  "git:openclaw/design-system@v0.0.1"
 ```
 
 The root `openclaw-design` skill routes work to:
@@ -91,6 +109,9 @@ The root `openclaw-design` skill routes work to:
 - `openclaw-design-system`
 - `openclaw-marketing-pages`
 - `openclaw-design-audit`
+
+Install the focused skills above when you want the router to hand work off by
+skill name.
 
 ## Development
 

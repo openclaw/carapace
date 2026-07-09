@@ -1,0 +1,83 @@
+name: Bug report
+description: Report a reproducible design-system defect or regression.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report one issue at a time. Redact credentials, private paths, hostnames, and restricted assets.
+        Report security issues through the private security advisory link instead.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the observed defect in one or two sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the shortest deterministic reproduction.
+      placeholder: |
+        1. Install release or commit...
+        2. Import stylesheet or skill...
+        3. Render or run...
+        4. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Release or commit
+      placeholder: "v0.0.1 or commit SHA"
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Affected surface
+      options:
+        - Tokens or themes
+        - Base or typography styles
+        - Tailwind adapter
+        - Consumer compatibility adapter
+        - Package exports or archive
+        - Agent skill or reference
+        - Multiple surfaces
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: consumer
+    attributes:
+      label: Consumer and environment
+      description: Name the OpenClaw consumer, framework, runtime, and browser if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted evidence
+      description: Include only the CSS, screenshot, log, or audit output needed to diagnose the issue.
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Explain severity, frequency, and affected consumers.
+    validations:
+      required: true

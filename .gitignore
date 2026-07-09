@@ -1,4 +1,5 @@
 node_modules/
 dist/
 *.tgz
-
+.agents/skills/**/__pycache__/
+.agents/skills/**/*.py[cod]

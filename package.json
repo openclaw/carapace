@@ -39,8 +39,8 @@
     "release:check": "bun scripts/check-release-version.ts"
   },
   "devDependencies": {
-    "lightningcss": "1.30.2",
-    "tailwindcss": "4.3.1",
+    "lightningcss": "1.32.0",
+    "tailwindcss": "4.3.2",
     "yaml": "2.9.0"
   },
   "engines": {
