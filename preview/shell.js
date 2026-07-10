@@ -37,8 +37,10 @@ function renderTopbar() {
         <span></span><span></span>
       </button>
       <a class="brand" href="${hrefFor("")}" aria-label="OpenClaw design system overview">
-        <img class="brand-mark" src="https://openclaw.ai/favicon.svg" alt="" />
-        <span class="brand-wordmark">OpenClaw</span>
+        <span class="brand-primary">
+          <img class="brand-mark" src="https://openclaw.ai/favicon.svg" alt="" />
+          <span class="brand-wordmark">OpenClaw</span>
+        </span>
         <span class="brand-context">Design System</span>
       </a>
       <button class="search-trigger" type="button" data-open-search aria-label="Search reference">

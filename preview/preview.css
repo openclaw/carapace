@@ -99,10 +99,18 @@ a {
 
 .brand {
   display: inline-flex;
+  min-height: 36px;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   width: fit-content;
+  padding: 0 2px;
   text-decoration: none;
+}
+
+.brand-primary {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
 }
 
 .brand-mark {
@@ -114,25 +122,31 @@ a {
 .brand-wordmark {
   color: var(--oc-text-primary);
   font-family: var(--oc-font-display);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 1.1;
+  line-height: 1;
 }
 
 .brand-context {
   display: inline-flex;
-  min-height: 20px;
+  min-height: 22px;
   align-items: center;
-  padding: 3px 6px;
-  border: 1px solid var(--oc-border-accent);
+  padding: 3px 7px;
+  border: 1px solid var(--oc-border-subtle);
+  background: var(--oc-bg-surface);
   color: var(--oc-text-secondary);
   font-family: var(--oc-font-mono);
-  font-size: 8px;
+  font-size: 8.5px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   line-height: 1;
   text-transform: uppercase;
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
 }
 
 .topnav {
