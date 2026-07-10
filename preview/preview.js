@@ -18,6 +18,7 @@ const previewNavLinks = document.querySelectorAll("[data-preview-link]");
 const previewSections = [...document.querySelectorAll("[data-preview-section]")];
 const previewContextTitle = document.querySelector("[data-preview-context-title]");
 const previewContextMeta = document.querySelector("[data-preview-context-meta]");
+let tokenGroupObserver;
 
 function syncThemeColor() {
   let themeColor = document.querySelector('meta[name="theme-color"]');
@@ -213,6 +214,32 @@ function renderTokenGroupNavigation(groups) {
   );
 }
 
+function observeTokenGroups() {
+  tokenGroupObserver?.disconnect();
+  if (!tokenGroupNav || !("IntersectionObserver" in window)) return;
+
+  const links = [...tokenGroupNav.querySelectorAll("a")];
+  const sections = [...document.querySelectorAll(".token-group")];
+  const setActive = (id) => {
+    for (const link of links) {
+      if (link.hash === `#${id}`) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    }
+  };
+
+  tokenGroupObserver = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((left, right) => left.boundingClientRect.top - right.boundingClientRect.top)[0];
+      if (visible) setActive(visible.target.querySelector("h2")?.id);
+    },
+    { rootMargin: "-28% 0px -62% 0px", threshold: [0, 0.1] },
+  );
+  sections.forEach((section) => tokenGroupObserver.observe(section));
+  if (sections[0]) setActive(sections[0].querySelector("h2")?.id);
+}
+
 function createTokenEmptyState() {
   const empty = document.createElement("div");
   empty.className = "token-empty";
@@ -269,7 +296,17 @@ function renderTokens() {
       ? groups.map((group) => createTokenGroup(group, resolver))
       : [createTokenEmptyState()]),
   );
+  observeTokenGroups();
   resolver.remove();
+}
+
+function syncTokenFilterUrl() {
+  if (!tokenFilter) return;
+  const url = new URL(window.location.href);
+  const query = tokenFilter.value.trim();
+  if (query) url.searchParams.set("q", query);
+  else url.searchParams.delete("q");
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
 }
 
 function syncThemeControls(theme) {
@@ -351,7 +388,10 @@ if (previewSections.length > 0) {
 syncThemeControls(root.dataset.theme);
 if (tokenFilter) {
   tokenFilter.value = new URLSearchParams(window.location.search).get("q") || "";
-  tokenFilter.addEventListener("input", renderTokens);
+  tokenFilter.addEventListener("input", () => {
+    syncTokenFilterUrl();
+    renderTokens();
+  });
 }
 
 document.addEventListener("click", (event) => {
@@ -359,6 +399,7 @@ document.addEventListener("click", (event) => {
   if (!clear || !tokenFilter) return;
   tokenFilter.value = "";
   tokenFilter.focus();
+  syncTokenFilterUrl();
   renderTokens();
 });
 

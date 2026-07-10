@@ -841,6 +841,8 @@ a {
 }
 
 .token-group {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
   scroll-margin-top: calc(
     var(--preview-topbar-height) + var(--preview-canvas-header-height) + 24px
   );
@@ -981,12 +983,17 @@ a {
 }
 
 .token-tools {
+  position: sticky;
+  z-index: 8;
+  top: calc(var(--preview-topbar-height) + var(--preview-canvas-header-height));
   display: grid;
   gap: 18px;
   margin-bottom: 32px;
   padding: 14px 0 20px;
   border-top: 1px solid var(--oc-border-subtle);
   border-bottom: 1px solid var(--oc-border-subtle);
+  background: color-mix(in srgb, var(--oc-bg-page) 96%, transparent);
+  backdrop-filter: blur(14px);
 }
 
 .token-group-nav {
@@ -1009,6 +1016,12 @@ a {
   font-size: 11px;
   text-decoration: none;
   white-space: nowrap;
+}
+
+.token-group-nav a:hover,
+.token-group-nav a[aria-current="location"] {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
 }
 
 .token-group-nav a:hover {

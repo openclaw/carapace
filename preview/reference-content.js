@@ -11,7 +11,7 @@ function pageIntro(eyebrow, title, lede) {
 }
 
 function tokenSection(groups = "") {
-  return `<section aria-labelledby="token-reference-title"><div class="section-heading"><div><p class="eyebrow">Token reference</p><h2 id="token-reference-title">Canonical variables</h2></div><p data-token-summary aria-live="polite"><span data-token-count></span> variables in this view.</p></div><div class="token-tools"><nav class="token-group-nav" data-token-group-nav aria-label="Token groups"></nav><label class="token-filter"><span>Filter variables</span><span class="token-filter-field"><input type="search" data-token-filter placeholder="Search by token name or group" autocomplete="off" /><button type="button" data-clear-token-filter hidden>Clear</button></span></label></div><div class="token-catalog" data-token-grid${groups ? ` data-token-groups="${groups}"` : ""}></div></section>`;
+  return `<section aria-labelledby="token-reference-title"><div class="section-heading"><div><p class="eyebrow">Token reference</p><h2 id="token-reference-title">Canonical variables</h2></div><p data-token-summary aria-live="polite"><span data-token-count></span> variables in this view.</p></div><div class="token-tools"><nav class="token-group-nav" data-token-group-nav aria-label="Token groups"></nav><label class="token-filter"><span>Filter variables</span><span class="token-filter-field"><input type="search" name="token-filter" data-token-filter placeholder="Search by token name or group…" autocomplete="off" /><button type="button" data-clear-token-filter hidden>Clear</button></span></label></div><div class="token-catalog" data-token-grid${groups ? ` data-token-groups="${groups}"` : ""}></div></section>`;
 }
 
 function guidanceList(items) {

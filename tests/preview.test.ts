@@ -303,4 +303,21 @@ describe("preview", () => {
     expect(css).toContain('body[data-page-kind="index"] .route-card');
     expect(css).toContain("min-height: 88px");
   });
+
+  test("keeps long token catalogs navigable and URL-addressable", async () => {
+    const [content, preview, css] = await Promise.all([
+      readFile("preview/reference-content.js", "utf8"),
+      readFile("preview/preview.js", "utf8"),
+      readFile("preview/preview.css", "utf8"),
+    ]);
+
+    expect(content).toContain('name="token-filter"');
+    expect(content).toContain('placeholder="Search by token name or group…"');
+    expect(preview).toContain("function syncTokenFilterUrl");
+    expect(preview).toContain('link.setAttribute("aria-current", "location")');
+    expect(preview).toContain("observeTokenGroups()");
+    expect(css).toContain("position: sticky");
+    expect(css).toContain("content-visibility: auto");
+    expect(css).toContain('.token-group-nav a[aria-current="location"]');
+  });
 });
