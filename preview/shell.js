@@ -1,4 +1,5 @@
 import { getReferenceArea, getReferencePage, referenceAreas } from "./navigation.js";
+import { groupSearchResults, rankSearchEntries } from "./search.js";
 import { tokenDefinitions } from "./token-catalog.js";
 
 let feedbackTimeout;
@@ -43,7 +44,7 @@ function renderTopbar() {
         </span>
         <span class="brand-context">Design System</span>
       </a>
-      <button class="search-trigger" type="button" data-open-search aria-label="Search reference">
+      <button class="search-trigger" type="button" data-open-search aria-label="Search reference" aria-haspopup="dialog">
         <span>Search reference</span><kbd>⌘ K</kbd>
       </button>
       <div class="topbar-actions">
@@ -54,10 +55,15 @@ function renderTopbar() {
     <dialog class="search-dialog" data-search-dialog aria-label="Search design system reference">
       <div class="search-field">
         <span aria-hidden="true">⌕</span>
-        <input type="search" data-search-input aria-label="Search reference" placeholder="Search routes, tokens, and primitives" autocomplete="off" />
+        <input id="reference-search" type="search" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" aria-haspopup="listbox" data-search-input aria-label="Search reference" placeholder="Search routes, tokens, and primitives…" autocomplete="off" />
         <kbd>Esc</kbd>
       </div>
-      <div class="search-results" data-search-results></div>
+      <p class="visually-hidden" data-search-status aria-live="polite"></p>
+      <div class="search-results" id="search-results" role="listbox" aria-label="Search results" data-search-results></div>
+      <div class="search-empty" data-search-empty hidden>
+        <p>No matching reference.</p>
+        <button type="button" data-clear-search>Clear search</button>
+      </div>
     </dialog>
     <div class="shell-feedback" role="status" aria-live="polite" data-shell-feedback></div>
   `;
@@ -207,14 +213,16 @@ function bindGlobalSearch() {
   const trigger = document.querySelector("[data-open-search]");
   const input = document.querySelector("[data-search-input]");
   const results = document.querySelector("[data-search-results]");
-  if (!dialog || !trigger || !input || !results) return;
+  const status = document.querySelector("[data-search-status]");
+  const empty = document.querySelector("[data-search-empty]");
+  if (!dialog || !trigger || !input || !results || !status || !empty) return;
 
   const entries = [
     ...referenceAreas.flatMap((area) =>
       area.pages.map((page) => ({
         label: page.label,
         detail: area.label,
-        type: "Page",
+        type: page.id.startsWith("primitive-") ? "Primitive" : "Page",
         href: hrefFor(page.path),
         keywords: `${area.label} ${area.description} ${page.keywords || ""}`,
       })),
@@ -227,57 +235,129 @@ function bindGlobalSearch() {
       keywords: token.group,
     })),
   ];
+  let activeIndex = -1;
+  let resultLinks = [];
 
-  const renderResults = () => {
-    const query = input.value.trim().toLowerCase();
-    const matches = entries
-      .filter((entry) => !query || `${entry.label} ${entry.detail} ${entry.keywords}`.toLowerCase().includes(query))
-      .slice(0, query ? 12 : 8);
-
-    results.replaceChildren();
-    if (matches.length === 0) {
-      const empty = document.createElement("p");
-      empty.className = "search-empty";
-      empty.textContent = "No matching reference.";
-      results.append(empty);
+  const setActiveResult = (index) => {
+    if (resultLinks.length === 0) {
+      activeIndex = -1;
+      input.removeAttribute("aria-activedescendant");
       return;
     }
 
-    for (const match of matches) {
-      const link = document.createElement("a");
-      link.href = match.href;
-      link.className = "search-result";
+    activeIndex = (index + resultLinks.length) % resultLinks.length;
+    resultLinks.forEach((link, linkIndex) => {
+      link.classList.toggle("is-active", linkIndex === activeIndex);
+      link.setAttribute("aria-selected", String(linkIndex === activeIndex));
+    });
+    const active = resultLinks[activeIndex];
+    input.setAttribute("aria-activedescendant", active.id);
+    active.scrollIntoView({ block: "nearest" });
+  };
 
-      const content = document.createElement("span");
-      const label = document.createElement("strong");
-      const detail = document.createElement("small");
-      label.textContent = match.label;
-      detail.textContent = match.detail;
-      content.append(label, detail);
+  const renderResults = () => {
+    const limit = input.value.trim() ? 12 : 8;
+    const { matches, total } = rankSearchEntries(entries, input.value, limit);
 
-      const type = document.createElement("span");
-      type.className = "search-result-type";
-      type.textContent = match.type;
-      link.append(content, type);
-      results.append(link);
+    results.replaceChildren();
+    resultLinks = [];
+    activeIndex = -1;
+    input.removeAttribute("aria-activedescendant");
+    status.textContent = total > matches.length
+      ? `${matches.length} of ${total} results shown.`
+      : `${total} result${total === 1 ? "" : "s"}.`;
+    empty.hidden = matches.length > 0;
+
+    if (matches.length === 0) {
+      return;
+    }
+
+    for (const group of groupSearchResults(matches)) {
+      const section = document.createElement("section");
+      section.className = "search-result-group";
+      section.setAttribute("role", "group");
+
+      const heading = document.createElement("p");
+      heading.className = "search-result-group-label";
+      heading.id = `search-result-group-${group.type.toLowerCase()}`;
+      heading.textContent = group.type === "Page" ? "Pages" : `${group.type}s`;
+      section.setAttribute("aria-labelledby", heading.id);
+      section.append(heading);
+
+      for (const match of group.entries) {
+        const link = document.createElement("a");
+        link.id = `search-result-${resultLinks.length}`;
+        link.href = match.href;
+        link.className = "search-result";
+        link.setAttribute("role", "option");
+        link.setAttribute("aria-selected", "false");
+        link.tabIndex = -1;
+        link.dataset.searchResult = "";
+
+        const content = document.createElement("span");
+        const label = document.createElement("strong");
+        const detail = document.createElement("small");
+        label.textContent = match.label;
+        detail.textContent = match.detail;
+        content.append(label, detail);
+        link.append(content);
+        link.addEventListener("focus", () => setActiveResult(resultLinks.indexOf(link)));
+        link.addEventListener("pointerenter", () => setActiveResult(resultLinks.indexOf(link)));
+        resultLinks.push(link);
+        section.append(link);
+      }
+
+      results.append(section);
     }
   };
 
   const openSearch = () => {
     renderResults();
     dialog.showModal();
+    input.setAttribute("aria-expanded", "true");
     input.focus();
   };
 
   trigger.addEventListener("click", openSearch);
   input.addEventListener("input", renderResults);
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setActiveResult(activeIndex + 1);
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setActiveResult(activeIndex < 0 ? resultLinks.length - 1 : activeIndex - 1);
+    } else if (event.key === "Home" && activeIndex >= 0) {
+      event.preventDefault();
+      setActiveResult(0);
+    } else if (event.key === "End" && activeIndex >= 0) {
+      event.preventDefault();
+      setActiveResult(resultLinks.length - 1);
+    } else if (event.key === "Enter" && activeIndex >= 0) {
+      event.preventDefault();
+      resultLinks[activeIndex].click();
+    }
+  });
+  dialog.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-clear-search]")) return;
+    input.value = "";
+    renderResults();
+    input.focus();
+  });
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) dialog.close();
   });
+  dialog.addEventListener("close", () => {
+    input.setAttribute("aria-expanded", "false");
+    input.removeAttribute("aria-activedescendant");
+    trigger.focus();
+  });
   document.addEventListener("keydown", (event) => {
+    if (event.defaultPrevented || event.isComposing) return;
     const shortcut = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
     const slash = event.key === "/" && !event.metaKey && !event.ctrlKey && !event.altKey;
-    const typing = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName);
+    const target = event.target instanceof Element ? event.target : document.activeElement;
+    const typing = target?.isContentEditable || target?.matches("input, textarea, select, [contenteditable]");
     if ((shortcut || (slash && !typing)) && !dialog.open) {
       event.preventDefault();
       openSearch();

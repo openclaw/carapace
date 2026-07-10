@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { describe, expect, test } from "bun:test";
 import { referencePages } from "../preview/navigation.js";
 import { referenceContentIds } from "../preview/reference-content.js";
+import { groupSearchResults, rankSearchEntries } from "../preview/search.js";
 import { tokenDefinitions, tokenGroups } from "../preview/token-catalog.js";
 
 describe("preview", () => {
@@ -109,5 +110,33 @@ describe("preview", () => {
     expect(shell).toContain('class="inline-toc"');
     expect(shell).toContain('aria-label="Page contents"');
     expect(css).toContain(".inline-toc");
+  });
+
+  test("ranks and groups search results without exceeding the global limit", () => {
+    const entries = [
+      { label: "Colors", detail: "Foundations", type: "Page", keywords: "palette theme" },
+      { label: "Color theme", detail: "Resources", type: "Page", keywords: "light dark" },
+      ...Array.from({ length: 14 }, (_, index) => ({
+        label: `--oc-color-${index}`,
+        detail: "Canonical variable",
+        type: "Token",
+        keywords: "color palette",
+      })),
+    ];
+
+    const result = rankSearchEntries(entries, "palette", 12);
+    expect(result.total).toBe(15);
+    expect(result.matches).toHaveLength(12);
+    expect(result.matches[0].label).toBe("Colors");
+    expect(groupSearchResults(result.matches).map(({ type }) => type)).toEqual(["Page", "Token"]);
+    expect(rankSearchEntries(entries, "missing", 12)).toEqual({ matches: [], total: 0 });
+
+    const pages = referencePages.map((page) => ({
+      label: page.label,
+      detail: page.areaLabel,
+      type: page.id.startsWith("primitive-") ? "Primitive" : "Page",
+      keywords: page.keywords,
+    }));
+    expect(rankSearchEntries(pages, "dark mode", 12).matches[0]?.label).toBe("Theming");
   });
 });
