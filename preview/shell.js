@@ -38,7 +38,7 @@ function renderTopbar() {
       </button>
       <a class="brand" href="${hrefFor("")}" aria-label="OpenClaw design system overview">
         <span class="brand-primary">
-          <img class="brand-mark" src="https://openclaw.ai/favicon.svg" alt="" />
+          <img class="brand-mark" src="https://openclaw.ai/favicon.svg" alt="" width="26" height="26" />
           <span class="brand-wordmark">OpenClaw</span>
         </span>
         <span class="brand-context">Design System</span>
@@ -72,17 +72,19 @@ function renderSidebar() {
   const areas = referenceAreas
     .map((area) => {
       const activeArea = currentArea?.id === area.id;
-      let previousGroup;
+      const pageLink = (page) =>
+        `<a href="${hrefFor(page.path)}"${page.id === currentId ? ' aria-current="page"' : ""}>${page.label}</a>`;
+      const standalonePages = area.pages.filter((page) => !page.group).map(pageLink).join("");
+      const groups = [...new Set(area.pages.map((page) => page.group).filter(Boolean))];
+      const groupedPages = groups
+        .map((group) => {
+          const groupId = `sidebar-${area.id}-${group.toLowerCase().replaceAll(" ", "-")}`;
+          const pages = area.pages.filter((page) => page.group === group).map(pageLink).join("");
+          return `<div class="sidebar-page-group" role="group" aria-labelledby="${groupId}"><p class="sidebar-pages-label" id="${groupId}">${group}</p>${pages}</div>`;
+        })
+        .join("");
       const children = activeArea
-        ? `<div class="sidebar-pages">${area.pages
-            .map((page) => {
-              const group = page.group && page.group !== previousGroup
-                ? `<p class="sidebar-pages-label">${page.group}</p>`
-                : "";
-              previousGroup = page.group;
-              return `${group}<a href="${hrefFor(page.path)}"${page.id === currentId ? ' aria-current="page"' : ""}>${page.label}</a>`;
-            })
-            .join("")}</div>`
+        ? `<div class="sidebar-pages">${standalonePages}${groupedPages}</div>`
         : "";
 
       return `
@@ -306,13 +308,41 @@ function bindNavigation() {
   const open = document.querySelector("[data-open-navigation]");
   const closeButtons = [...document.querySelectorAll("[data-close-navigation]")];
   if (!navigation || !open || closeButtons.length === 0) return;
+  const mobileNavigation = window.matchMedia("(max-width: 900px)");
+  const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
   const setOpen = (value, restoreFocus = true) => {
+    if (value) navigation.inert = false;
     navigation.classList.toggle("is-open", value);
     open.setAttribute("aria-expanded", String(value));
     document.body.classList.toggle("navigation-open", value);
-    if (value) navigation.querySelector("[data-close-navigation]")?.focus();
-    else if (restoreFocus) open.focus();
+    if (value && mobileNavigation.matches) {
+      navigation.setAttribute("role", "dialog");
+      navigation.setAttribute("aria-modal", "true");
+      navigation.setAttribute("aria-label", "Reference navigation");
+      navigation.querySelector("[data-close-navigation]")?.focus();
+    } else {
+      navigation.removeAttribute("role");
+      navigation.removeAttribute("aria-modal");
+      navigation.removeAttribute("aria-label");
+      if (restoreFocus && mobileNavigation.matches) open.focus();
+      navigation.inert = mobileNavigation.matches;
+    }
+  };
+
+  const syncNavigationMode = () => {
+    if (!mobileNavigation.matches) {
+      navigation.classList.remove("is-open");
+      navigation.inert = false;
+      navigation.removeAttribute("role");
+      navigation.removeAttribute("aria-modal");
+      navigation.removeAttribute("aria-label");
+      document.body.classList.remove("navigation-open");
+      open.setAttribute("aria-expanded", "false");
+      return;
+    }
+
+    navigation.inert = !navigation.classList.contains("is-open");
   };
 
   open.addEventListener("click", () => setOpen(true));
@@ -321,8 +351,29 @@ function bindNavigation() {
     if (event.target.closest("a")) setOpen(false, false);
   });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && navigation.classList.contains("is-open")) setOpen(false);
+    if (!navigation.classList.contains("is-open") || !mobileNavigation.matches) return;
+    if (event.key === "Escape") {
+      setOpen(false);
+      return;
+    }
+
+    if (event.key === "Tab") {
+      const focusable = [...navigation.querySelectorAll(focusableSelector)].filter(
+        (element) => !element.hidden,
+      );
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    }
   });
+  mobileNavigation.addEventListener("change", syncNavigationMode);
+  syncNavigationMode();
 
   const current = navigation.querySelector('[aria-current="page"]');
   const nav = navigation.querySelector("nav");
@@ -336,7 +387,10 @@ function bindNavigation() {
 
 export function renderShell() {
   const main = document.querySelector("main");
-  if (main) main.id = "main-content";
+  if (main) {
+    main.id = "main-content";
+    main.tabIndex = -1;
+  }
   renderTopbar();
   renderSidebar();
   renderPageContext();
@@ -345,4 +399,8 @@ export function renderShell() {
   bindNavigation();
   bindGlobalSearch();
   bindCopyActions();
+
+  document.querySelector(".skip-link")?.addEventListener("click", () => {
+    window.setTimeout(() => main?.focus(), 0);
+  });
 }

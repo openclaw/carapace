@@ -356,6 +356,15 @@ a {
   margin-top: 6px;
 }
 
+.sidebar-page-group {
+  display: grid;
+  gap: 2px;
+}
+
+.sidebar-page-group + .sidebar-page-group {
+  margin-top: 6px;
+}
+
 .sidebar-pages a:hover {
   background: var(--oc-surface-interactive);
 }
@@ -588,6 +597,11 @@ a {
 
 .token-group {
   scroll-margin-top: calc(var(--preview-topbar-height) + 88px);
+}
+
+.reference-page [id],
+.preview-stage > section[id] {
+  scroll-margin-top: calc(var(--preview-topbar-height) + 90px);
 }
 
 .token-group-heading {

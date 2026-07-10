@@ -86,4 +86,17 @@ describe("preview", () => {
       .sort();
     expect([...referenceContentIds].sort()).toEqual(deepPageIds);
   });
+
+  test("keeps shell keyboard landmarks and anchor offsets explicit", async () => {
+    const [shell, css] = await Promise.all([
+      readFile("preview/shell.js", "utf8"),
+      readFile("preview/preview.css", "utf8"),
+    ]);
+
+    expect(shell).toContain('main.tabIndex = -1');
+    expect(shell).toContain('navigation.setAttribute("aria-modal", "true")');
+    expect(shell).toContain('role="group"');
+    expect(css).toContain(".reference-page [id]");
+    expect(css).toContain("scroll-margin-top:");
+  });
 });
