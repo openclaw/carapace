@@ -157,4 +157,67 @@ describe("preview", () => {
     expect(css).toContain("--preview-canvas-header-height: 48px");
     expect(css).toContain("min-height: var(--preview-canvas-header-height)");
   });
+
+  test("gives shell controls immediate feedback without leaking motion preferences", async () => {
+    const [shell, css] = await Promise.all([
+      readFile("preview/shell.js", "utf8"),
+      readFile("preview/preview.css", "utf8"),
+    ]);
+
+    for (const marker of [
+      "oc-segmented-item shell-control",
+      "mobile-nav-trigger shell-control",
+      "search-trigger shell-control",
+      "mobile-nav-close shell-control",
+      'copy.className = "shell-control"',
+    ]) {
+      expect(shell).toContain(marker);
+    }
+    expect(css).toContain("touch-action: manipulation");
+
+    const mobileStart = css.indexOf("@media (max-width: 900px)");
+    const compactStart = css.indexOf("@media (max-width: 680px)");
+    const mobileStyles = css.slice(mobileStart, compactStart);
+    expect(mobileStart).toBeGreaterThan(-1);
+    expect(mobileStyles).toContain("opacity: 0;");
+    expect(mobileStyles).toContain("visibility: hidden;");
+    expect(mobileStyles).toContain("pointer-events: none;");
+    expect(mobileStyles).toContain("body.navigation-open .navigation-backdrop");
+
+    const motionStart = css.indexOf("@media (prefers-reduced-motion: no-preference)");
+    const reducedStart = css.indexOf("@media (prefers-reduced-motion: reduce)");
+    const motionStyles = css.slice(motionStart, reducedStart);
+    expect(motionStart).toBeGreaterThan(-1);
+    expect(motionStyles).toContain(".shell-control:active");
+    expect(motionStyles).toContain("transform: scale(0.97)");
+    expect(css.slice(0, motionStart)).not.toContain("transform: scale(0.97)");
+  });
+
+  test("keeps mobile shell targets and compound focus explicit", async () => {
+    const [shell, css] = await Promise.all([
+      readFile("preview/shell.js", "utf8"),
+      readFile("preview/preview.css", "utf8"),
+    ]);
+
+    expect(shell).toContain('translate="no"');
+    expect(shell).toContain('fetchpriority="high"');
+    expect(shell).toContain("⌘&nbsp;K");
+    expect(css).toContain(".search-field:focus-within");
+    expect(css).toContain("overscroll-behavior: contain");
+
+    const mobileStart = css.indexOf("@media (max-width: 900px)");
+    const compactStart = css.indexOf("@media (max-width: 680px)");
+    const mobileStyles = css.slice(mobileStart, compactStart);
+    for (const marker of [
+      ".mobile-nav-trigger,",
+      ".brand {",
+      ".search-trigger {",
+      ".theme-control .oc-segmented-item",
+      ".canvas-actions button",
+      ".inline-toc nav a",
+    ]) {
+      expect(mobileStyles).toContain(marker);
+    }
+    expect(mobileStyles.match(/min-height: 44px/g)?.length).toBeGreaterThanOrEqual(6);
+  });
 });

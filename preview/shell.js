@@ -21,8 +21,8 @@ function hrefFor(path) {
 function renderThemeControl() {
   return `
     <div class="oc-segmented theme-control" role="group" aria-label="Color theme">
-      <button class="oc-segmented-item" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
-      <button class="oc-segmented-item" type="button" data-theme-choice="dark" aria-pressed="true">Dark</button>
+      <button class="oc-segmented-item shell-control" type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+      <button class="oc-segmented-item shell-control" type="button" data-theme-choice="dark" aria-pressed="true">Dark</button>
     </div>
   `;
 }
@@ -34,18 +34,18 @@ function renderTopbar() {
   mount.outerHTML = `
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="topbar">
-      <button class="mobile-nav-trigger" type="button" data-open-navigation aria-label="Open navigation" aria-controls="reference-navigation" aria-expanded="false">
+      <button class="mobile-nav-trigger shell-control" type="button" data-open-navigation aria-label="Open navigation" aria-controls="reference-navigation" aria-expanded="false">
         <span></span><span></span>
       </button>
-      <a class="brand" href="${hrefFor("")}" aria-label="OpenClaw design system overview">
+      <a class="brand" href="${hrefFor("")}" aria-label="OpenClaw design system overview" translate="no">
         <span class="brand-primary">
-          <img class="brand-mark" src="https://openclaw.ai/favicon.svg" alt="" width="26" height="26" />
+          <img class="brand-mark" src="https://openclaw.ai/favicon.svg" alt="" width="26" height="26" fetchpriority="high" />
           <span class="brand-wordmark">OpenClaw</span>
         </span>
         <span class="brand-context">Design System</span>
       </a>
-      <button class="search-trigger" type="button" data-open-search aria-label="Search reference" aria-haspopup="dialog">
-        <span>Search reference</span><kbd>⌘ K</kbd>
+      <button class="search-trigger shell-control" type="button" data-open-search aria-label="Search reference" aria-haspopup="dialog">
+        <span>Search reference</span><kbd>⌘&nbsp;K</kbd>
       </button>
       <div class="topbar-actions">
         <a class="github-link" href="https://github.com/openclaw/design-system" rel="noreferrer">GitHub</a>
@@ -62,7 +62,7 @@ function renderTopbar() {
       <div class="search-results" id="search-results" role="listbox" aria-label="Search results" data-search-results></div>
       <div class="search-empty" data-search-empty hidden>
         <p>No matching reference.</p>
-        <button type="button" data-clear-search>Clear search</button>
+        <button class="shell-control" type="button" data-clear-search>Clear search</button>
       </div>
     </dialog>
     <div class="shell-feedback" role="status" aria-live="polite" data-shell-feedback></div>
@@ -108,10 +108,10 @@ function renderSidebar() {
     <aside class="sidebar" id="reference-navigation" data-navigation>
       <div class="sidebar-heading">
         <p class="eyebrow">Reference</p>
-        <button class="mobile-nav-close" type="button" data-close-navigation aria-label="Close navigation">×</button>
+        <button class="mobile-nav-close shell-control" type="button" data-close-navigation aria-label="Close navigation">×</button>
       </div>
       <nav aria-label="Design system reference">${areas}</nav>
-      <a class="version" href="${hrefFor("resources/release/")}" aria-label="Release v0.0.1">
+      <a class="version" href="${hrefFor("resources/release/")}" aria-label="Release v0.0.1" translate="no">
         <span>Release</span><strong>v0.0.1</strong>
       </a>
     </aside>
@@ -137,6 +137,7 @@ function renderPageContext() {
 
     const copy = document.createElement("button");
     copy.type = "button";
+    copy.className = "shell-control";
     copy.dataset.copyPage = "";
     copy.setAttribute("aria-label", "Copy page text");
     copy.textContent = "Copy text";

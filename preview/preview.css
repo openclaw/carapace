@@ -38,6 +38,30 @@ a {
   color: inherit;
 }
 
+.shell-control,
+.brand,
+.github-link,
+.sidebar a,
+.page-toc a,
+.inline-toc summary,
+.inline-toc nav a,
+.page-navigation a,
+.search-result {
+  touch-action: manipulation;
+}
+
+.shell-control:active,
+.brand:active,
+.github-link:active,
+.sidebar a:active,
+.page-toc a:active,
+.inline-toc summary:active,
+.inline-toc nav a:active,
+.page-navigation a:active,
+.search-result:active {
+  background-color: var(--oc-surface-interactive-hover);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -246,6 +270,7 @@ a {
   height: calc(100vh - var(--preview-topbar-height));
   flex-direction: column;
   overflow: hidden;
+  overscroll-behavior: contain;
   padding: 0 10px 12px;
   border-right: 1px solid var(--oc-border-subtle);
   background: color-mix(in srgb, var(--oc-bg-page) 96%, var(--oc-bg-surface));
@@ -272,6 +297,7 @@ a {
   flex: 1 1 auto;
   align-content: start;
   overflow-y: auto;
+  overscroll-behavior: contain;
   margin: 0;
   padding: 14px 4px 24px;
   scrollbar-color: var(--oc-border-accent) transparent;
@@ -984,6 +1010,10 @@ a {
   outline: none;
 }
 
+.search-field:focus-within {
+  box-shadow: inset 0 -2px 0 var(--oc-focus-ring);
+}
+
 .search-results {
   display: grid;
   gap: 2px;
@@ -1029,6 +1059,10 @@ a {
 .search-result.is-active {
   background: var(--oc-surface-interactive);
   outline: none;
+}
+
+.search-result:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--oc-focus-ring);
 }
 
 .search-result > span:first-child {
@@ -2193,13 +2227,14 @@ dialog .button-row {
   .topbar {
     grid-template-columns: auto auto minmax(80px, 1fr) auto;
     gap: 10px;
+    padding-block: 2px;
   }
 
   .mobile-nav-trigger,
   .mobile-nav-close {
     display: grid;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     place-items: center;
     padding: 0;
     border: 1px solid var(--oc-border-subtle);
@@ -2221,24 +2256,50 @@ dialog .button-row {
 
   .brand {
     grid-column: 2;
+    min-height: 44px;
   }
 
   .search-trigger {
     grid-column: 3;
     width: min(100%, 360px);
+    min-height: 44px;
   }
 
   .topbar-actions {
     grid-column: 4;
   }
 
+  .github-link {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .theme-control {
+    padding: 0;
+  }
+
+  .theme-control .oc-segmented-item {
+    min-height: 44px;
+  }
+
   .canvas-header {
     min-height: var(--preview-canvas-header-height);
-    padding-block: 6px;
+    padding-block: 1px;
   }
 
   .canvas-meta {
     display: none;
+  }
+
+  .canvas-actions button,
+  .search-empty button,
+  .inline-toc nav a {
+    min-height: 44px;
+  }
+
+  .search-field input {
+    font-size: 16px;
   }
 
   .shell {
@@ -2288,18 +2349,17 @@ dialog .button-row {
     min-height: 44px;
   }
 
-  .mobile-nav-trigger:active,
-  .mobile-nav-close:active {
-    transform: scale(0.97);
-  }
-
   .navigation-backdrop {
     position: fixed;
     z-index: 45;
     inset: 0;
+    display: block;
     border: 0;
     background: color-mix(in srgb, var(--oc-bg-page) 68%, transparent);
     backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
   }
 
   body.navigation-open {
@@ -2307,7 +2367,9 @@ dialog .button-row {
   }
 
   body.navigation-open .navigation-backdrop {
-    display: block;
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
   }
 
   .preview-stage {
@@ -2349,8 +2411,7 @@ dialog .button-row {
   }
 
   .search-trigger {
-    width: 40px;
-    min-height: 40px;
+    width: 44px;
     justify-content: center;
     justify-self: end;
     padding: 0;
@@ -2500,6 +2561,28 @@ dialog .button-row {
 
   .sidebar {
     transition: transform var(--oc-duration-ui) var(--oc-ease-out);
+  }
+
+  .shell-control {
+    transition:
+      transform var(--oc-duration-fast) var(--oc-ease-out),
+      background-color var(--oc-duration-fast) var(--oc-ease-out),
+      border-color var(--oc-duration-fast) var(--oc-ease-out),
+      color var(--oc-duration-fast) var(--oc-ease-out);
+  }
+
+  .shell-control:active {
+    transform: scale(0.97);
+  }
+
+  .navigation-backdrop {
+    transition:
+      opacity var(--oc-duration-ui) var(--oc-ease-out),
+      visibility 0s linear var(--oc-duration-ui);
+  }
+
+  body.navigation-open .navigation-backdrop {
+    transition-delay: 0s;
   }
 }
 
