@@ -2136,6 +2136,32 @@ dialog .button-row {
   line-height: 1.5;
 }
 
+body[data-page-kind="index"] .preview-stage {
+  padding-top: 18px;
+}
+
+body[data-page-kind="index"] .intro-compact {
+  padding-block: 34px;
+}
+
+body[data-page-kind="index"] :is(.reference-card-grid, .route-grid) {
+  margin-top: 26px;
+}
+
+body[data-page-kind="index"] .reference-card {
+  min-height: 136px;
+  padding: 18px;
+}
+
+body[data-page-kind="index"] .route-card {
+  min-height: 88px;
+  padding: 15px 17px;
+}
+
+body[data-page-kind="index"] .reference-card strong {
+  font-size: 19px;
+}
+
 .reference-page {
   width: 100%;
   max-width: var(--preview-content);

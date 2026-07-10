@@ -293,4 +293,14 @@ describe("preview", () => {
     expect(css).toContain(".home-hero");
     expect(css).toContain(".home-reference-grid");
   });
+
+  test("uses a compact directory layout for index pages", async () => {
+    const css = await readFile("preview/preview.css", "utf8");
+
+    expect(css).toContain('body[data-page-kind="index"] .intro-compact');
+    expect(css).toContain('body[data-page-kind="index"] .reference-card');
+    expect(css).toContain("min-height: 136px");
+    expect(css).toContain('body[data-page-kind="index"] .route-card');
+    expect(css).toContain("min-height: 88px");
+  });
 });
