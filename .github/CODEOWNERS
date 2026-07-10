@@ -16,7 +16,7 @@
 /package.json @openclaw/openclaw-secops @Patrick-Erichsen
 /bun.lock @openclaw/openclaw-secops @Patrick-Erichsen
 /scripts/ @openclaw/openclaw-secops @Patrick-Erichsen
-/SKILL.md @openclaw/openclaw-secops @Patrick-Erichsen
+/openclaw-design/ @openclaw/openclaw-secops @Patrick-Erichsen
 /openclaw-brand/ @openclaw/openclaw-secops @Patrick-Erichsen
 /openclaw-design-audit/ @openclaw/openclaw-secops @Patrick-Erichsen
 /openclaw-design-system/ @openclaw/openclaw-secops @Patrick-Erichsen

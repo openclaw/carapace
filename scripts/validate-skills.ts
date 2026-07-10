@@ -5,12 +5,18 @@ import { parse } from "yaml";
 
 const root = process.cwd();
 const skillFiles = [
-  "SKILL.md",
+  "openclaw-design/SKILL.md",
   "openclaw-brand/SKILL.md",
   "openclaw-design-system/SKILL.md",
   "openclaw-marketing-pages/SKILL.md",
   "openclaw-design-audit/SKILL.md",
 ];
+
+if (existsSync("SKILL.md")) {
+  throw new Error(
+    "keep every skill in a top-level directory so `npx skills update` discovers the full set",
+  );
+}
 
 function parseFrontmatter(source: string, path: string) {
   const match = source.match(/^---\n([\s\S]*?)\n---\n/);
@@ -53,10 +59,10 @@ for (const skillFile of skillFiles) {
 
 }
 
-const rootSkill = await readFile("SKILL.md", "utf8");
+const rootSkill = await readFile("openclaw-design/SKILL.md", "utf8");
 if (/\]\(openclaw-[^)]+\/SKILL\.md\)/.test(rootSkill)) {
   throw new Error(
-    "SKILL.md must route by installed skill name, not source-repository sibling links",
+    "openclaw-design/SKILL.md must route by installed skill name, not source-repository sibling links",
   );
 }
 

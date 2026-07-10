@@ -70,48 +70,38 @@ genuinely circular avatars, status dots, and similar indicators.
 
 ## Skills
 
-Install the root router from the tagged release:
+Install all five project skills from the repository's moving default branch:
 
 ```bash
-npx skills add \
-  "openclaw/design-system#v0.0.1" \
+npx skills@1.5.15 add \
+  "openclaw/design-system" \
+  --skill \
+    openclaw-design \
+    openclaw-brand \
+    openclaw-design-system \
+    openclaw-marketing-pages \
+    openclaw-design-audit \
+  --agent codex \
   --copy \
   --yes
 ```
 
-Install the four focused skills from their tagged subdirectories:
+Refresh every project skill recorded in `skills-lock.json`, including these
+design skills, with the standard updater:
 
 ```bash
-for skill in \
-  openclaw-brand \
-  openclaw-design-system \
-  openclaw-marketing-pages \
-  openclaw-design-audit
-do
-  npx skills add \
-    "https://github.com/openclaw/design-system/tree/v0.0.1/${skill}" \
-    --copy \
-    --yes
-done
+npx skills@1.5.15 update --project --yes
 ```
 
-OpenClaw's native skill installer can install the root router from the same
-immutable tag:
-
-```bash
-openclaw skills install \
-  "git:openclaw/design-system@v0.0.1"
-```
-
-The root `openclaw-design` skill routes work to:
+The `openclaw-design` router skill routes work to:
 
 - `openclaw-brand`
 - `openclaw-design-system`
 - `openclaw-marketing-pages`
 - `openclaw-design-audit`
 
-Install the focused skills above when you want the router to hand work off by
-skill name.
+All five skills live in sibling top-level directories so the skills CLI can
+discover and update the complete set without repository-specific flags.
 
 ## Development
 
@@ -120,8 +110,9 @@ bun install
 bun run check
 ```
 
-Runtime assets and skill guidance ship under one semantic Git tag and GitHub
-Release. A release tag must match the version in `package.json`.
+Runtime assets ship under a semantic Git tag and GitHub Release. A release tag
+must match the version in `package.json`. Agent guidance follows the repository
+default branch so consumer repositories can use the standard skills updater.
 
 Font binaries, logos, mascot artwork, and site-specific media are not included.
 Consumers must load licensed assets locally.

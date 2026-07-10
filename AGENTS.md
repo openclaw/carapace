@@ -25,6 +25,5 @@ until at least two consumers share the same interface and behavior.
 - Use Conventional Commits.
 - Release tags are stable semantic versions: `vX.Y.Z`.
 - The tag must match `package.json`.
-- Runtime assets and skills always release together.
+- Runtime assets release under semantic tags; agent skills update from `main`.
 - npm publication is not required; consumers install the Git tag.
-
