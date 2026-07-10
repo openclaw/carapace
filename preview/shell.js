@@ -1,15 +1,6 @@
 import { getReferenceArea, getReferencePage, referenceAreas } from "./navigation.js";
 import { tokenDefinitions } from "./token-catalog.js";
 
-const primitiveEntries = [
-  { label: "Hero", detail: ".oc-hero", hash: "#primitive-surfaces" },
-  { label: "Section", detail: ".oc-section", hash: "#primitive-surfaces" },
-  { label: "Card", detail: ".oc-card", hash: "#primitive-surfaces" },
-  { label: "Actions", detail: ".oc-action", hash: "#primitive-actions" },
-  { label: "Segmented control", detail: ".oc-segmented", hash: "#primitive-selection" },
-  { label: "Pill", detail: ".oc-pill", hash: "#primitive-selection" },
-];
-
 let feedbackTimeout;
 
 export function showShellFeedback(message) {
@@ -79,14 +70,16 @@ function renderSidebar() {
   const areas = referenceAreas
     .map((area) => {
       const activeArea = currentArea?.id === area.id;
+      let previousGroup;
       const children = activeArea
         ? `<div class="sidebar-pages">${area.pages
-            .map(
-              (page) => `
-                <a href="${hrefFor(page.path)}"${page.id === currentId ? ' aria-current="page"' : ""}>
-                  ${page.label}
-                </a>`,
-            )
+            .map((page) => {
+              const group = page.group && page.group !== previousGroup
+                ? `<p class="sidebar-pages-label">${page.group}</p>`
+                : "";
+              previousGroup = page.group;
+              return `${group}<a href="${hrefFor(page.path)}"${page.id === currentId ? ' aria-current="page"' : ""}>${page.label}</a>`;
+            })
             .join("")}</div>`
         : "";
 
@@ -207,7 +200,7 @@ function bindGlobalSearch() {
         detail: area.label,
         type: "Page",
         href: hrefFor(page.path),
-        keywords: `${area.label} ${area.description}`,
+        keywords: `${area.label} ${area.description} ${page.keywords || ""}`,
       })),
     ),
     ...tokenDefinitions.map((token) => ({
@@ -216,12 +209,6 @@ function bindGlobalSearch() {
       type: "Token",
       href: `${hrefFor("foundations/tokens/")}?q=${encodeURIComponent(token.variable)}`,
       keywords: token.group,
-    })),
-    ...primitiveEntries.map((primitive) => ({
-      ...primitive,
-      type: "Primitive",
-      href: `${hrefFor("interface/primitives/")}${primitive.hash}`,
-      keywords: primitive.detail,
     })),
   ];
 

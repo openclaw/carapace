@@ -322,6 +322,22 @@ a {
   line-height: 1.5;
 }
 
+.sidebar-pages-label {
+  margin: 12px 0 4px;
+  padding: 0 10px;
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.sidebar-pages-label:first-child {
+  margin-top: 6px;
+}
+
 .sidebar-pages a:hover {
   background: var(--oc-surface-interactive);
 }
@@ -1841,6 +1857,57 @@ dialog .button-row {
   background: var(--oc-bg-page);
 }
 
+.primitive-index-grid {
+  margin-top: 0;
+}
+
+.primitive-app-surface-demo {
+  display: grid;
+  min-height: 180px;
+  align-content: center;
+  gap: 8px;
+  padding: clamp(20px, 4vw, 40px);
+  border: 1px solid var(--oc-border-subtle);
+  background: var(--oc-bg-surface);
+}
+
+.primitive-app-surface-demo strong {
+  font-family: var(--oc-font-display);
+  font-size: 24px;
+}
+
+.primitive-app-surface-demo p,
+.primitive-card-demo p {
+  margin: 0;
+  color: var(--oc-text-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.specimen-frame > .oc-hero {
+  min-height: 260px;
+}
+
+.primitive-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.primitive-card-demo {
+  display: grid;
+  min-height: 160px;
+  align-content: end;
+  gap: 8px;
+  padding: 22px;
+  text-decoration: none;
+}
+
+.primitive-card-demo strong {
+  font-family: var(--oc-font-display);
+  font-size: 18px;
+}
+
 .primitive-row {
   display: flex;
   flex-wrap: wrap;
@@ -2180,6 +2247,10 @@ dialog .button-row {
 
   .marketing-sample {
     gap: 32px;
+  }
+
+  .primitive-card-grid {
+    grid-template-columns: 1fr;
   }
 
   .marketing-sample aside {

@@ -76,16 +76,74 @@ const contents = {
 
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
-    <section aria-labelledby="primitive-actions"><div class="section-heading"><div><p class="eyebrow">Actions</p><h2 id="primitive-actions">Action hierarchy</h2></div><span class="oc-pill">components.css</span></div>
-      <div class="specimen-frame"><div class="primitive-row"><button class="oc-action oc-action-primary" type="button">Primary action</button><button class="oc-action oc-action-secondary" type="button">Secondary</button><button class="oc-action oc-action-ghost" type="button">Ghost</button><button class="oc-action oc-action-icon" type="button" aria-label="Add item">+</button></div></div>
-      ${codeBlock(`<button class="oc-action oc-action-primary" type="button">\n  Primary action\n</button>`, "html")}
-    </section>
-    <section aria-labelledby="primitive-surfaces"><div class="section-heading"><div><p class="eyebrow">Surfaces</p><h2 id="primitive-surfaces">Cards and sections</h2></div></div>
-      <div class="specimen-frame"><section class="oc-section"><header class="oc-section-header"><div class="oc-section-heading"><p class="oc-eyebrow">Featured</p><h3 class="oc-section-title">Build with OpenClaw</h3><p class="oc-section-copy">Shared visual structure with consumer-owned content.</p></div><button class="oc-action oc-action-secondary" type="button">Browse</button></header><article class="oc-card"><strong>Framework neutral</strong><p>Tokens and shared visual behavior without route or data ownership.</p></article></section></div>
-    </section>
-    <section aria-labelledby="primitive-selection"><div class="section-heading"><div><p class="eyebrow">Selection</p><h2 id="primitive-selection">Segmented controls and pills</h2></div></div>
-      <div class="specimen-frame primitive-row"><div class="oc-segmented" aria-label="Example view"><button class="oc-segmented-item" aria-pressed="true" type="button">Preview</button><button class="oc-segmented-item" aria-pressed="false" type="button">Code</button></div><span class="oc-pill">Stable</span></div>
+    <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">7 references</span></div>
+      <div class="reference-card-grid primitive-index-grid">
+        <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
+        <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
+        <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
+        <a class="reference-card" href="./card/"><span>.oc-card</span><strong>Card</strong><p>Static and interactive shared surfaces.</p></a>
+        <a class="reference-card" href="./action/"><span>.oc-action</span><strong>Action</strong><p>Primary, secondary, ghost, and icon variants.</p></a>
+        <a class="reference-card" href="./segmented-control/"><span>.oc-segmented</span><strong>Segmented control</strong><p>Compact selection among peer views.</p></a>
+        <a class="reference-card" href="./pill/"><span>.oc-pill</span><strong>Pill</strong><p>Compact non-interactive metadata.</p></a>
+      </div>
     </section>`,
+
+  "primitive-app-surface": () =>
+    `${pageIntro("Interface primitive", "App surface", "Establishes the canonical background, foreground, typography, and component surface aliases for an application subtree.")}
+    <section aria-labelledby="app-surface-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="app-surface-preview">Root visual context</h2></div><span class="oc-pill">.oc-app-surface</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="primitive-app-surface-demo"><strong>OpenClaw application</strong><p>Children inherit the canonical interface foundation.</p></div></div>
+    </section>
+    <section aria-labelledby="app-surface-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="app-surface-markup">Apply once at the surface root</h2></div></div>${codeBlock(`<main class="oc-app-surface">\n  <!-- Consumer-owned application -->\n</main>`, "html")}</section>
+    <section aria-labelledby="app-surface-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="app-surface-guidance">Ownership boundary</h2></div></div>${guidanceList(["Use it as the visual context for an application subtree.", "Keep routing, data, and behavior in the consumer.", "Do not nest it merely to create another card or panel."])}</section>`,
+
+  "primitive-hero": () =>
+    `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
+    <section aria-labelledby="hero-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="hero-preview">Default composition</h2></div><span class="oc-pill">.oc-hero</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="oc-hero"><h3 class="oc-hero-title">Build where your work already lives.</h3><p class="oc-hero-lede">A shared visual introduction with consumer-owned content and actions.</p></div></div>
+    </section>
+    <section aria-labelledby="hero-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="hero-markup">Three explicit roles</h2></div></div>${codeBlock(`<div class="oc-hero">\n  <h1 class="oc-hero-title">Build with OpenClaw</h1>\n  <p class="oc-hero-lede">Supporting copy.</p>\n</div>`, "html")}</section>
+    <section aria-labelledby="hero-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="hero-guidance">Keep the introduction literal</h2></div></div>${guidanceList(["Use one clear title and one supporting lede.", "Keep actions and media consumer-owned.", "The exported responsive rule reduces title size below 42rem."])}</section>`,
+
+  "primitive-section": () =>
+    `${pageIntro("Interface primitive", "Section", "A framework-neutral structure for headings, supporting copy, and an optional adjacent action.")}
+    <section aria-labelledby="section-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="section-preview">Heading with action</h2></div><span class="oc-pill">.oc-section</span></div>
+      <div class="specimen-frame oc-app-surface"><section class="oc-section"><header class="oc-section-header"><div class="oc-section-heading"><p class="oc-eyebrow">Featured</p><h3 class="oc-section-title">Build with OpenClaw</h3><p class="oc-section-copy">Shared hierarchy without owning the page or its content.</p></div><a class="oc-action oc-action-secondary" href="#section-guidance">Browse</a></header></section></div>
+    </section>
+    <section aria-labelledby="section-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="section-markup">Composable heading structure</h2></div></div>${codeBlock(`<section class="oc-section">\n  <header class="oc-section-header">\n    <div class="oc-section-heading">\n      <p class="oc-eyebrow">Featured</p>\n      <h2 class="oc-section-title">Build with OpenClaw</h2>\n      <p class="oc-section-copy">Supporting copy.</p>\n    </div>\n  </header>\n</section>`, "html")}</section>
+    <section aria-labelledby="section-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="section-guidance">Responsive by structure</h2></div></div>${guidanceList(["Keep the semantic heading level appropriate to the page.", "Use the adjacent action only when the section has a clear next step.", "Below 42rem, the header stacks and aligns to the start."])}</section>`,
+
+  "primitive-card": () =>
+    `${pageIntro("Interface primitive", "Card", "A shared surface with an opt-in interactive state for whole-card actions.")}
+    <section aria-labelledby="card-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="card-preview">Static and interactive</h2></div><span class="oc-pill">.oc-card</span></div>
+      <div class="specimen-frame primitive-card-grid oc-app-surface"><article class="oc-card primitive-card-demo"><strong>Static surface</strong><p>Use for a genuinely grouped content unit.</p></article><a class="oc-card oc-card-interactive primitive-card-demo" href="#card-guidance"><strong>Interactive surface</strong><p>Hover, focus, and press use the exported state contract.</p></a></div>
+    </section>
+    <section aria-labelledby="card-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="card-markup">Interaction is opt-in</h2></div></div>${codeBlock(`<a class="oc-card oc-card-interactive" href="/destination">\n  Interactive card content\n</a>`, "html")}</section>
+    <section aria-labelledby="card-guidance"><div class="section-heading"><div><p class="eyebrow">States</p><h2 id="card-guidance">Hover, focus, and active</h2></div></div>${guidanceList(["Use the interactive class only when the whole surface acts as one control.", "The consumer chooses the correct semantic element and accessible name.", "Reduced-motion mode removes the interactive transform."])}</section>`,
+
+  "primitive-action": () =>
+    `${pageIntro("Interface primitive", "Action", "Shared action hierarchy for buttons and links, including a compact icon-only form.")}
+    <section aria-labelledby="action-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="action-preview">Exported variants</h2></div><span class="oc-pill">.oc-action</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="primitive-row"><button class="oc-action oc-action-primary" type="button">Primary action</button><button class="oc-action oc-action-secondary" type="button">Secondary</button><button class="oc-action oc-action-ghost" type="button">Ghost</button><button class="oc-action oc-action-icon" type="button" aria-label="Add item">+</button></div></div>
+    </section>
+    <section aria-labelledby="action-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="action-markup">Variant classes express hierarchy</h2></div></div>${codeBlock(`<button class="oc-action oc-action-primary" type="button">\n  Primary action\n</button>`, "html")}</section>
+    <section aria-labelledby="action-states"><div class="section-heading"><div><p class="eyebrow">States</p><h2 id="action-states">Responsive interaction feedback</h2></div></div>${guidanceList(["Primary, secondary, and ghost variants cover visual hierarchy.", "Hover, focus-visible, and active states are exported.", "Icon-only actions require a consumer-provided accessible name.", "Disabled and loading behavior remain consumer-owned until canonically implemented."])}</section>`,
+
+  "primitive-segmented": () =>
+    `${pageIntro("Interface primitive", "Segmented control", "A compact visual group for selecting among peer views or modes.")}
+    <section aria-labelledby="segmented-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="segmented-preview">Pressed and selected states</h2></div><span class="oc-pill">.oc-segmented</span></div>
+      <div class="specimen-frame primitive-row oc-app-surface"><div class="oc-segmented" aria-label="Preview mode"><button class="oc-segmented-item" type="button" aria-pressed="true">Preview</button><button class="oc-segmented-item" type="button" aria-pressed="false">Code</button></div><div class="oc-segmented" role="tablist" aria-label="Reference area"><button class="oc-segmented-item" role="tab" aria-selected="true">Tokens</button><button class="oc-segmented-item" role="tab" aria-selected="false">Type</button></div></div>
+    </section>
+    <section aria-labelledby="segmented-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="segmented-markup">State follows interaction semantics</h2></div></div>${codeBlock(`<div class="oc-segmented" aria-label="Display mode">\n  <button class="oc-segmented-item" aria-pressed="true">Preview</button>\n  <button class="oc-segmented-item" aria-pressed="false">Code</button>\n</div>`, "html")}</section>
+    <section aria-labelledby="segmented-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="segmented-guidance">Consumer-owned selection</h2></div></div>${guidanceList(["Use aria-pressed for toggle buttons or aria-selected for tabs.", "Keep labels short and options structurally equivalent.", "Selection behavior and keyboard management remain consumer-owned."])}</section>`,
+
+  "primitive-pill": () =>
+    `${pageIntro("Interface primitive", "Pill", "A compact, non-interactive label for short metadata.")}
+    <section aria-labelledby="pill-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="pill-preview">Short metadata</h2></div><span class="oc-pill">.oc-pill</span></div>
+      <div class="specimen-frame primitive-row oc-app-surface"><span class="oc-pill">Stable</span><span class="oc-pill">Official</span><span class="oc-pill">v0.0.1</span></div>
+    </section>
+    <section aria-labelledby="pill-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="pill-markup">Inline label</h2></div></div>${codeBlock(`<span class="oc-pill">Stable</span>`, "html")}</section>
+    <section aria-labelledby="pill-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="pill-guidance">Metadata, not interaction</h2></div></div>${guidanceList(["Keep the label short enough to scan inline.", "Use status tokens when the label communicates status.", "Do not style a button as a pill without a canonical interactive contract."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
