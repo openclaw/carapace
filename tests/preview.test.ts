@@ -174,6 +174,7 @@ describe("preview", () => {
       expect(shell).toContain(marker);
     }
     expect(css).toContain("touch-action: manipulation");
+    expect(css).not.toContain(".brand:active,");
 
     const mobileStart = css.indexOf("@media (max-width: 900px)");
     const compactStart = css.indexOf("@media (max-width: 680px)");
