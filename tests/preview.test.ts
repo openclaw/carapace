@@ -1,9 +1,14 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, test } from "bun:test";
-import { introductionPage, referencePages } from "../preview/navigation.js";
+import {
+  getAdjacentReferencePages,
+  introductionPage,
+  referencePages,
+} from "../preview/navigation.js";
 import { icon } from "../preview/icons.js";
 import { referenceContentIds } from "../preview/reference-content.js";
 import { groupSearchResults, rankSearchEntries } from "../preview/search.js";
+import { resolveOpenSidebarAreas } from "../preview/shell.js";
 import { nextThemeMode, resolveThemeMode, themeModes } from "../preview/theme.js";
 import { tokenDefinitions, tokenGroups } from "../preview/token-catalog.js";
 
@@ -293,7 +298,7 @@ describe("preview", () => {
     expect(shell).toContain("data-sidebar-area-panel");
     expect(shell).toContain("openclaw.preview.sidebar.openAreas");
     expect(shell).toContain("data-sidebar-area-id");
-    expect(shell).toContain("if (currentArea) openAreas.add(currentArea.id)");
+    expect(shell).toContain("readOpenSidebarAreas(currentArea?.id)");
     expect(shell).toContain('toggle.setAttribute("aria-expanded", String(expanded))');
     expect(shell).toContain("panel.hidden = !expanded");
     expect(shell).toContain("setExpanded(toggle, expand)");
@@ -306,6 +311,45 @@ describe("preview", () => {
     expect(css).toContain(".sidebar-pages[hidden]");
     expect(css).not.toContain(".sidebar-area.is-current > .sidebar-area-toggle::before");
     expect(css).not.toContain(".version span::before");
+  });
+
+  test("keeps navigation choices distinct and opens foundations by default", async () => {
+    const [home, shell] = await Promise.all([
+      readFile("preview/index.html", "utf8"),
+      readFile("preview/shell.js", "utf8"),
+    ]);
+    const homeDestinations = [...home.matchAll(/href="([^"]+)"/g)].map(([, href]) => href);
+
+    expect(homeDestinations.filter((href) => href === "./foundations/")).toHaveLength(1);
+    expect(
+      homeDestinations.filter((href) => href === "./resources/getting-started/"),
+    ).toHaveLength(1);
+    expect(shell).toContain('<div class="version"');
+    expect(shell).not.toContain('<a class="version"');
+    expect(referencePages.some(({ id, group }) => id.startsWith("primitive-") && group)).toBe(
+      false,
+    );
+
+    expect([...resolveOpenSidebarAreas(null)]).toEqual(["foundations"]);
+    expect([...resolveOpenSidebarAreas("[]")]).toEqual([]);
+    expect([...resolveOpenSidebarAreas('["interface"]', "foundations")]).toEqual([
+      "interface",
+      "foundations",
+    ]);
+
+    expect(getAdjacentReferencePages("foundations")).toEqual({
+      previous: undefined,
+      next: undefined,
+    });
+    expect(getAdjacentReferencePages("foundation-tokens").next?.id).toBe("foundation-colors");
+    expect(getAdjacentReferencePages("primitive-card")).toMatchObject({
+      previous: { id: "primitive-section" },
+      next: { id: "primitive-action" },
+    });
+    expect(getAdjacentReferencePages("resource-theming")).toEqual({
+      previous: undefined,
+      next: undefined,
+    });
   });
 
   test("keeps shell geometry and the light canvas centralized", async () => {
@@ -326,8 +370,8 @@ describe("preview", () => {
   test("keeps shell typography legible and the token index structured", async () => {
     const css = await readFile("preview/preview.css", "utf8");
 
-    expect(css).toContain(".home-action {");
-    expect(css).toContain("font-size: 14px");
+    expect(css).toContain(".home-start-list strong");
+    expect(css).toContain("font-size: 19px");
     expect(css).toContain(".search-trigger {");
     expect(css).toContain("font-size: 13px");
     expect(css).toContain("grid-template-columns: 176px minmax(0, 1fr)");

@@ -1,4 +1,5 @@
 import {
+  getAdjacentReferencePages,
   getReferenceArea,
   getReferencePage,
   introductionPage,
@@ -9,7 +10,8 @@ import { groupSearchResults, rankSearchEntries } from "./search.js";
 import { tokenDefinitions } from "./token-catalog.js";
 
 let feedbackTimeout;
-const sidebarDisclosureStorageKey = "openclaw.preview.sidebar.openAreas";
+const sidebarDisclosureStorageKey = "openclaw.preview.sidebar.openAreas.v2";
+const defaultOpenSidebarAreas = ["foundations"];
 
 const pageKinds = {
   overview: "home",
@@ -68,13 +70,29 @@ function hrefFor(path) {
   return `${document.body.dataset.previewRoot || "./"}${path}`;
 }
 
-function readOpenSidebarAreas() {
+export function resolveOpenSidebarAreas(storedValue, currentAreaId) {
+  let ids = defaultOpenSidebarAreas;
+
+  if (storedValue !== null) {
+    try {
+      const parsed = JSON.parse(storedValue);
+      if (Array.isArray(parsed)) ids = parsed;
+    } catch {
+      // Invalid persisted state falls back to the default disclosure.
+    }
+  }
+
+  const openAreas = new Set(ids);
+  if (currentAreaId) openAreas.add(currentAreaId);
+  return openAreas;
+}
+
+function readOpenSidebarAreas(currentAreaId) {
   try {
     const value = window.localStorage.getItem(sidebarDisclosureStorageKey);
-    const ids = JSON.parse(value || "[]");
-    return new Set(Array.isArray(ids) ? ids : []);
+    return resolveOpenSidebarAreas(value, currentAreaId);
   } catch {
-    return new Set();
+    return resolveOpenSidebarAreas(null, currentAreaId);
   }
 }
 
@@ -142,8 +160,7 @@ function renderSidebar() {
 
   const currentId = document.body.dataset.previewPage || document.body.dataset.previewRoute;
   const currentArea = getReferenceArea(currentId);
-  const openAreas = readOpenSidebarAreas();
-  if (currentArea) openAreas.add(currentArea.id);
+  const openAreas = readOpenSidebarAreas(currentArea?.id);
   const areas = referenceAreas
     .map((area) => {
       const activeArea = currentArea?.id === area.id;
@@ -183,9 +200,9 @@ function renderSidebar() {
         <a class="sidebar-introduction" href="${hrefFor(introductionPage.path)}"${currentId === introductionPage.id ? ' aria-current="page"' : ""}>${introductionPage.label}</a>
         ${areas}
       </nav>
-      <a class="version" href="${hrefFor("resources/release/")}" aria-label="Release v0.0.1" translate="no">
+      <div class="version" aria-label="Current release v0.0.1" translate="no">
         <span>Release</span><strong>v0.0.1</strong>
-      </a>
+      </div>
     </aside>
     <button class="navigation-backdrop" type="button" data-close-navigation aria-label="Close navigation"></button>
   `;
@@ -230,13 +247,10 @@ function renderPageContext() {
 
 function renderPageNavigation() {
   const currentId = document.body.dataset.previewPage || document.body.dataset.previewRoute;
-  const area = getReferenceArea(currentId);
-  const currentIndex = area?.pages.findIndex((page) => page.id === currentId) ?? -1;
   const mount = document.querySelector(".preview-stage");
-  if (!mount || currentIndex < 0 || mount.querySelector(".page-navigation")) return;
+  if (!mount || mount.querySelector(".page-navigation")) return;
 
-  const previous = area.pages[currentIndex - 1];
-  const next = area.pages[currentIndex + 1];
+  const { previous, next } = getAdjacentReferencePages(currentId);
   if (!previous && !next) return;
 
   const navigation = document.createElement("nav");

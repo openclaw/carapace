@@ -534,12 +534,6 @@ a {
   font-weight: 500;
 }
 
-.version:hover {
-  background: var(--oc-surface-interactive);
-  color: var(--oc-text-primary);
-}
-
-.version:focus-visible,
 .mobile-nav-close:focus-visible {
   outline: 2px solid var(--oc-focus-ring);
   outline-offset: -2px;
@@ -622,43 +616,11 @@ a {
   line-height: 1.55;
 }
 
-.home-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 26px;
-}
-
-.home-action {
-  display: inline-flex;
-  min-height: 42px;
-  align-items: center;
-  padding: 0 15px;
-  border: 1px solid var(--oc-border-subtle);
-  background: var(--preview-nav-surface);
-  color: var(--oc-text-primary);
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.home-action-primary {
-  border-color: var(--oc-accent-primary);
-  background: var(--oc-accent-primary);
-  color: var(--oc-text-on-accent);
-}
-
-.home-action:hover,
 .home-reference-grid a:hover,
 .home-start-list a:hover {
   background: var(--oc-surface-interactive-hover);
 }
 
-.home-action-primary:hover {
-  background: var(--oc-accent-primary-hover);
-}
-
-.home-action:focus-visible,
 .home-reference-grid a:focus-visible,
 .home-start-list a:focus-visible {
   z-index: 1;
@@ -2782,10 +2744,6 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
   .home-hero-copy > p:not(.eyebrow) {
     font-size: 16px;
-  }
-
-  .home-action {
-    min-height: 44px;
   }
 
   .home-reference,

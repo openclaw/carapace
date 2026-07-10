@@ -84,49 +84,42 @@ export const referenceAreas = [
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
-        group: "Primitives",
         keywords: "oc-app-surface root wrapper background color font",
       },
       {
         id: "primitive-hero",
         label: "Hero",
         path: "interface/primitives/hero/",
-        group: "Primitives",
         keywords: "oc-hero oc-hero-title oc-hero-lede",
       },
       {
         id: "primitive-section",
         label: "Section",
         path: "interface/primitives/section/",
-        group: "Primitives",
         keywords: "oc-section header heading eyebrow title copy",
       },
       {
         id: "primitive-card",
         label: "Card",
         path: "interface/primitives/card/",
-        group: "Primitives",
         keywords: "oc-card oc-card-interactive surface link",
       },
       {
         id: "primitive-action",
         label: "Action",
         path: "interface/primitives/action/",
-        group: "Primitives",
         keywords: "oc-action primary secondary ghost icon button link",
       },
       {
         id: "primitive-segmented",
         label: "Segmented control",
         path: "interface/primitives/segmented-control/",
-        group: "Primitives",
         keywords: "oc-segmented item aria selected pressed",
       },
       {
         id: "primitive-pill",
         label: "Pill",
         path: "interface/primitives/pill/",
-        group: "Primitives",
         keywords: "oc-pill label metadata",
       },
       {
@@ -256,6 +249,27 @@ export const referencePages = referenceAreas.flatMap((area) =>
   area.pages.map((page) => ({ ...page, areaId: area.id, areaLabel: area.label })),
 );
 
+const adjacentReferenceSequences = [
+  [
+    "foundation-tokens",
+    "foundation-colors",
+    "foundation-typography",
+    "foundation-layout",
+    "foundation-shape-depth",
+    "foundation-motion",
+    "foundation-base",
+  ],
+  [
+    "primitive-app-surface",
+    "primitive-hero",
+    "primitive-section",
+    "primitive-card",
+    "primitive-action",
+    "primitive-segmented",
+    "primitive-pill",
+  ],
+];
+
 export function getReferencePage(id) {
   return referencePages.find((page) => page.id === id);
 }
@@ -263,4 +277,17 @@ export function getReferencePage(id) {
 export function getReferenceArea(id) {
   const page = getReferencePage(id);
   return referenceAreas.find((area) => area.id === (page?.areaId || id));
+}
+
+export function getAdjacentReferencePages(id) {
+  const sequence = adjacentReferenceSequences.find((pageIds) => pageIds.includes(id));
+  const index = sequence?.indexOf(id) ?? -1;
+
+  return {
+    previous: index > 0 ? getReferencePage(sequence[index - 1]) : undefined,
+    next:
+      sequence && index >= 0 && index < sequence.length - 1
+        ? getReferencePage(sequence[index + 1])
+        : undefined,
+  };
 }
