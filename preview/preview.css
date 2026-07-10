@@ -1098,6 +1098,75 @@ a {
   color: var(--oc-text-primary);
 }
 
+.inline-toc {
+  display: none;
+  margin-top: 24px;
+  border-top: 1px solid var(--oc-border-subtle);
+  border-bottom: 1px solid var(--oc-border-subtle);
+}
+
+.inline-toc summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 12px;
+  min-height: 46px;
+  align-items: center;
+  color: var(--oc-text-primary);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  list-style: none;
+}
+
+.inline-toc summary::-webkit-details-marker {
+  display: none;
+}
+
+.inline-toc summary::after {
+  color: var(--oc-text-muted);
+  content: "+";
+  font-family: var(--oc-font-mono);
+  font-size: 14px;
+}
+
+.inline-toc[open] summary::after {
+  content: "−";
+}
+
+.inline-toc summary small {
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.inline-toc nav {
+  display: grid;
+  gap: 2px;
+  padding: 0 0 12px;
+}
+
+.inline-toc nav a {
+  min-height: 36px;
+  padding: 9px 10px;
+  color: var(--oc-text-secondary);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.inline-toc nav a:hover,
+.inline-toc nav a[aria-current] {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.inline-toc summary:focus-visible,
+.inline-toc nav a:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
 .page-navigation {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2045,6 +2114,10 @@ dialog .button-row {
 
   .page-toc {
     display: none;
+  }
+
+  .inline-toc {
+    display: block;
   }
 }
 

@@ -168,12 +168,24 @@ function renderTableOfContents() {
     return;
   }
 
-  mount.innerHTML = `<p>On this page</p><nav>${headings
+  const linksMarkup = headings
     .map((heading) => `<a href="#${heading.id}">${heading.textContent}</a>`)
-    .join("")}</nav>`;
+    .join("");
+  mount.innerHTML = `<p>On this page</p><nav aria-label="Page contents">${linksMarkup}</nav>`;
+
+  const intro = document.querySelector(".reference-intro");
+  if (intro) {
+    intro.insertAdjacentHTML(
+      "afterend",
+      `<details class="inline-toc"><summary><span>On this page</span><small>${headings.length} sections</small></summary><nav aria-label="Page contents">${linksMarkup}</nav></details>`,
+    );
+    document.querySelector(".inline-toc")?.addEventListener("click", (event) => {
+      if (event.target.closest("a")) event.currentTarget.open = false;
+    });
+  }
 
   if (!("IntersectionObserver" in window)) return;
-  const links = [...mount.querySelectorAll("a")];
+  const links = [...document.querySelectorAll(".page-toc a, .inline-toc a")];
   const setActive = (id) => {
     for (const link of links) {
       link.toggleAttribute("aria-current", link.hash === `#${id}`);

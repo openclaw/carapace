@@ -99,4 +99,15 @@ describe("preview", () => {
     expect(css).toContain(".reference-page [id]");
     expect(css).toContain("scroll-margin-top:");
   });
+
+  test("provides local page navigation when the side table of contents is hidden", async () => {
+    const [shell, css] = await Promise.all([
+      readFile("preview/shell.js", "utf8"),
+      readFile("preview/preview.css", "utf8"),
+    ]);
+
+    expect(shell).toContain('class="inline-toc"');
+    expect(shell).toContain('aria-label="Page contents"');
+    expect(css).toContain(".inline-toc");
+  });
 });
