@@ -1,5 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, test } from "bun:test";
+import { referencePages } from "../preview/navigation.js";
+import { referenceContentIds } from "../preview/reference-content.js";
 import { tokenDefinitions, tokenGroups } from "../preview/token-catalog.js";
 
 describe("preview", () => {
@@ -11,6 +13,7 @@ describe("preview", () => {
       "../styles/typography.css",
       "../styles/themes/product.css",
       "../styles/base.css",
+      "../styles/components.css",
     ]) {
       expect(css).toContain(`@import "${path}"`);
     }
@@ -62,5 +65,24 @@ describe("preview", () => {
     expect(listed).toHaveLength(listedSet.size);
     expect(tokenDefinitions.filter(({ group }) => !groupIds.has(group))).toEqual([]);
     expect([...listedSet].sort()).toEqual([...canonical].sort());
+  });
+
+  test("keeps the route manifest and reference pages aligned", async () => {
+    expect(new Set(referencePages.map(({ id }) => id)).size).toBe(referencePages.length);
+    expect(new Set(referencePages.map(({ path }) => path)).size).toBe(referencePages.length);
+
+    for (const page of referencePages) {
+      const html = await readFile(`preview/${page.path}index.html`, "utf8");
+      expect(html).toContain(`data-preview-page="${page.id}"`);
+      expect(html).toContain("data-shell-header");
+      expect(html).toContain("data-shell-sidebar");
+    }
+
+    const overviewIds = new Set(["foundations", "interface", "compositions", "resources"]);
+    const deepPageIds = referencePages
+      .map(({ id }) => id)
+      .filter((id) => !overviewIds.has(id))
+      .sort();
+    expect([...referenceContentIds].sort()).toEqual(deepPageIds);
   });
 });

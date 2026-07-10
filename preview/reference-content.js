@@ -154,6 +154,8 @@ const contents = {
     <section aria-labelledby="release-contract"><div class="section-heading"><div><p class="eyebrow">Contract</p><h2 id="release-contract">Immutable Git tags</h2></div></div>${guidanceList(["The release tag must match package.json.", "Runtime assets and skills always release together.", "Consumers install a stable Git tag and validate migration locally.", "npm publication is intentionally disabled."])}</section>`,
 };
 
+export const referenceContentIds = Object.keys(contents);
+
 export function renderReferenceContent() {
   const mount = document.querySelector("[data-reference-content]");
   if (!mount) return;

@@ -28,8 +28,9 @@ function renderTopbar() {
   if (!mount) return;
 
   mount.outerHTML = `
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="topbar">
-      <button class="mobile-nav-trigger" type="button" data-open-navigation aria-label="Open navigation">
+      <button class="mobile-nav-trigger" type="button" data-open-navigation aria-label="Open navigation" aria-controls="reference-navigation" aria-expanded="false">
         <span></span><span></span>
       </button>
       <a class="brand" href="${hrefFor("")}" aria-label="OpenClaw design system overview">
@@ -37,7 +38,7 @@ function renderTopbar() {
         <span class="brand-wordmark">OpenClaw</span>
         <span class="brand-context">Design System</span>
       </a>
-      <button class="search-trigger" type="button" data-open-search>
+      <button class="search-trigger" type="button" data-open-search aria-label="Search reference">
         <span>Search reference</span><kbd>⌘ K</kbd>
       </button>
       <div class="topbar-actions">
@@ -48,7 +49,7 @@ function renderTopbar() {
     <dialog class="search-dialog" data-search-dialog aria-label="Search design system reference">
       <div class="search-field">
         <span aria-hidden="true">⌕</span>
-        <input type="search" data-search-input placeholder="Search routes, tokens, and primitives" autocomplete="off" />
+        <input type="search" data-search-input aria-label="Search reference" placeholder="Search routes, tokens, and primitives" autocomplete="off" />
         <kbd>Esc</kbd>
       </div>
       <div class="search-results" data-search-results></div>
@@ -88,7 +89,7 @@ function renderSidebar() {
     .join("");
 
   mount.outerHTML = `
-    <aside class="sidebar" data-navigation>
+    <aside class="sidebar" id="reference-navigation" data-navigation>
       <div class="sidebar-heading">
         <p class="eyebrow">Reference</p>
         <button class="mobile-nav-close" type="button" data-close-navigation aria-label="Close navigation">×</button>
@@ -96,6 +97,7 @@ function renderSidebar() {
       <nav aria-label="Design system reference">${areas}</nav>
       <div class="version"><span>Release</span><strong>v0.0.1</strong></div>
     </aside>
+    <button class="navigation-backdrop" type="button" data-close-navigation aria-label="Close navigation"></button>
   `;
 }
 
@@ -137,9 +139,10 @@ function renderPageNavigation() {
 
   const navigation = document.createElement("nav");
   navigation.className = "page-navigation";
+  if (!previous || !next) navigation.classList.add("page-navigation-single");
   navigation.setAttribute("aria-label", "Adjacent reference pages");
   navigation.innerHTML = `
-    ${previous ? `<a class="page-navigation-previous" href="${hrefFor(previous.path)}"><span>Previous</span><strong>${previous.label}</strong></a>` : "<span></span>"}
+    ${previous ? `<a class="page-navigation-previous" href="${hrefFor(previous.path)}"><span>Previous</span><strong>${previous.label}</strong></a>` : ""}
     ${next ? `<a class="page-navigation-next" href="${hrefFor(next.path)}"><span>Next</span><strong>${next.label}</strong></a>` : ""}
   `;
   mount.append(navigation);
@@ -297,23 +300,30 @@ function bindCopyActions() {
 function bindNavigation() {
   const navigation = document.querySelector("[data-navigation]");
   const open = document.querySelector("[data-open-navigation]");
-  const close = document.querySelector("[data-close-navigation]");
-  if (!navigation || !open || !close) return;
+  const closeButtons = [...document.querySelectorAll("[data-close-navigation]")];
+  if (!navigation || !open || closeButtons.length === 0) return;
 
-  const setOpen = (value) => {
+  const setOpen = (value, restoreFocus = true) => {
     navigation.classList.toggle("is-open", value);
     open.setAttribute("aria-expanded", String(value));
     document.body.classList.toggle("navigation-open", value);
+    if (value) navigation.querySelector("[data-close-navigation]")?.focus();
+    else if (restoreFocus) open.focus();
   };
 
   open.addEventListener("click", () => setOpen(true));
-  close.addEventListener("click", () => setOpen(false));
+  closeButtons.forEach((button) => button.addEventListener("click", () => setOpen(false)));
   navigation.addEventListener("click", (event) => {
-    if (event.target.closest("a")) setOpen(false);
+    if (event.target.closest("a")) setOpen(false, false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && navigation.classList.contains("is-open")) setOpen(false);
   });
 }
 
 export function renderShell() {
+  const main = document.querySelector("main");
+  if (main) main.id = "main-content";
   renderTopbar();
   renderSidebar();
   renderPageContext();
