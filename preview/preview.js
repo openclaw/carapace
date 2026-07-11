@@ -1,4 +1,9 @@
-import { groupTokenDefinitions } from "./token-catalog.js";
+import { bindExampleDialog } from "./interaction.js";
+import {
+  groupTokenDefinitions,
+  resolveTokenHash,
+  syncTokenHash,
+} from "./token-catalog.js";
 import { icon } from "./icons.js";
 import { renderReferenceContent } from "./reference-content.js";
 import { renderShell, showShellFeedback } from "./shell.js";
@@ -12,8 +17,6 @@ const tokenGrid = document.querySelector("[data-token-grid]");
 const tokenCount = document.querySelector("[data-token-count]");
 const tokenGroupNav = document.querySelector("[data-token-group-nav]");
 const themeToggle = document.querySelector("[data-theme-toggle]");
-const dialog = document.querySelector("dialog");
-const dialogTrigger = document.querySelector("[data-open-dialog]");
 const previewNavLinks = document.querySelectorAll("[data-preview-link]");
 const previewSections = [...document.querySelectorAll("[data-preview-section]")];
 const previewContextTitle = document.querySelector("[data-preview-context-title]");
@@ -222,9 +225,9 @@ function renderTokenGroupNavigation(groups) {
   );
 }
 
-function observeTokenGroups() {
+function observeTokenGroups(initialGroupId) {
   tokenGroupObserver?.disconnect();
-  if (!tokenGroupNav || !("IntersectionObserver" in window)) return;
+  if (!tokenGroupNav) return;
 
   const links = [...tokenGroupNav.querySelectorAll("a")];
   const sections = [...document.querySelectorAll(".token-group")];
@@ -234,6 +237,12 @@ function observeTokenGroups() {
       else link.removeAttribute("aria-current");
     }
   };
+
+  const initialSectionId = initialGroupId
+    ? `token-group-${initialGroupId}`
+    : sections[0]?.querySelector("h2")?.id;
+  if (initialSectionId) setActive(initialSectionId);
+  if (!("IntersectionObserver" in window)) return;
 
   tokenGroupObserver = new IntersectionObserver(
     (entries) => {
@@ -245,7 +254,6 @@ function observeTokenGroups() {
     { rootMargin: "-28% 0px -62% 0px", threshold: [0, 0.1] },
   );
   sections.forEach((section) => tokenGroupObserver.observe(section));
-  if (sections[0]) setActive(sections[0].querySelector("h2")?.id);
 }
 
 function renderTokens() {
@@ -268,16 +276,15 @@ function renderTokens() {
   const count = groups.reduce((total, group) => total + group.tokens.length, 0);
 
   if (tokenCount) tokenCount.textContent = String(count);
+  const tokenHash = resolveTokenHash(window.location.hash);
   renderTokenGroupNavigation(groups);
   tokenGrid.replaceChildren(...groups.map((group) => createTokenGroup(group, resolver)));
-  observeTokenGroups();
+  observeTokenGroups(tokenHash?.groupId);
   resolver.remove();
 
-  if (!tokenHashSynced && window.location.hash.startsWith("#token-")) {
+  if (!tokenHashSynced && tokenHash) {
     tokenHashSynced = true;
-    window.requestAnimationFrame(() => {
-      document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ block: "start" });
-    });
+    syncTokenHash(window.location.hash);
   }
 }
 
@@ -319,9 +326,7 @@ colorScheme.addEventListener("change", () => {
   if (themeMode === "system") setThemeMode(themeMode);
 });
 
-if (dialog && dialogTrigger) {
-  dialogTrigger.addEventListener("click", () => dialog.showModal());
-}
+bindExampleDialog();
 
 function setActivePreviewSection(section) {
   const target = section.id ? `#${section.id}` : null;
@@ -390,6 +395,3 @@ document.addEventListener("click", async (event) => {
     showShellFeedback("Copy unavailable in this browser");
   }
 });
-
-renderTokens();
-syncThemeColor();

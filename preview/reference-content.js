@@ -1,3 +1,5 @@
+import { exampleDialogAttribute } from "./interaction.js";
+
 function escapeHtml(value) {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 }
@@ -21,6 +23,20 @@ function guidanceList(items) {
 function referenceTable(headers, rows) {
   return `<div class="table-wrap reference-table"><table><thead><tr>${headers.map((header) => `<th scope="col">${header}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((cell, index) => `${index === 0 ? '<th scope="row">' : "<td>"}${cell}${index === 0 ? "</th>" : "</td>"}`).join("")}</tr>`).join("")}</tbody></table></div>`;
 }
+
+export const skillsInstallCommand = `npx skills@1.5.16 add \\
+  "openclaw/design-system" \\
+  --skill \\
+    openclaw-design \\
+    openclaw-brand \\
+    openclaw-design-system \\
+    openclaw-marketing-pages \\
+    openclaw-design-audit \\
+  --agent codex \\
+  --copy \\
+  --yes`;
+
+export const skillsUpdateCommand = "npx skills@1.5.16 update --project --yes";
 
 const contents = {
   "foundation-tokens": () =>
@@ -165,7 +181,7 @@ const contents = {
       <div class="control-grid"><form class="form-sample"><label>Search skills<input type="search" placeholder="Search by name or capability" /></label><label>Category<select><option>All categories</option><option>Developer tools</option><option>Communication</option></select></label><label class="check-row"><input type="checkbox" checked />Include verified publishers</label><div class="button-row"><button class="button button-primary" type="button">Apply filters</button><button class="button button-secondary" type="reset">Reset</button></div></form>
       <div class="state-sample"><div class="segmented" aria-label="Display density"><button type="button" aria-pressed="true">Comfortable</button><button type="button" aria-pressed="false">Compact</button></div><button class="button button-danger" type="button">Remove access</button><button class="button button-secondary" type="button" disabled>Processing</button><div class="status-row"><span class="badge badge-success">Ready</span><span class="badge badge-warning">Review</span><span class="badge badge-error">Blocked</span><span class="badge badge-info">Official</span></div></div></div>
     </section>
-    <dialog><form method="dialog"><div class="dialog-heading"><div><p class="eyebrow">Confirmation</p><h2>Publish this package?</h2></div><button class="icon-button" value="cancel" aria-label="Close dialog">×</button></div><p>The release will preserve the current semantic token and skill contract.</p><div class="button-row"><button class="button button-secondary" value="cancel">Cancel</button><button class="button button-primary" value="confirm">Publish</button></div></form></dialog>`,
+    <dialog ${exampleDialogAttribute} aria-labelledby="interaction-example-dialog-title"><form method="dialog"><div class="dialog-heading"><div><p class="eyebrow">Confirmation</p><h2 id="interaction-example-dialog-title">Publish this package?</h2></div><button class="icon-button" value="cancel" aria-label="Close dialog">×</button></div><p>The release will preserve the current semantic token and skill contract.</p><div class="button-row"><button class="button button-secondary" value="cancel">Cancel</button><button class="button button-primary" value="confirm">Publish</button></div></form></dialog>`,
 
   "composition-product": () =>
     `${pageIntro("Compositions", "Product surfaces", "Dense, quiet, operational layouts composed from stable foundations and consumer-owned behavior.")}
@@ -178,7 +194,7 @@ const contents = {
   "composition-content": () =>
     `${pageIntro("Compositions", "Content surfaces", "Readable technical guidance with stable hierarchy, measured line length, and useful code context.")}
     <section aria-labelledby="content-specimen"><div class="section-heading"><div><p class="eyebrow">Specimen</p><h2 id="content-specimen">Skill guidance</h2></div></div>
-      <article class="prose-sample"><p class="lead">Skills are versioned instruction bundles that teach an agent how to use the same visual contract as the runtime package.</p><h3>Install the focused guidance</h3><p>Choose the branch that matches the work. Product UI, public pages, brand artifacts, and audits have different ownership boundaries.</p>${codeBlock(`npx skills add "openclaw/design-system#v0.0.1" --copy --yes`, "shell")}<blockquote>Runtime assets and skills always release together.</blockquote></article>
+      <article class="prose-sample"><p class="lead">Skills are focused instruction bundles that teach an agent how to apply the shared visual contract.</p><h3>Install the project guidance</h3><p>Install the router and its focused branches, then select guidance by ownership.</p>${codeBlock(skillsInstallCommand, "shell")}<blockquote>Agent guidance follows the repository default branch and updates independently from runtime tags.</blockquote></article>
     </section>`,
 
   "composition-public": () =>
@@ -218,10 +234,10 @@ const contents = {
     <section aria-labelledby="tailwind-boundary"><div class="section-heading"><div><p class="eyebrow">Boundary</p><h2 id="tailwind-boundary">Utilities, not behavior</h2></div></div><p class="section-copy">Applications continue to own Radix, React, routes, states, and product-specific layout. The adapter does not generate or own components.</p></section>`,
 
   "resource-skills": () =>
-    `${pageIntro("Resources", "Skills", "Versioned guidance ships with runtime assets so agents and applications use the same contract.")}
-    <section aria-labelledby="skill-router"><div class="section-heading"><div><p class="eyebrow">Router</p><h2 id="skill-router">Install openclaw-design</h2></div></div>${codeBlock(`npx skills add "openclaw/design-system#v0.0.1" --copy --yes`, "shell")}<p class="section-copy">The router selects one focused branch before interface work and combines branches only when ownership genuinely crosses them.</p></section>
-    <section aria-labelledby="focused-skills"><div class="section-heading"><div><p class="eyebrow">Focused guidance</p><h2 id="focused-skills">Four ownership branches</h2></div></div><div class="principle-grid"><article><h3>openclaw-brand</h3><p>Identity, typography, logos, imagery, voice, and asset rights.</p></article><article><h3>openclaw-design-system</h3><p>Product UI, tokens, themes, primitives, and adapters.</p></article><article><h3>openclaw-marketing-pages</h3><p>Public composition, navigation, SEO, media, and responsive layout.</p></article><article><h3>openclaw-design-audit</h3><p>Drift, token misuse, component substitution, accessibility, and reporting.</p></article></div>${codeBlock(`for skill in \\\n  openclaw-brand \\\n  openclaw-design-system \\\n  openclaw-marketing-pages \\\n  openclaw-design-audit\ndo\n  npx skills add \\\n    "https://github.com/openclaw/design-system/tree/v0.0.1/\${skill}" \\\n    --copy --yes\ndone`, "shell")}</section>
-    <section aria-labelledby="skill-routing"><div class="section-heading"><div><p class="eyebrow">Routing</p><h2 id="skill-routing">Match guidance to ownership</h2></div></div>${guidanceList(["Start public website work with marketing pages; add brand only when identity changes.", "Start product application work with the design-system guidance.", "Use audit guidance to evaluate drift and apply only narrow deterministic fixes.", "Keep runtime CSS and skill guidance on the same release tag."])}</section>`,
+    `${pageIntro("Resources", "Skills", "Project guidance follows the repository default branch so agents can use the latest documented contract.")}
+    <section aria-labelledby="skill-router"><div class="section-heading"><div><p class="eyebrow">Install</p><h2 id="skill-router">Add project guidance</h2></div></div>${codeBlock(skillsInstallCommand, "shell")}<p class="section-copy">The router selects one focused branch before interface work and combines branches only when ownership genuinely crosses them.</p><h3>Refresh installed guidance</h3>${codeBlock(skillsUpdateCommand, "shell")}</section>
+    <section aria-labelledby="focused-skills"><div class="section-heading"><div><p class="eyebrow">Focused guidance</p><h2 id="focused-skills">Four ownership branches</h2></div></div><div class="principle-grid"><article><h3>openclaw-brand</h3><p>Identity, typography, logos, imagery, voice, and asset rights.</p></article><article><h3>openclaw-design-system</h3><p>Product UI, tokens, themes, primitives, and adapters.</p></article><article><h3>openclaw-marketing-pages</h3><p>Public composition, navigation, SEO, media, and responsive layout.</p></article><article><h3>openclaw-design-audit</h3><p>Drift, token misuse, component substitution, accessibility, and reporting.</p></article></div></section>
+    <section aria-labelledby="skill-routing"><div class="section-heading"><div><p class="eyebrow">Routing</p><h2 id="skill-routing">Match guidance to ownership</h2></div></div>${guidanceList(["Start public website work with marketing pages; add brand only when identity changes.", "Start product application work with the design-system guidance.", "Use audit guidance to evaluate drift and apply only narrow deterministic fixes.", "Refresh project guidance with the standard updater."])}</section>`,
 
   "resource-brand": () =>
     `${pageIntro("Resources", "Brand and assets", "Apply the OpenClaw identity through semantic roles while keeping licensed binaries with their owners.")}
@@ -230,8 +246,8 @@ const contents = {
 
   "resource-governance": () =>
     `${pageIntro("Resources", "Governance", "The shared package owns stable visual contracts; consumers own their products, behavior, routes, and composition.")}
-    <section aria-labelledby="governance-boundary"><div class="section-heading"><div><p class="eyebrow">Ownership</p><h2 id="governance-boundary">Shared foundation, local product</h2></div></div>${referenceTable(["Repository", "Owns"], [["Design system", "Tokens, themes, typography, base behavior, framework-neutral visual primitives, thin adapters, and version-matched guidance."], ["Consumer", "Data, routes, application state, framework behavior, page composition, media, and consumer-specific components."]])}</section>
-    <section aria-labelledby="governance-promotion"><div class="section-heading"><div><p class="eyebrow">Promotion</p><h2 id="governance-promotion">Reuse must be demonstrated</h2></div></div>${guidanceList(["Keep a component or layout local until at least two consumers share the same interface and behavior.", "Discuss new components, breaking token changes, and large architecture changes before implementation.", "Prefer additive changes because tokens, themes, exports, skill names, and tags are public compatibility surfaces.", "Update version-matched guidance when a public design rule changes."])}</section>
+    <section aria-labelledby="governance-boundary"><div class="section-heading"><div><p class="eyebrow">Ownership</p><h2 id="governance-boundary">Shared foundation, local product</h2></div></div>${referenceTable(["Repository", "Owns"], [["Design system", "Tokens, themes, typography, base behavior, framework-neutral visual primitives, thin adapters, and current guidance."], ["Consumer", "Data, routes, application state, framework behavior, page composition, media, and consumer-specific components."]])}</section>
+    <section aria-labelledby="governance-promotion"><div class="section-heading"><div><p class="eyebrow">Promotion</p><h2 id="governance-promotion">Reuse must be demonstrated</h2></div></div>${guidanceList(["Keep a component or layout local until at least two consumers share the same interface and behavior.", "Discuss new components, breaking token changes, and large architecture changes before implementation.", "Prefer additive changes because tokens, themes, exports, skill names, and tags are public compatibility surfaces.", "Update project guidance when a public design rule changes."])}</section>
     <section aria-labelledby="governance-contribution"><div class="section-heading"><div><p class="eyebrow">Contribution</p><h2 id="governance-contribution">One logical contract change at a time</h2></div></div>${guidanceList(["Name affected consumers and explain the concrete problem.", "Add or update tests for stylesheet, package, token, or skill contract changes.", "Run the repository checks and report exact validation.", "Do not include credentials, private hosts, local paths, or restricted assets."])}</section>`,
 
   "resource-design-audit": () =>
@@ -246,18 +262,22 @@ const contents = {
     <section aria-labelledby="a11y-checks"><div class="section-heading"><div><p class="eyebrow">Checks</p><h2 id="a11y-checks">Interaction must remain legible</h2></div></div>${guidanceList(["Every interactive control has an accessible name.", "Keyboard focus remains visible, reachable, and coherent.", "Hover, focus, disabled, loading, invalid, and selected states are distinct.", "Light and dark themes preserve content, hierarchy, and contrast.", "Semantic heading order and accessible navigation survive responsive layouts.", "Text and fixed-format UI do not clip or create accidental horizontal scrolling."])}</section>`,
 
   "resource-release": () =>
-    `${pageIntro("Resources", "Release", "Runtime CSS and agent guidance move together under one stable semantic version.")}
+    `${pageIntro("Resources", "Release", "Runtime CSS uses immutable semantic releases. Agent guidance follows the repository default branch.")}
     <section aria-labelledby="release-current"><div class="release-panel"><div><p class="eyebrow">Current release</p><h2 id="release-current">v0.0.1</h2></div><span>Stable</span></div></section>
-    <section aria-labelledby="release-contract"><div class="section-heading"><div><p class="eyebrow">Contract</p><h2 id="release-contract">Immutable Git tags</h2></div></div>${guidanceList(["The release tag must match package.json.", "Runtime assets and skills always release together.", "Consumers install a stable Git tag and validate migration locally.", "npm publication is intentionally disabled.", "Security fixes support the latest release and current main branch."])}</section>
+    <section aria-labelledby="release-contract"><div class="section-heading"><div><p class="eyebrow">Contract</p><h2 id="release-contract">Immutable Git tags</h2></div></div>${guidanceList(["The release tag must match package.json.", "Runtime assets ship under the matching semantic tag.", "Agent guidance follows the repository default branch and the standard skills updater.", "Consumers install a stable Git tag and validate migration locally.", "npm publication is intentionally disabled."])}</section>
     <section aria-labelledby="release-flow"><div class="section-heading"><div><p class="eyebrow">Maintainers</p><h2 id="release-flow">Validate before packaging</h2></div></div>${codeBlock(`bun run check\nbun run release:check v0.0.1\nbun pm pack --destination dist`, "shell")}<p class="section-copy">The release workflow verifies the tag, packs the Git-distributed archive, and publishes it as a GitHub Release asset.</p></section>
     <section aria-labelledby="release-consumer"><div class="section-heading"><div><p class="eyebrow">Consumers</p><h2 id="release-consumer">Migration remains explicit</h2></div></div>${guidanceList(["Pin an immutable semantic tag.", "Review compatibility surfaces and focused imports before updating.", "Validate rendered routes at desktop and mobile sizes.", "Check light and dark themes where supported."])}</section>`,
 };
 
 export const referenceContentIds = Object.keys(contents);
 
+export function getReferenceContent(id) {
+  return contents[id]?.() ?? "";
+}
+
 export function renderReferenceContent() {
   const mount = document.querySelector("[data-reference-content]");
   if (!mount) return;
-  const render = contents[document.body.dataset.previewPage];
-  if (render) mount.innerHTML = render();
+  const content = getReferenceContent(document.body.dataset.previewPage);
+  if (content) mount.innerHTML = content;
 }

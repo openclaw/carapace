@@ -215,6 +215,42 @@ export const tokenDefinitions = [
   { variable: "--oc-content-narrow", group: "content" },
 ];
 
+export function resolveTokenHash(hash) {
+  const targetId = hash.startsWith("#") ? hash.slice(1) : hash;
+  if (!targetId) return null;
+
+  if (targetId.startsWith("token-group-")) {
+    const groupId = targetId.slice("token-group-".length);
+    const group = tokenGroups.find((candidate) => candidate.id === groupId);
+    return group ? { targetId, groupId } : null;
+  }
+
+  if (targetId.startsWith("token-")) {
+    const variable = `--${targetId.slice("token-".length)}`;
+    const token = tokenDefinitions.find((candidate) => candidate.variable === variable);
+    return token ? { targetId, groupId: token.group } : null;
+  }
+
+  return null;
+}
+
+export function syncTokenHash(
+  hash,
+  {
+    getElementById = (id) => document.getElementById(id),
+    schedule = (callback) => window.requestAnimationFrame(callback),
+  } = {},
+) {
+  const state = resolveTokenHash(hash);
+  const target = state ? getElementById(state.targetId) : null;
+  if (!state || !target) return null;
+
+  schedule(() => {
+    schedule(() => target.scrollIntoView({ block: "start" }));
+  });
+  return state;
+}
+
 export function groupTokenDefinitions() {
   return tokenGroups
     .map((group) => ({
