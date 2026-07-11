@@ -73,7 +73,7 @@ genuinely circular avatars, status dots, and similar indicators.
 Install all five project skills from the repository's moving default branch:
 
 ```bash
-npx skills@1.5.15 add \
+npx skills@1.5.16 add \
   "openclaw/design-system" \
   --skill \
     openclaw-design \
@@ -90,7 +90,7 @@ Refresh every project skill recorded in `skills-lock.json`, including these
 design skills, with the standard updater:
 
 ```bash
-npx skills@1.5.15 update --project --yes
+npx skills@1.5.16 update --project --yes
 ```
 
 The `openclaw-design` router skill routes work to:
