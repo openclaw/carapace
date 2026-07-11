@@ -132,4 +132,5 @@ bun run preview:build
 ```
 
 The Pages workflow is ready for `https://openclaw.github.io/design-system/`.
-Deployment remains deferred until GitHub Pages is enabled for this repository.
+Enable GitHub Pages for this repository, then run the Pages workflow manually
+to publish the preview.

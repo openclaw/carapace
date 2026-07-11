@@ -2,16 +2,6 @@ name: Pages
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "preview/**"
-      - "styles/**"
-      - "package.json"
-      - "bun.lock"
-      - "bunfig.toml"
-      - ".github/workflows/pages.yml"
 
 permissions:
   contents: read
