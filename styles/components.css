@@ -2954,6 +2954,34 @@
   gap: var(--oc-space-2);
 }
 
+.oc-agent-model-field {
+  display: grid;
+  width: min(100%, 22rem);
+  gap: var(--oc-space-2);
+}
+
+.oc-agent-model-label {
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-sm);
+  font-weight: 650;
+}
+
+.oc-agent-model-picker {
+  min-height: 2.75rem;
+  padding: 0 var(--oc-space-3);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-surface);
+  color: var(--oc-text-primary);
+  font: inherit;
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-agent-model-picker:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+
 .oc-agent-suggestion {
   min-height: 2rem;
   padding: 0 var(--oc-space-3);

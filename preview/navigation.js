@@ -416,6 +416,12 @@ export const referenceAreas = [
         path: "agent-components/suggestions/",
         keywords: "oc-agent-suggestions suggested prompts actions input composer",
       },
+      {
+        id: "model-picker",
+        label: "Model Picker",
+        path: "agent-components/model-picker/",
+        keywords: "oc-agent-model-picker model selection provider capability",
+      },
     ],
   },
   {
@@ -669,7 +675,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "input-bar", "message-list", "suggestions"],
+  ["agent-chat", "input-bar", "message-list", "model-picker", "suggestions"],
 ];
 
 export function getReferencePage(id) {

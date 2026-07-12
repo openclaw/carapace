@@ -73,6 +73,22 @@ const components = {
 </div>`,
     guidance: ["Offer a small set of specific, context-aware prompts.", "Insert or submit the complete visible suggestion when selected.", "Disable suggestions while they would conflict with an active submission."],
   },
+  "model-picker": {
+    slug: "model-picker",
+    title: "Model Picker",
+    className: "oc-agent-model-picker",
+    lede: "A compact model selector that exposes the current choice and preserves native form and keyboard behavior.",
+    previewTitle: "Choose the execution model",
+    preview: `<label class="oc-agent-model-field"><span class="oc-agent-model-label">Model</span><select class="oc-agent-model-picker"><option>OpenClaw Fast</option><option>OpenClaw Balanced</option><option>OpenClaw Deep</option></select></label>`,
+    markup: `<label class="oc-agent-model-field">
+  <span class="oc-agent-model-label">Model</span>
+  <select class="oc-agent-model-picker">
+    <option>OpenClaw Fast</option>
+    <option>OpenClaw Balanced</option>
+  </select>
+</label>`,
+    guidance: ["Show the selected model without requiring the menu to open.", "Use stable human-readable names and preserve capability details in the option label or adjacent help.", "The consumer owns availability, entitlement, persistence, and routing."],
+  },
 };
 
 export const agentReferenceContentIds = Object.keys(components);
