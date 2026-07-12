@@ -1267,6 +1267,88 @@
   font-weight: 650;
 }
 
+.oc-command-palette {
+  width: min(38rem, calc(100vw - 2rem));
+  max-height: min(36rem, calc(100dvh - 2rem));
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-surface-overlay);
+  color: var(--oc-text-primary);
+  box-shadow: var(--oc-shadow-lg);
+}
+
+.oc-command-palette::backdrop {
+  background: color-mix(in srgb, var(--oc-bg-page) 72%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.oc-command-palette-search {
+  display: flex;
+  min-height: 3.25rem;
+  align-items: center;
+  gap: var(--oc-space-3);
+  padding: 0 var(--oc-space-4);
+  border-bottom: 1px solid var(--oc-border-subtle);
+}
+
+.oc-command-palette-search input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--oc-text-primary);
+  font: inherit;
+  font-size: var(--oc-font-size-base);
+}
+
+.oc-command-palette-search input::placeholder {
+  color: var(--oc-input-placeholder);
+}
+
+.oc-command-palette-list {
+  display: grid;
+  max-height: 28rem;
+  overflow: auto;
+  gap: var(--oc-space-1);
+  margin: 0;
+  padding: var(--oc-space-2);
+  list-style: none;
+}
+
+.oc-command-palette-item {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--oc-space-3);
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border: 0;
+  border-radius: var(--oc-radius-inset);
+  background: transparent;
+  color: var(--oc-text-secondary);
+  font: inherit;
+  font-size: var(--oc-font-size-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.oc-command-palette-item:hover,
+.oc-command-palette-item:focus-visible {
+  outline: 0;
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.oc-command-palette-item kbd,
+.oc-command-palette-search kbd {
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

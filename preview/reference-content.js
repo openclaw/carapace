@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">25 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">26 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -117,6 +117,7 @@ const contents = {
         <a class="reference-card" href="./code-highlighted/"><span>.oc-code-highlighted</span><strong>Code Highlighted</strong><p>Structured syntax presentation.</p></a>
         <a class="reference-card" href="./collapsible/"><span>.oc-collapsible</span><strong>Collapsible</strong><p>Native expandable disclosure.</p></a>
         <a class="reference-card" href="./combobox/"><span>.oc-combobox</span><strong>Combobox</strong><p>Searchable single selection.</p></a>
+        <a class="reference-card" href="./command-palette/"><span>.oc-command-palette</span><strong>Command Palette</strong><p>Searchable action launcher.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -215,6 +216,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="combobox-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="combobox-markup">Connect combobox and listbox</h2></div></div>${codeBlock(`<div class="oc-combobox">\n  <div class="oc-combobox-control">\n    <input role="combobox" aria-autocomplete="list" aria-controls="options" />\n  </div>\n  <ul id="options" role="listbox">\n    <li role="option">Action</li>\n  </ul>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="combobox-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="combobox-guidance">Use search only when it reduces effort</h2></div></div>${guidanceList(["Use Select for short, fixed lists.", "Keep typed text and selected value synchronized.", "Support arrow keys, Enter, Escape, and a visible active option."])}</section>`,
+
+  "primitive-command-palette": () =>
+    `${pageIntro("Component", "Command Palette", "A focused dialog for finding and invoking application actions without reproducing the full navigation.")}
+    <section data-section-kind="preview" aria-labelledby="command-palette-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="command-palette-preview">Find an action</h2></div><span class="oc-pill">.oc-command-palette</span></div>
+      <div class="specimen-frame"><div data-command-palette><button class="oc-button oc-button-secondary" type="button" data-command-palette-open>Open command palette</button><dialog class="oc-command-palette" aria-label="Commands"><div class="oc-command-palette-search"><input type="search" aria-label="Search commands" placeholder="Search commands…" data-command-palette-input /><kbd>Esc</kbd></div><ul class="oc-command-palette-list"><li><button class="oc-command-palette-item" type="button" data-command-palette-item><span>Open components</span><kbd>G C</kbd></button></li><li><button class="oc-command-palette-item" type="button" data-command-palette-item><span>Inspect design tokens</span><kbd>G T</kbd></button></li><li><button class="oc-command-palette-item" type="button" data-command-palette-item><span>Switch theme</span></button></li></ul></dialog></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="command-palette-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="command-palette-markup">Use a modal dialog</h2></div></div>${codeBlock(`<dialog class="oc-command-palette" aria-label="Commands">\n  <div class="oc-command-palette-search">\n    <input type="search" aria-label="Search commands" />\n  </div>\n  <ul class="oc-command-palette-list">\n    <li><button class="oc-command-palette-item">Open components</button></li>\n  </ul>\n</dialog>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="command-palette-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="command-palette-guidance">Expose actions, not another sitemap</h2></div></div>${guidanceList(["Prioritize frequent actions and direct destinations.", "Keep keyboard shortcuts visible when they are stable.", "Return focus to the trigger after the dialog closes."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}

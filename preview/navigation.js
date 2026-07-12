@@ -137,6 +137,12 @@ export const referenceAreas = [
         keywords: "oc-combobox searchable options listbox keyboard selection",
       },
       {
+        id: "primitive-command-palette",
+        label: "Command Palette",
+        path: "interface/primitives/command-palette/",
+        keywords: "oc-command-palette dialog actions search keyboard command",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -384,6 +390,7 @@ const adjacentReferenceSequences = [
     "primitive-code-highlighted",
     "primitive-collapsible",
     "primitive-combobox",
+    "primitive-command-palette",
     "primitive-input-area",
     "primitive-input-group",
     "primitive-input",

@@ -96,6 +96,7 @@ describe("CSS contract", () => {
       ".oc-code-highlighted",
       ".oc-collapsible",
       ".oc-combobox",
+      ".oc-command-palette",
     ]) {
       expect(components).toContain(className);
     }
