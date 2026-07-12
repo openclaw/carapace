@@ -2850,6 +2850,12 @@
   outline-offset: 2px;
 }
 @media (prefers-reduced-motion: reduce) {
+  .oc-agent-text-shimmer {
+    background: none;
+    color: var(--oc-text-secondary);
+    animation: none;
+  }
+
   .oc-resource-list-arrow {
     transition: none;
   }
@@ -3055,6 +3061,22 @@
 .oc-agent-message-meta {
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);
+}
+
+.oc-agent-text-shimmer {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--oc-text-muted), var(--oc-text-primary), var(--oc-text-muted));
+  background-size: 200% 100%;
+  color: transparent;
+  background-clip: text;
+  font-weight: 600;
+  animation: oc-agent-text-shimmer 1.6s linear infinite;
+}
+
+@keyframes oc-agent-text-shimmer {
+  to {
+    background-position: -200% 0;
+  }
 }
 
 .oc-agent-suggestion {

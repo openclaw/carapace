@@ -423,6 +423,12 @@ export const referenceAreas = [
         keywords: "oc-agent-suggestions suggested prompts actions input composer",
       },
       {
+        id: "text-shimmer",
+        label: "Text Shimmer",
+        path: "agent-components/text-shimmer/",
+        keywords: "oc-agent-text-shimmer streaming pending progress text",
+      },
+      {
         id: "user-message",
         label: "User Message",
         path: "agent-components/user-message/",
@@ -693,7 +699,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "error-message", "input-bar", "message-list", "mode-selector", "model-picker", "suggestions", "user-message"],
+  ["agent-chat", "error-message", "input-bar", "message-list", "mode-selector", "model-picker", "suggestions", "text-shimmer", "user-message"],
 ];
 
 export function getReferencePage(id) {

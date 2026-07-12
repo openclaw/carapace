@@ -129,6 +129,16 @@ const components = {
 </article>`,
     guidance: ["Keep user text selectable and in document order.", "Use alignment and surface treatment without relying on color alone.", "The consumer owns editing, retrying, timestamps, and attachment data."],
   },
+  "text-shimmer": {
+    slug: "text-shimmer",
+    title: "Text Shimmer",
+    className: "oc-agent-text-shimmer",
+    lede: "A restrained pending-state treatment for short status text while the next agent update is unavailable.",
+    previewTitle: "Pending response state",
+    preview: `<span class="oc-agent-text-shimmer" role="status">Thinking through the request</span>`,
+    markup: `<span class="oc-agent-text-shimmer" role="status">Thinking through the request</span>`,
+    guidance: ["Use shimmer only for genuinely pending content.", "Keep status text concise and meaningful without animation.", "Honor reduced-motion preferences and replace the status when work completes."],
+  },
 };
 
 export const agentReferenceContentIds = Object.keys(components);
