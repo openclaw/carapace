@@ -483,6 +483,12 @@ export const referenceAreas = [
         keywords: "oc-agent-text-shimmer streaming pending progress text",
       },
       {
+        id: "thinking-tool",
+        label: "Thinking Tool",
+        path: "agent-components/thinking-tool/",
+        keywords: "oc-agent-thinking-tool reasoning progress summary disclosure",
+      },
+      {
         id: "todo-tool",
         label: "Todo Tool",
         path: "agent-components/todo-tool/",
@@ -789,7 +795,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "attachment-button", "bash-tool", "edit-tool", "error-message", "file-attachment", "generic-tool", "input-bar", "markdown", "mcp-tool", "message-list", "mode-selector", "model-picker", "plan-tool", "question-tool", "search-tool", "send-button", "spiral-loader", "subagent-tool", "suggestions", "text-shimmer", "todo-tool", "tool-group", "user-message"],
+  ["agent-chat", "attachment-button", "bash-tool", "edit-tool", "error-message", "file-attachment", "generic-tool", "input-bar", "markdown", "mcp-tool", "message-list", "mode-selector", "model-picker", "plan-tool", "question-tool", "search-tool", "send-button", "spiral-loader", "subagent-tool", "suggestions", "text-shimmer", "thinking-tool", "todo-tool", "tool-group", "user-message"],
 ];
 
 export function getReferencePage(id) {

@@ -3286,6 +3286,18 @@
   overflow-wrap: anywhere;
 }
 
+.oc-agent-thinking-mark {
+  color: var(--oc-accent-primary);
+}
+
+.oc-agent-thinking-tool .oc-agent-tool-content {
+  font-style: italic;
+}
+
+.oc-agent-thinking-tool .oc-agent-tool-content p {
+  margin: 0;
+}
+
 .oc-agent-file-attachment {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;

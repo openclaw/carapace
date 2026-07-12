@@ -255,6 +255,19 @@ const components = {
 </details>`,
     guidance: ["Keep task labels outcome-oriented and ordered.", "Expose complete, active, and pending states in text or semantics.", "The consumer owns task mutation, persistence, and completion rules."],
   },
+  "thinking-tool": {
+    slug: "thinking-tool",
+    title: "Thinking Tool",
+    className: "oc-agent-thinking-tool",
+    lede: "A disclosure for concise reasoning summaries and active deliberation state without exposing hidden chain-of-thought.",
+    previewTitle: "Reasoning summary",
+    preview: `<details class="oc-agent-tool oc-agent-thinking-tool" open><summary class="oc-agent-tool-summary"><span class="oc-agent-thinking-mark" aria-hidden="true">✦</span><span>Reasoning</span><span class="oc-agent-tool-status">Completed</span></summary><div class="oc-agent-tool-content"><p>Compared the existing component contract, route structure, and responsive behavior before choosing the smallest compatible change.</p></div></details>`,
+    markup: `<details class="oc-agent-tool oc-agent-thinking-tool" open>
+  <summary class="oc-agent-tool-summary"><span>Reasoning</span><span class="oc-agent-tool-status">Completed</span></summary>
+  <div class="oc-agent-tool-content"><p>Concise reasoning summary.</p></div>
+</details>`,
+    guidance: ["Present only concise, user-relevant reasoning summaries.", "Distinguish active deliberation from completed reasoning.", "Do not imply access to or expose hidden chain-of-thought."],
+  },
   "tool-group": {
     slug: "tool-group",
     title: "Tool Group",
