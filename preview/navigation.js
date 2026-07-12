@@ -129,6 +129,12 @@ export const referenceAreas = [
         keywords: "oc-field oc-input label helper error disabled form",
       },
       {
+        id: "primitive-checkbox",
+        label: "Checkbox",
+        path: "interface/primitives/checkbox/",
+        keywords: "oc-check oc-checkbox checked disabled form selection",
+      },
+      {
         id: "interface-examples",
         label: "Interaction examples",
         path: "interface/interaction-examples/",
@@ -274,6 +280,7 @@ const adjacentReferenceSequences = [
     "primitive-segmented",
     "primitive-pill",
     "primitive-input",
+    "primitive-checkbox",
   ],
 ];
 

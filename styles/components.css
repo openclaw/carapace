@@ -328,6 +328,65 @@
   color: var(--oc-status-error-fg);
 }
 
+.oc-check {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--oc-space-3);
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-base);
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.oc-checkbox {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  appearance: none;
+  border: 1px solid var(--oc-input-border);
+  border-radius: var(--oc-radius-inset);
+  margin: 0.1rem 0 0;
+  background: var(--oc-input-bg);
+  cursor: inherit;
+}
+
+.oc-checkbox::before {
+  position: absolute;
+  top: 0.16rem;
+  left: 0.2rem;
+  width: 0.48rem;
+  height: 0.24rem;
+  border-bottom: 2px solid var(--oc-text-on-accent);
+  border-left: 2px solid var(--oc-text-on-accent);
+  content: "";
+  opacity: 0;
+  transform: rotate(-45deg);
+}
+
+.oc-checkbox:hover:not(:disabled) {
+  border-color: var(--oc-border-accent);
+}
+
+.oc-checkbox:checked {
+  border-color: var(--oc-accent-primary);
+  background: var(--oc-accent-primary);
+}
+
+.oc-checkbox:checked::before {
+  opacity: 1;
+}
+
+.oc-checkbox:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+
+.oc-check:has(.oc-checkbox:disabled) {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;
