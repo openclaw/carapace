@@ -632,6 +632,24 @@ function bindNavigation() {
     if (currentRect.top < navRect.top) nav.scrollTop -= navRect.top - currentRect.top;
     if (currentRect.bottom > navRect.bottom) nav.scrollTop += currentRect.bottom - navRect.bottom;
   }
+  if (nav) {
+    const syncScrollFades = () => {
+      const state = getScrollFadeState(nav.scrollTop, nav.clientHeight, nav.scrollHeight);
+      navigation.dataset.canScrollUp = String(state.up);
+      navigation.dataset.canScrollDown = String(state.down);
+    };
+    nav.addEventListener("scroll", syncScrollFades, { passive: true });
+    window.addEventListener("resize", syncScrollFades);
+    syncScrollFades();
+  }
+}
+
+export function getScrollFadeState(scrollTop, clientHeight, scrollHeight) {
+  const threshold = 1;
+  return {
+    up: scrollTop > threshold,
+    down: scrollTop + clientHeight < scrollHeight - threshold,
+  };
 }
 
 export function renderShell() {

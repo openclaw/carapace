@@ -325,6 +325,34 @@ a {
   background: var(--preview-shell-bg);
 }
 
+.sidebar::before,
+.sidebar::after {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  left: 0;
+  height: 28px;
+  pointer-events: none;
+  content: "";
+  opacity: 0;
+  transition: opacity var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.sidebar::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--preview-shell-bg), transparent);
+}
+
+.sidebar::after {
+  bottom: 54px;
+  background: linear-gradient(to top, var(--preview-shell-bg), transparent);
+}
+
+.sidebar[data-can-scroll-up="true"]::before,
+.sidebar[data-can-scroll-down="true"]::after {
+  opacity: 1;
+}
+
 .sidebar-heading {
   display: none;
 }
@@ -2341,6 +2369,10 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   border-bottom: 1px solid var(--oc-border-subtle);
   color: var(--oc-text-secondary);
   line-height: 1.55;
+}
+
+.guidance-list li:last-child {
+  border-bottom: 0;
 }
 
 .guidance-list li::before {

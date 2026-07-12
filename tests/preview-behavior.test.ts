@@ -11,8 +11,16 @@ import {
 } from "../preview/reference-content.js";
 import { resolveTokenHash, syncTokenHash } from "../preview/token-catalog.js";
 import { bindTabs } from "../preview/tabs.js";
+import { getScrollFadeState } from "../preview/shell.js";
 
 describe("preview behavior", () => {
+  test("shows sidebar fades only toward hidden navigation content", () => {
+    expect(getScrollFadeState(0, 600, 900)).toEqual({ up: false, down: true });
+    expect(getScrollFadeState(150, 600, 900)).toEqual({ up: true, down: true });
+    expect(getScrollFadeState(300, 600, 900)).toEqual({ up: true, down: false });
+    expect(getScrollFadeState(0, 600, 600)).toEqual({ up: false, down: false });
+  });
+
   test("switches tab panels and wraps arrow-key navigation", () => {
     class Tab extends EventTarget {
       attributes = new Map();
