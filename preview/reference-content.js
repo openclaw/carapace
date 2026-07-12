@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">27 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">28 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -119,6 +119,7 @@ const contents = {
         <a class="reference-card" href="./combobox/"><span>.oc-combobox</span><strong>Combobox</strong><p>Searchable single selection.</p></a>
         <a class="reference-card" href="./command-palette/"><span>.oc-command-palette</span><strong>Command Palette</strong><p>Searchable action launcher.</p></a>
         <a class="reference-card" href="./date-picker/"><span>.oc-date-picker</span><strong>Date Picker</strong><p>Native calendar date selection.</p></a>
+        <a class="reference-card" href="./dialog/"><span>.oc-dialog</span><strong>Dialog</strong><p>Focused modal decisions.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -233,6 +234,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="date-picker-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="date-picker-markup">Use the native date input</h2></div></div>${codeBlock(`<label class="oc-date-picker">\n  <span class="oc-field-label">Review date</span>\n  <input class="oc-date-input" type="date" />\n</label>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="date-picker-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="date-picker-guidance">Ask only for precision you need</h2></div></div>${guidanceList(["Use a plain text field when the value is not a calendar date.", "Expose minimum and maximum dates through native attributes.", "Show validation next to the field without replacing the browser picker."])}</section>`,
+
+  "primitive-dialog": () =>
+    `${pageIntro("Component", "Dialog", "A native modal surface for a focused decision or short workflow that temporarily blocks the underlying page.")}
+    <section data-section-kind="preview" aria-labelledby="dialog-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="dialog-preview">Focused decision</h2></div><span class="oc-pill">.oc-dialog</span></div>
+      <div class="specimen-frame"><div data-dialog><button class="oc-button oc-button-secondary" type="button" data-dialog-open>Open dialog</button><dialog class="oc-dialog" aria-labelledby="component-dialog-title"><header class="oc-dialog-header"><h3 class="oc-dialog-title" id="component-dialog-title">Apply changes?</h3><button class="oc-dialog-close" type="button" aria-label="Close dialog" data-dialog-close>×</button></header><div class="oc-dialog-body"><p>The updated settings will be applied to this workspace.</p></div><footer class="oc-dialog-footer"><button class="oc-button oc-button-ghost" type="button" data-dialog-close>Cancel</button><button class="oc-button oc-button-primary" type="button" data-dialog-close>Apply</button></footer></dialog></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="dialog-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="dialog-markup">Label the native dialog</h2></div></div>${codeBlock(`<dialog class="oc-dialog" aria-labelledby="dialog-title">\n  <header class="oc-dialog-header">\n    <h2 class="oc-dialog-title" id="dialog-title">Apply changes?</h2>\n  </header>\n  <div class="oc-dialog-body">Dialog content</div>\n</dialog>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="dialog-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="dialog-guidance">Interrupt only for a focused task</h2></div></div>${guidanceList(["Use a page or inline disclosure for long workflows.", "Give the dialog an accessible title.", "Return focus to the trigger after closing."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
