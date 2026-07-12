@@ -2791,6 +2791,64 @@
   color: var(--oc-text-primary);
   transform: translateX(var(--oc-space-1));
 }
+
+.oc-delete-resource {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--oc-space-5);
+  width: 100%;
+  padding: var(--oc-space-5);
+  border: 1px solid var(--oc-status-error-fg);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-status-error-bg);
+}
+
+.oc-delete-resource-content {
+  display: grid;
+  gap: var(--oc-space-2);
+}
+
+.oc-delete-resource-title,
+.oc-delete-resource-description {
+  margin: 0;
+}
+
+.oc-delete-resource-title {
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-base);
+  font-weight: 700;
+}
+
+.oc-delete-resource-description {
+  max-width: var(--oc-content-narrow);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-sm);
+  line-height: 1.55;
+}
+
+.oc-delete-resource-action {
+  min-height: 2.5rem;
+  padding: 0 var(--oc-space-4);
+  border: 1px solid var(--oc-status-error-fg);
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-status-error-fg);
+  font: inherit;
+  font-size: var(--oc-font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.oc-delete-resource-action:hover {
+  background: var(--oc-status-error-fg);
+  color: var(--oc-bg-page);
+}
+
+.oc-delete-resource-action:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
 @media (prefers-reduced-motion: reduce) {
   .oc-resource-list-arrow {
     transition: none;
@@ -2826,6 +2884,15 @@
 }
 
 @media (max-width: 42rem) {
+  .oc-delete-resource {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .oc-delete-resource-action {
+    width: 100%;
+  }
+
   .oc-resource-list-link {
     grid-template-columns: minmax(0, 1fr) auto;
   }

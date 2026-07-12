@@ -750,6 +750,18 @@ const contents = {
 </ul>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="resource-list-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="resource-list-guidance">Make the destination clear</h2></div></div>${guidanceList(["Use a list when the resources form one comparable set.", "Make the complete row one link instead of nesting controls.", "Keep descriptions short enough to scan without opening the destination.", "Use metadata only when it helps users distinguish peers."])}</section>`,
 
+  "block-delete-resource": () =>
+    `${pageIntro("Block", "Delete Resource", "A bounded destructive action that names the resource, consequence, and explicit next step.")}
+    <section data-section-kind="preview" aria-labelledby="delete-resource-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="delete-resource-preview">Destruction stays isolated</h2></div><span class="oc-pill">.oc-delete-resource</span></div><div class="specimen-frame oc-app-surface"><section class="oc-delete-resource" aria-labelledby="delete-agent-title"><div class="oc-delete-resource-content"><h3 class="oc-delete-resource-title" id="delete-agent-title">Delete research agent</h3><p class="oc-delete-resource-description">This removes the agent and its workspace configuration. Conversation history remains available.</p></div><button class="oc-delete-resource-action" type="button">Delete agent</button></section></div></section>
+    <section data-section-kind="markup" aria-labelledby="delete-resource-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="delete-resource-markup">Name the target and consequence</h2></div></div>${codeBlock(`<section class="oc-delete-resource" aria-labelledby="delete-agent-title">
+  <div class="oc-delete-resource-content">
+    <h2 class="oc-delete-resource-title" id="delete-agent-title">Delete research agent</h2>
+    <p class="oc-delete-resource-description">This removes the agent and its workspace configuration.</p>
+  </div>
+  <button class="oc-delete-resource-action" type="button">Delete agent</button>
+</section>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="delete-resource-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="delete-resource-guidance">Confirmation matches the risk</h2></div></div>${guidanceList(["Name the exact resource in both the block and confirmation step.", "State what is deleted, retained, and reversible before the action.", "Use a confirmation dialog when the action is irreversible or has broad impact.", "Keep permission checks, confirmation, progress, and recovery in the consumer."])}</section>`,
+
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
     <div class="scope-note"><strong>Ownership boundary</strong><p>These controls demonstrate states and density. Their behavior and markup remain consumer-owned.</p></div>

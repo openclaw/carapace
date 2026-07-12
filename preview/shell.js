@@ -71,6 +71,7 @@ const pageKinds = {
   "chart-custom": "reference",
   "block-page-header": "reference",
   "block-resource-list": "reference",
+  "block-delete-resource": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

@@ -448,6 +448,12 @@ export const referenceAreas = [
         path: "interface/blocks/resource-list/",
         keywords: "oc-resource-list linked rows title description metadata",
       },
+      {
+        id: "block-delete-resource",
+        label: "Delete Resource",
+        path: "interface/blocks/delete-resource/",
+        keywords: "oc-delete-resource destructive confirmation danger irreversible",
+      },
     ],
   },
   {
@@ -630,7 +636,7 @@ const adjacentReferenceSequences = [
     "primitive-tooltip",
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
-  ["block-page-header", "block-resource-list"],
+  ["block-page-header", "block-resource-list", "block-delete-resource"],
 ];
 
 export function getReferencePage(id) {

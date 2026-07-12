@@ -128,6 +128,7 @@ describe("CSS contract", () => {
       ".oc-custom-chart",
       ".oc-page-header",
       ".oc-resource-list",
+      ".oc-delete-resource",
     ]) {
       expect(components).toContain(className);
     }
