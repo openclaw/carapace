@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">22 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">23 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -114,6 +114,7 @@ const contents = {
         <a class="reference-card" href="./breadcrumbs/"><span>.oc-breadcrumbs</span><strong>Breadcrumbs</strong><p>Current location within a hierarchy.</p></a>
         <a class="reference-card" href="./button/"><span>.oc-button</span><strong>Button</strong><p>Explicit button variants and sizes.</p></a>
         <a class="reference-card" href="./clipboard-text/"><span>.oc-clipboard-text</span><strong>Clipboard Text</strong><p>Copyable literal values.</p></a>
+        <a class="reference-card" href="./code-highlighted/"><span>.oc-code-highlighted</span><strong>Code Highlighted</strong><p>Structured syntax presentation.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -188,6 +189,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="clipboard-text-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="clipboard-text-markup">Keep value and action adjacent</h2></div></div>${codeBlock(`<div class="oc-clipboard-text">\n  <code class="oc-clipboard-value">@openclaw/design-system</code>\n  <button class="oc-clipboard-action" type="button">Copy</button>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="clipboard-text-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="clipboard-text-guidance">Copy exactly what is shown</h2></div></div>${guidanceList(["Do not silently normalize or transform the copied value.", "Announce success without moving focus.", "Use a code block when the content is multiline."])}</section>`,
+
+  "primitive-code-highlighted": () =>
+    `${pageIntro("Component", "Code Highlighted", "A structured code surface for already-tokenized syntax, with language context and horizontal overflow.")}
+    <section data-section-kind="preview" aria-labelledby="code-highlighted-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="code-highlighted-preview">Tokenized source</h2></div><span class="oc-pill">.oc-code-highlighted</span></div>
+      <div class="specimen-frame"><div class="oc-code-highlighted"><div class="oc-code-highlighted-header"><span>css</span><span>components.css</span></div><pre><code><span class="oc-code-token-comment">/* Shared action */</span>\n<span class="oc-code-token-keyword">.oc-button</span> {\n  color: <span class="oc-code-token-string">var(--oc-text-primary)</span>;\n}</code></pre></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="code-highlighted-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="code-highlighted-markup">Supply semantic token spans</h2></div></div>${codeBlock(`<div class="oc-code-highlighted">\n  <div class="oc-code-highlighted-header">css</div>\n  <pre><code>Tokenized source</code></pre>\n</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="code-highlighted-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="code-highlighted-guidance">Presentation is separate from parsing</h2></div></div>${guidanceList(["Tokenize and escape source before rendering it.", "Preserve horizontal scrolling instead of wrapping long source lines by default.", "Expose the language when it helps readers interpret the sample."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}

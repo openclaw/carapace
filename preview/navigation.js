@@ -119,6 +119,12 @@ export const referenceAreas = [
         keywords: "oc-clipboard-text copy code value clipboard",
       },
       {
+        id: "primitive-code-highlighted",
+        label: "Code Highlighted",
+        path: "interface/primitives/code-highlighted/",
+        keywords: "oc-code-highlighted syntax code language tokens",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -363,6 +369,7 @@ const adjacentReferenceSequences = [
     "primitive-card",
     "primitive-checkbox",
     "primitive-clipboard-text",
+    "primitive-code-highlighted",
     "primitive-input-area",
     "primitive-input-group",
     "primitive-input",

@@ -93,6 +93,7 @@ describe("CSS contract", () => {
       ".oc-breadcrumbs",
       ".oc-button",
       ".oc-clipboard-text",
+      ".oc-code-highlighted",
     ]) {
       expect(components).toContain(className);
     }
