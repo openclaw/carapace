@@ -377,6 +377,12 @@ a {
   gap: 0;
 }
 
+.sidebar-root-link + .sidebar-area {
+  padding-top: 12px;
+  border-top: 1px solid var(--oc-border-subtle);
+  margin-top: 12px;
+}
+
 .sidebar-area + .sidebar-area {
   margin-top: 2px;
 }
