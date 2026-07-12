@@ -121,6 +121,14 @@ describe("preview contracts", () => {
     }
   });
 
+  test("renders the header search as a complete command field", async () => {
+    const shell = await readFile("preview/shell.js", "utf8");
+
+    expect(shell).toContain("shell-command-field");
+    expect(shell).toContain("Search routes, tokens, and primitives…");
+    expect(shell).toContain("<kbd>⌘ K</kbd>");
+  });
+
   test("lists every canonical token exactly once", async () => {
     const sources = await Promise.all(
       [
