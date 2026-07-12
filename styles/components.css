@@ -2885,6 +2885,29 @@
   overflow-y: auto;
 }
 
+.oc-agent-message-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--oc-space-4);
+  width: min(100%, 38rem);
+  max-height: 28rem;
+  margin: 0;
+  padding: var(--oc-space-4);
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-surface);
+}
+
+.oc-agent-message-list > li {
+  flex: none;
+}
+
+.oc-agent-message[data-status="streaming"] {
+  border-color: var(--oc-accent-secondary);
+}
+
 .oc-agent-message,
 .oc-user-message {
   max-width: 82%;

@@ -32,6 +32,19 @@ const components = {
 </section>`,
     guidance: ["Keep the message list as the primary flexible region.", "Expose streamed updates through a polite live region without repeatedly announcing the entire transcript.", "The consumer owns message data, submission, stopping, attachments, and tool execution."],
   },
+  "message-list": {
+    slug: "message-list",
+    title: "Message List",
+    className: "oc-agent-message-list",
+    lede: "A readable transcript that preserves message order, role, streaming state, and tool output within one scrollable history.",
+    previewTitle: "Ordered conversation history",
+    preview: `<ol class="oc-agent-message-list" aria-label="Conversation history"><li class="oc-user-message"><p>Which files changed?</p></li><li class="oc-agent-message"><span class="oc-agent-message-role">Assistant</span><p>Three component files and one reference route changed.</p></li><li class="oc-agent-message" data-status="streaming"><span class="oc-agent-message-role">Assistant · responding</span><p>Checking the validation output…</p></li></ol>`,
+    markup: `<ol class="oc-agent-message-list" aria-label="Conversation history">
+  <li class="oc-user-message">…</li>
+  <li class="oc-agent-message" data-status="streaming">…</li>
+</ol>`,
+    guidance: ["Render messages in chronological document order.", "Use role text and semantics instead of color alone.", "Preserve the user's reading position when older messages are prepended."],
+  },
 };
 
 export const agentReferenceContentIds = Object.keys(components);

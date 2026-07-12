@@ -398,6 +398,12 @@ export const referenceAreas = [
         path: "agent-components/agent-chat/",
         keywords: "oc-agent-chat conversation messages suggestions input",
       },
+      {
+        id: "message-list",
+        label: "Message List",
+        path: "agent-components/message-list/",
+        keywords: "oc-agent-message-list transcript messages streaming history",
+      },
     ],
   },
   {

@@ -130,6 +130,7 @@ describe("CSS contract", () => {
       ".oc-resource-list",
       ".oc-delete-resource",
       ".oc-agent-chat",
+      ".oc-agent-message-list",
     ]) {
       expect(components).toContain(className);
     }
