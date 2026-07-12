@@ -2973,6 +2973,34 @@
   border-top: 1px solid var(--oc-border-subtle);
 }
 
+.oc-agent-input-bar-standalone {
+  width: min(100%, 42rem);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-surface);
+}
+
+.oc-agent-input-action {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.oc-agent-input-action:is(:hover, :focus-visible) {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.oc-agent-input-action:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+
 .oc-agent-input {
   flex: 1;
   min-height: 2.5rem;

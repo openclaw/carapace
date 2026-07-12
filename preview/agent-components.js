@@ -45,6 +45,21 @@ const components = {
 </ol>`,
     guidance: ["Render messages in chronological document order.", "Use role text and semantics instead of color alone.", "Preserve the user's reading position when older messages are prepended."],
   },
+  "input-bar": {
+    slug: "input-bar",
+    title: "Input Bar",
+    className: "oc-agent-input-bar",
+    lede: "A message composer that keeps text entry, attachments, and the current send or stop action in one bounded control.",
+    previewTitle: "Compose and submit",
+    preview: `<form class="oc-agent-input-bar oc-agent-input-bar-standalone"><button class="oc-agent-input-action" type="button" aria-label="Attach file">+</button><label class="sr-only" for="input-bar-message">Message</label><textarea id="input-bar-message" class="oc-agent-input" rows="2" placeholder="Send a message…"></textarea><button class="oc-agent-send-button" type="submit" aria-label="Send message">↑</button></form>`,
+    markup: `<form class="oc-agent-input-bar">
+  <button class="oc-agent-input-action" type="button" aria-label="Attach file">+</button>
+  <label class="sr-only" for="message">Message</label>
+  <textarea id="message" class="oc-agent-input" placeholder="Send a message…"></textarea>
+  <button class="oc-agent-send-button" type="submit" aria-label="Send message">↑</button>
+</form>`,
+    guidance: ["Keep one visible message field and one current primary action.", "Change the send action to stop while a response is streaming.", "The consumer owns submission, draft persistence, attachment processing, and keyboard shortcuts."],
+  },
 };
 
 export const agentReferenceContentIds = Object.keys(components);

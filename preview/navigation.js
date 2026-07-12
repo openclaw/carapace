@@ -404,6 +404,12 @@ export const referenceAreas = [
         path: "agent-components/message-list/",
         keywords: "oc-agent-message-list transcript messages streaming history",
       },
+      {
+        id: "input-bar",
+        label: "Input Bar",
+        path: "agent-components/input-bar/",
+        keywords: "oc-agent-input-bar composer textarea send stop attachments",
+      },
     ],
   },
   {
@@ -657,6 +663,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
+  ["agent-chat", "message-list", "input-bar"],
 ];
 
 export function getReferencePage(id) {
