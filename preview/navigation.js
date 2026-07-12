@@ -387,6 +387,20 @@ export const referenceAreas = [
     ],
   },
   {
+    id: "charts",
+    label: "Charts",
+    description: "Data visualization components",
+    path: "interface/charts/",
+    pages: [
+      {
+        id: "chart-base",
+        label: "Charts",
+        path: "interface/charts/",
+        keywords: "oc-chart visualization plot axes series data",
+      },
+    ],
+  },
+  {
     id: "compositions",
     label: "Compositions",
     description: "Product, content, and public surfaces",
@@ -565,6 +579,7 @@ const adjacentReferenceSequences = [
     "primitive-toast",
     "primitive-tooltip",
   ],
+  ["chart-base"],
 ];
 
 export function getReferencePage(id) {

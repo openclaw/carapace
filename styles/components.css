@@ -2404,6 +2404,61 @@
   transform: translate(-50%, 0);
 }
 
+.oc-chart {
+  display: grid;
+  width: 100%;
+  gap: var(--oc-space-4);
+  margin: 0;
+  padding: var(--oc-space-5);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-surface-card);
+}
+
+.oc-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--oc-space-4);
+}
+
+.oc-chart-title,
+.oc-chart-caption {
+  margin: 0;
+}
+
+.oc-chart-title {
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-base);
+  font-weight: 700;
+}
+
+.oc-chart-caption {
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-chart-plot {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 12rem;
+  color: var(--oc-accent-primary);
+}
+
+.oc-chart-grid-line {
+  stroke: var(--oc-border-subtle);
+  stroke-width: 1;
+}
+
+.oc-chart-series {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-tooltip-content {
     transition: none;

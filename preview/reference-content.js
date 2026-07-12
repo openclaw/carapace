@@ -629,6 +629,20 @@ const contents = {
 </span>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="tooltip-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="tooltip-guidance">Keep essential meaning visible</h2></div></div>${guidanceList(["Use tooltips for brief supporting labels, never required instructions.", "Reveal the same content on hover and keyboard focus.", "Connect the trigger with aria-describedby.", "Avoid interactive controls inside the tooltip."])}</section>`,
 
+  "chart-base": () =>
+    `${pageIntro("Charts", "Charts", "A semantic figure, title, caption, and responsive plot foundation for data visualization.")}
+    <section data-section-kind="preview" aria-labelledby="chart-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="chart-preview">A readable plot foundation</h2></div><span class="oc-pill">.oc-chart</span></div><div class="specimen-frame"><figure class="oc-chart"><figcaption class="oc-chart-header"><p class="oc-chart-title">Component adoption</p><p class="oc-chart-caption">Last 6 weeks</p></figcaption><svg class="oc-chart-plot" viewBox="0 0 600 220" role="img" aria-label="Component adoption increased from 12 to 41 consumers over six weeks"><path class="oc-chart-grid-line" d="M0 55H600M0 110H600M0 165H600"/><path class="oc-chart-series" d="M20 180L130 154L240 142L350 105L460 88L580 35"/></svg></figure></div></section>
+    <section data-section-kind="markup" aria-labelledby="chart-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="chart-markup">Start with a semantic figure</h2></div></div>${codeBlock(`<figure class="oc-chart">
+  <figcaption class="oc-chart-header">
+    <p class="oc-chart-title">Component adoption</p>
+    <p class="oc-chart-caption">Last 6 weeks</p>
+  </figcaption>
+  <svg class="oc-chart-plot" viewBox="0 0 600 220" role="img" aria-label="Adoption increased over six weeks">
+    <path class="oc-chart-series" d="M20 180L130 154L240 142L350 105L460 88L580 35" />
+  </svg>
+</figure>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="chart-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="chart-guidance">Data remains understandable</h2></div></div>${guidanceList(["Give every chart a visible title and concise time or scope caption.", "Provide an accessible text alternative that communicates the trend or comparison.", "Do not rely on color alone to distinguish series.", "Keep scales, data transformation, and interaction in the consumer."])}</section>`,
+
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
     <div class="scope-note"><strong>Ownership boundary</strong><p>These controls demonstrate states and density. Their behavior and markup remain consumer-owned.</p></div>
