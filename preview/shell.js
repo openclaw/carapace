@@ -54,6 +54,7 @@ const pageKinds = {
   "primitive-provider-logo": "reference",
   "primitive-sidebar": "reference",
   "primitive-skeleton-line": "reference",
+  "primitive-table": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

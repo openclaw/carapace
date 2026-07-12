@@ -2110,6 +2110,50 @@
   to { transform: translateX(225%); }
 }
 
+.oc-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+}
+
+.oc-table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  background: var(--oc-surface-card);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-table :is(th, td) {
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border-bottom: 1px solid var(--oc-border-subtle);
+  text-align: left;
+}
+
+.oc-table th {
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.oc-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.oc-table tbody tr:hover {
+  background: var(--oc-surface-interactive);
+}
+
+.oc-table td:first-child {
+  color: var(--oc-text-primary);
+  font-weight: 650;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-skeleton-line::after {
     animation: none;

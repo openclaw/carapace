@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">42 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">43 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -150,6 +150,7 @@ const contents = {
         <a class="reference-card" href="./sensitive-input/"><span>.oc-sensitive-input</span><strong>Sensitive Input</strong><p>Secret entry with an explicit visibility control.</p></a>
         <a class="reference-card" href="./sidebar/"><span>.oc-sidebar</span><strong>Sidebar</strong><p>Persistent navigation with clear current-page state.</p></a>
         <a class="reference-card" href="./skeleton-line/"><span>.oc-skeleton-line</span><strong>Skeleton Line</strong><p>Reserved text space during loading.</p></a>
+        <a class="reference-card" href="./table/"><span>.oc-table</span><strong>Table</strong><p>Structured comparison across rows and columns.</p></a>
       </div>
     </section>`,
 
@@ -542,6 +543,17 @@ const contents = {
 </div>
 <span class="sr-only">Content is loading</span>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="skeleton-line-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="skeleton-line-guidance">Approximate content, not decoration</h2></div></div>${guidanceList(["Match the number and width of lines to the expected content.", "Hide decorative placeholders from assistive technology.", "Expose loading state through adjacent status text or the owning region.", "Reduced-motion preferences remove the sweep animation."])}</section>`,
+
+  "primitive-table": () =>
+    `${pageIntro("Component", "Table", "Structured data for scanning and comparing consistent attributes across a set of records.")}
+    <section data-section-kind="preview" aria-labelledby="table-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="table-preview">Comparable records</h2></div><span class="oc-pill">.oc-table</span></div><div class="specimen-frame"><div class="oc-table-wrap"><table class="oc-table"><thead><tr><th scope="col">Component</th><th scope="col">Status</th><th scope="col">Updated</th></tr></thead><tbody><tr><td>Button</td><td>Stable</td><td>Today</td></tr><tr><td>Dialog</td><td>Stable</td><td>Yesterday</td></tr><tr><td>Table</td><td>Draft</td><td>Now</td></tr></tbody></table></div></div></section>
+    <section data-section-kind="markup" aria-labelledby="table-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="table-markup">Preserve native table semantics</h2></div></div>${codeBlock(`<div class="oc-table-wrap">
+  <table class="oc-table">
+    <thead><tr><th scope="col">Component</th><th scope="col">Status</th></tr></thead>
+    <tbody><tr><td>Button</td><td>Stable</td></tr></tbody>
+  </table>
+</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="table-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="table-guidance">Use tables for comparison</h2></div></div>${guidanceList(["Use a table only when rows share comparable columns.", "Keep native table, header, and scope semantics.", "Wrap wide tables so narrow viewports scroll without clipping the page.", "Move row actions into a clearly labeled final column."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

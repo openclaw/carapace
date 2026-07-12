@@ -239,6 +239,12 @@ export const referenceAreas = [
         keywords: "oc-skeleton-line loading placeholder progress content",
       },
       {
+        id: "primitive-table",
+        label: "Table",
+        path: "interface/primitives/table/",
+        keywords: "oc-table data rows columns responsive overflow",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -515,6 +521,7 @@ const adjacentReferenceSequences = [
     "primitive-sidebar",
     "primitive-skeleton-line",
     "primitive-switch",
+    "primitive-table",
   ],
 ];
 
