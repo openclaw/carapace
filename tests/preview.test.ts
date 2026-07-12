@@ -146,6 +146,9 @@ describe("preview contracts", () => {
 
     expect(shell).toContain('.filter((area) => area.id !== "foundations")');
     expect(shell.match(/class="sidebar-root-link"/g)).toHaveLength(2);
+    expect(await readFile("preview/preview.css", "utf8")).toContain(
+      ".sidebar-root-link + .sidebar-area",
+    );
   });
 
   test("lists every canonical token exactly once", async () => {
