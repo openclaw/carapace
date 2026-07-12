@@ -32,6 +32,7 @@ const pageKinds = {
   "primitive-badge": "reference",
   "primitive-banner": "reference",
   "primitive-breadcrumbs": "reference",
+  "primitive-button": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

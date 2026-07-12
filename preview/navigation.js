@@ -107,6 +107,12 @@ export const referenceAreas = [
         keywords: "oc-breadcrumbs hierarchy navigation current page",
       },
       {
+        id: "primitive-button",
+        label: "Button",
+        path: "interface/primitives/button/",
+        keywords: "oc-button primary secondary ghost sizes disabled action",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -347,6 +353,7 @@ const adjacentReferenceSequences = [
     "primitive-badge",
     "primitive-banner",
     "primitive-breadcrumbs",
+    "primitive-button",
     "primitive-card",
     "primitive-checkbox",
     "primitive-input-area",

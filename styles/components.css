@@ -942,6 +942,78 @@
   white-space: nowrap;
 }
 
+.oc-button {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: var(--oc-space-2);
+  padding: 0 var(--oc-space-4);
+  border: 1px solid transparent;
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-text-primary);
+  font: inherit;
+  font-size: var(--oc-font-size-sm);
+  font-weight: 650;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--oc-duration-fast) var(--oc-ease-out),
+    border-color var(--oc-duration-fast) var(--oc-ease-out),
+    color var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-button-primary {
+  border-color: var(--oc-accent-primary);
+  background: var(--oc-accent-primary);
+  color: var(--oc-text-on-accent);
+}
+
+.oc-button-primary:hover:not(:disabled) {
+  border-color: var(--oc-accent-primary-hover);
+  background: var(--oc-accent-primary-hover);
+}
+
+.oc-button-secondary {
+  border-color: var(--oc-border-subtle);
+  background: var(--oc-surface-interactive);
+}
+
+.oc-button-secondary:hover:not(:disabled) {
+  border-color: var(--oc-border-accent);
+  background: var(--oc-surface-interactive-hover);
+}
+
+.oc-button-ghost:hover:not(:disabled) {
+  background: var(--oc-surface-interactive);
+}
+
+.oc-button-sm {
+  min-height: 2rem;
+  padding-inline: var(--oc-space-3);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-button-lg {
+  min-height: 3rem;
+  padding-inline: var(--oc-space-5);
+  font-size: var(--oc-font-size-base);
+}
+
+.oc-button:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+
+.oc-button:disabled,
+.oc-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

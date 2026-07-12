@@ -91,6 +91,7 @@ describe("CSS contract", () => {
       ".oc-badge",
       ".oc-banner",
       ".oc-breadcrumbs",
+      ".oc-button",
     ]) {
       expect(components).toContain(className);
     }
