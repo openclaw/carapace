@@ -3089,6 +3089,18 @@
   color: var(--oc-text-secondary);
 }
 
+.oc-agent-bash-tool .oc-agent-tool-content {
+  background: var(--oc-bg-page);
+}
+
+.oc-agent-bash-tool pre {
+  margin: 0;
+  overflow-x: auto;
+  color: var(--oc-text-primary);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-sm);
+}
+
 .oc-agent-message-meta {
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);

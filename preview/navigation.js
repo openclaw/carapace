@@ -399,6 +399,12 @@ export const referenceAreas = [
         keywords: "oc-agent-chat conversation messages suggestions input",
       },
       {
+        id: "bash-tool",
+        label: "Bash Tool",
+        path: "agent-components/bash-tool/",
+        keywords: "oc-agent-bash-tool terminal command output status",
+      },
+      {
         id: "error-message",
         label: "Error Message",
         path: "agent-components/error-message/",
@@ -711,7 +717,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "error-message", "generic-tool", "input-bar", "message-list", "mode-selector", "model-picker", "spiral-loader", "suggestions", "text-shimmer", "user-message"],
+  ["agent-chat", "bash-tool", "error-message", "generic-tool", "input-bar", "message-list", "mode-selector", "model-picker", "spiral-loader", "suggestions", "text-shimmer", "user-message"],
 ];
 
 export function getReferencePage(id) {

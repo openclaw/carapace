@@ -18,6 +18,19 @@ function renderAgentComponent(component) {
 }
 
 const components = {
+  "bash-tool": {
+    slug: "bash-tool",
+    title: "Bash Tool",
+    className: "oc-agent-bash-tool",
+    lede: "A terminal-specific tool surface that separates the executed command from its output and status.",
+    previewTitle: "Command execution",
+    preview: `<details class="oc-agent-tool oc-agent-bash-tool" open><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">›_</span><span>Run validation</span><span class="oc-agent-tool-status">Exit 0</span></summary><div class="oc-agent-tool-content"><pre><code>$ bun run check\n23 pass · 0 fail</code></pre></div></details>`,
+    markup: `<details class="oc-agent-tool oc-agent-bash-tool" open>
+  <summary class="oc-agent-tool-summary"><span>Run validation</span><span class="oc-agent-tool-status">Exit 0</span></summary>
+  <div class="oc-agent-tool-content"><pre><code>$ bun run check</code></pre></div>
+</details>`,
+    guidance: ["Display the exact command separately from its output.", "Expose exit state in text and preserve output whitespace.", "Require consumer-controlled approval for commands with meaningful side effects."],
+  },
   "generic-tool": {
     slug: "generic-tool",
     title: "Generic Tool",

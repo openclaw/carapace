@@ -132,6 +132,7 @@ describe("CSS contract", () => {
       ".oc-agent-chat",
       ".oc-agent-error-message",
       ".oc-agent-tool",
+      ".oc-agent-bash-tool",
       ".oc-agent-input-bar",
       ".oc-agent-suggestions",
       ".oc-agent-model-picker",
