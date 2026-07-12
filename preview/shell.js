@@ -33,6 +33,7 @@ const pageKinds = {
   "primitive-banner": "reference",
   "primitive-breadcrumbs": "reference",
   "primitive-button": "reference",
+  "primitive-clipboard-text": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",
@@ -508,6 +509,22 @@ function bindCopyActions() {
       const code = codeButton.closest(".code-block")?.querySelector("code")?.textContent || "";
       if (await copyText(code)) showShellFeedback("Code copied.");
       else showShellFeedback("Clipboard access unavailable.");
+      return;
+    }
+
+    const textButton = event.target.closest("[data-copy-text]");
+    if (textButton) {
+      const value = textButton.dataset.copyText || "";
+      if (await copyText(value)) {
+        showShellFeedback("Text copied.");
+        const label = textButton.textContent;
+        textButton.textContent = "Copied";
+        window.setTimeout(() => {
+          textButton.textContent = label;
+        }, 800);
+      } else {
+        showShellFeedback("Clipboard access unavailable.");
+      }
     }
   });
 }

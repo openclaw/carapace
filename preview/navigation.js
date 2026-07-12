@@ -113,6 +113,12 @@ export const referenceAreas = [
         keywords: "oc-button primary secondary ghost sizes disabled action",
       },
       {
+        id: "primitive-clipboard-text",
+        label: "Clipboard Text",
+        path: "interface/primitives/clipboard-text/",
+        keywords: "oc-clipboard-text copy code value clipboard",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -356,6 +362,7 @@ const adjacentReferenceSequences = [
     "primitive-button",
     "primitive-card",
     "primitive-checkbox",
+    "primitive-clipboard-text",
     "primitive-input-area",
     "primitive-input-group",
     "primitive-input",
