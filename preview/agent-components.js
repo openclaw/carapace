@@ -18,6 +18,19 @@ function renderAgentComponent(component) {
 }
 
 const components = {
+  "generic-tool": {
+    slug: "generic-tool",
+    title: "Generic Tool",
+    className: "oc-agent-tool",
+    lede: "A shared disclosure surface for tool identity, execution state, input, and result content.",
+    previewTitle: "Tool invocation and result",
+    preview: `<details class="oc-agent-tool" open><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">◇</span><span>Inspect workspace</span><span class="oc-agent-tool-status">Completed</span></summary><div class="oc-agent-tool-content"><code>3 files changed</code></div></details>`,
+    markup: `<details class="oc-agent-tool" open>
+  <summary class="oc-agent-tool-summary"><span>Inspect workspace</span><span class="oc-agent-tool-status">Completed</span></summary>
+  <div class="oc-agent-tool-content">…</div>
+</details>`,
+    guidance: ["Keep tool name and execution state visible while collapsed.", "Render input and output as selectable content.", "The consumer owns approval, cancellation, execution, streaming, and error handling."],
+  },
   "error-message": {
     slug: "error-message",
     title: "Error Message",
