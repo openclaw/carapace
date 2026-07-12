@@ -153,6 +153,12 @@ export const referenceAreas = [
         keywords: "oc-select-wrap oc-select native options form",
       },
       {
+        id: "primitive-input-area",
+        label: "Input Area",
+        path: "interface/primitives/input-area/",
+        keywords: "oc-textarea multiline resize form message",
+      },
+      {
         id: "interface-examples",
         label: "Interaction examples",
         path: "interface/interaction-examples/",
@@ -302,6 +308,7 @@ const adjacentReferenceSequences = [
     "primitive-radio",
     "primitive-switch",
     "primitive-select",
+    "primitive-input-area",
   ],
 ];
 
