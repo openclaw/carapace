@@ -128,11 +128,12 @@ describe("preview contracts", () => {
     }
   });
 
-  test("keeps search out of the shell", async () => {
+  test("renders the header search as a complete command field", async () => {
     const shell = await readFile("preview/shell.js", "utf8");
 
-    expect(shell).not.toContain("data-open-search");
-    expect(shell).not.toContain("data-search-dialog");
+    expect(shell).toContain("shell-command-field");
+    expect(shell).toContain("Search routes, tokens, and primitives…");
+    expect(shell).toContain("<kbd>⌘ K</kbd>");
   });
 
   test("renders foundation pages at the sidebar root", async () => {

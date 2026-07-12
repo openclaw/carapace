@@ -6,6 +6,8 @@ import {
   referenceAreas,
 } from "./navigation.js";
 import { icon } from "./icons.js";
+import { groupSearchResults, rankSearchEntries } from "./search.js";
+import { tokenDefinitions } from "./token-catalog.js";
 
 let feedbackTimeout;
 const sidebarDisclosureStorageKey = "openclaw.preview.sidebar.openAreas.v2";
@@ -127,11 +129,27 @@ function renderTopbar() {
         </span>
         <span class="brand-context">Design System</span>
       </a>
+      <button class="search-trigger shell-command-field shell-control" type="button" data-open-search aria-label="Search routes, tokens, and primitives" aria-haspopup="dialog">
+        <span class="search-trigger-label">${icon("search")}<span>Search routes, tokens, and primitives…</span></span><kbd>⌘ K</kbd>
+      </button>
       <div class="topbar-actions">
         <a class="github-link" href="https://github.com/openclaw/design-system" rel="noreferrer">${icon("github")}<span>GitHub</span></a>
         ${renderThemeControl()}
       </div>
     </header>
+    <dialog class="search-dialog" data-search-dialog aria-label="Search design system reference">
+      <div class="search-field">
+        <span class="search-field-icon">${icon("search")}</span>
+        <input id="reference-search" type="search" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" aria-haspopup="listbox" data-search-input aria-label="Search reference" placeholder="Search routes, tokens, and primitives…" autocomplete="off" />
+        <kbd>Esc</kbd>
+      </div>
+      <p class="visually-hidden" data-search-status aria-live="polite"></p>
+      <div class="search-results" id="search-results" role="listbox" aria-label="Search results" data-search-results></div>
+      <div class="search-empty" data-search-empty hidden>
+        <p>No matching reference.</p>
+        <button class="shell-control" type="button" data-clear-search>Clear search</button>
+      </div>
+    </dialog>
     <div class="shell-feedback" role="status" aria-live="polite" data-shell-feedback></div>
   `;
 }
@@ -295,6 +313,169 @@ function renderTableOfContents() {
   setActive(headings[0].id);
 }
 
+function bindGlobalSearch() {
+  const dialog = document.querySelector("[data-search-dialog]");
+  const trigger = document.querySelector("[data-open-search]");
+  const input = document.querySelector("[data-search-input]");
+  const results = document.querySelector("[data-search-results]");
+  const status = document.querySelector("[data-search-status]");
+  const empty = document.querySelector("[data-search-empty]");
+  if (!dialog || !trigger || !input || !results || !status || !empty) return;
+
+  const entries = [
+    {
+      label: introductionPage.label,
+      detail: "Design system",
+      type: "Page",
+      href: hrefFor(introductionPage.path),
+      keywords: introductionPage.keywords,
+    },
+    ...referenceAreas.flatMap((area) =>
+      area.pages.map((page) => ({
+        label: page.label,
+        detail: area.label,
+        type: page.id.startsWith("primitive-") ? "Primitive" : "Page",
+        href: hrefFor(page.path),
+        keywords: `${area.label} ${area.description} ${page.keywords || ""}`,
+      })),
+    ),
+    ...tokenDefinitions.map((token) => ({
+      label: token.variable,
+      detail: "Canonical variable",
+      type: "Token",
+      href: `${hrefFor("foundations/tokens/")}#token-${token.variable.slice(2)}`,
+      keywords: token.group,
+    })),
+  ];
+  let activeIndex = -1;
+  let resultLinks = [];
+
+  const setActiveResult = (index) => {
+    if (resultLinks.length === 0) {
+      activeIndex = -1;
+      input.removeAttribute("aria-activedescendant");
+      return;
+    }
+
+    activeIndex = (index + resultLinks.length) % resultLinks.length;
+    resultLinks.forEach((link, linkIndex) => {
+      link.classList.toggle("is-active", linkIndex === activeIndex);
+      link.setAttribute("aria-selected", String(linkIndex === activeIndex));
+    });
+    const active = resultLinks[activeIndex];
+    input.setAttribute("aria-activedescendant", active.id);
+    active.scrollIntoView({ block: "nearest" });
+  };
+
+  const renderResults = () => {
+    const limit = input.value.trim() ? 12 : 8;
+    const { matches, total } = rankSearchEntries(entries, input.value, limit);
+
+    results.replaceChildren();
+    resultLinks = [];
+    activeIndex = -1;
+    input.removeAttribute("aria-activedescendant");
+    status.textContent = total > matches.length
+      ? `${matches.length} of ${total} results shown.`
+      : `${total} result${total === 1 ? "" : "s"}.`;
+    empty.hidden = matches.length > 0;
+
+    if (matches.length === 0) return;
+
+    for (const group of groupSearchResults(matches)) {
+      const section = document.createElement("section");
+      section.className = "search-result-group";
+      section.setAttribute("role", "group");
+
+      const heading = document.createElement("p");
+      heading.className = "search-result-group-label";
+      heading.id = `search-result-group-${group.type.toLowerCase()}`;
+      heading.textContent = group.type === "Page" ? "Pages" : `${group.type}s`;
+      section.setAttribute("aria-labelledby", heading.id);
+      section.append(heading);
+
+      for (const match of group.entries) {
+        const link = document.createElement("a");
+        link.id = `search-result-${resultLinks.length}`;
+        link.href = match.href;
+        link.className = "search-result";
+        link.setAttribute("role", "option");
+        link.setAttribute("aria-selected", "false");
+        link.tabIndex = -1;
+        link.dataset.searchResult = "";
+        link.dataset.searchType = match.type.toLowerCase();
+
+        const content = document.createElement("span");
+        const label = document.createElement("strong");
+        const detail = document.createElement("small");
+        label.textContent = match.label;
+        detail.textContent = match.detail;
+        content.append(label, detail);
+        link.append(content);
+        link.addEventListener("focus", () => setActiveResult(resultLinks.indexOf(link)));
+        link.addEventListener("pointerenter", () => setActiveResult(resultLinks.indexOf(link)));
+        resultLinks.push(link);
+        section.append(link);
+      }
+
+      results.append(section);
+    }
+  };
+
+  const openSearch = () => {
+    renderResults();
+    dialog.showModal();
+    input.setAttribute("aria-expanded", "true");
+    input.focus();
+  };
+
+  trigger.addEventListener("click", openSearch);
+  input.addEventListener("input", renderResults);
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setActiveResult(activeIndex + 1);
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setActiveResult(activeIndex < 0 ? resultLinks.length - 1 : activeIndex - 1);
+    } else if (event.key === "Home" && activeIndex >= 0) {
+      event.preventDefault();
+      setActiveResult(0);
+    } else if (event.key === "End" && activeIndex >= 0) {
+      event.preventDefault();
+      setActiveResult(resultLinks.length - 1);
+    } else if (event.key === "Enter" && activeIndex >= 0) {
+      event.preventDefault();
+      resultLinks[activeIndex].click();
+    }
+  });
+  dialog.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-clear-search]")) return;
+    input.value = "";
+    renderResults();
+    input.focus();
+  });
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener("close", () => {
+    input.setAttribute("aria-expanded", "false");
+    input.removeAttribute("aria-activedescendant");
+    trigger.focus();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.defaultPrevented || event.isComposing) return;
+    const shortcut = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
+    const slash = event.key === "/" && !event.metaKey && !event.ctrlKey && !event.altKey;
+    const target = event.target instanceof Element ? event.target : document.activeElement;
+    const typing = target?.isContentEditable || target?.matches("input, textarea, select, [contenteditable]");
+    if ((shortcut || (slash && !typing)) && !dialog.open) {
+      event.preventDefault();
+      openSearch();
+    }
+  });
+}
+
 function bindCopyActions() {
   const copyText = async (value) => {
     try {
@@ -411,6 +592,7 @@ export function renderShell() {
   renderTableOfContents();
   bindSidebarDisclosures();
   bindNavigation();
+  bindGlobalSearch();
   bindCopyActions();
 
   document.querySelector(".skip-link")?.addEventListener("click", () => {
