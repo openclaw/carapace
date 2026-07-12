@@ -129,8 +129,8 @@ function renderTopbar() {
         </span>
         <span class="brand-context">Design System</span>
       </a>
-      <button class="search-trigger shell-control" type="button" data-open-search aria-label="Search reference" aria-haspopup="dialog">
-        <span class="search-trigger-label">${icon("search")}<span>Search reference</span></span><kbd>⌘K</kbd>
+      <button class="search-trigger shell-command-field shell-control" type="button" data-open-search aria-label="Search routes, tokens, and primitives" aria-haspopup="dialog">
+        <span class="search-trigger-label">${icon("search")}<span>Search routes, tokens, and primitives…</span></span><kbd>⌘ K</kbd>
       </button>
       <div class="topbar-actions">
         <a class="github-link" href="https://github.com/openclaw/design-system" rel="noreferrer">${icon("github")}<span>GitHub</span></a>

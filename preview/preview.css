@@ -88,6 +88,7 @@ a {
   top: 0;
   display: grid;
   grid-template-columns: calc(var(--preview-rail-width) - 14px) minmax(0, 1fr) auto;
+  gap: 12px;
   align-items: center;
   min-height: var(--preview-topbar-height);
   padding: 6px 14px;
@@ -109,8 +110,12 @@ a {
 .topbar-actions {
   grid-column: 3;
   display: flex;
-  gap: 8px;
+  gap: 0;
   align-items: center;
+  padding: 3px;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-md);
+  background: var(--oc-input-bg);
 }
 
 .github-link {
@@ -118,7 +123,7 @@ a {
   min-height: 36px;
   gap: 7px;
   align-items: center;
-  padding: 8px 10px;
+  padding: 0 10px;
   color: var(--oc-text-secondary);
   font-size: 13px;
   font-weight: 700;
@@ -278,9 +283,10 @@ a {
   height: 36px;
   place-items: center;
   padding: 0;
-  border: 1px solid var(--oc-border-subtle);
-  border-radius: var(--oc-radius-control);
-  background: var(--oc-input-bg);
+  border: 0;
+  border-left: 1px solid var(--oc-border-subtle);
+  border-radius: 0;
+  background: transparent;
   color: var(--oc-text-muted);
   cursor: pointer;
 }
@@ -1079,9 +1085,9 @@ body[data-page-kind="home"] .preview-stage {
 .search-trigger {
   grid-column: 2;
   display: flex;
-  width: min(38vw, 420px);
+  width: 100%;
   min-height: 44px;
-  justify-self: center;
+  justify-self: stretch;
   justify-content: space-between;
   align-items: center;
   gap: 14px;
@@ -1095,6 +1101,10 @@ body[data-page-kind="home"] .preview-stage {
   text-align: left;
 }
 
+.shell-command-field {
+  border-radius: var(--oc-radius-md);
+}
+
 .search-trigger-label {
   display: inline-flex;
   min-width: 0;
@@ -1104,7 +1114,7 @@ body[data-page-kind="home"] .preview-stage {
 
 .search-trigger kbd {
   display: inline-grid;
-  min-width: 32px;
+  min-width: 40px;
   min-height: 24px;
   place-items: center;
   padding: 0 6px;
@@ -2756,6 +2766,10 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
   .github-link {
     display: none;
+  }
+
+  .theme-control {
+    border-left: 0;
   }
 
   .search-trigger {
