@@ -101,6 +101,12 @@ export const referenceAreas = [
         keywords: "oc-banner notice status information warning error",
       },
       {
+        id: "primitive-breadcrumbs",
+        label: "Breadcrumbs",
+        path: "interface/primitives/breadcrumbs/",
+        keywords: "oc-breadcrumbs hierarchy navigation current page",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -340,6 +346,7 @@ const adjacentReferenceSequences = [
     "primitive-autocomplete",
     "primitive-badge",
     "primitive-banner",
+    "primitive-breadcrumbs",
     "primitive-card",
     "primitive-checkbox",
     "primitive-input-area",

@@ -886,6 +886,62 @@
   background: var(--oc-status-error-fg);
 }
 
+.oc-breadcrumbs {
+  min-width: 0;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-breadcrumbs-list {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--oc-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.oc-breadcrumbs-item {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--oc-space-2);
+}
+
+.oc-breadcrumbs-item:not(:last-child)::after {
+  color: var(--oc-text-muted);
+  content: "/";
+}
+
+.oc-breadcrumbs a {
+  overflow: hidden;
+  color: var(--oc-text-secondary);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oc-breadcrumbs a:hover {
+  color: var(--oc-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.oc-breadcrumbs a:focus-visible {
+  border-radius: var(--oc-radius-inset);
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+
+.oc-breadcrumbs [aria-current="page"] {
+  overflow: hidden;
+  color: var(--oc-text-primary);
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

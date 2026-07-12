@@ -106,11 +106,12 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">19 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">20 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
         <a class="reference-card" href="./banner/"><span>.oc-banner</span><strong>Banner</strong><p>Persistent contextual notices.</p></a>
+        <a class="reference-card" href="./breadcrumbs/"><span>.oc-breadcrumbs</span><strong>Breadcrumbs</strong><p>Current location within a hierarchy.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -161,6 +162,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="banner-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="banner-markup">Keep the message structural</h2></div></div>${codeBlock(`<div class="oc-banner oc-banner-warning" role="status">\n  <span class="oc-banner-indicator" aria-hidden="true"></span>\n  <div class="oc-banner-content">\n    <strong class="oc-banner-title">Update available</strong>\n    <p>Review the changes before applying.</p>\n  </div>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="banner-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="banner-guidance">Reserve space for durable context</h2></div></div>${guidanceList(["Use Toast for transient confirmation.", "Use role alert only when interruption is necessary.", "Keep the action adjacent and singular when one is required."])}</section>`,
+
+  "primitive-breadcrumbs": () =>
+    `${pageIntro("Component", "Breadcrumbs", "A compact navigation trail that communicates the current page within a stable hierarchy.")}
+    <section data-section-kind="preview" aria-labelledby="breadcrumbs-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="breadcrumbs-preview">Current location</h2></div><span class="oc-pill">.oc-breadcrumbs</span></div>
+      <div class="specimen-frame"><nav class="oc-breadcrumbs" aria-label="Breadcrumb"><ol class="oc-breadcrumbs-list"><li class="oc-breadcrumbs-item"><a href="../../../">Home</a></li><li class="oc-breadcrumbs-item"><a href="../">Components</a></li><li class="oc-breadcrumbs-item"><span aria-current="page">Breadcrumbs</span></li></ol></nav></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="breadcrumbs-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="breadcrumbs-markup">Use an ordered navigation trail</h2></div></div>${codeBlock(`<nav class="oc-breadcrumbs" aria-label="Breadcrumb">\n  <ol class="oc-breadcrumbs-list">\n    <li class="oc-breadcrumbs-item"><a href="/">Home</a></li>\n    <li class="oc-breadcrumbs-item"><span aria-current="page">Components</span></li>\n  </ol>\n</nav>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="breadcrumbs-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="breadcrumbs-guidance">Represent hierarchy, not history</h2></div></div>${guidanceList(["Use the information architecture rather than the browser history.", "Mark only the final item as the current page.", "Keep mobile labels concise so the trail can truncate without hiding location."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
