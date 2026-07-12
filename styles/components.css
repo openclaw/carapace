@@ -156,6 +156,7 @@
   font-weight: 700;
   line-height: 1.2;
   text-decoration: none;
+  touch-action: manipulation;
   cursor: pointer;
   transition:
     background var(--oc-duration-fast) var(--oc-ease-out),
@@ -173,8 +174,18 @@
   outline-offset: 3px;
 }
 
-.oc-action:active {
+.oc-action:active:not(:disabled):not([aria-disabled="true"]) {
   transform: scale(0.98);
+}
+
+.oc-action:disabled,
+.oc-action[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.oc-action[aria-disabled="true"] {
+  pointer-events: none;
 }
 
 .oc-action-primary {
@@ -219,8 +230,10 @@
 
 .oc-segmented {
   display: inline-flex;
+  max-width: 100%;
   align-items: center;
   gap: var(--oc-space-1);
+  overflow-x: auto;
   padding: var(--oc-space-1);
   border: 1px solid var(--oc-border-subtle);
   border-radius: var(--oc-radius-control);
@@ -242,10 +255,22 @@
   font-size: var(--oc-font-size-base);
   font-weight: 650;
   line-height: 1;
+  white-space: nowrap;
+  touch-action: manipulation;
   cursor: pointer;
   transition:
     background var(--oc-duration-fast) var(--oc-ease-out),
-    color var(--oc-duration-fast) var(--oc-ease-out);
+    color var(--oc-duration-fast) var(--oc-ease-out),
+    transform var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-segmented-item:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.oc-segmented-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .oc-segmented-item:hover {
@@ -266,6 +291,8 @@
 
 .oc-pill {
   display: inline-flex;
+  max-width: 100%;
+  min-width: 0;
   min-height: 1.75rem;
   align-items: center;
   gap: var(--oc-space-2);
@@ -277,6 +304,7 @@
   font-size: var(--oc-font-size-xs);
   font-weight: 650;
   line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .oc-field {
