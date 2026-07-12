@@ -133,6 +133,7 @@ describe("CSS contract", () => {
       ".oc-agent-input-bar",
       ".oc-agent-suggestions",
       ".oc-agent-model-picker",
+      ".oc-agent-mode-selector",
       ".oc-agent-message-list",
     ]) {
       expect(components).toContain(className);

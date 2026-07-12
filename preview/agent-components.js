@@ -89,6 +89,20 @@ const components = {
 </label>`,
     guidance: ["Show the selected model without requiring the menu to open.", "Use stable human-readable names and preserve capability details in the option label or adjacent help.", "The consumer owns availability, entitlement, persistence, and routing."],
   },
+  "mode-selector": {
+    slug: "mode-selector",
+    title: "Mode Selector",
+    className: "oc-agent-mode-selector",
+    lede: "A compact choice between distinct agent execution behaviors such as direct work and planning.",
+    previewTitle: "Choose an execution mode",
+    preview: `<fieldset class="oc-agent-mode-selector"><legend class="sr-only">Execution mode</legend><label class="oc-agent-mode-option"><input type="radio" name="mode" checked><span>Agent</span></label><label class="oc-agent-mode-option"><input type="radio" name="mode"><span>Plan</span></label></fieldset>`,
+    markup: `<fieldset class="oc-agent-mode-selector">
+  <legend class="sr-only">Execution mode</legend>
+  <label class="oc-agent-mode-option"><input type="radio" name="mode" checked><span>Agent</span></label>
+  <label class="oc-agent-mode-option"><input type="radio" name="mode"><span>Plan</span></label>
+</fieldset>`,
+    guidance: ["Use modes only when they materially change how the agent works.", "Keep labels short and mutually exclusive.", "The consumer owns mode availability, persistence, and execution behavior."],
+  },
 };
 
 export const agentReferenceContentIds = Object.keys(components);

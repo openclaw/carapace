@@ -2982,6 +2982,42 @@
   outline-offset: 2px;
 }
 
+.oc-agent-mode-selector {
+  display: inline-flex;
+  gap: var(--oc-space-1);
+  margin: 0;
+  padding: var(--oc-space-1);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-surface);
+}
+
+.oc-agent-mode-option {
+  position: relative;
+  display: grid;
+  min-height: 2rem;
+  padding: 0 var(--oc-space-3);
+  place-items: center;
+  border-radius: calc(var(--oc-radius-control) - 2px);
+  color: var(--oc-text-secondary);
+  cursor: pointer;
+}
+
+.oc-agent-mode-option input {
+  position: absolute;
+  opacity: 0;
+}
+
+.oc-agent-mode-option:has(input:checked) {
+  background: var(--oc-bg-elevated);
+  color: var(--oc-text-primary);
+}
+
+.oc-agent-mode-option:has(input:focus-visible) {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+
 .oc-agent-suggestion {
   min-height: 2rem;
   padding: 0 var(--oc-space-3);

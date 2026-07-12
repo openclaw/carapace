@@ -422,6 +422,12 @@ export const referenceAreas = [
         path: "agent-components/model-picker/",
         keywords: "oc-agent-model-picker model selection provider capability",
       },
+      {
+        id: "mode-selector",
+        label: "Mode Selector",
+        path: "agent-components/mode-selector/",
+        keywords: "oc-agent-mode-selector execution mode planning agent",
+      },
     ],
   },
   {
@@ -675,7 +681,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "input-bar", "message-list", "model-picker", "suggestions"],
+  ["agent-chat", "input-bar", "message-list", "mode-selector", "model-picker", "suggestions"],
 ];
 
 export function getReferencePage(id) {
