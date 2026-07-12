@@ -284,17 +284,13 @@
                 </div>
               </li>
               <li class="home-component-cell">
-                <a class="home-component-link" href="./interface/primitives/section/">Section with action</a>
+                <a class="home-component-link" href="./interface/primitives/autocomplete/">Autocomplete</a>
                 <div class="home-component-demo">
-                  <section class="oc-section">
-                    <header class="oc-section-header">
-                      <div class="oc-section-heading">
-                        <p class="oc-eyebrow">Interface</p>
-                        <h2 class="oc-section-title">Primitives</h2>
-                      </div>
-                      <a class="oc-action oc-action-secondary" href="./interface/primitives/">Browse</a>
-                    </header>
-                  </section>
+                  <label class="oc-autocomplete home-input-demo">
+                    <span class="oc-field-label">Component</span>
+                    <input class="oc-input" type="text" list="home-component-options" placeholder="Start typing…" autocomplete="off" />
+                    <datalist id="home-component-options"><option value="Action"></option><option value="Card"></option><option value="Input"></option></datalist>
+                  </label>
                 </div>
               </li>
               <li class="home-component-cell">

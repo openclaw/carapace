@@ -28,6 +28,7 @@ const pageKinds = {
   "foundation-base": "guide",
   "interface-primitives": "index",
   "primitive-app-surface": "reference",
+  "primitive-autocomplete": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

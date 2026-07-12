@@ -753,6 +753,29 @@
   outline-offset: -3px;
 }
 
+.oc-autocomplete {
+  position: relative;
+  display: grid;
+  gap: var(--oc-space-2);
+}
+
+.oc-autocomplete .oc-input {
+  padding-right: 2.5rem;
+}
+
+.oc-autocomplete::after {
+  position: absolute;
+  right: var(--oc-space-3);
+  bottom: 0.75rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 1px solid var(--oc-text-muted);
+  border-bottom: 1px solid var(--oc-text-muted);
+  content: "";
+  pointer-events: none;
+  transform: rotate(45deg) translateY(-0.125rem);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

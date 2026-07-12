@@ -87,6 +87,7 @@ describe("CSS contract", () => {
       ".oc-label",
       ".oc-input-group",
       ".oc-sensitive-input",
+      ".oc-autocomplete",
     ]) {
       expect(components).toContain(className);
     }

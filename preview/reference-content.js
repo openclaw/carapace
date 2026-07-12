@@ -106,8 +106,9 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">16 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">17 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
+        <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -134,6 +135,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="app-surface-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="app-surface-markup">Apply once at the surface root</h2></div></div>${codeBlock(`<main class="oc-app-surface">\n  <!-- Consumer-owned application -->\n</main>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="app-surface-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="app-surface-guidance">Ownership boundary</h2></div></div>${guidanceList(["Use it as the visual context for an application subtree.", "Keep routing, data, and behavior in the consumer.", "Do not nest it merely to create another card or panel."])}</section>`,
+
+  "primitive-autocomplete": () =>
+    `${pageIntro("Component", "Autocomplete", "A labeled text field connected to native suggestions without replacing keyboard or form behavior.")}
+    <section data-section-kind="preview" aria-labelledby="autocomplete-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="autocomplete-preview">Known values, free entry</h2></div><span class="oc-pill">.oc-autocomplete</span></div>
+      <div class="specimen-frame"><label class="oc-autocomplete"><span class="oc-field-label">Component</span><input class="oc-input" type="text" list="component-options" placeholder="Start typing…" autocomplete="off" /><datalist id="component-options"><option value="Action"></option><option value="Card"></option><option value="Input"></option><option value="Select"></option></datalist></label></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="autocomplete-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="autocomplete-markup">Connect input and datalist</h2></div></div>${codeBlock(`<label class="oc-autocomplete">\n  <span class="oc-field-label">Component</span>\n  <input class="oc-input" list="components" />\n  <datalist id="components">\n    <option value="Action"></option>\n    <option value="Card"></option>\n  </datalist>\n</label>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="autocomplete-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="autocomplete-guidance">Suggestions do not constrain entry</h2></div></div>${guidanceList(["Use Select when the value must come from a fixed set.", "Keep a visible label even when the placeholder is descriptive.", "Let the browser preserve keyboard, form, and assistive-technology behavior."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}

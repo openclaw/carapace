@@ -83,6 +83,12 @@ export const referenceAreas = [
         keywords: "exported css classes component catalog",
       },
       {
+        id: "primitive-autocomplete",
+        label: "Autocomplete",
+        path: "interface/primitives/autocomplete/",
+        keywords: "oc-autocomplete suggestions datalist input native",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -319,6 +325,7 @@ const adjacentReferenceSequences = [
   [
     "primitive-action",
     "primitive-app-surface",
+    "primitive-autocomplete",
     "primitive-card",
     "primitive-checkbox",
     "primitive-input-area",
