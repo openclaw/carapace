@@ -171,6 +171,12 @@ export const referenceAreas = [
         keywords: "oc-input-group addon prefix suffix input",
       },
       {
+        id: "primitive-sensitive-input",
+        label: "Sensitive Input",
+        path: "interface/primitives/sensitive-input/",
+        keywords: "oc-sensitive-input password secret reveal toggle",
+      },
+      {
         id: "interface-examples",
         label: "Interaction examples",
         path: "interface/interaction-examples/",
@@ -323,6 +329,7 @@ const adjacentReferenceSequences = [
     "primitive-input-area",
     "primitive-label",
     "primitive-input-group",
+    "primitive-sensitive-input",
   ],
 ];
 

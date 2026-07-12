@@ -339,6 +339,19 @@ document.querySelectorAll(".home-component-grid .oc-segmented").forEach((control
   });
 });
 
+document.addEventListener("click", (event) => {
+  const toggle = event.target.closest("[data-toggle-sensitive]");
+  if (!toggle) return;
+
+  const input = toggle.closest(".oc-sensitive-input")?.querySelector("[data-sensitive-value]");
+  if (!input) return;
+
+  const revealed = input.type === "password";
+  input.type = revealed ? "text" : "password";
+  toggle.setAttribute("aria-pressed", String(revealed));
+  toggle.textContent = revealed ? "Hide" : "Show";
+});
+
 function setActivePreviewSection(section) {
   const target = section.id ? `#${section.id}` : null;
 
