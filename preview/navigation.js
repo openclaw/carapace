@@ -191,6 +191,12 @@ export const referenceAreas = [
         keywords: "oc-link navigation inline standalone muted disabled",
       },
       {
+        id: "primitive-loader",
+        label: "Loader",
+        path: "interface/primitives/loader/",
+        keywords: "oc-loader spinner loading progress busy status",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -451,6 +457,7 @@ const adjacentReferenceSequences = [
     "primitive-label",
     "primitive-layer-card",
     "primitive-link",
+    "primitive-loader",
     "primitive-hero",
     "primitive-pill",
     "primitive-radio",

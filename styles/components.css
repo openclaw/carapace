@@ -1753,7 +1753,46 @@
   text-decoration: none;
 }
 
+.oc-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-loader-spinner {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  border: 2px solid var(--oc-border-subtle);
+  border-top-color: var(--oc-accent-primary);
+  border-radius: var(--oc-radius-round);
+  animation: oc-loader-spin 0.8s linear infinite;
+}
+
+.oc-loader-sm .oc-loader-spinner {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-width: 1px;
+}
+
+.oc-loader-lg .oc-loader-spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+@keyframes oc-loader-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .oc-loader-spinner {
+    animation: none;
+  }
+
   .oc-card-interactive {
     transition: none;
   }

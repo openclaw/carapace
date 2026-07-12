@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">34 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">35 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -126,6 +126,7 @@ const contents = {
         <a class="reference-card" href="./grid/"><span>.oc-grid</span><strong>Grid</strong><p>Responsive equal-width layouts.</p></a>
         <a class="reference-card" href="./layer-card/"><span>.oc-layer-card</span><strong>Layer Card</strong><p>Stacked surface depth.</p></a>
         <a class="reference-card" href="./link/"><span>.oc-link</span><strong>Link</strong><p>Inline and standalone navigation.</p></a>
+        <a class="reference-card" href="./loader/"><span>.oc-loader</span><strong>Loader</strong><p>Indeterminate progress feedback.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -296,6 +297,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="link-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="link-markup">Use anchors for destinations</h2></div></div>${codeBlock(`<a class="oc-link" href="/foundations/">Foundations</a>\n<a class="oc-link oc-link-standalone" href="/components/">Browse components</a>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="link-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="link-guidance">Navigation remains recognizable</h2></div></div>${guidanceList(["Use Button for actions that do not navigate.", "Keep inline links underlined in prose.", "Use aria-disabled only when a destination must remain visible but unavailable."])}</section>`,
+
+  "primitive-loader": () =>
+    `${pageIntro("Component", "Loader", "An indeterminate progress indicator with a visible or assistive-technology label.")}
+    <section data-section-kind="preview" aria-labelledby="loader-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="loader-preview">Work in progress</h2></div><span class="oc-pill">.oc-loader</span></div>
+      <div class="specimen-frame"><div class="primitive-control-row"><span class="oc-loader oc-loader-sm" role="status"><span class="oc-loader-spinner" aria-hidden="true"></span><span>Loading</span></span><span class="oc-loader" role="status"><span class="oc-loader-spinner" aria-hidden="true"></span><span>Syncing components</span></span><span class="oc-loader oc-loader-lg" role="status"><span class="oc-loader-spinner" aria-hidden="true"></span><span class="visually-hidden">Loading</span></span></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="loader-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="loader-markup">Announce the operation</h2></div></div>${codeBlock(`<span class="oc-loader" role="status">\n  <span class="oc-loader-spinner" aria-hidden="true"></span>\n  <span>Syncing components</span>\n</span>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="loader-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="loader-guidance">Use only while duration is unknown</h2></div></div>${guidanceList(["Use Meter or progress when completion can be measured.", "Keep the current content visible when background work does not block it.", "Provide a status label even when it is visually hidden."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
