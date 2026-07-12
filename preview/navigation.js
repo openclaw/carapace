@@ -422,6 +422,12 @@ export const referenceAreas = [
         path: "interface/charts/sankey/",
         keywords: "oc-sankey flow volume source destination nodes links",
       },
+      {
+        id: "chart-custom",
+        label: "Custom Chart",
+        path: "interface/charts/custom-chart/",
+        keywords: "oc-custom-chart bespoke visualization slots annotation summary",
+      },
     ],
   },
   {
@@ -603,7 +609,7 @@ const adjacentReferenceSequences = [
     "primitive-toast",
     "primitive-tooltip",
   ],
-  ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey"],
+  ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
 ];
 
 export function getReferencePage(id) {

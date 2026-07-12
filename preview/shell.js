@@ -67,6 +67,7 @@ const pageKinds = {
   "chart-timeseries": "reference",
   "chart-maps": "reference",
   "chart-sankey": "reference",
+  "chart-custom": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

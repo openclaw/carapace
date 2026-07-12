@@ -699,6 +699,21 @@ const contents = {
 </figure>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="sankey-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="sankey-guidance">Flow width must remain meaningful</h2></div></div>${guidanceList(["Use Sankey only when movement and relative volume are the primary story.", "Keep node order stable and label sources and destinations directly.", "Summarize the dominant and exceptional flows outside pointer interaction.", "Let the consumer own layout calculation, aggregation, and filtering."])}</section>`,
 
+  "chart-custom": () =>
+    `${pageIntro("Charts", "Custom Chart", "A compositional chart shell for bespoke visuals that still need consistent titles, summaries, and responsive structure.")}
+    <section data-section-kind="preview" aria-labelledby="custom-chart-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="custom-chart-preview">Visual and summary together</h2></div><span class="oc-pill">.oc-custom-chart</span></div><div class="specimen-frame"><figure class="oc-chart oc-custom-chart"><div class="oc-custom-chart-visual"><figcaption class="oc-chart-header"><p class="oc-chart-title">Completion distribution</p><p class="oc-chart-caption">Current release</p></figcaption><svg class="oc-chart-plot" viewBox="0 0 420 220" role="img" aria-labelledby="custom-title custom-description"><title id="custom-title">Completion distribution</title><desc id="custom-description">Seventy-two percent complete, eighteen percent in review, and ten percent blocked.</desc><circle cx="210" cy="110" r="72" fill="none" stroke="var(--oc-surface-interactive)" stroke-width="28"/><path d="M210 38A72 72 0 1 1 139 121" fill="none" stroke="var(--oc-accent-primary)" stroke-linecap="round" stroke-width="28"/></svg></div><div class="oc-custom-chart-summary"><p class="oc-custom-chart-value">72%</p><p class="oc-custom-chart-label">Complete</p><p class="oc-custom-chart-detail">18% in review · 10% blocked</p></div></figure></div></section>
+    <section data-section-kind="markup" aria-labelledby="custom-chart-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="custom-chart-markup">Keep custom visuals within the contract</h2></div></div>${codeBlock(`<figure class="oc-chart oc-custom-chart">
+  <div class="oc-custom-chart-visual">
+    <figcaption class="oc-chart-header"><p class="oc-chart-title">Completion distribution</p></figcaption>
+    <svg class="oc-chart-plot" role="img" aria-labelledby="title description">…</svg>
+  </div>
+  <div class="oc-custom-chart-summary">
+    <p class="oc-custom-chart-value">72%</p>
+    <p class="oc-custom-chart-label">Complete</p>
+  </div>
+</figure>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="custom-chart-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="custom-chart-guidance">Bespoke does not mean unstructured</h2></div></div>${guidanceList(["Use the shared chart shell before inventing a new surface.", "Keep the key result visible outside the graphic.", "Provide a useful accessible description and preserve source order on narrow screens.", "Promote repeated custom visuals into a named chart component only after stable reuse."])}</section>`,
+
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
     <div class="scope-note"><strong>Ownership boundary</strong><p>These controls demonstrate states and density. Their behavior and markup remain consumer-owned.</p></div>
