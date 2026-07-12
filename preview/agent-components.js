@@ -171,6 +171,21 @@ const components = {
 </fieldset>`,
     guidance: ["Use modes only when they materially change how the agent works.", "Keep labels short and mutually exclusive.", "The consumer owns mode availability, persistence, and execution behavior."],
   },
+  "send-button": {
+    slug: "send-button",
+    title: "Send Button",
+    className: "oc-agent-send-button",
+    lede: "The message composer action that communicates whether the next operation will send a draft or stop an active response.",
+    previewTitle: "Send and stop states",
+    preview: `<div class="oc-agent-button-row"><button class="oc-agent-send-button" type="button" aria-label="Send message"><span aria-hidden="true">↑</span></button><button class="oc-agent-send-button" type="button" data-state="stop" aria-label="Stop response"><span aria-hidden="true">■</span></button><button class="oc-agent-send-button" type="button" aria-label="Send message" disabled><span aria-hidden="true">↑</span></button></div>`,
+    markup: `<button class="oc-agent-send-button" type="submit" aria-label="Send message">
+  <span aria-hidden="true">↑</span>
+</button>
+<button class="oc-agent-send-button" type="button" data-state="stop" aria-label="Stop response">
+  <span aria-hidden="true">■</span>
+</button>`,
+    guidance: ["Use submit only for the send state and a regular button for stop.", "Replace the accessible name when the action changes during streaming.", "Disable send when the current draft cannot be submitted; the consumer owns submission and cancellation."],
+  },
   "user-message": {
     slug: "user-message",
     title: "User Message",

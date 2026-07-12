@@ -3356,6 +3356,23 @@
   cursor: pointer;
 }
 
+.oc-agent-button-row {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-3);
+}
+
+.oc-agent-send-button[data-state="stop"] {
+  background: var(--oc-bg-elevated);
+  color: var(--oc-text-primary);
+  box-shadow: inset 0 0 0 1px var(--oc-border-subtle);
+}
+
+.oc-agent-send-button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
 .oc-agent-suggestion:focus-visible,
 .oc-agent-input:focus-visible,
 .oc-agent-send-button:focus-visible {
