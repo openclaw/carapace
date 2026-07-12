@@ -24,38 +24,305 @@
         </header>
 
         <div class="preview-stage">
-          <div class="home-page">
-            <header class="home-hero">
-              <div class="home-hero-copy">
-                <p class="eyebrow">OpenClaw design system</p>
-                <h1 id="preview-title">One visual contract, from foundation to interface.</h1>
-                <p>Canonical tokens, framework-neutral primitives, composition guidance, and adoption resources for OpenClaw web surfaces.</p>
-              </div>
-            </header>
-
-            <section class="home-reference" aria-labelledby="home-reference-title">
-              <div class="home-section-heading">
-                <div><p class="eyebrow">Reference</p><h2 id="home-reference-title">Explore by responsibility</h2></div>
-                <p>Move from the canonical source to implementation and adoption.</p>
-              </div>
-              <div class="home-reference-grid">
-                <a href="./foundations/"><span>01 · Foundations</span><strong>Tokens, type, layout, geometry, and motion</strong><p>Inspect the complete visual contract by role.</p></a>
-                <a href="./interface/"><span>02 · Interface</span><strong>Shared primitives and interaction states</strong><p>Use exported classes without moving consumer behavior.</p></a>
-                <a href="./compositions/"><span>03 · Compositions</span><strong>Patterns at representative interface scale</strong><p>Study product, content, and public surfaces.</p></a>
-                <a href="./resources/"><span>04 · Resources</span><strong>Installation, adapters, skills, and release guidance</strong><p>Adopt and validate the contract across consumers.</p></a>
-              </div>
-            </section>
-
-            <section class="home-start" aria-labelledby="home-start-title">
-              <div class="home-section-heading">
-                <div><p class="eyebrow">Start here</p><h2 id="home-start-title">Choose the path that matches the work</h2></div>
-              </div>
-              <nav class="home-start-list" aria-label="Common starting points">
-                <a href="./foundations/tokens/"><span>Inspect</span><strong>Browse every canonical token</strong><small>Foundations → Design tokens</small></a>
-                <a href="./interface/primitives/"><span>Build</span><strong>Use shared interface primitives</strong><small>Interface → Shared primitives</small></a>
-                <a href="./resources/getting-started/"><span>Adopt</span><strong>Install the versioned contract</strong><small>Resources → Getting started</small></a>
-              </nav>
-            </section>
+          <div class="home-page oc-app-surface">
+            <h1 class="visually-hidden" id="preview-title">OpenClaw design system</h1>
+            <ul class="home-component-grid" aria-labelledby="preview-title">
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/app-surface/">App surface</a>
+                <div class="home-component-demo">
+                  <div class="home-surface-demo">
+                    <strong>OpenClaw application</strong>
+                    <p>One visual context for the interface.</p>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/hero/">Hero</a>
+                <div class="home-component-demo">
+                  <div class="oc-hero">
+                    <h2 class="oc-hero-title">Build with OpenClaw.</h2>
+                    <p class="oc-hero-lede">Tools for the work already in motion.</p>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/section/">Section</a>
+                <div class="home-component-demo">
+                  <section class="oc-section">
+                    <header class="oc-section-header">
+                      <div class="oc-section-heading">
+                        <p class="oc-eyebrow">Featured</p>
+                        <h2 class="oc-section-title">Agent skills</h2>
+                        <p class="oc-section-copy">Reusable capabilities for everyday work.</p>
+                      </div>
+                    </header>
+                  </section>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/card/">Card</a>
+                <div class="home-component-demo">
+                  <article class="oc-card home-demo-card">
+                    <strong>Workspace</strong>
+                    <p>A grouped surface with a single responsibility.</p>
+                  </article>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/action/">Action</a>
+                <div class="home-component-demo">
+                  <div class="home-demo-actions">
+                    <button class="oc-action oc-action-primary" type="button">Connect</button>
+                    <button class="oc-action oc-action-secondary" type="button">Details</button>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/segmented-control/">Segmented control</a>
+                <div class="home-component-demo">
+                  <div class="oc-segmented" aria-label="Preview mode">
+                    <button class="oc-segmented-item" type="button" aria-pressed="true">Preview</button>
+                    <button class="oc-segmented-item" type="button" aria-pressed="false">Code</button>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/pill/">Pill</a>
+                <div class="home-component-demo">
+                  <div class="home-demo-pills">
+                    <span class="oc-pill">Stable</span>
+                    <span class="oc-pill">Official</span>
+                    <span class="oc-pill">v0.0.1</span>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/card/">Interactive card</a>
+                <div class="home-component-demo">
+                  <a class="oc-card oc-card-interactive home-demo-card" href="./interface/primitives/card/">
+                    <strong>Design audit</strong>
+                    <p>Open the reference for states and guidance.</p>
+                  </a>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/action/">Primary action</a>
+                <div class="home-component-demo">
+                  <button class="oc-action oc-action-primary" type="button">Connect</button>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/action/">Secondary action</a>
+                <div class="home-component-demo">
+                  <button class="oc-action oc-action-secondary" type="button">View details</button>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/action/">Ghost action</a>
+                <div class="home-component-demo">
+                  <button class="oc-action oc-action-ghost" type="button">Learn more</button>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/action/">Icon action</a>
+                <div class="home-component-demo">
+                  <button
+                    class="oc-action oc-action-icon home-demo-icon-action"
+                    type="button"
+                    aria-label="Add item"
+                  >+</button>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/card/">Card with label</a>
+                <div class="home-component-demo">
+                  <article class="oc-card home-demo-card">
+                    <p class="oc-eyebrow">Reference</p>
+                    <strong>Visual contract</strong>
+                    <p>Tokens and primitives in one place.</p>
+                  </article>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/card/">Card with action</a>
+                <div class="home-component-demo">
+                  <article class="oc-card home-demo-card">
+                    <strong>Getting started</strong>
+                    <p>Install the contract and choose a theme.</p>
+                    <a class="oc-action oc-action-primary" href="./resources/getting-started/">Open guide</a>
+                  </article>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/card/">Card with pill</a>
+                <div class="home-component-demo">
+                  <article class="oc-card home-demo-card">
+                    <div class="home-demo-pills home-demo-pills-start">
+                      <span class="oc-pill">Stable</span>
+                    </div>
+                    <strong>Release</strong>
+                    <p>Ready for consumer adoption.</p>
+                  </article>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/card/">Card pair</a>
+                <div class="home-component-demo">
+                  <div class="home-demo-card-pair">
+                    <article class="oc-card home-demo-card home-demo-card-compact"><strong>Docs</strong></article>
+                    <article class="oc-card home-demo-card home-demo-card-compact"><strong>Examples</strong></article>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/segmented-control/">Three options</a>
+                <div class="home-component-demo">
+                  <div class="oc-segmented" aria-label="Layout mode">
+                    <button class="oc-segmented-item" type="button" aria-pressed="true">List</button>
+                    <button class="oc-segmented-item" type="button" aria-pressed="false">Grid</button>
+                    <button class="oc-segmented-item" type="button" aria-pressed="false">Detail</button>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/segmented-control/">View switch</a>
+                <div class="home-component-demo">
+                  <div class="oc-segmented" aria-label="Reference view">
+                    <button class="oc-segmented-item" type="button" aria-pressed="false">Overview</button>
+                    <button class="oc-segmented-item" type="button" aria-pressed="true">Reference</button>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/pill/">Single pill</a>
+                <div class="home-component-demo">
+                  <span class="oc-pill">Official</span>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/pill/">Status pills</a>
+                <div class="home-component-demo">
+                  <div class="home-demo-pills">
+                    <span class="oc-pill">Stable</span>
+                    <span class="oc-pill">Beta</span>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/pill/">Metadata</a>
+                <div class="home-component-demo">
+                  <div class="home-demo-pills">
+                    <span class="oc-pill">v0.0.1</span>
+                    <span class="oc-pill">CSS</span>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/app-surface/">Surface with card</a>
+                <div class="home-component-demo">
+                  <div class="home-surface-demo">
+                    <article class="oc-card home-demo-card home-demo-card-compact">
+                      <strong>OpenClaw</strong>
+                      <p>Canonical interface context.</p>
+                    </article>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/app-surface/">Surface with action</a>
+                <div class="home-component-demo">
+                  <div class="home-surface-demo">
+                    <strong>Ready to connect</strong>
+                    <button class="oc-action oc-action-primary" type="button">Continue</button>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/hero/">Compact hero</a>
+                <div class="home-component-demo">
+                  <div class="oc-hero">
+                    <h2 class="oc-hero-title">OpenClaw.</h2>
+                    <p class="oc-hero-lede">A shared visual language.</p>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/hero/">Hero with lede</a>
+                <div class="home-component-demo">
+                  <div class="oc-hero">
+                    <h2 class="oc-hero-title">One contract.</h2>
+                    <p class="oc-hero-lede">Built for every OpenClaw web surface.</p>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/section/">Section heading</a>
+                <div class="home-component-demo">
+                  <section class="oc-section">
+                    <header class="oc-section-header">
+                      <div class="oc-section-heading">
+                        <h2 class="oc-section-title">Foundations</h2>
+                        <p class="oc-section-copy">The visual roles behind the interface.</p>
+                      </div>
+                    </header>
+                  </section>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/section/">Section with action</a>
+                <div class="home-component-demo">
+                  <section class="oc-section">
+                    <header class="oc-section-header">
+                      <div class="oc-section-heading">
+                        <p class="oc-eyebrow">Interface</p>
+                        <h2 class="oc-section-title">Primitives</h2>
+                      </div>
+                      <a class="oc-action oc-action-secondary" href="./interface/primitives/">Browse</a>
+                    </header>
+                  </section>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/action/">Primary link</a>
+                <div class="home-component-demo">
+                  <a class="oc-action oc-action-primary" href="./foundations/">Explore foundations</a>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/action/">Secondary link</a>
+                <div class="home-component-demo">
+                  <a class="oc-action oc-action-secondary" href="./resources/">Open resources</a>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/action/">Ghost link</a>
+                <div class="home-component-demo">
+                  <a class="oc-action oc-action-ghost" href="./compositions/">View compositions</a>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/card/">Surface sample</a>
+                <div class="home-component-demo">
+                  <div class="home-surface-demo">
+                    <article class="oc-card home-demo-card">
+                      <p class="oc-eyebrow">System</p>
+                      <strong>Design reference</strong>
+                    </article>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/card/">Component set</a>
+                <div class="home-component-demo">
+                  <article class="oc-card home-demo-card">
+                    <div class="home-demo-pills home-demo-pills-start"><span class="oc-pill">Official</span></div>
+                    <strong>OpenClaw web</strong>
+                    <p>Tokens, primitives, and guidance.</p>
+                    <a class="oc-action oc-action-primary" href="./interface/">Open interface</a>
+                  </article>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </main>

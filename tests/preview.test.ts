@@ -61,8 +61,9 @@ describe("preview contracts", () => {
     }
   });
 
-  test("publishes the introduction and four reference areas", async () => {
+  test("publishes the introduction as a live primitive grid", async () => {
     const home = await readFile("preview/index.html", "utf8");
+    const previewScript = await readFile("preview/preview.js", "utf8");
     const destinations = [...home.matchAll(/href="([^"]+)"/g)].map(([, href]) => href);
 
     expect(introductionPage).toEqual({
@@ -72,10 +73,23 @@ describe("preview contracts", () => {
       keywords: "home overview design system visual contract",
     });
     expect(home).toContain('data-preview-route="overview"');
-    expect(destinations.filter((href) => href === "./foundations/")).toHaveLength(1);
-    expect(destinations.filter((href) => href === "./resources/getting-started/")).toHaveLength(
-      1,
-    );
+    expect(home).toContain('class="home-component-grid"');
+    expect(home).not.toContain('class="home-hero"');
+    expect(home.match(/class="home-component-cell"/g)).toHaveLength(32);
+    expect(home.match(/oc-app-surface/g)).toHaveLength(1);
+    expect(previewScript).toContain('.home-component-grid .oc-segmented');
+
+    for (const path of [
+      "./interface/primitives/app-surface/",
+      "./interface/primitives/hero/",
+      "./interface/primitives/section/",
+      "./interface/primitives/card/",
+      "./interface/primitives/action/",
+      "./interface/primitives/segmented-control/",
+      "./interface/primitives/pill/",
+    ]) {
+      expect(destinations).toContain(path);
+    }
   });
 
   test("documents every public package export", async () => {

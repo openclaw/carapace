@@ -328,6 +328,17 @@ colorScheme.addEventListener("change", () => {
 
 bindExampleDialog();
 
+document.querySelectorAll(".home-component-grid .oc-segmented").forEach((control) => {
+  control.addEventListener("click", (event) => {
+    const item = event.target.closest(".oc-segmented-item");
+    if (!item) return;
+
+    const state = item.hasAttribute("aria-selected") ? "aria-selected" : "aria-pressed";
+    control.querySelectorAll(`[${state}]`).forEach((option) => option.setAttribute(state, "false"));
+    item.setAttribute(state, "true");
+  });
+});
+
 function setActivePreviewSection(section) {
   const target = section.id ? `#${section.id}` : null;
 
