@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">33 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">34 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -125,6 +125,7 @@ const contents = {
         <a class="reference-card" href="./flow/"><span>.oc-flow</span><strong>Flow</strong><p>Sequential steps and dependencies.</p></a>
         <a class="reference-card" href="./grid/"><span>.oc-grid</span><strong>Grid</strong><p>Responsive equal-width layouts.</p></a>
         <a class="reference-card" href="./layer-card/"><span>.oc-layer-card</span><strong>Layer Card</strong><p>Stacked surface depth.</p></a>
+        <a class="reference-card" href="./link/"><span>.oc-link</span><strong>Link</strong><p>Inline and standalone navigation.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -287,6 +288,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="layer-card-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="layer-card-markup">Keep the stack decorative</h2></div></div>${codeBlock(`<article class="oc-layer-card">\n  <h2 class="oc-layer-card-title">Component collection</h2>\n  <p class="oc-layer-card-copy">Twelve shared controls.</p>\n</article>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="layer-card-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="layer-card-guidance">Depth must communicate grouping</h2></div></div>${guidanceList(["Use Card when there is no meaningful stacked relationship.", "Keep the pseudo-layers decorative and hidden from assistive technology.", "Do not nest additional cards solely to increase visual depth."])}</section>`,
+
+  "primitive-link": () =>
+    `${pageIntro("Component", "Link", "A navigation primitive for inline references, muted secondary destinations, and standalone directional links.")}
+    <section data-section-kind="preview" aria-labelledby="link-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="link-preview">Navigation roles</h2></div><span class="oc-pill">.oc-link</span></div>
+      <div class="specimen-frame"><div class="primitive-control-row"><a class="oc-link" href="../../../foundations/">Inline link</a><a class="oc-link oc-link-muted" href="../../../resources/">Muted link</a><a class="oc-link oc-link-standalone" href="../">Browse components</a></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="link-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="link-markup">Use anchors for destinations</h2></div></div>${codeBlock(`<a class="oc-link" href="/foundations/">Foundations</a>\n<a class="oc-link oc-link-standalone" href="/components/">Browse components</a>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="link-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="link-guidance">Navigation remains recognizable</h2></div></div>${guidanceList(["Use Button for actions that do not navigate.", "Keep inline links underlined in prose.", "Use aria-disabled only when a destination must remain visible but unavailable."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}

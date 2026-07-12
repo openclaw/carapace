@@ -185,6 +185,12 @@ export const referenceAreas = [
         keywords: "oc-layer-card stacked depth surface hierarchy",
       },
       {
+        id: "primitive-link",
+        label: "Link",
+        path: "interface/primitives/link/",
+        keywords: "oc-link navigation inline standalone muted disabled",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -444,6 +450,7 @@ const adjacentReferenceSequences = [
     "primitive-input",
     "primitive-label",
     "primitive-layer-card",
+    "primitive-link",
     "primitive-hero",
     "primitive-pill",
     "primitive-radio",

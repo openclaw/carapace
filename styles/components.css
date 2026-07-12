@@ -1707,6 +1707,52 @@
   line-height: 1.6;
 }
 
+.oc-link {
+  color: var(--oc-accent-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  transition:
+    color var(--oc-duration-fast) var(--oc-ease-out),
+    text-decoration-color var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-link:hover {
+  color: var(--oc-accent-primary-hover);
+  text-decoration-color: currentColor;
+}
+
+.oc-link:focus-visible {
+  border-radius: var(--oc-radius-inset);
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 3px;
+}
+
+.oc-link-muted {
+  color: var(--oc-text-secondary);
+}
+
+.oc-link-standalone {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+  text-decoration: none;
+}
+
+.oc-link-standalone::after {
+  content: "→";
+  font-family: var(--oc-font-mono);
+}
+
+.oc-link[aria-disabled="true"] {
+  color: var(--oc-text-muted);
+  pointer-events: none;
+  text-decoration: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;
