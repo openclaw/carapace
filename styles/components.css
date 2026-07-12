@@ -266,6 +266,68 @@
   line-height: 1;
 }
 
+.oc-field {
+  display: grid;
+  gap: var(--oc-space-2);
+  color: var(--oc-text-primary);
+}
+
+.oc-field-label {
+  font-size: var(--oc-font-size-sm);
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.oc-field-message {
+  margin: 0;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  line-height: 1.4;
+}
+
+.oc-input {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border: 1px solid var(--oc-input-border);
+  border-radius: var(--oc-radius-control);
+  outline: none;
+  background: var(--oc-input-bg);
+  color: var(--oc-text-primary);
+  font: inherit;
+  font-size: var(--oc-font-size-base);
+  line-height: 1.4;
+  transition:
+    border-color var(--oc-duration-fast) var(--oc-ease-out),
+    box-shadow var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-input::placeholder {
+  color: var(--oc-input-placeholder);
+}
+
+.oc-input:hover:not(:disabled) {
+  border-color: var(--oc-border-accent);
+}
+
+.oc-input:focus-visible {
+  border-color: var(--oc-input-focus-border);
+  box-shadow: 0 0 0 3px var(--oc-input-focus-ring);
+}
+
+.oc-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.oc-input[aria-invalid="true"] {
+  border-color: var(--oc-status-error-fg);
+}
+
+.oc-field:has(.oc-input[aria-invalid="true"]) .oc-field-message {
+  color: var(--oc-status-error-fg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

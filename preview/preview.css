@@ -685,6 +685,10 @@ body[data-page-kind="home"] .preview-stage {
   max-width: 100%;
 }
 
+.home-input-demo {
+  width: min(100%, 260px);
+}
+
 .home-surface-demo {
   display: grid;
   width: min(100%, 240px);
@@ -2470,6 +2474,12 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
+}
+
+.primitive-input-grid {
+  display: grid;
+  width: min(100%, 620px);
+  gap: var(--oc-space-5);
 }
 
 .oc-card p {
