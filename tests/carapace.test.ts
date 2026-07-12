@@ -125,6 +125,7 @@ describe("CSS contract", () => {
       ".oc-timeseries",
       ".oc-map",
       ".oc-sankey",
+      ".oc-custom-chart",
     ]) {
       expect(components).toContain(className);
     }
