@@ -379,6 +379,34 @@ a {
   box-shadow: inset 2px 0 0 var(--oc-accent-primary);
 }
 
+.sidebar-foundations {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.sidebar-foundation-link {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  padding: 9px 10px;
+  color: var(--oc-text-secondary);
+  font-size: 13px;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.sidebar-foundation-link:hover {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.sidebar-foundation-link[aria-current="page"] {
+  background: var(--oc-surface-interactive);
+  box-shadow: inset 2px 0 0 var(--oc-accent-primary);
+  color: var(--oc-text-primary);
+}
+
 .sidebar-area {
   display: grid;
   gap: 0;
