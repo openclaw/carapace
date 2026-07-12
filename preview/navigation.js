@@ -416,6 +416,12 @@ export const referenceAreas = [
         path: "interface/charts/maps/",
         keywords: "oc-map geographic region location choropleth data visualization",
       },
+      {
+        id: "chart-sankey",
+        label: "Sankey",
+        path: "interface/charts/sankey/",
+        keywords: "oc-sankey flow volume source destination nodes links",
+      },
     ],
   },
   {
@@ -597,7 +603,7 @@ const adjacentReferenceSequences = [
     "primitive-toast",
     "primitive-tooltip",
   ],
-  ["chart-base", "chart-colors", "chart-timeseries", "chart-maps"],
+  ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey"],
 ];
 
 export function getReferencePage(id) {

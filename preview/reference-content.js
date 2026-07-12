@@ -685,6 +685,20 @@ const contents = {
 </figure>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="map-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="map-guidance">Geography must explain the data</h2></div></div>${guidanceList(["Use a map only when location changes how the data should be understood.", "Name regions in accessible text and provide the important comparison outside hover.", "Keep boundaries visible in both themes and never encode values with color alone.", "Let consumers own projections, coordinate data, zoom, and selection behavior."])}</section>`,
 
+  "chart-sankey": () =>
+    `${pageIntro("Charts", "Sankey", "A flow diagram for showing how volume moves from sources through stages to destinations.")}
+    <section data-section-kind="preview" aria-labelledby="sankey-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="sankey-preview">Volume through a workflow</h2></div><span class="oc-pill">.oc-sankey</span></div><div class="specimen-frame"><figure class="oc-chart oc-sankey"><figcaption class="oc-chart-header"><p class="oc-chart-title">Request outcomes</p><p class="oc-chart-caption">Last 30 days</p></figcaption><svg class="oc-sankey-plot" viewBox="0 0 640 300" role="img" aria-labelledby="sankey-title sankey-description"><title id="sankey-title">Request outcomes</title><desc id="sankey-description">Most requests move from submitted to completed. Smaller flows end in review or blocked.</desc><path class="oc-sankey-link oc-sankey-link-primary" stroke-width="72" d="M90 120C250 120 340 80 510 80"/><path class="oc-sankey-link" stroke-width="34" d="M90 190C250 190 350 180 510 180"/><path class="oc-sankey-link" stroke-width="18" d="M90 238C250 238 350 246 510 246"/><rect class="oc-sankey-node oc-sankey-node-primary" x="60" y="74" width="30" height="184" rx="4"/><rect class="oc-sankey-node" x="510" y="42" width="30" height="76" rx="4"/><rect class="oc-sankey-node" x="510" y="160" width="30" height="40" rx="4"/><rect class="oc-sankey-node" x="510" y="234" width="30" height="24" rx="4"/><text class="oc-sankey-label" x="60" y="278">Submitted</text><text class="oc-sankey-label" x="510" y="34">Completed</text><text class="oc-sankey-label" x="510" y="152">Review</text><text class="oc-sankey-label" x="510" y="226">Blocked</text></svg></figure></div></section>
+    <section data-section-kind="markup" aria-labelledby="sankey-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="sankey-markup">Describe the dominant flow</h2></div></div>${codeBlock(`<figure class="oc-chart oc-sankey">
+  <figcaption class="oc-chart-header"><p class="oc-chart-title">Request outcomes</p></figcaption>
+  <svg class="oc-sankey-plot" viewBox="0 0 640 300" role="img" aria-labelledby="flow-title flow-description">
+    <title id="flow-title">Request outcomes</title>
+    <desc id="flow-description">Most requests move from submitted to completed.</desc>
+    <path class="oc-sankey-link oc-sankey-link-primary" stroke-width="72" d="..." />
+    <rect class="oc-sankey-node" x="510" y="42" width="30" height="76" />
+  </svg>
+</figure>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="sankey-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="sankey-guidance">Flow width must remain meaningful</h2></div></div>${guidanceList(["Use Sankey only when movement and relative volume are the primary story.", "Keep node order stable and label sources and destinations directly.", "Summarize the dominant and exceptional flows outside pointer interaction.", "Let the consumer own layout calculation, aggregation, and filtering."])}</section>`,
+
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
     <div class="scope-note"><strong>Ownership boundary</strong><p>These controls demonstrate states and density. Their behavior and markup remain consumer-owned.</p></div>
