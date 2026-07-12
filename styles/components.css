@@ -1585,6 +1585,60 @@
   margin-top: var(--oc-space-2);
 }
 
+.oc-flow {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--oc-space-3);
+  overflow-x: auto;
+  padding: var(--oc-space-4);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-surface-secondary-soft);
+}
+
+.oc-flow-step {
+  display: grid;
+  min-width: 9rem;
+  gap: var(--oc-space-1);
+  padding: var(--oc-space-3);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-surface-card);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-flow-step strong {
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-flow-step[aria-current="step"] {
+  border-color: var(--oc-accent-primary);
+  background: var(--oc-surface-accent-soft);
+}
+
+.oc-flow-connector {
+  position: relative;
+  width: 2rem;
+  height: 1px;
+  flex: 0 0 auto;
+  background: var(--oc-border-subtle);
+}
+
+.oc-flow-connector::after {
+  position: absolute;
+  top: -0.1875rem;
+  right: 0;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-top: 1px solid var(--oc-text-muted);
+  border-right: 1px solid var(--oc-text-muted);
+  content: "";
+  transform: rotate(45deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

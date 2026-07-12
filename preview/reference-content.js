@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">30 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">31 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -122,6 +122,7 @@ const contents = {
         <a class="reference-card" href="./dialog/"><span>.oc-dialog</span><strong>Dialog</strong><p>Focused modal decisions.</p></a>
         <a class="reference-card" href="./dropdown/"><span>.oc-dropdown</span><strong>Dropdown</strong><p>Compact contextual actions.</p></a>
         <a class="reference-card" href="./empty/"><span>.oc-empty</span><strong>Empty</strong><p>Purposeful no-content states.</p></a>
+        <a class="reference-card" href="./flow/"><span>.oc-flow</span><strong>Flow</strong><p>Sequential steps and dependencies.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -260,6 +261,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="empty-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="empty-markup">Name the absence and next step</h2></div></div>${codeBlock(`<div class="oc-empty">\n  <div class="oc-empty-content">\n    <h2 class="oc-empty-title">No saved views</h2>\n    <p class="oc-empty-description">Save a filtered view to return later.</p>\n    <div class="oc-empty-actions"><button>Create view</button></div>\n  </div>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="empty-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="empty-guidance">The state must help users continue</h2></div></div>${guidanceList(["Distinguish an empty collection from an error or loading state.", "Explain why content is absent only when it is not obvious.", "Offer one primary recovery or creation action."])}</section>`,
+
+  "primitive-flow": () =>
+    `${pageIntro("Component", "Flow", "A horizontally readable sequence for a small number of ordered steps or dependencies.")}
+    <section data-section-kind="preview" aria-labelledby="flow-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="flow-preview">Release path</h2></div><span class="oc-pill">.oc-flow</span></div>
+      <div class="specimen-frame"><div class="oc-flow" aria-label="Release path"><div class="oc-flow-step"><strong>Draft</strong><span>Prepare changes</span></div><span class="oc-flow-connector" aria-hidden="true"></span><div class="oc-flow-step" aria-current="step"><strong>Review</strong><span>Validate contract</span></div><span class="oc-flow-connector" aria-hidden="true"></span><div class="oc-flow-step"><strong>Publish</strong><span>Tag release</span></div></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="flow-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="flow-markup">Mark the current step</h2></div></div>${codeBlock(`<div class="oc-flow" aria-label="Release path">\n  <div class="oc-flow-step">Draft</div>\n  <span class="oc-flow-connector" aria-hidden="true"></span>\n  <div class="oc-flow-step" aria-current="step">Review</div>\n</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="flow-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="flow-guidance">Keep the sequence finite and legible</h2></div></div>${guidanceList(["Use ordered content rather than Flow for long procedural documentation.", "Name each step with a concrete state or action.", "Allow horizontal scrolling instead of compressing labels below readability."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}

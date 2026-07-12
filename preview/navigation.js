@@ -167,6 +167,12 @@ export const referenceAreas = [
         keywords: "oc-empty no results blank state action",
       },
       {
+        id: "primitive-flow",
+        label: "Flow",
+        path: "interface/primitives/flow/",
+        keywords: "oc-flow steps sequence dependency current",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -419,6 +425,7 @@ const adjacentReferenceSequences = [
     "primitive-dialog",
     "primitive-dropdown",
     "primitive-empty",
+    "primitive-flow",
     "primitive-input-area",
     "primitive-input-group",
     "primitive-input",

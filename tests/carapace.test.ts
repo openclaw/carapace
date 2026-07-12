@@ -101,6 +101,7 @@ describe("CSS contract", () => {
       ".oc-dialog",
       ".oc-dropdown",
       ".oc-empty",
+      ".oc-flow",
     ]) {
       expect(components).toContain(className);
     }

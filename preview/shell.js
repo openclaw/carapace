@@ -42,6 +42,7 @@ const pageKinds = {
   "primitive-dialog": "reference",
   "primitive-dropdown": "reference",
   "primitive-empty": "reference",
+  "primitive-flow": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",
