@@ -10,6 +10,7 @@ import {
 } from "./token-catalog.js";
 import { icon } from "./icons.js";
 import { renderReferenceContent } from "./reference-content.js";
+import { bindSensitiveInputs } from "./sensitive-input.js";
 import { renderShell, showShellFeedback } from "./shell.js";
 import { bindSidebars } from "./sidebar.js";
 import { bindTabs } from "./tabs.js";
@@ -25,6 +26,10 @@ bindDropdowns();
 bindSidebars();
 bindTabs();
 bindTablesOfContents();
+bindSensitiveInputs();
+document.querySelectorAll("[data-preview-indeterminate]").forEach((input) => {
+  input.indeterminate = true;
+});
 
 const root = document.documentElement;
 const tokenGrid = document.querySelector("[data-token-grid]");
@@ -351,19 +356,6 @@ document.querySelectorAll(".home-component-grid .oc-segmented").forEach((control
     control.querySelectorAll(`[${state}]`).forEach((option) => option.setAttribute(state, "false"));
     item.setAttribute(state, "true");
   });
-});
-
-document.addEventListener("click", (event) => {
-  const toggle = event.target.closest("[data-toggle-sensitive]");
-  if (!toggle) return;
-
-  const input = toggle.closest(".oc-sensitive-input")?.querySelector("[data-sensitive-value]");
-  if (!input) return;
-
-  const revealed = input.type === "password";
-  input.type = revealed ? "text" : "password";
-  toggle.setAttribute("aria-pressed", String(revealed));
-  toggle.textContent = revealed ? "Hide" : "Show";
 });
 
 function setActivePreviewSection(section) {

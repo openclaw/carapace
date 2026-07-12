@@ -14,6 +14,7 @@ import { bindTabs } from "../preview/tabs.js";
 import { getScrollFadeState } from "../preview/shell.js";
 import { setCurrentSidebarLink } from "../preview/sidebar.js";
 import { setCurrentTableOfContentsLink } from "../preview/table-of-contents.js";
+import { bindSensitiveInputs } from "../preview/sensitive-input.js";
 
 describe("preview behavior", () => {
   test("moves table-of-contents location to the selected section", () => {
@@ -93,6 +94,40 @@ describe("preview behavior", () => {
     first.dispatchEvent(left);
     expect(second.focused).toBe(true);
     expect(second.getAttribute("aria-selected")).toBe("true");
+  });
+
+  test("reveals and conceals a sensitive value through its named control", () => {
+    class Toggle extends EventTarget {
+      attributes = new Map();
+      textContent = "Show";
+      setAttribute(name, value) { this.attributes.set(name, value); }
+      getAttribute(name) { return this.attributes.get(name); }
+    }
+
+    const input = { type: "password" };
+    const toggle = new Toggle();
+    toggle.setAttribute("data-sensitive-label", "API key");
+    const control = {
+      querySelector(selector) {
+        if (selector === "[data-sensitive-value]") return input;
+        if (selector === "[data-toggle-sensitive]") return toggle;
+        return null;
+      },
+    };
+    const root = { querySelectorAll: () => [control] };
+
+    expect(bindSensitiveInputs(root)).toBe(1);
+    toggle.dispatchEvent(new Event("click"));
+    expect(input.type).toBe("text");
+    expect(toggle.textContent).toBe("Hide");
+    expect(toggle.getAttribute("aria-pressed")).toBe("true");
+    expect(toggle.getAttribute("aria-label")).toBe("Hide API key");
+
+    toggle.dispatchEvent(new Event("click"));
+    expect(input.type).toBe("password");
+    expect(toggle.textContent).toBe("Show");
+    expect(toggle.getAttribute("aria-pressed")).toBe("false");
+    expect(toggle.getAttribute("aria-label")).toBe("Show API key");
   });
 
   test("binds the interaction example to its own dialog", () => {
