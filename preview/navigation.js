@@ -1,6 +1,6 @@
 export const introductionPage = {
   id: "overview",
-  label: "Introduction",
+  label: "Home",
   path: "",
   keywords: "home overview design system visual contract",
 };
@@ -14,7 +14,7 @@ export const referenceAreas = [
     pages: [
       {
         id: "foundations",
-        label: "Overview",
+        label: "Introduction",
         path: "foundations/",
         keywords: "visual foundation system",
       },

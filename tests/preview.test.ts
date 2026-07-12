@@ -69,7 +69,7 @@ describe("preview contracts", () => {
 
     expect(introductionPage).toEqual({
       id: "overview",
-      label: "Introduction",
+      label: "Home",
       path: "",
       keywords: "home overview design system visual contract",
     });
