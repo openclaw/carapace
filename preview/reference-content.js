@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">41 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">42 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -149,6 +149,7 @@ const contents = {
         <a class="reference-card" href="./input-group/"><span>.oc-input-group</span><strong>Input Group</strong><p>Text input with a structural prefix or suffix.</p></a>
         <a class="reference-card" href="./sensitive-input/"><span>.oc-sensitive-input</span><strong>Sensitive Input</strong><p>Secret entry with an explicit visibility control.</p></a>
         <a class="reference-card" href="./sidebar/"><span>.oc-sidebar</span><strong>Sidebar</strong><p>Persistent navigation with clear current-page state.</p></a>
+        <a class="reference-card" href="./skeleton-line/"><span>.oc-skeleton-line</span><strong>Skeleton Line</strong><p>Reserved text space during loading.</p></a>
       </div>
     </section>`,
 
@@ -531,6 +532,16 @@ const contents = {
   <footer class="oc-sidebar-footer">OpenClaw</footer>
 </aside>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="sidebar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="sidebar-guidance">Navigation stays predictable</h2></div></div>${guidanceList(["Use one sidebar for one bounded navigation context.", "Name the landmark when more than one navigation region exists.", "Mark the current destination with aria-current=page.", "Keep disclosure state and responsive behavior in the consumer."])}</section>`,
+
+  "primitive-skeleton-line": () =>
+    `${pageIntro("Component", "Skeleton Line", "A quiet placeholder that reserves text rhythm while content is loading.")}
+    <section data-section-kind="preview" aria-labelledby="skeleton-line-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="skeleton-line-preview">Preserve the final rhythm</h2></div><span class="oc-pill">.oc-skeleton-line</span></div><div class="specimen-frame"><div class="primitive-input-grid" aria-hidden="true"><span class="oc-skeleton-line"></span><span class="oc-skeleton-line"></span><span class="oc-skeleton-line oc-skeleton-line-short"></span></div><span class="sr-only">Content is loading</span></div></section>
+    <section data-section-kind="markup" aria-labelledby="skeleton-line-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="skeleton-line-markup">Hide visual placeholders</h2></div></div>${codeBlock(`<div aria-hidden="true">
+  <span class="oc-skeleton-line"></span>
+  <span class="oc-skeleton-line oc-skeleton-line-short"></span>
+</div>
+<span class="sr-only">Content is loading</span>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="skeleton-line-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="skeleton-line-guidance">Approximate content, not decoration</h2></div></div>${guidanceList(["Match the number and width of lines to the expected content.", "Hide decorative placeholders from assistive technology.", "Expose loading state through adjacent status text or the owning region.", "Reduced-motion preferences remove the sweep animation."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

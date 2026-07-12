@@ -53,6 +53,7 @@ const pageKinds = {
   "primitive-popover": "reference",
   "primitive-provider-logo": "reference",
   "primitive-sidebar": "reference",
+  "primitive-skeleton-line": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

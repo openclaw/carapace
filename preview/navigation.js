@@ -233,6 +233,12 @@ export const referenceAreas = [
         keywords: "oc-sidebar navigation rail current page header footer",
       },
       {
+        id: "primitive-skeleton-line",
+        label: "Skeleton Line",
+        path: "interface/primitives/skeleton-line/",
+        keywords: "oc-skeleton-line loading placeholder progress content",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -507,6 +513,7 @@ const adjacentReferenceSequences = [
     "primitive-select",
     "primitive-sensitive-input",
     "primitive-sidebar",
+    "primitive-skeleton-line",
     "primitive-switch",
   ],
 ];
