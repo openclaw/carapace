@@ -89,6 +89,12 @@ export const referenceAreas = [
         keywords: "oc-autocomplete suggestions datalist input native",
       },
       {
+        id: "primitive-avatar",
+        label: "Avatar",
+        path: "interface/primitives/avatar/",
+        keywords: "oc-avatar image fallback initials sizes presence status identity",
+      },
+      {
         id: "primitive-badge",
         label: "Badge",
         path: "interface/primitives/badge/",
@@ -746,6 +752,7 @@ const adjacentReferenceSequences = [
     "primitive-action",
     "primitive-app-surface",
     "primitive-autocomplete",
+    "primitive-avatar",
     "primitive-badge",
     "primitive-banner",
     "primitive-breadcrumbs",

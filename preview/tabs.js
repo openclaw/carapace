@@ -19,10 +19,18 @@ export function bindTabs(root = document) {
     tabs.forEach((tab, index) => {
       tab.addEventListener("click", () => activate(tab));
       tab.addEventListener("keydown", (event) => {
-        const direction = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-        if (!direction) return;
+        const target = event.key === "ArrowRight"
+          ? (index + 1) % tabs.length
+          : event.key === "ArrowLeft"
+            ? (index - 1 + tabs.length) % tabs.length
+            : event.key === "Home"
+              ? 0
+              : event.key === "End"
+                ? tabs.length - 1
+                : null;
+        if (target === null) return;
         event.preventDefault();
-        activate(tabs[(index + direction + tabs.length) % tabs.length], true);
+        activate(tabs[target], true);
       });
     });
   }

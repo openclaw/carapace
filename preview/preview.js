@@ -3,6 +3,7 @@ import { bindCombobox } from "./combobox.js";
 import { bindCommandPalettes } from "./command-palette.js";
 import { bindDialogs } from "./dialog.js";
 import { bindDropdowns } from "./dropdown.js";
+import { bindMenuBars } from "./menu-bar.js";
 import {
   groupTokenDefinitions,
   resolveTokenHash,
@@ -15,6 +16,9 @@ import { renderShell, showShellFeedback } from "./shell.js";
 import { bindSidebars } from "./sidebar.js";
 import { bindTabs } from "./tabs.js";
 import { bindTablesOfContents } from "./table-of-contents.js";
+import { bindToolbars } from "./toolbar.js";
+import { bindToasts } from "./toast.js";
+import { bindTooltips } from "./tooltip.js";
 import { nextThemeMode, resolveThemeMode, themeModes } from "./theme.js";
 
 renderReferenceContent();
@@ -24,7 +28,11 @@ bindCommandPalettes();
 bindDialogs();
 bindDropdowns();
 bindSidebars();
+bindMenuBars();
 bindTabs();
+bindToolbars();
+bindToasts();
+bindTooltips();
 bindTablesOfContents();
 bindSensitiveInputs();
 document.querySelectorAll("[data-preview-indeterminate]").forEach((input) => {

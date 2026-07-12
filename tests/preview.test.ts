@@ -4,6 +4,7 @@ import { transform } from "lightningcss";
 import { icon } from "../preview/icons.js";
 import {
   getAdjacentReferencePages,
+  getReferencePage,
   introductionPage,
   referencePages,
 } from "../preview/navigation.js";
@@ -66,6 +67,9 @@ describe("preview contracts", () => {
     const previewStyles = await readFile("preview/preview.css", "utf8");
     const previewScript = await readFile("preview/preview.js", "utf8");
     const destinations = [...home.matchAll(/href="([^"]+)"/g)].map(([, href]) => href);
+    const componentLabels = [
+      ...home.matchAll(/class="home-component-link"[^>]*>([^<]+)<\/a>/g),
+    ].map(([, label]) => label);
 
     expect(introductionPage).toEqual({
       id: "overview",
@@ -85,18 +89,31 @@ describe("preview contracts", () => {
       "--home-grid-row-height: calc((100dvh - var(--preview-topbar-height) - 1px) / 2)",
     );
     expect(previewStyles).toContain("grid-auto-rows: var(--home-grid-row-height)");
-    expect(previewStyles).toContain(".home-component-demo .oc-hero-title");
-    expect(previewStyles).toContain("overflow-wrap: anywhere");
+    expect(previewStyles).toContain(".home-chart .oc-chart-plot");
+    expect(previewStyles).toContain(".home-command-palette");
+    expect(previewStyles).toContain(".home-table .oc-table");
+    expect(previewStyles).toContain(".home-page-header");
     expect(previewScript).toContain('.home-component-grid .oc-segmented');
+    expect(componentLabels.slice(0, 8)).toEqual([
+      "Button",
+      "Timeseries",
+      "Command Palette",
+      "Table",
+      "Tabs",
+      "Flow",
+      "Toast",
+      "Page Header",
+    ]);
 
     for (const path of [
-      "./interface/primitives/app-surface/",
-      "./interface/primitives/hero/",
-      "./interface/primitives/section/",
-      "./interface/primitives/card/",
-      "./interface/primitives/action/",
-      "./interface/primitives/segmented-control/",
-      "./interface/primitives/pill/",
+      "./interface/primitives/button/",
+      "./interface/charts/timeseries/",
+      "./interface/primitives/command-palette/",
+      "./interface/primitives/table/",
+      "./interface/primitives/tabs/",
+      "./interface/primitives/flow/",
+      "./interface/primitives/toast/",
+      "./interface/blocks/page-header/",
     ]) {
       expect(destinations).toContain(path);
     }
@@ -142,7 +159,7 @@ describe("preview contracts", () => {
   });
 
   test("renders accessible shell icons", () => {
-    for (const name of ["search", "github", "sun", "moon", "system"] as const) {
+    for (const name of ["menu", "search", "github", "sun", "moon", "system"] as const) {
       const markup = icon(name);
       expect(markup).toContain("<svg");
       expect(markup).toContain('aria-hidden="true"');
@@ -161,6 +178,10 @@ describe("preview contracts", () => {
     expect(previewStyles).toContain("justify-self: center");
     expect(previewStyles).toContain(".search-field:focus-within");
     expect(previewStyles).toContain(".topbar-actions {\n  grid-column: 3;\n  display: flex;\n  gap: 8px;");
+    expect(shell).toContain('${icon("menu")}');
+    expect(previewStyles).toContain(".mobile-nav-trigger svg");
+    expect(previewStyles).toContain("transform: translateX(-50%)");
+    expect(previewStyles).toContain(".search-trigger:is(:hover, :active)");
   });
 
   test("renders foundation pages at the sidebar root", async () => {
@@ -242,9 +263,31 @@ describe("preview contracts", () => {
       previous: { id: "primitive-button" },
       next: { id: "primitive-checkbox" },
     });
+    expect(getAdjacentReferencePages("primitive-avatar")).toMatchObject({
+      previous: { id: "primitive-autocomplete" },
+      next: { id: "primitive-badge" },
+    });
     expect(getAdjacentReferencePages("resource-theming")).toEqual({
       previous: undefined,
       next: undefined,
     });
+  });
+
+  test("documents an accessible avatar primitive and its public variants", () => {
+    expect(getReferencePage("primitive-avatar")).toMatchObject({
+      label: "Avatar",
+      path: "interface/primitives/avatar/",
+      areaId: "interface",
+    });
+
+    const avatar = getReferenceContent("primitive-avatar");
+    expect(avatar).toContain("oc-avatar-sm");
+    expect(avatar).toContain("oc-avatar-lg");
+    expect(avatar).toContain('class="oc-avatar-image"');
+    expect(avatar).toContain('role="img"');
+    expect(avatar).toContain('aria-label="OpenClaw"');
+    expect(avatar).toContain('class="oc-avatar-status" aria-hidden="true"');
+    expect(avatar).toContain("Online");
+    expect(avatar).toContain("Never rely on the status indicator alone");
   });
 });

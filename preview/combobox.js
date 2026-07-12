@@ -11,23 +11,27 @@ export function bindCombobox(root = document) {
     let activeIndex = -1;
 
     const visibleOptions = () => options.filter((option) => !option.hidden);
+    const clearActive = () => {
+      activeIndex = -1;
+      for (const option of options) option.removeAttribute("data-active");
+      input.removeAttribute("aria-activedescendant");
+    };
     const setOpen = (open) => {
       listbox.hidden = !open;
       input.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-expanded", String(open));
-      if (!open) {
-        activeIndex = -1;
-        input.removeAttribute("aria-activedescendant");
-      }
+      if (!open) clearActive();
     };
     const setActive = (index) => {
       const visible = visibleOptions();
-      if (visible.length === 0) return;
+      clearActive();
+      if (visible.length === 0) return null;
       activeIndex = (index + visible.length) % visible.length;
-      for (const option of options) option.removeAttribute("data-active");
       const option = visible[activeIndex];
       option.setAttribute("data-active", "");
       input.setAttribute("aria-activedescendant", option.id);
+      option.scrollIntoView?.({ block: "nearest" });
+      return option;
     };
     const select = (option) => {
       input.value = option.dataset.value || option.textContent.trim();
@@ -47,17 +51,27 @@ export function bindCombobox(root = document) {
       for (const option of options) {
         option.hidden = query !== "" && !option.textContent.toLowerCase().includes(query);
       }
+      clearActive();
       setOpen(true);
-      setActive(0);
+      if (visibleOptions().length) setActive(0);
     });
     input.addEventListener("keydown", (event) => {
       if (event.key === "ArrowDown" || event.key === "ArrowUp") {
         event.preventDefault();
         if (listbox.hidden) setOpen(true);
-        setActive(activeIndex + (event.key === "ArrowDown" ? 1 : -1));
+        const visible = visibleOptions();
+        const next = activeIndex < 0
+          ? event.key === "ArrowDown" ? 0 : visible.length - 1
+          : activeIndex + (event.key === "ArrowDown" ? 1 : -1);
+        setActive(next);
       } else if (event.key === "Enter" && activeIndex >= 0) {
-        event.preventDefault();
-        select(visibleOptions()[activeIndex]);
+        const option = visibleOptions()[activeIndex];
+        if (option) {
+          event.preventDefault();
+          select(option);
+        } else {
+          clearActive();
+        }
       } else if (event.key === "Escape") {
         setOpen(false);
       }

@@ -31,6 +31,7 @@ const pageKinds = {
   "interface-primitives": "index",
   "primitive-app-surface": "reference",
   "primitive-autocomplete": "reference",
+  "primitive-avatar": "reference",
   "primitive-badge": "reference",
   "primitive-banner": "reference",
   "primitive-breadcrumbs": "reference",
@@ -173,7 +174,7 @@ function renderTopbar() {
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="topbar">
       <button class="mobile-nav-trigger shell-control" type="button" data-open-navigation aria-label="Open navigation" aria-controls="reference-navigation" aria-expanded="false">
-        <span></span><span></span>
+        ${icon("menu")}
       </button>
       <a class="brand" href="${hrefFor("")}" aria-label="Carapace overview" translate="no">
         <span class="brand-primary">

@@ -916,6 +916,95 @@
   transform: translateY(-65%) rotate(45deg);
 }
 
+.oc-avatar {
+  position: relative;
+  display: inline-grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: var(--oc-radius-round);
+  color: var(--oc-text-secondary);
+  font-family: var(--oc-font-display);
+  font-size: var(--oc-font-size-sm);
+  font-weight: 700;
+  line-height: 1;
+  isolation: isolate;
+  vertical-align: middle;
+}
+
+.oc-avatar-sm {
+  width: var(--oc-space-6);
+  height: var(--oc-space-6);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-avatar-lg {
+  width: var(--oc-space-7);
+  height: var(--oc-space-7);
+  font-size: var(--oc-font-size-base);
+}
+
+.oc-avatar-image,
+.oc-avatar-fallback {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  grid-area: 1 / 1;
+  overflow: hidden;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: inherit;
+  background: var(--oc-surface-secondary-soft);
+}
+
+.oc-avatar-image {
+  display: block;
+  object-fit: cover;
+}
+
+.oc-avatar-fallback {
+  display: grid;
+  place-items: center;
+  text-transform: uppercase;
+}
+
+.oc-avatar-status {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  z-index: 1;
+  box-sizing: border-box;
+  border: 2px solid var(--oc-bg-surface);
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-accent-secondary);
+}
+
+.oc-avatar-sm .oc-avatar-status {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.oc-avatar-lg .oc-avatar-status {
+  width: var(--oc-space-3);
+  height: var(--oc-space-3);
+}
+
+@media (forced-colors: active) {
+  .oc-avatar-fallback {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .oc-avatar-status {
+    border-color: Canvas;
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+}
+
 .oc-badge {
   display: inline-flex;
   max-width: 100%;
@@ -1473,6 +1562,11 @@
   border-bottom: 1px solid var(--oc-border-subtle);
 }
 
+.oc-command-palette-search:focus-within {
+  border-bottom-color: var(--oc-input-focus-border);
+  box-shadow: inset 0 0 0 2px var(--oc-input-focus-ring);
+}
+
 .oc-command-palette-search input {
   min-width: 0;
   flex: 1;
@@ -1498,6 +1592,31 @@
   list-style: none;
 }
 
+.oc-command-palette-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.oc-command-palette-empty {
+  margin: 0;
+  padding: var(--oc-space-2) var(--oc-space-4);
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  line-height: 1.5;
+}
+
+.oc-command-palette-empty {
+  padding-block: var(--oc-space-6);
+  text-align: center;
+}
+
 .oc-command-palette-item {
   display: flex;
   min-height: 2.75rem;
@@ -1516,7 +1635,8 @@
 }
 
 .oc-command-palette-item:hover,
-.oc-command-palette-item:focus-visible {
+.oc-command-palette-item:focus-visible,
+.oc-command-palette-item[data-active] {
   outline: 0;
   background: var(--oc-surface-interactive);
   color: var(--oc-text-primary);
@@ -2664,8 +2784,8 @@
 }
 
 .oc-toast-close {
-  width: 2rem;
-  height: 2rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 0;
   border-radius: var(--oc-radius-control);
   background: transparent;
@@ -2689,13 +2809,29 @@
   display: inline-flex;
 }
 
+.oc-tooltip-trigger {
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+}
+
+.oc-tooltip-trigger svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
 .oc-tooltip-content {
   position: absolute;
   z-index: 10;
   bottom: calc(100% + var(--oc-space-2));
   left: 50%;
   width: max-content;
-  max-width: 16rem;
+  max-width: min(16rem, calc(100vw - var(--oc-space-8)));
   padding: var(--oc-space-2) var(--oc-space-3);
   border: 1px solid var(--oc-border-subtle);
   border-radius: var(--oc-radius-control);
@@ -2704,6 +2840,7 @@
   color: var(--oc-text-primary);
   font-size: var(--oc-font-size-xs);
   line-height: 1.4;
+  overflow-wrap: anywhere;
   pointer-events: none;
   opacity: 0;
   transform: translate(-50%, var(--oc-space-1));
@@ -2713,6 +2850,43 @@
 .oc-tooltip:is(:hover, :focus-within) .oc-tooltip-content {
   opacity: 1;
   transform: translate(-50%, 0);
+}
+
+.oc-tooltip-content[data-placement="bottom"] {
+  top: calc(100% + var(--oc-space-2));
+  bottom: auto;
+  transform: translate(-50%, calc(var(--oc-space-1) * -1));
+}
+
+.oc-tooltip-content[data-align="start"] {
+  right: auto;
+  left: 0;
+  transform: translate(0, var(--oc-space-1));
+}
+
+.oc-tooltip-content[data-align="end"] {
+  right: 0;
+  left: auto;
+  transform: translate(0, var(--oc-space-1));
+}
+
+.oc-tooltip-content[data-placement="bottom"]:is([data-align="start"], [data-align="end"]) {
+  transform: translate(0, calc(var(--oc-space-1) * -1));
+}
+
+.oc-tooltip-content[data-open],
+.oc-tooltip:is(:hover, :focus-within) .oc-tooltip-content[data-placement="bottom"],
+.oc-tooltip:is(:hover, :focus-within) .oc-tooltip-content:is([data-align="start"], [data-align="end"]) {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.oc-tooltip-content[data-open][data-align="center"] {
+  transform: translate(-50%, 0);
+}
+
+.oc-tooltip[data-suppressed] .oc-tooltip-content {
+  opacity: 0;
 }
 
 .oc-chart {

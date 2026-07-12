@@ -39,6 +39,8 @@ Safe extension therefore means:
 
 ## Geometry and density gaps
 
+Avatar currently uses 2rem, 2.5rem, and 3rem sizes. Only the compact 2rem size also appears in another shared identity treatment; the default and large values remain local until independent consumers prove that they need common roles.
+
 | Proposed token | Current repeated value | Why it is needed | Primary consumers |
 | --- | --- | --- | --- |
 | `--oc-control-height-sm` | `2rem` | Standardizes compact buttons, tabs, suggestions, and toolbar actions. | Suggestions, Toolbar, Segmented Control |
@@ -46,7 +48,7 @@ Safe extension therefore means:
 | `--oc-control-height-lg` | `3rem` | Gives large actions and primary composer controls one shared contract. | Button, Input Bar, dialogs |
 | `--oc-icon-size-sm` | `1rem` | Aligns icons and loading marks across compact controls. | Buttons, Loader, status rows |
 | `--oc-icon-size-md` | `1.5rem` | Aligns standalone status and tool icons. | Spiral Loader, Tool cards |
-| `--oc-avatar-size-sm` | `1.75rem` | Removes repeated avatar dimensions from delegated-work surfaces. | Subagent Tool, message metadata |
+| `--oc-avatar-size-sm` | `2rem` | Aligns compact person or agent identity with the existing provider-mark footprint. | Avatar, Provider Logo |
 | `--oc-composer-min-height` | `2.5rem` | Makes the collapsed message composer intentional and shared. | Input Bar, Agent Chat |
 | `--oc-composer-max-height` | `10rem` | Standardizes composer growth before internal scrolling begins. | Input Bar, Agent Chat |
 | `--oc-conversation-max-width` | `42rem` | Keeps readable conversational measure consistent across consumers. | Agent Chat, Input Bar, messages |
