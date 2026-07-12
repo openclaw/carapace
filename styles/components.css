@@ -68,6 +68,10 @@
   gap: var(--oc-space-5);
 }
 
+.oc-section-header > * {
+  min-width: 0;
+}
+
 .oc-section-heading {
   display: grid;
   gap: var(--oc-space-2);
@@ -101,6 +105,7 @@
   color: var(--oc-text-secondary);
   font-size: var(--oc-font-size-base);
   line-height: 1.65;
+  overflow-wrap: anywhere;
   text-wrap: pretty;
 }
 
@@ -125,8 +130,12 @@
   border-color: var(--oc-component-border-hover);
   background: var(--oc-component-surface-hover);
   box-shadow: var(--oc-component-shadow-hover);
-  outline: none;
   transform: translateY(-1px);
+}
+
+.oc-card-interactive:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 3px;
 }
 
 .oc-card-interactive:active {
