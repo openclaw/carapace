@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">47 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">48 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -155,6 +155,7 @@ const contents = {
         <a class="reference-card" href="./tabs/"><span>.oc-tabs</span><strong>Tabs</strong><p>Peer views within one local context.</p></a>
         <a class="reference-card" href="./text/"><span>.oc-text</span><strong>Text</strong><p>Readable semantic text roles.</p></a>
         <a class="reference-card" href="./toolbar/"><span>.oc-toolbar</span><strong>Toolbar</strong><p>Grouped direct actions.</p></a>
+        <a class="reference-card" href="./toast/"><span>.oc-toast</span><strong>Toast</strong><p>Temporary status feedback.</p></a>
       </div>
     </section>`,
 
@@ -603,6 +604,20 @@ const contents = {
   </div>
 </div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="toolbar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="toolbar-guidance">Keep frequent actions immediate</h2></div></div>${guidanceList(["Use a toolbar for direct actions, not controls that only open menus.", "Name icon-only buttons with accessible labels.", "Use aria-pressed for persistent toggle actions.", "Keep logical groups visible and preserve DOM order for keyboard use."])}</section>`,
+
+  "primitive-toast": () =>
+    `${pageIntro("Component", "Toast", "Temporary, non-blocking feedback for an action that has already completed or changed state.")}
+    <section data-section-kind="preview" aria-labelledby="toast-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="toast-preview">Confirmation without interruption</h2></div><span class="oc-pill">.oc-toast</span></div><div class="specimen-frame"><div class="oc-toast-region" aria-label="Notifications"><div class="oc-toast" role="status"><div class="oc-toast-content"><p class="oc-toast-title">Changes saved</p><p class="oc-toast-message">The component reference is up to date.</p></div><button class="oc-toast-close" type="button" aria-label="Dismiss notification">×</button></div></div></div></section>
+    <section data-section-kind="markup" aria-labelledby="toast-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="toast-markup">Announce status politely</h2></div></div>${codeBlock(`<div class="oc-toast-region" aria-label="Notifications">
+  <div class="oc-toast" role="status">
+    <div class="oc-toast-content">
+      <p class="oc-toast-title">Changes saved</p>
+      <p class="oc-toast-message">The reference is up to date.</p>
+    </div>
+    <button class="oc-toast-close" type="button" aria-label="Dismiss notification">×</button>
+  </div>
+</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="toast-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="toast-guidance">Do not hide required decisions</h2></div></div>${guidanceList(["Use status for neutral or successful feedback that does not require immediate action.", "Keep errors near the affected control when correction is required.", "Make dismissal optional unless the message persists.", "Let the consumer own timing, stacking, focus policy, and lifecycle."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

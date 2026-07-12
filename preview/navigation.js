@@ -269,6 +269,12 @@ export const referenceAreas = [
         keywords: "oc-toolbar grouped direct actions formatting controls",
       },
       {
+        id: "primitive-toast",
+        label: "Toast",
+        path: "interface/primitives/toast/",
+        keywords: "oc-toast notification status feedback dismiss",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -550,6 +556,7 @@ const adjacentReferenceSequences = [
     "primitive-tabs",
     "primitive-text",
     "primitive-toolbar",
+    "primitive-toast",
   ],
 ];
 

@@ -2315,6 +2315,64 @@
   outline-offset: -2px;
 }
 
+.oc-toast-region {
+  display: grid;
+  width: min(100%, 24rem);
+  gap: var(--oc-space-2);
+}
+
+.oc-toast {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--oc-space-4);
+  padding: var(--oc-space-4);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-surface-overlay);
+  box-shadow: var(--oc-shadow-lg);
+  color: var(--oc-text-secondary);
+}
+
+.oc-toast-content {
+  display: grid;
+  gap: var(--oc-space-1);
+}
+
+.oc-toast-title {
+  margin: 0;
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+  font-weight: 700;
+}
+
+.oc-toast-message {
+  margin: 0;
+  font-size: var(--oc-font-size-sm);
+  line-height: 1.5;
+}
+
+.oc-toast-close {
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-text-muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.oc-toast-close:is(:hover, :focus-visible) {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.oc-toast-close:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-skeleton-line::after {
     animation: none;
