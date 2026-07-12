@@ -130,6 +130,7 @@ describe("CSS contract", () => {
       ".oc-resource-list",
       ".oc-delete-resource",
       ".oc-agent-chat",
+      ".oc-agent-error-message",
       ".oc-agent-input-bar",
       ".oc-agent-suggestions",
       ".oc-agent-model-picker",

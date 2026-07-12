@@ -399,6 +399,12 @@ export const referenceAreas = [
         keywords: "oc-agent-chat conversation messages suggestions input",
       },
       {
+        id: "error-message",
+        label: "Error Message",
+        path: "agent-components/error-message/",
+        keywords: "oc-agent-error-message failure retry recovery alert",
+      },
+      {
         id: "message-list",
         label: "Message List",
         path: "agent-components/message-list/",
@@ -687,7 +693,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "input-bar", "message-list", "mode-selector", "model-picker", "suggestions", "user-message"],
+  ["agent-chat", "error-message", "input-bar", "message-list", "mode-selector", "model-picker", "suggestions", "user-message"],
 ];
 
 export function getReferencePage(id) {

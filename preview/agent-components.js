@@ -18,6 +18,19 @@ function renderAgentComponent(component) {
 }
 
 const components = {
+  "error-message": {
+    slug: "error-message",
+    title: "Error Message",
+    className: "oc-agent-error-message",
+    lede: "A recoverable conversation error that explains what failed and exposes the next valid action.",
+    previewTitle: "Recover from a failed response",
+    preview: `<div class="oc-agent-error-message" role="alert"><div><strong>Response failed</strong><p>The connection ended before the response completed.</p></div><button class="oc-button oc-button-secondary" type="button">Retry</button></div>`,
+    markup: `<div class="oc-agent-error-message" role="alert">
+  <div><strong>Response failed</strong><p>The connection ended before the response completed.</p></div>
+  <button class="oc-button oc-button-secondary" type="button">Retry</button>
+</div>`,
+    guidance: ["State the failure in plain language and preserve any safe recovery action.", "Use an alert only when the error appears after an attempted action.", "The consumer owns error mapping, retry logic, logging, and destructive recovery decisions."],
+  },
   "agent-chat": {
     slug: "agent-chat",
     title: "Agent Chat",
