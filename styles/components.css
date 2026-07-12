@@ -3058,6 +3058,37 @@
   color: var(--oc-text-secondary);
 }
 
+.oc-agent-tool {
+  width: min(100%, 44rem);
+  overflow: hidden;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-surface);
+}
+
+.oc-agent-tool-summary {
+  display: grid;
+  min-height: 3rem;
+  padding: 0 var(--oc-space-4);
+  align-items: center;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--oc-space-3);
+  color: var(--oc-text-primary);
+  cursor: pointer;
+}
+
+.oc-agent-tool-icon,
+.oc-agent-tool-status {
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-agent-tool-content {
+  padding: var(--oc-space-4);
+  border-top: 1px solid var(--oc-border-subtle);
+  color: var(--oc-text-secondary);
+}
+
 .oc-agent-message-meta {
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);

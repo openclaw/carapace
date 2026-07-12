@@ -131,6 +131,7 @@ describe("CSS contract", () => {
       ".oc-delete-resource",
       ".oc-agent-chat",
       ".oc-agent-error-message",
+      ".oc-agent-tool",
       ".oc-agent-input-bar",
       ".oc-agent-suggestions",
       ".oc-agent-model-picker",
