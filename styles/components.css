@@ -2196,6 +2196,47 @@
   outline-offset: 2px;
 }
 
+.oc-tabs {
+  width: 100%;
+}
+
+.oc-tabs-list {
+  display: flex;
+  gap: var(--oc-space-1);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--oc-border-subtle);
+}
+
+.oc-tabs-trigger {
+  min-height: 2.75rem;
+  padding: 0 var(--oc-space-3);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--oc-text-muted);
+  font: inherit;
+  font-size: var(--oc-font-size-sm);
+  cursor: pointer;
+}
+
+.oc-tabs-trigger:is(:hover, [aria-selected="true"]) {
+  color: var(--oc-text-primary);
+}
+
+.oc-tabs-trigger[aria-selected="true"] {
+  border-bottom-color: var(--oc-border-accent);
+}
+
+.oc-tabs-trigger:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
+.oc-tabs-panel {
+  padding: var(--oc-space-5) 0;
+  color: var(--oc-text-secondary);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-skeleton-line::after {
     animation: none;

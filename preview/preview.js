@@ -11,6 +11,7 @@ import {
 import { icon } from "./icons.js";
 import { renderReferenceContent } from "./reference-content.js";
 import { renderShell, showShellFeedback } from "./shell.js";
+import { bindTabs } from "./tabs.js";
 import { nextThemeMode, resolveThemeMode, themeModes } from "./theme.js";
 
 renderReferenceContent();
@@ -19,6 +20,7 @@ bindCombobox();
 bindCommandPalettes();
 bindDialogs();
 bindDropdowns();
+bindTabs();
 
 const root = document.documentElement;
 const tokenGrid = document.querySelector("[data-token-grid]");

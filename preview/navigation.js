@@ -251,6 +251,12 @@ export const referenceAreas = [
         keywords: "oc-table-of-contents in page navigation anchors current location",
       },
       {
+        id: "primitive-tabs",
+        label: "Tabs",
+        path: "interface/primitives/tabs/",
+        keywords: "oc-tabs tablist panels selection keyboard",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -529,6 +535,7 @@ const adjacentReferenceSequences = [
     "primitive-switch",
     "primitive-table",
     "primitive-table-of-contents",
+    "primitive-tabs",
   ],
 ];
 

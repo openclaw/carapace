@@ -10,8 +10,45 @@ import {
   skillsUpdateCommand,
 } from "../preview/reference-content.js";
 import { resolveTokenHash, syncTokenHash } from "../preview/token-catalog.js";
+import { bindTabs } from "../preview/tabs.js";
 
 describe("preview behavior", () => {
+  test("switches tab panels and wraps arrow-key navigation", () => {
+    class Tab extends EventTarget {
+      attributes = new Map();
+      tabIndex = 0;
+      focused = false;
+      constructor(controls) {
+        super();
+        this.attributes.set("aria-controls", controls);
+      }
+      getAttribute(name) { return this.attributes.get(name); }
+      setAttribute(name, value) { this.attributes.set(name, value); }
+      focus() { this.focused = true; }
+    }
+
+    const first = new Tab("first-panel");
+    const second = new Tab("second-panel");
+    const panels = [{ id: "first-panel", hidden: false }, { id: "second-panel", hidden: true }];
+    const tabset = {
+      querySelectorAll(selector) {
+        return selector === '[role="tab"]' ? [first, second] : panels;
+      },
+    };
+    const root = { querySelectorAll: () => [tabset] };
+
+    expect(bindTabs(root)).toBe(1);
+    second.dispatchEvent(new Event("click"));
+    expect(second.getAttribute("aria-selected")).toBe("true");
+    expect(panels.map((panel) => panel.hidden)).toEqual([true, false]);
+
+    const left = new Event("keydown", { cancelable: true });
+    Object.defineProperty(left, "key", { value: "ArrowLeft" });
+    first.dispatchEvent(left);
+    expect(second.focused).toBe(true);
+    expect(second.getAttribute("aria-selected")).toBe("true");
+  });
+
   test("binds the interaction example to its own dialog", () => {
     const trigger = new EventTarget();
     let exampleOpens = 0;

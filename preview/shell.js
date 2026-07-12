@@ -56,6 +56,7 @@ const pageKinds = {
   "primitive-skeleton-line": "reference",
   "primitive-table": "reference",
   "primitive-table-of-contents": "reference",
+  "primitive-tabs": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">44 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">45 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -152,6 +152,7 @@ const contents = {
         <a class="reference-card" href="./skeleton-line/"><span>.oc-skeleton-line</span><strong>Skeleton Line</strong><p>Reserved text space during loading.</p></a>
         <a class="reference-card" href="./table/"><span>.oc-table</span><strong>Table</strong><p>Structured comparison across rows and columns.</p></a>
         <a class="reference-card" href="./table-of-contents/"><span>.oc-table-of-contents</span><strong>Table of Contents</strong><p>Local navigation through page sections.</p></a>
+        <a class="reference-card" href="./tabs/"><span>.oc-tabs</span><strong>Tabs</strong><p>Peer views within one local context.</p></a>
       </div>
     </section>`,
 
@@ -567,6 +568,19 @@ const contents = {
   </ol>
 </nav>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="table-of-contents-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="table-of-contents-guidance">Mirror the visible document</h2></div></div>${guidanceList(["Include only stable headings that help readers navigate.", "Keep link labels identical to their section headings.", "Use aria-current=location for the section in view.", "Let the consumer own scroll observation and responsive placement."])}</section>`,
+
+  "primitive-tabs": () =>
+    `${pageIntro("Component", "Tabs", "A keyboard-operable set of peer panels within one local context.")}
+    <section data-section-kind="preview" aria-labelledby="tabs-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="tabs-preview">Switch local views</h2></div><span class="oc-pill">.oc-tabs</span></div><div class="specimen-frame"><div class="oc-tabs" data-tabs><div class="oc-tabs-list" role="tablist" aria-label="Component details"><button class="oc-tabs-trigger" id="tab-preview" role="tab" aria-selected="true" aria-controls="panel-preview">Preview</button><button class="oc-tabs-trigger" id="tab-code" role="tab" aria-selected="false" aria-controls="panel-code" tabindex="-1">Code</button><button class="oc-tabs-trigger" id="tab-guidance" role="tab" aria-selected="false" aria-controls="panel-guidance" tabindex="-1">Guidance</button></div><div class="oc-tabs-panel" id="panel-preview" role="tabpanel" aria-labelledby="tab-preview">Rendered component preview.</div><div class="oc-tabs-panel" id="panel-code" role="tabpanel" aria-labelledby="tab-code" hidden>Implementation markup.</div><div class="oc-tabs-panel" id="panel-guidance" role="tabpanel" aria-labelledby="tab-guidance" hidden>Usage guidance.</div></div></div></section>
+    <section data-section-kind="markup" aria-labelledby="tabs-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="tabs-markup">Connect every tab to one panel</h2></div></div>${codeBlock(`<div class="oc-tabs" data-tabs>
+  <div class="oc-tabs-list" role="tablist" aria-label="Details">
+    <button class="oc-tabs-trigger" role="tab" aria-selected="true" aria-controls="preview">Preview</button>
+    <button class="oc-tabs-trigger" role="tab" aria-selected="false" aria-controls="code" tabindex="-1">Code</button>
+  </div>
+  <div class="oc-tabs-panel" id="preview" role="tabpanel">Preview content</div>
+  <div class="oc-tabs-panel" id="code" role="tabpanel" hidden>Code content</div>
+</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="tabs-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="tabs-guidance">Keep views equivalent</h2></div></div>${guidanceList(["Use tabs for peer views, not sequential steps or primary navigation.", "Keep tab labels short and stable.", "Connect aria-controls and aria-labelledby in both directions.", "Arrow keys move between tabs while Tab moves into the active panel."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

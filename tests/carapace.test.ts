@@ -115,6 +115,7 @@ describe("CSS contract", () => {
       ".oc-skeleton-line",
       ".oc-table",
       ".oc-table-of-contents",
+      ".oc-tabs",
     ]) {
       expect(components).toContain(className);
     }
