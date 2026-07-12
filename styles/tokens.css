@@ -62,6 +62,8 @@
   --oc-duration-ui: 200ms;
   --oc-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
+  --oc-control-min-height: 2.75rem;
+
   --oc-content-max: 75rem;
   --oc-content-narrow: 48rem;
 }

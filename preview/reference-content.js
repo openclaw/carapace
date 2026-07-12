@@ -1,5 +1,6 @@
 import { exampleDialogAttribute } from "./interaction.js";
 import { agentReferenceContentIds, getAgentReferenceContent } from "./agent-components.js";
+import { getReferenceMaturity } from "./navigation.js";
 
 function escapeHtml(value) {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -189,7 +190,7 @@ const contents = {
   "primitive-badge": () =>
     `${pageIntro("Component", "Badge", "A compact label for status or short metadata that remains readable without relying on color alone.")}
     <section data-section-kind="preview" aria-labelledby="badge-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="badge-preview">Status variants</h2></div><span class="oc-pill">.oc-badge</span></div>
-      <div class="specimen-frame"><div class="primitive-control-row"><span class="oc-badge oc-badge-neutral">Official</span><span class="oc-badge oc-badge-success">Ready</span><span class="oc-badge oc-badge-warning">Pending</span><span class="oc-badge oc-badge-error">Failed</span></div></div>
+      <div class="specimen-frame"><div class="primitive-control-row"><span class="oc-badge oc-badge-neutral">Official</span><span class="oc-badge oc-badge-info">New</span><span class="oc-badge oc-badge-success">Ready</span><span class="oc-badge oc-badge-warning">Pending</span><span class="oc-badge oc-badge-error">Failed</span></div></div>
     </section>
     <section data-section-kind="markup" aria-labelledby="badge-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="badge-markup">Name the state</h2></div></div>${codeBlock(`<span class="oc-badge oc-badge-success">Ready</span>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="badge-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="badge-guidance">Keep labels short and literal</h2></div></div>${guidanceList(["Use a badge for state or metadata, not as an action.", "Pair semantic color with explicit text.", "Use Pill for neutral taxonomy that does not express status."])}</section>`,
@@ -197,7 +198,7 @@ const contents = {
   "primitive-banner": () =>
     `${pageIntro("Component", "Banner", "A persistent contextual notice with an explicit title, supporting message, and optional adjacent action.")}
     <section data-section-kind="preview" aria-labelledby="banner-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="banner-preview">Context before action</h2></div><span class="oc-pill">.oc-banner</span></div>
-      <div class="specimen-frame"><div class="oc-banner oc-banner-warning" role="status"><span class="oc-banner-indicator" aria-hidden="true"></span><div class="oc-banner-content"><strong class="oc-banner-title">Update available</strong><p>Review the changes before applying the new contract.</p></div><button class="oc-button oc-button-secondary oc-button-sm" type="button">Review</button></div></div>
+      <div class="specimen-frame"><div class="oc-banner oc-banner-warning" role="status"><span class="oc-banner-indicator" aria-hidden="true"></span><div class="oc-banner-content"><strong class="oc-banner-title">Update available</strong><p>Review the changes before applying the new contract.</p></div><button class="oc-action oc-action-secondary" type="button">Review</button></div></div>
     </section>
     <section data-section-kind="markup" aria-labelledby="banner-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="banner-markup">Keep the message structural</h2></div></div>${codeBlock(`<div class="oc-banner oc-banner-warning" role="status">\n  <span class="oc-banner-indicator" aria-hidden="true"></span>\n  <div class="oc-banner-content">\n    <strong class="oc-banner-title">Update available</strong>\n    <p>Review the changes before applying.</p>\n  </div>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="banner-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="banner-guidance">Reserve space for durable context</h2></div></div>${guidanceList(["Use Toast for transient confirmation.", "Use role alert only when interruption is necessary.", "Keep the action adjacent and singular when one is required."])}</section>`,
@@ -285,7 +286,7 @@ const contents = {
   "primitive-empty": () =>
     `${pageIntro("Component", "Empty", "A purposeful no-content state that explains what is absent and offers the most useful next action.")}
     <section data-section-kind="preview" aria-labelledby="empty-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="empty-preview">No saved views</h2></div><span class="oc-pill">.oc-empty</span></div>
-      <div class="specimen-frame"><section class="oc-empty" aria-labelledby="saved-views-title" aria-describedby="saved-views-description"><div class="oc-empty-content"><span class="oc-empty-icon" aria-hidden="true">◇</span><h3 class="oc-empty-title" id="saved-views-title">No saved views</h3><p class="oc-empty-description" id="saved-views-description">Save a filtered view to return to the same component set later.</p><div class="oc-empty-actions"><button class="oc-button oc-button-primary oc-button-sm" type="button">Create view</button></div></div></section></div>
+      <div class="specimen-frame"><section class="oc-empty" aria-labelledby="saved-views-title" aria-describedby="saved-views-description"><div class="oc-empty-content"><span class="oc-empty-icon" aria-hidden="true">◇</span><h3 class="oc-empty-title" id="saved-views-title">No saved views</h3><p class="oc-empty-description" id="saved-views-description">Save a filtered view to return to the same component set later.</p><div class="oc-empty-actions"><button class="oc-action oc-action-primary" type="button">Create view</button></div></div></section></div>
     </section>
     <section data-section-kind="markup" aria-labelledby="empty-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="empty-markup">Name the absence and next step</h2></div></div>${codeBlock(`<section class="oc-empty" aria-labelledby="empty-title" aria-describedby="empty-description">\n  <div class="oc-empty-content">\n    <h2 class="oc-empty-title" id="empty-title">No saved views</h2>\n    <p class="oc-empty-description" id="empty-description">Save a filtered view to return later.</p>\n    <div class="oc-empty-actions"><button>Create view</button></div>\n  </div>\n</section>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="empty-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="empty-guidance">The state must help users continue</h2></div></div>${guidanceList(["Distinguish an empty collection from an error or loading state.", "Explain why content is absent only when it is not obvious.", "Offer one primary recovery or creation action."])}</section>`,
@@ -881,6 +882,12 @@ export function getReferenceContent(id) {
 export function renderReferenceContent() {
   const mount = document.querySelector("[data-reference-content]");
   if (!mount) return;
-  const content = getReferenceContent(document.body.dataset.previewPage);
-  if (content) mount.innerHTML = content;
+  const pageId = document.body.dataset.previewPage;
+  const content = getReferenceContent(pageId);
+  if (!content) return;
+
+  mount.innerHTML = content;
+  const maturity = getReferenceMaturity(pageId);
+  const eyebrow = mount.querySelector(".reference-intro > .eyebrow");
+  if (maturity && eyebrow) eyebrow.textContent = `${eyebrow.textContent} · ${maturity}`;
 }

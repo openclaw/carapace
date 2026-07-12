@@ -11,6 +11,7 @@ import {
   syncTokenHash,
 } from "./token-catalog.js";
 import { icon } from "./icons.js";
+import { getReferenceMaturity, referencePages } from "./navigation.js";
 import { renderReferenceContent } from "./reference-content.js";
 import { bindSensitiveInputs } from "./sensitive-input.js";
 import { renderShell, showShellFeedback } from "./shell.js";
@@ -24,6 +25,17 @@ import { nextThemeMode, resolveThemeMode, themeModes } from "./theme.js";
 
 renderReferenceContent();
 renderShell();
+document.querySelectorAll(".home-component-link").forEach((link) => {
+  const path = link.getAttribute("href")?.replace(/^\.\//, "");
+  const page = referencePages.find((candidate) => candidate.path === path);
+  const maturity = page ? getReferenceMaturity(page.id) : undefined;
+  if (!maturity) return;
+
+  const marker = document.createElement("span");
+  marker.className = "home-component-maturity";
+  marker.textContent = maturity;
+  link.append(marker);
+});
 bindAgentComponentDemos();
 bindCombobox();
 bindCommandPalettes();
@@ -75,6 +87,7 @@ function tokenProperty(sample, variable) {
   if (sample === "motion") {
     return variable.includes("ease") ? "transition-timing-function" : "transition-duration";
   }
+  if (sample === "control") return "height";
   if (sample === "content") return "max-width";
   return "background-color";
 }

@@ -105,6 +105,12 @@ export const tokenGroups = [
     description: "Shared durations and easing for responsive state changes.",
   },
   {
+    id: "control",
+    label: "Control",
+    sample: "control",
+    description: "Evidence-backed minimum geometry for shared interactive controls.",
+  },
+  {
     id: "content",
     label: "Content",
     sample: "content",
@@ -211,6 +217,7 @@ export const tokenDefinitions = [
   { variable: "--oc-duration-fast", group: "motion" },
   { variable: "--oc-duration-ui", group: "motion" },
   { variable: "--oc-ease-out", group: "motion" },
+  { variable: "--oc-control-min-height", group: "control" },
   { variable: "--oc-content-max", group: "content" },
   { variable: "--oc-content-narrow", group: "content" },
 ];

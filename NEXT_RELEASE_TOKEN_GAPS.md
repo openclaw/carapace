@@ -1,81 +1,35 @@
-# Next-release token gaps
+# Next-release token evidence
 
-Status: candidate map only. This branch does not change the current runtime contract.
+This map records independent consumer evidence. Preview repetition and the OpenClaw Control UI are useful implementation references, but neither can promote a token without a second package consumer.
 
-The current release is sufficient for general product controls, but complex conversational surfaces repeatedly choose raw dimensions, generic surfaces, or unrelated semantic roles. The next release should promote only values shared by at least two consumers and preserve the existing aliases during adoption.
+## Compatibility boundary
 
-## Current consumer contract
-
-The three production consumers are pinned to `v0.0.1`. Their current entry-point usage defines the compatibility floor for the next tagged release.
-
-| Consumer | Imported package entry points | Integration shape |
+| Consumer | Current package imports | Candidate adoption constraint |
 | --- | --- | --- |
-| `openclaw/openclaw.ai` | `tokens.css`, `themes.css`, `typography.css`, `components.css` | Uses the canonical theme and component classes directly, with site-specific font and effect overrides. |
-| `openclaw/docs` | `tokens.css`, `themes.css`, `typography.css`, `components.css`, `themes/product.css` | Concatenates the package CSS into the generated documentation site and maps canonical roles to local aliases. |
-| `openclaw/clawhub` | `tokens.css`, `themes.css`, `typography.css`, `components.css`, `themes/product.css`, `compat/clawhub.css` | Uses canonical classes and tokens behind a compatibility adapter while legacy selectors migrate incrementally. |
+| `openclaw/openclaw.ai` | Tokens, themes, typography, stable components | Does not import `themes/product.css`; Candidate controls require an explicit product-theme import. |
+| `openclaw/docs` | Stable entry points and product theme | Owns `.oc-badge`, `.oc-table`, and `.oc-table-wrap`; adopting Candidate Feedback or Data requires a deliberate local migration. |
+| `openclaw/clawhub` | Stable entry points, product theme, and ClawHub compatibility | Local compatibility and `.oc-card` overrides must retain their current order. |
 
-Safe extension therefore means:
+Candidate entry points remain opt-in. Installing the package without importing them does not change any consumer output.
 
-1. Keep every current export path, token name, class name, theme value, and compatibility alias intact.
-2. Add new tokens with complete light and dark resolutions; never repurpose an existing semantic role.
-3. Keep component declarations on existing-token fallbacks until all three consumers can adopt the new release independently.
-4. Run each consumer's build and contract checks against the packed candidate before tagging.
-5. Release token additions separately from consumer adoption so installing the tag does not force a visual migration.
+## Approved additive token
 
-## Highest-priority semantic gaps
-
-| Proposed token | Current fallback | Why it is needed | Primary consumers |
+| Token | Value | Independent evidence | Decision |
 | --- | --- | --- | --- |
-| `--oc-surface-message-user` | `--oc-surface-interactive` | Distinguishes authored prompts without using the brand accent as a large fill. | User Message, Agent Chat |
-| `--oc-surface-message-assistant` | `transparent` | Keeps assistant responses visually open while preserving an explicit theme role. | Message List, Agent Chat |
-| `--oc-surface-composer` | `--oc-bg-surface` | Gives message entry a stable inset surface independent from cards and overlays. | Input Bar, Agent Chat, Question Tool |
-| `--oc-surface-tool` | `--oc-surface-card` | Separates executable tool records from generic content cards. | Generic Tool and specialized tools |
-| `--oc-surface-code` | `--oc-bg-page` | Provides a theme-aware terminal and code-output surface without borrowing the page background. | Bash Tool, Markdown, Code Highlighted |
-| `--oc-border-message` | `--oc-border-subtle` | Allows conversation density to evolve without changing every generic border. | Message bubbles, composer, attachments |
-| `--oc-border-tool` | `--oc-border-subtle` | Supports stronger tool grouping and state hierarchy independently. | Tool Group and specialized tools |
-| `--oc-text-agent-status` | `--oc-text-muted` | Creates a stable role for streaming, pending, tool, and model metadata. | Message List, Tool cards, loaders |
-| `--oc-status-pending-bg` | `--oc-surface-secondary-soft` | Pending work is not success, warning, or error and needs its own role. | Thinking Tool, loaders, Todo Tool |
-| `--oc-status-pending-fg` | `--oc-accent-secondary` | Completes the pending-state foreground/background pair. | Thinking Tool, loaders, Todo Tool |
+| `--oc-control-min-height` | `2.75rem` | Docs uses 44px for the mobile chat launcher and mobile controls in `scripts/docs-site/assets.mjs`; ClawHub uses 44px for form input, navigation rows, and touch actions in `src/styles.css`; openclaw.ai uses 44px for `.action` and `.hero-cta` in `src/pages/integrations.astro` and `src/pages/index.astro`. | Added as an unthemed minimum-size primitive and used by Candidate controls. Stable components keep their existing geometry. |
 
-## Geometry and density gaps
+## Deferred proposals
 
-Avatar currently uses 2rem, 2.5rem, and 3rem sizes. Only the compact 2rem size also appears in another shared identity treatment; the default and large values remain local until independent consumers prove that they need common roles.
+| Area | Evidence found | Decision |
+| --- | --- | --- |
+| Compact and large control heights | Consumers use several intentional values from 30px through 48px. | No shared semantic scale yet. Keep component-local. |
+| Disabled opacity | Existing components use different values and several disabled states rely on color rather than opacity. | Do not normalize without contrast and state validation in two consumers. |
+| Popover and dialog layers | Each consumer has a different shell and stacking context. | Keep consumer-owned until the same overlay contract is adopted twice. |
+| Ambient and progress motion | Loader and skeleton timings currently exist in preview specimens or unrelated consumer animations. | Keep Candidate-local. Reduced-motion behavior is required regardless of future tokenization. |
+| Avatar and icon sizes | Repeated numbers represent different content and density roles. | Keep local until two consumers share the same identity anatomy. |
+| Conversation, message, composer, and tool roles | Agent specimens and Control UI provide reference evidence; two package consumers do not share these interfaces. | Keep Agent Components in Lab. |
+| Conversation and tool widths | Present only in Lab composition work. | Keep local. |
 
-| Proposed token | Current repeated value | Why it is needed | Primary consumers |
-| --- | --- | --- | --- |
-| `--oc-control-height-sm` | `2rem` | Standardizes compact buttons, tabs, suggestions, and toolbar actions. | Suggestions, Toolbar, Segmented Control |
-| `--oc-control-height-md` | `2.5rem` | Replaces the most repeated control dimension in the package. | Button, Input, Select, actions |
-| `--oc-control-height-lg` | `3rem` | Gives large actions and primary composer controls one shared contract. | Button, Input Bar, dialogs |
-| `--oc-icon-size-sm` | `1rem` | Aligns icons and loading marks across compact controls. | Buttons, Loader, status rows |
-| `--oc-icon-size-md` | `1.5rem` | Aligns standalone status and tool icons. | Spiral Loader, Tool cards |
-| `--oc-avatar-size-sm` | `2rem` | Aligns compact person or agent identity with the existing provider-mark footprint. | Avatar, Provider Logo |
-| `--oc-composer-min-height` | `2.5rem` | Makes the collapsed message composer intentional and shared. | Input Bar, Agent Chat |
-| `--oc-composer-max-height` | `10rem` | Standardizes composer growth before internal scrolling begins. | Input Bar, Agent Chat |
-| `--oc-conversation-max-width` | `42rem` | Keeps readable conversational measure consistent across consumers. | Agent Chat, Input Bar, messages |
-| `--oc-tool-max-width` | `44rem` | Keeps tool records aligned without reusing editorial content widths. | Tool Group and specialized tools |
+## Promotion rule
 
-## Motion and layering gaps
-
-| Proposed token | Current fallback | Why it is needed | Primary consumers |
-| --- | --- | --- | --- |
-| `--oc-duration-ambient` | component literals | The current `fast` and `ui` durations are too short for indeterminate shimmer and skeleton motion. | Skeleton Line, Text Shimmer |
-| `--oc-duration-progress` | component literals | Gives spinners and progress marks a consistent perceived speed. | Loader, Spiral Loader, upload progress |
-| `--oc-ease-in-out` | `--oc-ease-out` | Continuous on-screen movement needs a different curve from entrances and hover feedback. | Progress and disclosure transitions |
-| `--oc-opacity-disabled` | `0.5` or `0.55` | Removes inconsistent disabled contrast across controls. | All form controls and actions |
-| `--oc-z-popover` | local integers | Prevents dropdown, tooltip, and popover stacking conflicts. | Combobox, Dropdown, Tooltip, Popover |
-| `--oc-z-dialog` | browser/default ordering | Documents layering between dialogs, navigation, and transient feedback. | Dialog, Command Palette, Toast |
-
-## Promotion criteria
-
-1. Validate each proposed role in at least two independent consumers.
-2. Prefer semantic roles over component-name tokens when the same value serves multiple components.
-3. Resolve light, dark, high-contrast, disabled, and reduced-motion behavior before release.
-4. Add compatibility aliases only when a shipped consumer already depends on an equivalent literal or local variable.
-5. Release tokens and component adoption separately so consumers can migrate without a forced visual change.
-
-## Explicit non-goals for the current release
-
-- No changes to `styles/tokens.css`, `styles/themes.css`, or product theme values.
-- No remapping of existing semantic aliases.
-- No new runtime dependency.
-- No visual change justified only by one preview specimen.
+A token can be proposed only when two independent package consumers use the same value for the same semantic responsibility. It must be additive, resolve without a theme migration when possible, and leave every v0.0.1 declaration unchanged. Consumer adoption and release remain separate decisions.

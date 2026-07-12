@@ -4,6 +4,7 @@ import { transform } from "lightningcss";
 import { icon } from "../preview/icons.js";
 import {
   getAdjacentReferencePages,
+  getReferenceMaturity,
   getReferencePage,
   introductionPage,
   referencePages,
@@ -106,7 +107,7 @@ describe("preview contracts", () => {
     expect(previewStyles).toContain(".home-page-header");
     expect(previewScript).toContain('.home-component-grid .oc-segmented');
     expect(componentLabels.slice(0, 8)).toEqual([
-      "Button",
+      "Action",
       "Input Bar",
       "Select",
       "Toolbar",
@@ -117,7 +118,7 @@ describe("preview contracts", () => {
     ]);
 
     for (const path of [
-      "./interface/primitives/button/",
+      "./interface/primitives/action/",
       "./agent-components/input-bar/",
       "./interface/primitives/select/",
       "./interface/primitives/toolbar/",
@@ -147,6 +148,51 @@ describe("preview contracts", () => {
     expect(cname.trim()).toBe("carapace.design");
     expect(shell).toContain("https://github.com/openclaw/carapace");
     expect(shell).not.toContain(["Design", "System"].join(" "));
+  });
+
+  test("classifies every component reference by runtime maturity", () => {
+    const componentPages = referencePages.filter((page) =>
+      ["interface", "agent-components", "charts", "blocks"].includes(page.areaId),
+    );
+    const stable = componentPages
+      .filter((page) => getReferenceMaturity(page.id) === "Stable")
+      .map((page) => page.id)
+      .sort();
+    const candidate = componentPages
+      .filter((page) => getReferenceMaturity(page.id) === "Candidate")
+      .map((page) => page.id)
+      .sort();
+
+    expect(componentPages.every((page) => getReferenceMaturity(page.id))).toBe(true);
+    expect(stable).toEqual(
+      [
+        "primitive-action",
+        "primitive-app-surface",
+        "primitive-card",
+        "primitive-hero",
+        "primitive-pill",
+        "primitive-section",
+        "primitive-segmented",
+      ].sort(),
+    );
+    expect(candidate).toEqual(
+      [
+        "block-resource-list",
+        "primitive-badge",
+        "primitive-banner",
+        "primitive-checkbox",
+        "primitive-empty",
+        "primitive-input",
+        "primitive-input-area",
+        "primitive-label",
+        "primitive-loader",
+        "primitive-radio",
+        "primitive-select",
+        "primitive-skeleton-line",
+        "primitive-switch",
+        "primitive-table",
+      ].sort(),
+    );
   });
 
   test("documents every public package export", async () => {

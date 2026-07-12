@@ -5,6 +5,7 @@
 
 .oc-badge {
   display: inline-flex;
+  box-sizing: border-box;
   max-width: 100%;
   min-width: 0;
   min-height: 1.5rem;
@@ -55,8 +56,15 @@
   color: var(--oc-status-error-fg);
 }
 
+.oc-badge-info {
+  border-color: var(--oc-status-info-fg);
+  background: var(--oc-status-info-bg);
+  color: var(--oc-status-info-fg);
+}
+
 .oc-banner {
   display: grid;
+  box-sizing: border-box;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--oc-space-3);
@@ -104,8 +112,13 @@
   background: var(--oc-status-error-fg);
 }
 
+.oc-banner-info .oc-banner-indicator {
+  background: var(--oc-status-info-fg);
+}
+
 .oc-empty {
   display: grid;
+  box-sizing: border-box;
   min-height: 12rem;
   place-items: center;
   padding: var(--oc-space-5);

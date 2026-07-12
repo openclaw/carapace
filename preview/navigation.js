@@ -738,6 +738,41 @@ export const referencePages = referenceAreas.flatMap((area) =>
   area.pages.map((page) => ({ ...page, areaId: area.id, areaLabel: area.label })),
 );
 
+const stableReferenceIds = new Set([
+  "primitive-action",
+  "primitive-app-surface",
+  "primitive-card",
+  "primitive-hero",
+  "primitive-pill",
+  "primitive-section",
+  "primitive-segmented",
+]);
+
+const candidateReferenceIds = new Set([
+  "block-resource-list",
+  "primitive-badge",
+  "primitive-banner",
+  "primitive-checkbox",
+  "primitive-empty",
+  "primitive-input",
+  "primitive-input-area",
+  "primitive-label",
+  "primitive-loader",
+  "primitive-radio",
+  "primitive-select",
+  "primitive-skeleton-line",
+  "primitive-switch",
+  "primitive-table",
+]);
+
+const labAreaIds = new Set(["interface", "agent-components", "charts", "blocks"]);
+
+export function getReferenceMaturity(id) {
+  if (stableReferenceIds.has(id)) return "Stable";
+  if (candidateReferenceIds.has(id)) return "Candidate";
+  return labAreaIds.has(getReferencePage(id)?.areaId) ? "Lab" : undefined;
+}
+
 const adjacentReferenceSequences = [
   [
     "foundation-tokens",

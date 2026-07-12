@@ -4,6 +4,7 @@
  */
 
 .oc-table-wrap {
+  box-sizing: border-box;
   width: 100%;
   overflow-x: auto;
   border: 1px solid var(--oc-border-subtle);
@@ -18,6 +19,7 @@
 }
 
 .oc-table {
+  box-sizing: border-box;
   width: 100%;
   min-width: 36rem;
   border-collapse: collapse;
@@ -45,7 +47,7 @@
   border-bottom: 0;
 }
 
-.oc-table-interactive tbody tr:hover {
+.oc-table-interactive tbody tr:is(:hover, :focus-within) {
   background: var(--oc-surface-interactive);
 }
 
@@ -55,6 +57,7 @@
 }
 
 .oc-resource-list {
+  box-sizing: border-box;
   width: 100%;
   margin: 0;
   padding: 0;

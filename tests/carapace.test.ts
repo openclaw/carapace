@@ -30,6 +30,11 @@ function expectClasses(source: string, expected: string[]) {
   expect([...componentClasses(source)].sort()).toEqual([...expected].sort());
 }
 
+function ruleDeclarations(source: string, selector: string) {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return source.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+}
+
 describe("CSS contract", () => {
   test("every distributed stylesheet parses", async () => {
     for (const path of await listCssFiles("styles")) {
@@ -74,6 +79,15 @@ describe("CSS contract", () => {
     }
     expect(themes).toContain('html[data-theme="light"]');
     expect(themes).toContain('html[data-theme="dark"]');
+  });
+
+  test("the evidence-backed control minimum remains additive", async () => {
+    const tokens = await readFile("styles/tokens.css", "utf8");
+    const controls = await readFile("styles/candidate/controls.css", "utf8");
+
+    expect(tokens).toContain("--oc-control-min-height: 2.75rem;");
+    expect(controls).toContain("min-height: var(--oc-control-min-height);");
+    expect(controls).not.toContain("min-height: 2.75rem;");
   });
 
   test("the default component entry point contains only the stable floor", async () => {
@@ -143,6 +157,7 @@ describe("CSS contract", () => {
       ".oc-badge-success",
       ".oc-badge-warning",
       ".oc-badge-error",
+      ".oc-badge-info",
       ".oc-banner",
       ".oc-banner-indicator",
       ".oc-banner-content",
@@ -150,6 +165,7 @@ describe("CSS contract", () => {
       ".oc-banner-success",
       ".oc-banner-warning",
       ".oc-banner-error",
+      ".oc-banner-info",
       ".oc-empty",
       ".oc-empty-content",
       ".oc-empty-icon",
@@ -209,6 +225,29 @@ describe("CSS contract", () => {
     );
     expect(data).toMatch(/\.oc-table-wrap[\s\S]*?overflow-x: auto/);
     expect(data).toMatch(/\.oc-resource-list-link:focus-visible[\s\S]*?--oc-focus-ring/);
+
+    for (const selector of [
+      ".oc-input",
+      ".oc-checkbox",
+      ".oc-radio",
+      ".oc-switch",
+      ".oc-select",
+      ".oc-textarea",
+    ]) {
+      expect(ruleDeclarations(controls, selector)).toContain("box-sizing: border-box");
+    }
+
+    for (const selector of [".oc-badge", ".oc-banner", ".oc-empty"]) {
+      expect(ruleDeclarations(feedback, selector)).toContain("box-sizing: border-box");
+    }
+
+    for (const selector of [".oc-table-wrap", ".oc-table", ".oc-resource-list"]) {
+      expect(ruleDeclarations(data, selector)).toContain("box-sizing: border-box");
+    }
+
+    expect(data).toMatch(
+      /\.oc-table-interactive tbody tr:is\(:hover, :focus-within\)/,
+    );
   });
 
   test("the default import graph cannot load candidates or lab styles", async () => {

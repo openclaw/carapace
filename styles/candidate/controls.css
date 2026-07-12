@@ -23,8 +23,9 @@
 }
 
 .oc-input {
+  box-sizing: border-box;
   width: 100%;
-  min-height: 2.75rem;
+  min-height: var(--oc-control-min-height);
   padding: var(--oc-space-2) var(--oc-space-3);
   border: 1px solid var(--oc-input-border);
   border-radius: var(--oc-radius-control);
@@ -68,7 +69,7 @@
 
 .oc-check {
   display: inline-flex;
-  min-height: 2.75rem;
+  min-height: var(--oc-control-min-height);
   align-items: center;
   gap: var(--oc-space-3);
   color: var(--oc-text-primary);
@@ -79,6 +80,7 @@
 
 .oc-checkbox {
   position: relative;
+  box-sizing: border-box;
   width: 1rem;
   height: 1rem;
   flex: 0 0 auto;
@@ -172,7 +174,7 @@
 
 .oc-radio-option {
   display: inline-flex;
-  min-height: 2.75rem;
+  min-height: var(--oc-control-min-height);
   align-items: center;
   gap: var(--oc-space-3);
   color: var(--oc-text-primary);
@@ -183,6 +185,7 @@
 
 .oc-radio {
   display: grid;
+  box-sizing: border-box;
   width: 1rem;
   height: 1rem;
   flex: 0 0 auto;
@@ -241,7 +244,7 @@
 
 .oc-switch-label {
   display: inline-flex;
-  min-height: 2.75rem;
+  min-height: var(--oc-control-min-height);
   align-items: center;
   gap: var(--oc-space-3);
   color: var(--oc-text-primary);
@@ -252,6 +255,7 @@
 
 .oc-switch {
   position: relative;
+  box-sizing: border-box;
   width: 2.25rem;
   height: 1.25rem;
   flex: 0 0 auto;
@@ -335,8 +339,9 @@
 }
 
 .oc-select {
+  box-sizing: border-box;
   width: 100%;
-  min-height: 2.75rem;
+  min-height: var(--oc-control-min-height);
   appearance: none;
   padding: var(--oc-space-2) var(--oc-space-6) var(--oc-space-2) var(--oc-space-3);
   border: 1px solid var(--oc-input-border);
@@ -384,6 +389,7 @@
 }
 
 .oc-textarea {
+  box-sizing: border-box;
   width: 100%;
   min-height: 7.5rem;
   resize: vertical;
