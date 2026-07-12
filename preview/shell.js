@@ -29,6 +29,7 @@ const pageKinds = {
   "interface-primitives": "index",
   "primitive-app-surface": "reference",
   "primitive-autocomplete": "reference",
+  "primitive-badge": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

@@ -89,6 +89,12 @@ export const referenceAreas = [
         keywords: "oc-autocomplete suggestions datalist input native",
       },
       {
+        id: "primitive-badge",
+        label: "Badge",
+        path: "interface/primitives/badge/",
+        keywords: "oc-badge status success warning error metadata",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -326,6 +332,7 @@ const adjacentReferenceSequences = [
     "primitive-action",
     "primitive-app-surface",
     "primitive-autocomplete",
+    "primitive-badge",
     "primitive-card",
     "primitive-checkbox",
     "primitive-input-area",

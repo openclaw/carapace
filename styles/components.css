@@ -776,6 +776,53 @@
   transform: rotate(45deg) translateY(-0.125rem);
 }
 
+.oc-badge {
+  display: inline-flex;
+  min-height: 1.5rem;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-1) var(--oc-space-2);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-surface-secondary-soft);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.oc-badge::before {
+  width: 0.375rem;
+  height: 0.375rem;
+  flex: 0 0 auto;
+  border-radius: var(--oc-radius-round);
+  background: currentColor;
+  content: "";
+}
+
+.oc-badge-neutral::before {
+  display: none;
+}
+
+.oc-badge-success {
+  border-color: var(--oc-status-success-fg);
+  background: var(--oc-status-success-bg);
+  color: var(--oc-status-success-fg);
+}
+
+.oc-badge-warning {
+  border-color: var(--oc-status-warning-fg);
+  background: var(--oc-status-warning-bg);
+  color: var(--oc-status-warning-fg);
+}
+
+.oc-badge-error {
+  border-color: var(--oc-status-error-fg);
+  background: var(--oc-status-error-bg);
+  color: var(--oc-status-error-fg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

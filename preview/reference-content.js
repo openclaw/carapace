@@ -106,9 +106,10 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">17 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">18 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
+        <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -143,6 +144,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="autocomplete-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="autocomplete-markup">Connect input and datalist</h2></div></div>${codeBlock(`<label class="oc-autocomplete">\n  <span class="oc-field-label">Component</span>\n  <input class="oc-input" list="components" />\n  <datalist id="components">\n    <option value="Action"></option>\n    <option value="Card"></option>\n  </datalist>\n</label>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="autocomplete-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="autocomplete-guidance">Suggestions do not constrain entry</h2></div></div>${guidanceList(["Use Select when the value must come from a fixed set.", "Keep a visible label even when the placeholder is descriptive.", "Let the browser preserve keyboard, form, and assistive-technology behavior."])}</section>`,
+
+  "primitive-badge": () =>
+    `${pageIntro("Component", "Badge", "A compact label for status or short metadata that remains readable without relying on color alone.")}
+    <section data-section-kind="preview" aria-labelledby="badge-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="badge-preview">Status variants</h2></div><span class="oc-pill">.oc-badge</span></div>
+      <div class="specimen-frame"><div class="primitive-control-row"><span class="oc-badge oc-badge-neutral">Official</span><span class="oc-badge oc-badge-success">Ready</span><span class="oc-badge oc-badge-warning">Pending</span><span class="oc-badge oc-badge-error">Failed</span></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="badge-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="badge-markup">Name the state</h2></div></div>${codeBlock(`<span class="oc-badge oc-badge-success">Ready</span>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="badge-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="badge-guidance">Keep labels short and literal</h2></div></div>${guidanceList(["Use a badge for state or metadata, not as an action.", "Pair semantic color with explicit text.", "Use Pill for neutral taxonomy that does not express status."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
