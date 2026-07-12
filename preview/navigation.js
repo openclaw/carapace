@@ -131,6 +131,12 @@ export const referenceAreas = [
         keywords: "oc-collapsible details summary disclosure expand collapse",
       },
       {
+        id: "primitive-combobox",
+        label: "Combobox",
+        path: "interface/primitives/combobox/",
+        keywords: "oc-combobox searchable options listbox keyboard selection",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -377,6 +383,7 @@ const adjacentReferenceSequences = [
     "primitive-clipboard-text",
     "primitive-code-highlighted",
     "primitive-collapsible",
+    "primitive-combobox",
     "primitive-input-area",
     "primitive-input-group",
     "primitive-input",
