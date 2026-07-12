@@ -106,13 +106,14 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">21 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">22 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
         <a class="reference-card" href="./banner/"><span>.oc-banner</span><strong>Banner</strong><p>Persistent contextual notices.</p></a>
         <a class="reference-card" href="./breadcrumbs/"><span>.oc-breadcrumbs</span><strong>Breadcrumbs</strong><p>Current location within a hierarchy.</p></a>
         <a class="reference-card" href="./button/"><span>.oc-button</span><strong>Button</strong><p>Explicit button variants and sizes.</p></a>
+        <a class="reference-card" href="./clipboard-text/"><span>.oc-clipboard-text</span><strong>Clipboard Text</strong><p>Copyable literal values.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -179,6 +180,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="button-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="button-markup">Use the native element</h2></div></div>${codeBlock(`<button class="oc-button oc-button-primary" type="button">\n  Save changes\n</button>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="button-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="button-guidance">One hierarchy per action set</h2></div></div>${guidanceList(["Use Button for in-place actions and links for navigation.", "Keep one primary action in a local decision group.", "Prefer disabled only when the reason is visible or immediately inferable."])}</section>`,
+
+  "primitive-clipboard-text": () =>
+    `${pageIntro("Component", "Clipboard Text", "A compact read-only value with an explicit copy action and accessible status feedback.")}
+    <section data-section-kind="preview" aria-labelledby="clipboard-text-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="clipboard-text-preview">Literal value</h2></div><span class="oc-pill">.oc-clipboard-text</span></div>
+      <div class="specimen-frame"><div class="oc-clipboard-text"><code class="oc-clipboard-value">@openclaw/design-system</code><button class="oc-clipboard-action" type="button" data-copy-text="@openclaw/design-system">Copy</button></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="clipboard-text-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="clipboard-text-markup">Keep value and action adjacent</h2></div></div>${codeBlock(`<div class="oc-clipboard-text">\n  <code class="oc-clipboard-value">@openclaw/design-system</code>\n  <button class="oc-clipboard-action" type="button">Copy</button>\n</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="clipboard-text-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="clipboard-text-guidance">Copy exactly what is shown</h2></div></div>${guidanceList(["Do not silently normalize or transform the copied value.", "Announce success without moving focus.", "Use a code block when the content is multiline."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
