@@ -459,6 +459,70 @@
   opacity: 0.55;
 }
 
+.oc-switch-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oc-space-3);
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-base);
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.oc-switch {
+  position: relative;
+  width: 2.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+  appearance: none;
+  border: 1px solid var(--oc-input-border);
+  border-radius: var(--oc-radius-round);
+  margin: 0;
+  background: var(--oc-input-bg);
+  cursor: inherit;
+  transition:
+    background var(--oc-duration-fast) var(--oc-ease-out),
+    border-color var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-switch::before {
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-text-muted);
+  content: "";
+  transition:
+    background var(--oc-duration-fast) var(--oc-ease-out),
+    transform var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-switch:hover:not(:disabled) {
+  border-color: var(--oc-border-accent);
+}
+
+.oc-switch:checked {
+  border-color: var(--oc-accent-primary);
+  background: var(--oc-accent-primary);
+}
+
+.oc-switch:checked::before {
+  background: var(--oc-text-on-accent);
+  transform: translateX(1rem);
+}
+
+.oc-switch:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+
+.oc-switch-label:has(.oc-switch:disabled) {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

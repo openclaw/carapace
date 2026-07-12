@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">10 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">11 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
@@ -118,6 +118,7 @@ const contents = {
         <a class="reference-card" href="./input/"><span>.oc-input</span><strong>Input</strong><p>Labeled text entry with helper, error, and disabled states.</p></a>
         <a class="reference-card" href="./checkbox/"><span>.oc-checkbox</span><strong>Checkbox</strong><p>Independent binary selection with native form behavior.</p></a>
         <a class="reference-card" href="./radio/"><span>.oc-radio</span><strong>Radio</strong><p>Single selection from a visible group of options.</p></a>
+        <a class="reference-card" href="./switch/"><span>.oc-switch</span><strong>Switch</strong><p>Immediate binary setting with native form behavior.</p></a>
       </div>
     </section>`,
 
@@ -213,6 +214,17 @@ const contents = {
   </label>
 </fieldset>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="radio-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="radio-guidance">Make the full set visible</h2></div></div>${guidanceList(["Use radio buttons when one option is required from a small visible set.", "Share one name across every option in the group.", "Use a fieldset and legend to provide the group name.", "Use Select when the option set is long or space is constrained."])}</section>`,
+
+  "primitive-switch": () =>
+    `${pageIntro("Interface primitive", "Switch", "An immediate binary setting that preserves native checkbox semantics and keyboard behavior.")}
+    <section data-section-kind="preview" aria-labelledby="switch-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="switch-preview">Setting states</h2></div><span class="oc-pill">.oc-switch</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="primitive-checkbox-stack"><label class="oc-switch-label"><input class="oc-switch" type="checkbox" checked /><span>Automatic updates</span></label><label class="oc-switch-label"><input class="oc-switch" type="checkbox" /><span>Usage analytics</span></label><label class="oc-switch-label"><input class="oc-switch" type="checkbox" disabled /><span>Organization policy</span></label></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="switch-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="switch-markup">Use native checkbox semantics</h2></div></div>${codeBlock(`<label class="oc-switch-label">
+  <input class="oc-switch" type="checkbox" name="automatic-updates" />
+  <span>Automatic updates</span>
+</label>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="switch-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="switch-guidance">Apply changes immediately</h2></div></div>${guidanceList(["Use a switch for a setting that takes effect immediately.", "Use a checkbox when the choice is submitted with a larger form.", "Write the label as the setting name, not as an action.", "Expose pending or failed persistence in the consuming application."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

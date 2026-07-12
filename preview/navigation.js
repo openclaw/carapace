@@ -141,6 +141,12 @@ export const referenceAreas = [
         keywords: "oc-radio-group oc-radio-option oc-radio single selection",
       },
       {
+        id: "primitive-switch",
+        label: "Switch",
+        path: "interface/primitives/switch/",
+        keywords: "oc-switch-label oc-switch settings immediate toggle",
+      },
+      {
         id: "interface-examples",
         label: "Interaction examples",
         path: "interface/interaction-examples/",
@@ -288,6 +294,7 @@ const adjacentReferenceSequences = [
     "primitive-input",
     "primitive-checkbox",
     "primitive-radio",
+    "primitive-switch",
   ],
 ];
 
