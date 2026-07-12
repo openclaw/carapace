@@ -423,6 +423,12 @@ export const referenceAreas = [
         keywords: "oc-agent-suggestions suggested prompts actions input composer",
       },
       {
+        id: "spiral-loader",
+        label: "Spiral Loader",
+        path: "agent-components/spiral-loader/",
+        keywords: "oc-agent-spiral-loader pending progress working",
+      },
+      {
         id: "text-shimmer",
         label: "Text Shimmer",
         path: "agent-components/text-shimmer/",
@@ -699,7 +705,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "error-message", "input-bar", "message-list", "mode-selector", "model-picker", "suggestions", "text-shimmer", "user-message"],
+  ["agent-chat", "error-message", "input-bar", "message-list", "mode-selector", "model-picker", "spiral-loader", "suggestions", "text-shimmer", "user-message"],
 ];
 
 export function getReferencePage(id) {

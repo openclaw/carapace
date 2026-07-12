@@ -3079,6 +3079,23 @@
   }
 }
 
+.oc-agent-spiral-loader {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--oc-border-subtle);
+  border-top-color: var(--oc-accent-primary);
+  border-right-color: var(--oc-accent-primary);
+  border-radius: var(--oc-radius-round);
+  animation: oc-agent-spin 0.8s linear infinite;
+}
+
+@keyframes oc-agent-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 .oc-agent-suggestion {
   min-height: 2rem;
   padding: 0 var(--oc-space-3);
@@ -3176,6 +3193,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .oc-agent-spiral-loader {
+    animation: none;
+  }
+
   .oc-skeleton-line::after {
     animation: none;
   }

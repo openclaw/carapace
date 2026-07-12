@@ -137,6 +137,7 @@ describe("CSS contract", () => {
       ".oc-agent-mode-selector",
       ".oc-agent-user-message",
       ".oc-agent-text-shimmer",
+      ".oc-agent-spiral-loader",
       ".oc-agent-message-list",
     ]) {
       expect(components).toContain(className);

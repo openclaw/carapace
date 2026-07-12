@@ -139,6 +139,16 @@ const components = {
     markup: `<span class="oc-agent-text-shimmer" role="status">Thinking through the request</span>`,
     guidance: ["Use shimmer only for genuinely pending content.", "Keep status text concise and meaningful without animation.", "Honor reduced-motion preferences and replace the status when work completes."],
   },
+  "spiral-loader": {
+    slug: "spiral-loader",
+    title: "Spiral Loader",
+    className: "oc-agent-spiral-loader",
+    lede: "A compact indeterminate progress mark for agent work with no measurable completion value.",
+    previewTitle: "Indeterminate agent activity",
+    preview: `<span class="oc-agent-spiral-loader" role="status"><span class="sr-only">Working</span></span>`,
+    markup: `<span class="oc-agent-spiral-loader" role="status"><span class="sr-only">Working</span></span>`,
+    guidance: ["Use only when progress cannot be measured.", "Pair the mark with accessible status text.", "Stop animation when the operation completes or when reduced motion is requested."],
+  },
 };
 
 export const agentReferenceContentIds = Object.keys(components);
