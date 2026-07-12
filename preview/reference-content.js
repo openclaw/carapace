@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">46 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">47 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -154,6 +154,7 @@ const contents = {
         <a class="reference-card" href="./table-of-contents/"><span>.oc-table-of-contents</span><strong>Table of Contents</strong><p>Local navigation through page sections.</p></a>
         <a class="reference-card" href="./tabs/"><span>.oc-tabs</span><strong>Tabs</strong><p>Peer views within one local context.</p></a>
         <a class="reference-card" href="./text/"><span>.oc-text</span><strong>Text</strong><p>Readable semantic text roles.</p></a>
+        <a class="reference-card" href="./toolbar/"><span>.oc-toolbar</span><strong>Toolbar</strong><p>Grouped direct actions.</p></a>
       </div>
     </section>`,
 
@@ -591,6 +592,17 @@ const contents = {
 <p class="oc-text oc-text-muted oc-text-small">Metadata.</p>
 <code class="oc-text oc-text-mono">--oc-text-primary</code>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="text-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="text-guidance">Hierarchy follows meaning</h2></div></div>${guidanceList(["Use primary text for information required to complete the current task.", "Use secondary and muted roles progressively, not decoratively.", "Keep semantic HTML independent from the visual role.", "Use monospace only for literals, code, identifiers, and data."])}</section>`,
+
+  "primitive-toolbar": () =>
+    `${pageIntro("Component", "Toolbar", "A compact group of direct, frequently used actions within one working context.")}
+    <section data-section-kind="preview" aria-labelledby="toolbar-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="toolbar-preview">Direct formatting actions</h2></div><span class="oc-pill">.oc-toolbar</span></div><div class="specimen-frame"><div class="oc-toolbar" role="toolbar" aria-label="Text formatting"><div class="oc-toolbar-group"><button class="oc-toolbar-button" type="button" aria-label="Bold" aria-pressed="true"><strong>B</strong></button><button class="oc-toolbar-button" type="button" aria-label="Italic" aria-pressed="false"><em>I</em></button></div><div class="oc-toolbar-group"><button class="oc-toolbar-button" type="button">Link</button><button class="oc-toolbar-button" type="button">Code</button></div></div></div></section>
+    <section data-section-kind="markup" aria-labelledby="toolbar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="toolbar-markup">Group related controls</h2></div></div>${codeBlock(`<div class="oc-toolbar" role="toolbar" aria-label="Text formatting">
+  <div class="oc-toolbar-group">
+    <button class="oc-toolbar-button" type="button" aria-label="Bold" aria-pressed="true">B</button>
+    <button class="oc-toolbar-button" type="button" aria-label="Italic" aria-pressed="false">I</button>
+  </div>
+</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="toolbar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="toolbar-guidance">Keep frequent actions immediate</h2></div></div>${guidanceList(["Use a toolbar for direct actions, not controls that only open menus.", "Name icon-only buttons with accessible labels.", "Use aria-pressed for persistent toggle actions.", "Keep logical groups visible and preserve DOM order for keyboard use."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

@@ -263,6 +263,12 @@ export const referenceAreas = [
         keywords: "oc-text body secondary muted small mono typography",
       },
       {
+        id: "primitive-toolbar",
+        label: "Toolbar",
+        path: "interface/primitives/toolbar/",
+        keywords: "oc-toolbar grouped direct actions formatting controls",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -543,6 +549,7 @@ const adjacentReferenceSequences = [
     "primitive-table-of-contents",
     "primitive-tabs",
     "primitive-text",
+    "primitive-toolbar",
   ],
 ];
 

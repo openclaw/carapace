@@ -58,6 +58,7 @@ const pageKinds = {
   "primitive-table-of-contents": "reference",
   "primitive-tabs": "reference",
   "primitive-text": "reference",
+  "primitive-toolbar": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",
