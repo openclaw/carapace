@@ -399,23 +399,28 @@ export const referenceAreas = [
         keywords: "oc-agent-chat conversation messages suggestions input",
       },
       {
-<<<<<<< HEAD
-        id: "bash-tool",
-        label: "Bash Tool",
-        path: "agent-components/bash-tool/",
-        keywords: "oc-agent-bash-tool terminal command output status",
-=======
         id: "attachment-button",
         label: "Attachment Button",
         path: "agent-components/attachment-button/",
         keywords: "oc-agent-attachment-button attach upload file composer",
->>>>>>> 9ce4364 (feat(agent-components): add attachment button)
+      },
+      {
+        id: "bash-tool",
+        label: "Bash Tool",
+        path: "agent-components/bash-tool/",
+        keywords: "oc-agent-bash-tool terminal command output status",
       },
       {
         id: "error-message",
         label: "Error Message",
         path: "agent-components/error-message/",
         keywords: "oc-agent-error-message failure retry recovery alert",
+      },
+      {
+        id: "file-attachment",
+        label: "File Attachment",
+        path: "agent-components/file-attachment/",
+        keywords: "oc-agent-file-attachment file upload progress remove composer",
       },
       {
         id: "edit-tool",
@@ -766,7 +771,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "attachment-button", "bash-tool", "edit-tool", "error-message", "generic-tool", "input-bar", "markdown", "message-list", "mode-selector", "model-picker", "plan-tool", "search-tool", "send-button", "spiral-loader", "suggestions", "text-shimmer", "todo-tool", "tool-group", "user-message"],
+  ["agent-chat", "attachment-button", "bash-tool", "edit-tool", "error-message", "file-attachment", "generic-tool", "input-bar", "markdown", "message-list", "mode-selector", "model-picker", "plan-tool", "search-tool", "send-button", "spiral-loader", "suggestions", "text-shimmer", "todo-tool", "tool-group", "user-message"],
 ];
 
 export function getReferencePage(id) {
