@@ -35,6 +35,7 @@ const pageKinds = {
   "primitive-segmented": "reference",
   "primitive-pill": "reference",
   "primitive-input": "reference",
+  "primitive-checkbox": "reference",
   "interface-examples": "example",
   "composition-product": "composition",
   "composition-content": "composition",

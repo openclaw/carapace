@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">8 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">9 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
@@ -116,6 +116,7 @@ const contents = {
         <a class="reference-card" href="./segmented-control/"><span>.oc-segmented</span><strong>Segmented control</strong><p>Compact selection among peer views.</p></a>
         <a class="reference-card" href="./pill/"><span>.oc-pill</span><strong>Pill</strong><p>Compact non-interactive metadata.</p></a>
         <a class="reference-card" href="./input/"><span>.oc-input</span><strong>Input</strong><p>Labeled text entry with helper, error, and disabled states.</p></a>
+        <a class="reference-card" href="./checkbox/"><span>.oc-checkbox</span><strong>Checkbox</strong><p>Independent binary selection with native form behavior.</p></a>
       </div>
     </section>`,
 
@@ -186,6 +187,17 @@ const contents = {
   <span class="oc-field-message" id="skill-name-help">Use a recognizable name.</span>
 </label>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="input-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="input-guidance">Behavior stays native</h2></div></div>${guidanceList(["Use the correct input type and autocomplete value.", "Keep a visible label; placeholders are examples, not labels.", "Connect helper and error messages with aria-describedby.", "Set aria-invalid only while the current value is invalid."])}</section>`,
+
+  "primitive-checkbox": () =>
+    `${pageIntro("Interface primitive", "Checkbox", "An independent binary choice that preserves native form and keyboard behavior.")}
+    <section data-section-kind="preview" aria-labelledby="checkbox-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="checkbox-preview">Selection states</h2></div><span class="oc-pill">.oc-checkbox</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="primitive-checkbox-stack"><label class="oc-check"><input class="oc-checkbox" type="checkbox" checked /><span>Include verified publishers</span></label><label class="oc-check"><input class="oc-checkbox" type="checkbox" /><span>Show prerelease packages</span></label><label class="oc-check"><input class="oc-checkbox" type="checkbox" disabled /><span>Managed by organization</span></label></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="checkbox-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="checkbox-markup">Keep the input inside its label</h2></div></div>${codeBlock(`<label class="oc-check">
+  <input class="oc-checkbox" type="checkbox" name="verified" />
+  <span>Include verified publishers</span>
+</label>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="checkbox-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="checkbox-guidance">One independent choice</h2></div></div>${guidanceList(["Use checkboxes when multiple options may be selected independently.", "Write a label that remains clear in checked and unchecked states.", "Use disabled only when the reason is evident nearby.", "Use radio buttons when exactly one option must be chosen."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

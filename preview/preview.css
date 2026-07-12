@@ -2482,6 +2482,11 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   gap: var(--oc-space-5);
 }
 
+.primitive-checkbox-stack {
+  display: grid;
+  gap: var(--oc-space-4);
+}
+
 .oc-card p {
   color: var(--oc-text-secondary);
 }
