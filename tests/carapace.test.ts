@@ -107,6 +107,7 @@ describe("CSS contract", () => {
       ".oc-link",
       ".oc-loader",
       ".oc-menubar",
+      ".oc-meter",
     ]) {
       expect(components).toContain(className);
     }

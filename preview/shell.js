@@ -48,6 +48,7 @@ const pageKinds = {
   "primitive-link": "reference",
   "primitive-loader": "reference",
   "primitive-menu-bar": "reference",
+  "primitive-meter": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

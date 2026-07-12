@@ -1828,6 +1828,57 @@
   left: 0;
 }
 
+.oc-meter {
+  display: grid;
+  gap: var(--oc-space-2);
+}
+
+.oc-meter-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--oc-space-3);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-meter-header strong {
+  color: var(--oc-text-primary);
+  font-weight: 650;
+}
+
+.oc-meter-value {
+  width: 100%;
+  height: 0.5rem;
+  border: 0;
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-surface-interactive);
+}
+
+.oc-meter-value::-webkit-meter-bar {
+  border: 0;
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-surface-interactive);
+  box-shadow: none;
+}
+
+.oc-meter-value::-webkit-meter-optimum-value {
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-accent-primary);
+}
+
+.oc-meter-value::-moz-meter-bar {
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-accent-primary);
+}
+
+.oc-meter-caption {
+  margin: 0;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  line-height: 1.5;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-loader-spinner {
     animation: none;

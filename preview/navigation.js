@@ -203,6 +203,12 @@ export const referenceAreas = [
         keywords: "oc-menubar menu bar grouped commands application",
       },
       {
+        id: "primitive-meter",
+        label: "Meter",
+        path: "interface/primitives/meter/",
+        keywords: "oc-meter measurement range capacity score native",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -465,6 +471,7 @@ const adjacentReferenceSequences = [
     "primitive-link",
     "primitive-loader",
     "primitive-menu-bar",
+    "primitive-meter",
     "primitive-hero",
     "primitive-pill",
     "primitive-radio",

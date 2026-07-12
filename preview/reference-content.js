@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">36 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">37 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -128,6 +128,7 @@ const contents = {
         <a class="reference-card" href="./link/"><span>.oc-link</span><strong>Link</strong><p>Inline and standalone navigation.</p></a>
         <a class="reference-card" href="./loader/"><span>.oc-loader</span><strong>Loader</strong><p>Indeterminate progress feedback.</p></a>
         <a class="reference-card" href="./menu-bar/"><span>.oc-menubar</span><strong>Menu Bar</strong><p>Grouped application commands.</p></a>
+        <a class="reference-card" href="./meter/"><span>.oc-meter</span><strong>Meter</strong><p>Known measurements within a range.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -314,6 +315,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="menu-bar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="menu-bar-markup">Group top-level commands</h2></div></div>${codeBlock(`<div class="oc-menubar" role="menubar" aria-label="Editor commands">\n  <button class="oc-menubar-item" role="menuitem" aria-haspopup="menu">File</button>\n  <button class="oc-menubar-item" role="menuitem" aria-haspopup="menu">Edit</button>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="menu-bar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="menu-bar-guidance">Reserve it for application-scale command density</h2></div></div>${guidanceList(["Use Toolbar for direct actions that do not open menus.", "Keep top-level labels stable and short.", "Support directional keyboard movement in the consuming application."])}</section>`,
+
+  "primitive-meter": () =>
+    `${pageIntro("Component", "Meter", "A native measurement within a known range, suitable for capacity, quality, or score.")}
+    <section data-section-kind="preview" aria-labelledby="meter-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="meter-preview">Storage used</h2></div><span class="oc-pill">.oc-meter</span></div>
+      <div class="specimen-frame"><div class="oc-meter"><div class="oc-meter-header"><strong>Storage used</strong><span>64%</span></div><meter class="oc-meter-value" min="0" max="100" value="64">64%</meter><p class="oc-meter-caption">6.4 GB of 10 GB</p></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="meter-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="meter-markup">Expose the numeric range</h2></div></div>${codeBlock(`<div class="oc-meter">\n  <div class="oc-meter-header"><strong>Storage used</strong><span>64%</span></div>\n  <meter class="oc-meter-value" min="0" max="100" value="64">64%</meter>\n</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="meter-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="meter-guidance">Measure state, not task completion</h2></div></div>${guidanceList(["Use progress for an operation moving toward completion.", "Keep the numeric value visible when exactness matters.", "Set low, high, and optimum when the range has qualitative thresholds."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
