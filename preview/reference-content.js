@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">23 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">24 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -115,6 +115,7 @@ const contents = {
         <a class="reference-card" href="./button/"><span>.oc-button</span><strong>Button</strong><p>Explicit button variants and sizes.</p></a>
         <a class="reference-card" href="./clipboard-text/"><span>.oc-clipboard-text</span><strong>Clipboard Text</strong><p>Copyable literal values.</p></a>
         <a class="reference-card" href="./code-highlighted/"><span>.oc-code-highlighted</span><strong>Code Highlighted</strong><p>Structured syntax presentation.</p></a>
+        <a class="reference-card" href="./collapsible/"><span>.oc-collapsible</span><strong>Collapsible</strong><p>Native expandable disclosure.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -197,6 +198,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="code-highlighted-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="code-highlighted-markup">Supply semantic token spans</h2></div></div>${codeBlock(`<div class="oc-code-highlighted">\n  <div class="oc-code-highlighted-header">css</div>\n  <pre><code>Tokenized source</code></pre>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="code-highlighted-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="code-highlighted-guidance">Presentation is separate from parsing</h2></div></div>${guidanceList(["Tokenize and escape source before rendering it.", "Preserve horizontal scrolling instead of wrapping long source lines by default.", "Expose the language when it helps readers interpret the sample."])}</section>`,
+
+  "primitive-collapsible": () =>
+    `${pageIntro("Component", "Collapsible", "A native disclosure for optional supporting content that keeps its summary visible at all times.")}
+    <section data-section-kind="preview" aria-labelledby="collapsible-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="collapsible-preview">Optional detail</h2></div><span class="oc-pill">.oc-collapsible</span></div>
+      <div class="specimen-frame"><details class="oc-collapsible" open><summary class="oc-collapsible-summary">Package requirements</summary><div class="oc-collapsible-content"><p>Import tokens before components and set the theme on the application root.</p></div></details></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="collapsible-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="collapsible-markup">Use details and summary</h2></div></div>${codeBlock(`<details class="oc-collapsible">\n  <summary class="oc-collapsible-summary">Package requirements</summary>\n  <div class="oc-collapsible-content">Supporting content</div>\n</details>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="collapsible-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="collapsible-guidance">Hide supporting detail, not essential decisions</h2></div></div>${guidanceList(["Write a summary that remains meaningful while collapsed.", "Do not place required form fields or critical errors inside a closed disclosure.", "Use multiple independent disclosures instead of recreating exclusive tabs."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}

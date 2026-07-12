@@ -125,6 +125,12 @@ export const referenceAreas = [
         keywords: "oc-code-highlighted syntax code language tokens",
       },
       {
+        id: "primitive-collapsible",
+        label: "Collapsible",
+        path: "interface/primitives/collapsible/",
+        keywords: "oc-collapsible details summary disclosure expand collapse",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -370,6 +376,7 @@ const adjacentReferenceSequences = [
     "primitive-checkbox",
     "primitive-clipboard-text",
     "primitive-code-highlighted",
+    "primitive-collapsible",
     "primitive-input-area",
     "primitive-input-group",
     "primitive-input",
