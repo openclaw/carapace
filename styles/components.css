@@ -2594,6 +2594,41 @@
   fill: var(--oc-accent-primary);
 }
 
+.oc-sankey-plot {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 16rem;
+}
+
+.oc-sankey-link {
+  fill: none;
+  stroke: var(--oc-accent-secondary);
+  stroke-opacity: 0.34;
+}
+
+.oc-sankey-link-primary {
+  stroke: var(--oc-accent-primary);
+  stroke-opacity: 0.48;
+}
+
+.oc-sankey-node {
+  fill: var(--oc-surface-card-strong);
+  stroke: var(--oc-border-subtle);
+  stroke-width: 1;
+}
+
+.oc-sankey-node-primary {
+  fill: var(--oc-accent-primary);
+  stroke: var(--oc-accent-primary);
+}
+
+.oc-sankey-label {
+  fill: var(--oc-text-secondary);
+  font-family: var(--oc-font-body);
+  font-size: var(--oc-font-size-xs);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-tooltip-content {
     transition: none;
