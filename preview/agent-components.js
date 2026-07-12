@@ -214,6 +214,19 @@ const components = {
 </details>`,
     guidance: ["Keep the submitted query visible after results arrive.", "Label result count and scope in text.", "The consumer owns search execution, ranking, source attribution, and navigation."],
   },
+  "plan-tool": {
+    slug: "plan-tool",
+    title: "Plan Tool",
+    className: "oc-agent-plan-tool",
+    lede: "A structured execution plan that communicates ordered steps and the current point of progress.",
+    previewTitle: "Execution plan",
+    preview: `<details class="oc-agent-tool oc-agent-plan-tool" open><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">≡</span><span>Implementation plan</span><span class="oc-agent-tool-status">Step 2 of 3</span></summary><div class="oc-agent-tool-content"><ol class="oc-agent-plan-list"><li data-state="complete">Inspect existing contract</li><li data-state="active">Implement the component</li><li>Validate the preview</li></ol></div></details>`,
+    markup: `<details class="oc-agent-tool oc-agent-plan-tool" open>
+  <summary class="oc-agent-tool-summary"><span>Implementation plan</span><span class="oc-agent-tool-status">Step 2 of 3</span></summary>
+  <div class="oc-agent-tool-content"><ol class="oc-agent-plan-list">…</ol></div>
+</details>`,
+    guidance: ["Use ordered steps whose completion can be observed.", "Keep the active step and overall progress visible.", "The consumer owns plan generation, updates, approval, and execution."],
+  },
 };
 
 export const agentReferenceContentIds = Object.keys(components);

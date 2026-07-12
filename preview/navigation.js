@@ -471,6 +471,12 @@ export const referenceAreas = [
         keywords: "oc-agent-model-picker model selection provider capability",
       },
       {
+        id: "plan-tool",
+        label: "Plan Tool",
+        path: "agent-components/plan-tool/",
+        keywords: "oc-agent-plan-tool steps progress execution plan",
+      },
+      {
         id: "search-tool",
         label: "Search Tool",
         path: "agent-components/search-tool/",
@@ -735,7 +741,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "bash-tool", "edit-tool", "error-message", "generic-tool", "input-bar", "message-list", "mode-selector", "model-picker", "search-tool", "spiral-loader", "suggestions", "text-shimmer", "todo-tool", "user-message"],
+  ["agent-chat", "bash-tool", "edit-tool", "error-message", "generic-tool", "input-bar", "message-list", "mode-selector", "model-picker", "plan-tool", "search-tool", "spiral-loader", "suggestions", "text-shimmer", "todo-tool", "user-message"],
 ];
 
 export function getReferencePage(id) {

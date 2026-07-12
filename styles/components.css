@@ -3150,6 +3150,23 @@
   content: "●";
 }
 
+.oc-agent-plan-tool .oc-agent-plan-list {
+  display: grid;
+  gap: var(--oc-space-3);
+  margin: 0;
+  padding-left: var(--oc-space-6);
+}
+
+.oc-agent-plan-list li[data-state="complete"] {
+  color: var(--oc-text-muted);
+  text-decoration: line-through;
+}
+
+.oc-agent-plan-list li[data-state="active"] {
+  color: var(--oc-text-primary);
+  font-weight: 650;
+}
+
 .oc-agent-message-meta {
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);
