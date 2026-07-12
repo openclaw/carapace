@@ -46,6 +46,7 @@ const pageKinds = {
   "primitive-grid": "reference",
   "primitive-layer-card": "reference",
   "primitive-link": "reference",
+  "primitive-loader": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",
