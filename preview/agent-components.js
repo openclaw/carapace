@@ -103,6 +103,19 @@ const components = {
 </fieldset>`,
     guidance: ["Use modes only when they materially change how the agent works.", "Keep labels short and mutually exclusive.", "The consumer owns mode availability, persistence, and execution behavior."],
   },
+  "user-message": {
+    slug: "user-message",
+    title: "User Message",
+    className: "oc-agent-user-message",
+    lede: "A distinct transcript entry for user-authored prompts and attachments.",
+    previewTitle: "User-authored prompt",
+    preview: `<article class="oc-agent-user-message"><p>Summarize the changes in this branch.</p><footer class="oc-agent-message-meta">You · now</footer></article>`,
+    markup: `<article class="oc-agent-user-message">
+  <p>Summarize the changes in this branch.</p>
+  <footer class="oc-agent-message-meta">You · now</footer>
+</article>`,
+    guidance: ["Keep user text selectable and in document order.", "Use alignment and surface treatment without relying on color alone.", "The consumer owns editing, retrying, timestamps, and attachment data."],
+  },
 };
 
 export const agentReferenceContentIds = Object.keys(components);
