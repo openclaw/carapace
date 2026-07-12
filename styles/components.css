@@ -17,6 +17,8 @@
   --oc-component-shadow: var(--oc-shadow-sm);
   --oc-component-shadow-hover: var(--oc-shadow-md);
 
+  min-width: 0;
+  min-height: 100%;
   background: var(--oc-bg-page);
   color: var(--oc-text-primary);
   font-family: var(--oc-font-body);
@@ -40,6 +42,7 @@
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
   text-wrap: balance;
 }
 
@@ -49,6 +52,7 @@
   color: var(--oc-text-secondary);
   font-size: var(--oc-font-size-lg);
   line-height: 1.6;
+  overflow-wrap: anywhere;
   text-wrap: pretty;
 }
 
