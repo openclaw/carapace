@@ -155,6 +155,12 @@ export const referenceAreas = [
         keywords: "oc-dialog modal confirmation focus native",
       },
       {
+        id: "primitive-dropdown",
+        label: "Dropdown",
+        path: "interface/primitives/dropdown/",
+        keywords: "oc-dropdown menu actions trigger escape",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -405,6 +411,7 @@ const adjacentReferenceSequences = [
     "primitive-command-palette",
     "primitive-date-picker",
     "primitive-dialog",
+    "primitive-dropdown",
     "primitive-input-area",
     "primitive-input-group",
     "primitive-input",

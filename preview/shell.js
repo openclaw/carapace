@@ -40,6 +40,7 @@ const pageKinds = {
   "primitive-command-palette": "reference",
   "primitive-date-picker": "reference",
   "primitive-dialog": "reference",
+  "primitive-dropdown": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

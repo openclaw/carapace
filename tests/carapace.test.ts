@@ -99,6 +99,7 @@ describe("CSS contract", () => {
       ".oc-command-palette",
       ".oc-date-picker",
       ".oc-dialog",
+      ".oc-dropdown",
     ]) {
       expect(components).toContain(className);
     }

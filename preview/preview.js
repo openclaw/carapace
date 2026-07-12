@@ -2,6 +2,7 @@ import { bindExampleDialog } from "./interaction.js";
 import { bindCombobox } from "./combobox.js";
 import { bindCommandPalettes } from "./command-palette.js";
 import { bindDialogs } from "./dialog.js";
+import { bindDropdowns } from "./dropdown.js";
 import {
   groupTokenDefinitions,
   resolveTokenHash,
@@ -17,6 +18,7 @@ renderShell();
 bindCombobox();
 bindCommandPalettes();
 bindDialogs();
+bindDropdowns();
 
 const root = document.documentElement;
 const tokenGrid = document.querySelector("[data-token-grid]");
