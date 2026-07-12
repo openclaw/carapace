@@ -70,6 +70,24 @@ const components = {
 </details>`,
     guidance: ["Always identify the affected file or resource.", "Pair addition and removal counts with a readable change summary.", "The consumer owns approval, patch application, conflict handling, and rollback."],
   },
+  "file-attachment": {
+    slug: "file-attachment",
+    title: "File Attachment",
+    className: "oc-agent-file-attachment",
+    lede: "A compact file record that exposes identity, size, upload status, and a safe removal action before submission.",
+    previewTitle: "Attached file states",
+    preview: `<ul class="oc-agent-attachment-list" aria-label="Attached files"><li class="oc-agent-file-attachment"><span class="oc-agent-file-type" aria-hidden="true">PDF</span><span class="oc-agent-file-details"><strong>project-brief.pdf</strong><span>1.8 MB</span></span><button class="oc-agent-file-remove" type="button" aria-label="Remove project-brief.pdf">×</button></li><li class="oc-agent-file-attachment" data-status="uploading"><span class="oc-agent-file-type" aria-hidden="true">PNG</span><span class="oc-agent-file-details"><strong>interface.png</strong><span>Uploading · 62%</span><span class="oc-agent-file-progress" role="progressbar" aria-label="Uploading interface.png" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"><span style="width: 62%"></span></span></span><button class="oc-agent-file-remove" type="button" aria-label="Cancel interface.png upload">×</button></li></ul>`,
+    markup: `<li class="oc-agent-file-attachment" data-status="uploading">
+  <span class="oc-agent-file-type" aria-hidden="true">PNG</span>
+  <span class="oc-agent-file-details">
+    <strong>interface.png</strong>
+    <span>Uploading · 62%</span>
+    <span class="oc-agent-file-progress" role="progressbar" aria-label="Uploading interface.png" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"><span style="width: 62%"></span></span>
+  </span>
+  <button class="oc-agent-file-remove" type="button" aria-label="Cancel interface.png upload">×</button>
+</li>`,
+    guidance: ["Keep the full filename available and allow long names to wrap or truncate without hiding the extension.", "Expose upload progress and failure in text and semantics, not color alone.", "Give every remove or cancel action a filename-specific accessible name; the consumer owns upload and cleanup."],
+  },
   "agent-chat": {
     slug: "agent-chat",
     title: "Agent Chat",

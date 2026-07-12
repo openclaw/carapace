@@ -139,6 +139,7 @@ describe("CSS contract", () => {
       ".oc-agent-todo-tool",
       ".oc-agent-plan-tool",
       ".oc-agent-tool-group",
+      ".oc-agent-file-attachment",
       ".oc-agent-input-bar",
       ".oc-agent-markdown",
       ".oc-agent-suggestions",

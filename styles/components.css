@@ -3133,6 +3133,15 @@
   list-style: none;
 }
 
+.oc-agent-attachment-list {
+  display: grid;
+  width: min(100%, 34rem);
+  gap: var(--oc-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .oc-agent-todo-list li::before {
   display: inline-block;
   width: 1.5em;
@@ -3187,6 +3196,85 @@
   margin: 0;
   color: var(--oc-text-primary);
   font-size: var(--oc-font-size-base);
+}
+
+.oc-agent-file-attachment {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--oc-space-3);
+  padding: var(--oc-space-3);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-surface);
+  color: var(--oc-text-primary);
+}
+
+.oc-agent-file-type {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: var(--oc-radius-inset);
+  background: var(--oc-bg-elevated);
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-agent-file-details {
+  display: grid;
+  min-width: 0;
+  gap: var(--oc-space-1);
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-agent-file-details strong {
+  overflow: hidden;
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oc-agent-file-progress {
+  display: block;
+  height: 0.1875rem;
+  overflow: hidden;
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-elevated);
+}
+
+.oc-agent-file-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--oc-accent-primary);
+}
+
+.oc-agent-file-remove {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-text-muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.oc-agent-file-remove:is(:hover, :focus-visible) {
+  background: var(--oc-bg-elevated);
+  color: var(--oc-text-primary);
+}
+
+.oc-agent-file-remove:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
 }
 
 .oc-agent-message-meta {
