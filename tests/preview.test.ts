@@ -128,12 +128,19 @@ describe("preview contracts", () => {
     }
   });
 
-  test("renders the header search as a complete command field", async () => {
+  test("keeps search out of the shell", async () => {
     const shell = await readFile("preview/shell.js", "utf8");
 
-    expect(shell).toContain("shell-command-field");
-    expect(shell).toContain("Search routes, tokens, and primitives…");
-    expect(shell).toContain("<kbd>⌘ K</kbd>");
+    expect(shell).not.toContain("data-open-search");
+    expect(shell).not.toContain("data-search-dialog");
+  });
+
+  test("renders foundation pages at the sidebar root", async () => {
+    const shell = await readFile("preview/shell.js", "utf8");
+
+    expect(shell).toContain('.filter((area) => area.id !== "foundations")');
+    expect(shell).toContain('class="sidebar-foundations"');
+    expect(shell).toContain('class="sidebar-foundation-link"');
   });
 
   test("lists every canonical token exactly once", async () => {
@@ -189,7 +196,7 @@ describe("preview contracts", () => {
   });
 
   test("preserves independent sidebar disclosures and local page sequence", () => {
-    expect([...resolveOpenSidebarAreas(null)]).toEqual(["foundations"]);
+    expect([...resolveOpenSidebarAreas(null)]).toEqual([]);
     expect([...resolveOpenSidebarAreas("[]")]).toEqual([]);
     expect([...resolveOpenSidebarAreas('["interface"]', "foundations")]).toEqual([
       "interface",
