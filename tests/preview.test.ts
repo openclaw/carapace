@@ -82,6 +82,8 @@ describe("preview contracts", () => {
       "--home-grid-row-height: calc((100dvh - var(--preview-topbar-height) - 1px) / 2)",
     );
     expect(previewStyles).toContain("grid-auto-rows: var(--home-grid-row-height)");
+    expect(previewStyles).toContain(".home-component-demo .oc-hero-title");
+    expect(previewStyles).toContain("overflow-wrap: anywhere");
     expect(previewScript).toContain('.home-component-grid .oc-segmented');
 
     for (const path of [
