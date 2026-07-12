@@ -302,6 +302,19 @@ const components = {
 </details>`,
     guidance: ["Keep the submitted query visible after results arrive.", "Label result count and scope in text.", "The consumer owns search execution, ranking, source attribution, and navigation."],
   },
+  "question-tool": {
+    slug: "question-tool",
+    title: "Question Tool",
+    className: "oc-agent-question-tool",
+    lede: "A blocking clarification surface that presents one focused question and explicit answer choices.",
+    previewTitle: "Request a decision",
+    preview: `<form class="oc-agent-tool oc-agent-question-tool"><fieldset><legend>Which output should be generated?</legend><label><input type="radio" name="output" checked> Component reference</label><label><input type="radio" name="output"> Migration guide</label></fieldset><div class="oc-agent-question-actions"><button class="oc-button oc-button-primary" type="submit">Continue</button></div></form>`,
+    markup: `<form class="oc-agent-tool oc-agent-question-tool">
+  <fieldset><legend>Which output should be generated?</legend><label><input type="radio" name="output"> Component reference</label></fieldset>
+  <div class="oc-agent-question-actions"><button type="submit">Continue</button></div>
+</form>`,
+    guidance: ["Ask one decision at a time and explain its direct consequence.", "Use native controls and allow a free-form answer when fixed choices are insufficient.", "The consumer owns submission, validation, timeouts, and whether work can continue without an answer."],
+  },
   "plan-tool": {
     slug: "plan-tool",
     title: "Plan Tool",

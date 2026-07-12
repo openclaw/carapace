@@ -3226,6 +3226,37 @@
   margin: 0;
 }
 
+.oc-agent-question-tool {
+  padding: var(--oc-space-4);
+}
+
+.oc-agent-question-tool fieldset {
+  display: grid;
+  gap: var(--oc-space-3);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.oc-agent-question-tool legend {
+  margin-bottom: var(--oc-space-3);
+  color: var(--oc-text-primary);
+  font-weight: 650;
+}
+
+.oc-agent-question-tool label {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+  color: var(--oc-text-secondary);
+}
+
+.oc-agent-question-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--oc-space-4);
+}
+
 .oc-agent-file-attachment {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
