@@ -181,12 +181,14 @@ function renderSidebar() {
       const expanded = openAreas.has(area.id);
       const pageLink = (page) =>
         `<a href="${hrefFor(page.path)}"${page.id === currentId ? ' aria-current="page"' : ""}>${page.label}</a>`;
-      const standalonePages = area.pages.filter((page) => !page.group).map(pageLink).join("");
-      const groups = [...new Set(area.pages.map((page) => page.group).filter(Boolean))];
+      const visiblePages = area.pages.filter((page) => !page.hiddenFromSidebar);
+      const byLabel = (left, right) => left.label.localeCompare(right.label);
+      const standalonePages = visiblePages.filter((page) => !page.group).sort(byLabel).map(pageLink).join("");
+      const groups = [...new Set(visiblePages.map((page) => page.group).filter(Boolean))];
       const groupedPages = groups
         .map((group) => {
           const groupId = `sidebar-${area.id}-${group.toLowerCase().replaceAll(" ", "-")}`;
-          const pages = area.pages.filter((page) => page.group === group).map(pageLink).join("");
+          const pages = visiblePages.filter((page) => page.group === group).sort(byLabel).map(pageLink).join("");
           return `<div class="sidebar-page-group" role="group" aria-labelledby="${groupId}"><p class="sidebar-pages-label" id="${groupId}">${group}</p>${pages}</div>`;
         })
         .join("");

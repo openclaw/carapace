@@ -399,7 +399,7 @@ a {
   border: 0;
   padding: 9px 10px !important;
   background: transparent;
-  color: var(--oc-text-secondary) !important;
+  color: var(--oc-text-primary) !important;
   cursor: pointer;
   font: inherit;
   font-weight: 650;

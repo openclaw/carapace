@@ -239,8 +239,8 @@ describe("preview contracts", () => {
     });
     expect(getAdjacentReferencePages("foundation-tokens").next?.id).toBe("foundation-colors");
     expect(getAdjacentReferencePages("primitive-card")).toMatchObject({
-      previous: { id: "primitive-section" },
-      next: { id: "primitive-action" },
+      previous: { id: "primitive-app-surface" },
+      next: { id: "primitive-checkbox" },
     });
     expect(getAdjacentReferencePages("resource-theming")).toEqual({
       previous: undefined,
