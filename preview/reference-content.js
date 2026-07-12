@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">13 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">14 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
@@ -121,6 +121,7 @@ const contents = {
         <a class="reference-card" href="./switch/"><span>.oc-switch</span><strong>Switch</strong><p>Immediate binary setting with native form behavior.</p></a>
         <a class="reference-card" href="./select/"><span>.oc-select</span><strong>Select</strong><p>Native selection for a compact list of options.</p></a>
         <a class="reference-card" href="./input-area/"><span>.oc-textarea</span><strong>Input Area</strong><p>Multiline text entry with native resizing.</p></a>
+        <a class="reference-card" href="./label/"><span>.oc-label</span><strong>Label</strong><p>Visible field naming with required and optional metadata.</p></a>
       </div>
     </section>`,
 
@@ -254,6 +255,18 @@ const contents = {
   <textarea class="oc-textarea" name="instructions"></textarea>
 </label>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="input-area-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="input-area-guidance">Reserve space for meaningful text</h2></div></div>${guidanceList(["Use for content that naturally spans multiple lines.", "Keep vertical resizing available unless layout constraints make it unsafe.", "Provide character limits before submission when they exist.", "Use Input for short single-line values."])}</section>`,
+
+  "primitive-label": () =>
+    `${pageIntro("Interface primitive", "Label", "A visible field name with compact required, optional, and descriptive metadata.")}
+    <section data-section-kind="preview" aria-labelledby="label-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="label-preview">Field naming</h2></div><span class="oc-pill">.oc-label</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="primitive-input-grid"><div><label class="oc-label" for="label-name">Skill name <span class="oc-label-required" aria-hidden="true">*</span></label><span class="oc-label-description">Visible to everyone who installs the skill.</span><input class="oc-input" id="label-name" type="text" required /></div><div><label class="oc-label" for="label-note">Internal note <span class="oc-label-optional">Optional</span></label><input class="oc-input" id="label-note" type="text" /></div></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="label-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="label-markup">Associate the label explicitly</h2></div></div>${codeBlock(`<label class="oc-label" for="skill-name">
+  Skill name <span class="oc-label-required" aria-hidden="true">*</span>
+</label>
+<span class="oc-label-description">Visible to installers.</span>
+<input class="oc-input" id="skill-name" required />`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="label-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="label-guidance">Name the value, not the control</h2></div></div>${guidanceList(["Keep labels visible and concise.", "Associate labels with controls using for and id or by nesting.", "Announce required state semantically with the required attribute.", "Use descriptions only when they clarify a non-obvious constraint."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

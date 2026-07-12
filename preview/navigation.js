@@ -159,6 +159,12 @@ export const referenceAreas = [
         keywords: "oc-textarea multiline resize form message",
       },
       {
+        id: "primitive-label",
+        label: "Label",
+        path: "interface/primitives/label/",
+        keywords: "oc-label required optional description form",
+      },
+      {
         id: "interface-examples",
         label: "Interaction examples",
         path: "interface/interaction-examples/",
@@ -309,6 +315,7 @@ const adjacentReferenceSequences = [
     "primitive-switch",
     "primitive-select",
     "primitive-input-area",
+    "primitive-label",
   ],
 ];
 

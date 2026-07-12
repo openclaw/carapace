@@ -615,6 +615,35 @@
   border-color: var(--oc-status-error-fg);
 }
 
+.oc-label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--oc-space-2);
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.oc-label-required {
+  color: var(--oc-status-error-fg);
+}
+
+.oc-label-optional {
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 500;
+}
+
+.oc-label-description {
+  display: block;
+  margin-top: var(--oc-space-1);
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;
