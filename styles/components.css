@@ -3113,6 +3113,18 @@
   color: var(--oc-accent-primary);
 }
 
+.oc-agent-search-results {
+  display: grid;
+  gap: var(--oc-space-2);
+  margin: 0;
+  padding-left: var(--oc-space-5);
+}
+
+.oc-agent-search-tool a {
+  color: var(--oc-text-primary);
+  text-decoration-color: var(--oc-border-accent);
+}
+
 .oc-agent-message-meta {
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);

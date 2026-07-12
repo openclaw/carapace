@@ -188,6 +188,19 @@ const components = {
     markup: `<span class="oc-agent-spiral-loader" role="status"><span class="sr-only">Working</span></span>`,
     guidance: ["Use only when progress cannot be measured.", "Pair the mark with accessible status text.", "Stop animation when the operation completes or when reduced motion is requested."],
   },
+  "search-tool": {
+    slug: "search-tool",
+    title: "Search Tool",
+    className: "oc-agent-search-tool",
+    lede: "A search invocation surface that preserves the query, search scope, and returned result count.",
+    previewTitle: "Search query and results",
+    preview: `<details class="oc-agent-tool oc-agent-search-tool" open><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">⌕</span><span>Search “token adapter”</span><span class="oc-agent-tool-status">4 results</span></summary><div class="oc-agent-tool-content"><ol class="oc-agent-search-results"><li><a href="#">Tailwind adapter</a></li><li><a href="#">Token contract</a></li></ol></div></details>`,
+    markup: `<details class="oc-agent-tool oc-agent-search-tool" open>
+  <summary class="oc-agent-tool-summary"><span>Search “token adapter”</span><span class="oc-agent-tool-status">4 results</span></summary>
+  <div class="oc-agent-tool-content"><ol class="oc-agent-search-results">…</ol></div>
+</details>`,
+    guidance: ["Keep the submitted query visible after results arrive.", "Label result count and scope in text.", "The consumer owns search execution, ranking, source attribution, and navigation."],
+  },
 };
 
 export const agentReferenceContentIds = Object.keys(components);
