@@ -431,6 +431,20 @@ export const referenceAreas = [
     ],
   },
   {
+    id: "blocks",
+    label: "Blocks",
+    description: "Reusable interface sections",
+    path: "interface/blocks/page-header/",
+    pages: [
+      {
+        id: "block-page-header",
+        label: "Page Header",
+        path: "interface/blocks/page-header/",
+        keywords: "oc-page-header title description actions breadcrumb page",
+      },
+    ],
+  },
+  {
     id: "compositions",
     label: "Compositions",
     description: "Product, content, and public surfaces",
@@ -610,6 +624,7 @@ const adjacentReferenceSequences = [
     "primitive-tooltip",
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
+  ["block-page-header"],
 ];
 
 export function getReferencePage(id) {
