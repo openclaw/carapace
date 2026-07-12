@@ -57,6 +57,19 @@ const components = {
 </div>`,
     guidance: ["State the failure in plain language and preserve any safe recovery action.", "Use an alert only when the error appears after an attempted action.", "The consumer owns error mapping, retry logic, logging, and destructive recovery decisions."],
   },
+  "edit-tool": {
+    slug: "edit-tool",
+    title: "Edit Tool",
+    className: "oc-agent-edit-tool",
+    lede: "A file-change tool surface that identifies the target and summarizes additions and removals.",
+    previewTitle: "File edit result",
+    preview: `<details class="oc-agent-tool oc-agent-edit-tool" open><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">±</span><span>styles/components.css</span><span class="oc-agent-tool-status"><span class="oc-agent-diff-add">+12</span> <span class="oc-agent-diff-remove">−2</span></span></summary><div class="oc-agent-tool-content"><code>Added the component state styles.</code></div></details>`,
+    markup: `<details class="oc-agent-tool oc-agent-edit-tool" open>
+  <summary class="oc-agent-tool-summary"><span>styles/components.css</span><span class="oc-agent-tool-status">+12 −2</span></summary>
+  <div class="oc-agent-tool-content">…</div>
+</details>`,
+    guidance: ["Always identify the affected file or resource.", "Pair addition and removal counts with a readable change summary.", "The consumer owns approval, patch application, conflict handling, and rollback."],
+  },
   "agent-chat": {
     slug: "agent-chat",
     title: "Agent Chat",

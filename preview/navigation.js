@@ -411,6 +411,12 @@ export const referenceAreas = [
         keywords: "oc-agent-error-message failure retry recovery alert",
       },
       {
+        id: "edit-tool",
+        label: "Edit Tool",
+        path: "agent-components/edit-tool/",
+        keywords: "oc-agent-edit-tool file patch diff changes",
+      },
+      {
         id: "generic-tool",
         label: "Generic Tool",
         path: "agent-components/generic-tool/",
@@ -717,7 +723,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "bash-tool", "error-message", "generic-tool", "input-bar", "message-list", "mode-selector", "model-picker", "spiral-loader", "suggestions", "text-shimmer", "user-message"],
+  ["agent-chat", "bash-tool", "edit-tool", "error-message", "generic-tool", "input-bar", "message-list", "mode-selector", "model-picker", "spiral-loader", "suggestions", "text-shimmer", "user-message"],
 ];
 
 export function getReferencePage(id) {
