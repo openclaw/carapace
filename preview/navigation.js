@@ -275,6 +275,12 @@ export const referenceAreas = [
         keywords: "oc-toast notification status feedback dismiss",
       },
       {
+        id: "primitive-tooltip",
+        label: "Tooltip",
+        path: "interface/primitives/tooltip/",
+        keywords: "oc-tooltip hover focus accessible description label",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -557,6 +563,7 @@ const adjacentReferenceSequences = [
     "primitive-text",
     "primitive-toolbar",
     "primitive-toast",
+    "primitive-tooltip",
   ],
 ];
 

@@ -119,6 +119,7 @@ describe("CSS contract", () => {
       ".oc-text",
       ".oc-toolbar",
       ".oc-toast",
+      ".oc-tooltip",
     ]) {
       expect(components).toContain(className);
     }

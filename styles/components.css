@@ -2373,6 +2373,43 @@
   outline-offset: -2px;
 }
 
+.oc-tooltip {
+  position: relative;
+  display: inline-flex;
+}
+
+.oc-tooltip-content {
+  position: absolute;
+  z-index: 10;
+  bottom: calc(100% + var(--oc-space-2));
+  left: 50%;
+  width: max-content;
+  max-width: 16rem;
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-surface-overlay);
+  box-shadow: var(--oc-shadow-md);
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-xs);
+  line-height: 1.4;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, var(--oc-space-1));
+  transition: opacity var(--oc-duration-fast) var(--oc-ease-out), transform var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-tooltip:is(:hover, :focus-within) .oc-tooltip-content {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-tooltip-content {
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-skeleton-line::after {
     animation: none;
