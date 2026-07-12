@@ -1976,6 +1976,43 @@
   margin-top: var(--oc-space-4);
 }
 
+.oc-provider-logo {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: var(--oc-space-3);
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+  font-weight: 650;
+}
+
+.oc-provider-logo-mark {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-surface-card);
+  color: var(--oc-accent-primary);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 700;
+}
+
+.oc-provider-logo-mark :is(img, svg) {
+  display: block;
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+.oc-provider-logo-muted {
+  color: var(--oc-text-secondary);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-loader-spinner {
     animation: none;

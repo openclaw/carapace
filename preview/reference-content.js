@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">39 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">40 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -131,6 +131,7 @@ const contents = {
         <a class="reference-card" href="./meter/"><span>.oc-meter</span><strong>Meter</strong><p>Known measurements within a range.</p></a>
         <a class="reference-card" href="./pagination/"><span>.oc-pagination</span><strong>Pagination</strong><p>Navigation across discrete pages.</p></a>
         <a class="reference-card" href="./popover/"><span>.oc-popover</span><strong>Popover</strong><p>Anchored supporting content.</p></a>
+        <a class="reference-card" href="./provider-logo/"><span>.oc-provider-logo</span><strong>Provider Logo</strong><p>Integration identity lockups.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -341,6 +342,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="popover-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="popover-markup">Connect the native target</h2></div></div>${codeBlock(`<button popovertarget="details">Show details</button>\n<div class="oc-popover" id="details" popover>\n  Supporting content\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="popover-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="popover-guidance">Keep context lightweight</h2></div></div>${guidanceList(["Use Dialog when the task must block the underlying page.", "Keep the popover associated with one clear trigger.", "Do not place long workflows or critical confirmation inside it."])}</section>`,
+
+  "primitive-provider-logo": () =>
+    `${pageIntro("Component", "Provider Logo", "A neutral lockup for an integration mark and provider name, with consumer-owned brand assets.")}
+    <section data-section-kind="preview" aria-labelledby="provider-logo-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="provider-logo-preview">Integration identity</h2></div><span class="oc-pill">.oc-provider-logo</span></div>
+      <div class="specimen-frame"><div class="primitive-control-row"><span class="oc-provider-logo"><span class="oc-provider-logo-mark" aria-hidden="true">OC</span><span>OpenClaw</span></span><span class="oc-provider-logo oc-provider-logo-muted"><span class="oc-provider-logo-mark" aria-hidden="true">API</span><span>Provider</span></span></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="provider-logo-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="provider-logo-markup">Bring the asset from the consumer</h2></div></div>${codeBlock(`<span class="oc-provider-logo">\n  <span class="oc-provider-logo-mark" aria-hidden="true">\n    <img src="provider.svg" alt="" />\n  </span>\n  <span>Provider</span>\n</span>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="provider-logo-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="provider-logo-guidance">Preserve source brand rules</h2></div></div>${guidanceList(["Keep trademarked artwork in the consumer repository.", "Use an empty image alt when the adjacent name repeats the identity.", "Do not recolor multicolor marks unless the provider explicitly permits it."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
