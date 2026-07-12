@@ -3101,6 +3101,18 @@
   font-size: var(--oc-font-size-sm);
 }
 
+.oc-agent-edit-tool .oc-agent-tool-summary {
+  font-family: var(--oc-font-mono);
+}
+
+.oc-agent-diff-add {
+  color: var(--oc-accent-secondary);
+}
+
+.oc-agent-diff-remove {
+  color: var(--oc-accent-primary);
+}
+
 .oc-agent-message-meta {
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);
