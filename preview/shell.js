@@ -64,6 +64,7 @@ const pageKinds = {
   "primitive-tooltip": "reference",
   "chart-base": "reference",
   "chart-colors": "reference",
+  "chart-timeseries": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

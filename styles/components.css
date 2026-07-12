@@ -2490,6 +2490,62 @@
 .oc-chart-color-warning { --oc-chart-color: var(--oc-status-warning-fg); }
 .oc-chart-color-error { --oc-chart-color: var(--oc-status-error-fg); }
 
+.oc-timeseries-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--oc-space-2) var(--oc-space-4);
+  margin: 0;
+  padding: 0;
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+  list-style: none;
+}
+
+.oc-timeseries-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+}
+
+.oc-timeseries-key {
+  width: var(--oc-space-4);
+  height: 2px;
+  background: var(--oc-accent-primary);
+}
+
+.oc-timeseries-key-secondary {
+  border-top: 2px dashed var(--oc-accent-secondary);
+  background: transparent;
+}
+
+.oc-timeseries-axis {
+  fill: none;
+  stroke: var(--oc-border-subtle);
+  stroke-width: 1;
+}
+
+.oc-timeseries-series {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.oc-timeseries-series-primary {
+  stroke: var(--oc-accent-primary);
+}
+
+.oc-timeseries-series-secondary {
+  stroke: var(--oc-accent-secondary);
+  stroke-dasharray: 8 6;
+}
+
+.oc-timeseries-points {
+  fill: var(--oc-surface-card);
+  stroke: var(--oc-accent-primary);
+  stroke-width: 2;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-tooltip-content {
     transition: none;

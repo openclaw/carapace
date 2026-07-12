@@ -404,6 +404,12 @@ export const referenceAreas = [
         path: "interface/charts/colors/",
         keywords: "oc-chart-colors series palette semantic data visualization",
       },
+      {
+        id: "chart-timeseries",
+        label: "Timeseries",
+        path: "interface/charts/timeseries/",
+        keywords: "oc-timeseries temporal line trend series data visualization",
+      },
     ],
   },
   {
@@ -585,7 +591,7 @@ const adjacentReferenceSequences = [
     "primitive-toast",
     "primitive-tooltip",
   ],
-  ["chart-base", "chart-colors"],
+  ["chart-base", "chart-colors", "chart-timeseries"],
 ];
 
 export function getReferencePage(id) {

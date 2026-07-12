@@ -653,6 +653,22 @@ const contents = {
 </div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="chart-colors-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="chart-colors-guidance">Color supports, never replaces</h2></div></div>${guidanceList(["Use primary and secondary accents for neutral series.", "Reserve status colors for data that genuinely carries the matching meaning.", "Pair color with labels, shapes, strokes, or patterns.", "Validate every series against both light and dark themes."])}</section>`,
 
+  "chart-timeseries": () =>
+    `${pageIntro("Charts", "Timeseries", "A temporal plot for reading change, direction, and comparison across a shared interval.")}
+    <section data-section-kind="preview" aria-labelledby="timeseries-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="timeseries-preview">Compare change over time</h2></div><span class="oc-pill">.oc-timeseries</span></div><div class="specimen-frame"><figure class="oc-chart oc-timeseries"><figcaption class="oc-chart-header"><div><p class="oc-chart-title">Weekly runs</p><p class="oc-chart-caption">Successful and retried tasks</p></div><ul class="oc-timeseries-legend" aria-label="Series"><li><span class="oc-timeseries-key oc-timeseries-key-primary"></span>Successful</li><li><span class="oc-timeseries-key oc-timeseries-key-secondary"></span>Retried</li></ul></figcaption><svg class="oc-chart-plot" viewBox="0 0 640 240" role="img" aria-labelledby="timeseries-title timeseries-description"><title id="timeseries-title">Weekly task runs</title><desc id="timeseries-description">Successful runs rose from 24 to 58 while retried runs fell from 18 to 8 over six weeks.</desc><path class="oc-chart-grid-line" d="M40 40H620M40 100H620M40 160H620M40 220H620"/><path class="oc-timeseries-axis" d="M40 20V220H620"/><path class="oc-timeseries-series oc-timeseries-series-primary" d="M40 184L156 160L272 148L388 112L504 88L620 48"/><path class="oc-timeseries-series oc-timeseries-series-secondary" d="M40 132L156 142L272 156L388 170L504 180L620 194"/><g class="oc-timeseries-points"><circle cx="40" cy="184" r="4"/><circle cx="156" cy="160" r="4"/><circle cx="272" cy="148" r="4"/><circle cx="388" cy="112" r="4"/><circle cx="504" cy="88" r="4"/><circle cx="620" cy="48" r="4"/></g></svg></figure></div></section>
+    <section data-section-kind="markup" aria-labelledby="timeseries-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="timeseries-markup">Describe the temporal story</h2></div></div>${codeBlock(`<figure class="oc-chart oc-timeseries">
+  <figcaption class="oc-chart-header">
+    <p class="oc-chart-title">Weekly runs</p>
+    <ul class="oc-timeseries-legend" aria-label="Series">...</ul>
+  </figcaption>
+  <svg class="oc-chart-plot" viewBox="0 0 640 240" role="img" aria-labelledby="chart-title chart-description">
+    <title id="chart-title">Weekly task runs</title>
+    <desc id="chart-description">Successful runs rose while retried runs fell over six weeks.</desc>
+    <path class="oc-timeseries-series oc-timeseries-series-primary" d="..." />
+  </svg>
+</figure>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="timeseries-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="timeseries-guidance">Time determines the reading order</h2></div></div>${guidanceList(["Keep intervals consistent and label changes in sampling or missing data.", "Use the same scale when series are meant to be compared directly.", "Pair color with a visible legend and distinct line treatment or points.", "Summarize the meaningful trend in the accessible description."])}</section>`,
+
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
     <div class="scope-note"><strong>Ownership boundary</strong><p>These controls demonstrate states and density. Their behavior and markup remain consumer-owned.</p></div>
