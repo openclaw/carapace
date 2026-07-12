@@ -684,11 +684,14 @@ body[data-page-kind="home"] .preview-stage {
 }
 
 .home-component-demo .oc-hero {
+  width: 100%;
   gap: 10px;
 }
 
 .home-component-demo .oc-hero-title {
+  max-width: 100%;
   font-size: clamp(26px, 2.3vw, 36px);
+  overflow-wrap: anywhere;
 }
 
 .home-component-demo .oc-hero-lede {
