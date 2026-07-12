@@ -42,6 +42,7 @@ const pageKinds = {
   "primitive-input-area": "reference",
   "primitive-label": "reference",
   "primitive-input-group": "reference",
+  "primitive-sensitive-input": "reference",
   "interface-examples": "example",
   "composition-product": "composition",
   "composition-content": "composition",

@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">15 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">16 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
@@ -123,6 +123,7 @@ const contents = {
         <a class="reference-card" href="./input-area/"><span>.oc-textarea</span><strong>Input Area</strong><p>Multiline text entry with native resizing.</p></a>
         <a class="reference-card" href="./label/"><span>.oc-label</span><strong>Label</strong><p>Visible field naming with required and optional metadata.</p></a>
         <a class="reference-card" href="./input-group/"><span>.oc-input-group</span><strong>Input Group</strong><p>Text input with a structural prefix or suffix.</p></a>
+        <a class="reference-card" href="./sensitive-input/"><span>.oc-sensitive-input</span><strong>Sensitive Input</strong><p>Secret entry with an explicit visibility control.</p></a>
       </div>
     </section>`,
 
@@ -282,6 +283,20 @@ const contents = {
   </span>
 </label>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="input-group-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="input-group-guidance">Keep addons structural</h2></div></div>${guidanceList(["Use addons for fixed units, protocols, or namespaces.", "Do not put a second editable control inside the group.", "Keep the complete value understandable to assistive technology.", "Use a separate button when the adjacent element performs an action."])}</section>`,
+
+  "primitive-sensitive-input": () =>
+    `${pageIntro("Interface primitive", "Sensitive Input", "A password or secret field with an explicit consumer-owned visibility control.")}
+    <section data-section-kind="preview" aria-labelledby="sensitive-input-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="sensitive-input-preview">Hidden and visible values</h2></div><span class="oc-pill">.oc-sensitive-input</span></div>
+      <div class="specimen-frame oc-app-surface"><label class="oc-field primitive-input-grid"><span class="oc-field-label">API key</span><span class="oc-sensitive-input"><input class="oc-input" type="password" value="sk-openclaw-example" autocomplete="off" data-sensitive-value /><button class="oc-sensitive-toggle" type="button" aria-pressed="false" data-toggle-sensitive>Show</button></span><span class="oc-field-message">Stored encrypted after submission.</span></label></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="sensitive-input-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="sensitive-input-markup">Name the visibility action</h2></div></div>${codeBlock(`<label class="oc-field">
+  <span class="oc-field-label">API key</span>
+  <span class="oc-sensitive-input">
+    <input class="oc-input" type="password" autocomplete="off" />
+    <button class="oc-sensitive-toggle" type="button" aria-pressed="false">Show</button>
+  </span>
+</label>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="sensitive-input-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="sensitive-input-guidance">Protect secrets without blocking correction</h2></div></div>${guidanceList(["Use type=password for secrets and credentials.", "Let users reveal the current value with an explicitly named button.", "Do not copy or expose the value without a deliberate action.", "Keep storage, validation, and clipboard policy in the consumer."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
