@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">11 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">12 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
@@ -119,6 +119,7 @@ const contents = {
         <a class="reference-card" href="./checkbox/"><span>.oc-checkbox</span><strong>Checkbox</strong><p>Independent binary selection with native form behavior.</p></a>
         <a class="reference-card" href="./radio/"><span>.oc-radio</span><strong>Radio</strong><p>Single selection from a visible group of options.</p></a>
         <a class="reference-card" href="./switch/"><span>.oc-switch</span><strong>Switch</strong><p>Immediate binary setting with native form behavior.</p></a>
+        <a class="reference-card" href="./select/"><span>.oc-select</span><strong>Select</strong><p>Native selection for a compact list of options.</p></a>
       </div>
     </section>`,
 
@@ -225,6 +226,22 @@ const contents = {
   <span>Automatic updates</span>
 </label>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="switch-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="switch-guidance">Apply changes immediately</h2></div></div>${guidanceList(["Use a switch for a setting that takes effect immediately.", "Use a checkbox when the choice is submitted with a larger form.", "Write the label as the setting name, not as an action.", "Expose pending or failed persistence in the consuming application."])}</section>`,
+
+  "primitive-select": () =>
+    `${pageIntro("Interface primitive", "Select", "A native compact selector for choosing one value from a known list.")}
+    <section data-section-kind="preview" aria-labelledby="select-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="select-preview">Native options</h2></div><span class="oc-pill">.oc-select</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="primitive-input-grid"><label class="oc-field"><span class="oc-field-label">Model</span><span class="oc-select-wrap"><select class="oc-select"><option>Claude Sonnet</option><option>GPT</option><option>Gemini</option></select></span><span class="oc-field-message">Choose the default model for new sessions.</span></label><label class="oc-field"><span class="oc-field-label">Managed setting</span><span class="oc-select-wrap"><select class="oc-select" disabled><option>Organization default</option></select></span></label></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="select-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="select-markup">Keep native select semantics</h2></div></div>${codeBlock(`<label class="oc-field">
+  <span class="oc-field-label">Model</span>
+  <span class="oc-select-wrap">
+    <select class="oc-select" name="model">
+      <option value="sonnet">Claude Sonnet</option>
+      <option value="gpt">GPT</option>
+    </select>
+  </span>
+</label>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="select-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="select-guidance">Use for compact known lists</h2></div></div>${guidanceList(["Use Select when one value is required from a compact known list.", "Keep the visible label outside the control.", "Order options predictably and avoid placeholder options that look selectable.", "Use Combobox when users need to filter a long list."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

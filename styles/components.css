@@ -523,6 +523,57 @@
   opacity: 0.55;
 }
 
+.oc-select-wrap {
+  position: relative;
+  display: grid;
+}
+
+.oc-select-wrap::after {
+  position: absolute;
+  top: 50%;
+  right: var(--oc-space-3);
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 1.5px solid var(--oc-text-muted);
+  border-bottom: 1.5px solid var(--oc-text-muted);
+  content: "";
+  pointer-events: none;
+  transform: translateY(-65%) rotate(45deg);
+}
+
+.oc-select {
+  width: 100%;
+  min-height: 2.5rem;
+  appearance: none;
+  padding: var(--oc-space-2) var(--oc-space-6) var(--oc-space-2) var(--oc-space-3);
+  border: 1px solid var(--oc-input-border);
+  border-radius: var(--oc-radius-control);
+  outline: none;
+  background: var(--oc-input-bg);
+  color: var(--oc-text-primary);
+  font: inherit;
+  font-size: var(--oc-font-size-base);
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    border-color var(--oc-duration-fast) var(--oc-ease-out),
+    box-shadow var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-select:hover:not(:disabled) {
+  border-color: var(--oc-border-accent);
+}
+
+.oc-select:focus-visible {
+  border-color: var(--oc-input-focus-border);
+  box-shadow: 0 0 0 3px var(--oc-input-focus-ring);
+}
+
+.oc-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

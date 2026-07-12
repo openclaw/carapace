@@ -147,6 +147,12 @@ export const referenceAreas = [
         keywords: "oc-switch-label oc-switch settings immediate toggle",
       },
       {
+        id: "primitive-select",
+        label: "Select",
+        path: "interface/primitives/select/",
+        keywords: "oc-select-wrap oc-select native options form",
+      },
+      {
         id: "interface-examples",
         label: "Interaction examples",
         path: "interface/interaction-examples/",
@@ -295,6 +301,7 @@ const adjacentReferenceSequences = [
     "primitive-checkbox",
     "primitive-radio",
     "primitive-switch",
+    "primitive-select",
   ],
 ];
 
