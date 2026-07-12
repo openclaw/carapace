@@ -3167,6 +3167,28 @@
   font-weight: 650;
 }
 
+.oc-agent-tool-group {
+  display: grid;
+  width: min(100%, 44rem);
+  gap: var(--oc-space-2);
+}
+
+.oc-agent-tool-group-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--oc-space-3);
+  padding: 0 var(--oc-space-1);
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-agent-tool-group-header h3 {
+  margin: 0;
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-base);
+}
+
 .oc-agent-message-meta {
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);

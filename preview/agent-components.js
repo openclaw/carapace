@@ -181,6 +181,20 @@ const components = {
 </details>`,
     guidance: ["Keep task labels outcome-oriented and ordered.", "Expose complete, active, and pending states in text or semantics.", "The consumer owns task mutation, persistence, and completion rules."],
   },
+  "tool-group": {
+    slug: "tool-group",
+    title: "Tool Group",
+    className: "oc-agent-tool-group",
+    lede: "A bounded collection of related tool calls that preserves their order and shared task context.",
+    previewTitle: "Related tool activity",
+    preview: `<section class="oc-agent-tool-group" aria-labelledby="tool-group-title"><header class="oc-agent-tool-group-header"><h3 id="tool-group-title">Validate component</h3><span>2 completed</span></header><details class="oc-agent-tool" open><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon">›_</span><span>Run tests</span><span class="oc-agent-tool-status">Completed</span></summary><div class="oc-agent-tool-content">23 passed</div></details><details class="oc-agent-tool"><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon">⌕</span><span>Inspect output</span><span class="oc-agent-tool-status">Completed</span></summary></details></section>`,
+    markup: `<section class="oc-agent-tool-group" aria-labelledby="tool-group-title">
+  <header class="oc-agent-tool-group-header"><h3 id="tool-group-title">Validate component</h3><span>2 completed</span></header>
+  <details class="oc-agent-tool">…</details>
+  <details class="oc-agent-tool">…</details>
+</section>`,
+    guidance: ["Group only calls that share one clear task.", "Preserve execution order and expose aggregate progress.", "Do not hide approvals, failures, or cancellation inside a collapsed group."],
+  },
   "text-shimmer": {
     slug: "text-shimmer",
     title: "Text Shimmer",
