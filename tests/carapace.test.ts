@@ -127,6 +127,7 @@ describe("CSS contract", () => {
       ".oc-sankey",
       ".oc-custom-chart",
       ".oc-page-header",
+      ".oc-resource-list",
     ]) {
       expect(components).toContain(className);
     }

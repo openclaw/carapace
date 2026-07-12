@@ -2722,7 +2722,84 @@
   line-height: 1.5;
 }
 
+.oc-resource-list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-surface-card);
+  list-style: none;
+}
+
+.oc-resource-list-item {
+  margin: 0;
+}
+
+.oc-resource-list-item + .oc-resource-list-item {
+  border-top: 1px solid var(--oc-border-subtle);
+}
+
+.oc-resource-list-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--oc-space-4);
+  padding: var(--oc-space-4) var(--oc-space-5);
+  color: inherit;
+  text-decoration: none;
+}
+
+.oc-resource-list-link:hover {
+  background: var(--oc-surface-interactive);
+}
+
+.oc-resource-list-link:focus-visible {
+  position: relative;
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
+.oc-resource-list-content {
+  display: grid;
+  gap: var(--oc-space-1);
+  min-width: 0;
+}
+
+.oc-resource-list-title {
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-resource-list-description,
+.oc-resource-list-meta,
+.oc-resource-list-arrow {
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-resource-list-description {
+  line-height: 1.5;
+}
+
+.oc-resource-list-arrow {
+  transition: transform var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-resource-list-link:is(:hover, :focus-visible) .oc-resource-list-arrow {
+  color: var(--oc-text-primary);
+  transform: translateX(var(--oc-space-1));
+}
 @media (prefers-reduced-motion: reduce) {
+  .oc-resource-list-arrow {
+    transition: none;
+  }
+
+  .oc-resource-list-link:is(:hover, :focus-visible) .oc-resource-list-arrow {
+    transform: none;
+  }
+
   .oc-tooltip-content {
     transition: none;
   }
@@ -2749,6 +2826,14 @@
 }
 
 @media (max-width: 42rem) {
+  .oc-resource-list-link {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .oc-resource-list-meta {
+    display: none;
+  }
+
   .oc-page-header {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;

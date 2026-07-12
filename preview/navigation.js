@@ -442,6 +442,12 @@ export const referenceAreas = [
         path: "interface/blocks/page-header/",
         keywords: "oc-page-header title description actions breadcrumb page",
       },
+      {
+        id: "block-resource-list",
+        label: "Resource List",
+        path: "interface/blocks/resource-list/",
+        keywords: "oc-resource-list linked rows title description metadata",
+      },
     ],
   },
   {
@@ -624,7 +630,7 @@ const adjacentReferenceSequences = [
     "primitive-tooltip",
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
-  ["block-page-header"],
+  ["block-page-header", "block-resource-list"],
 ];
 
 export function getReferencePage(id) {

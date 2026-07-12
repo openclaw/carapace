@@ -731,6 +731,25 @@ const contents = {
 </header>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="page-header-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="page-header-guidance">Keep the opening decisive</h2></div></div>${guidanceList(["Use the page's single h1 inside the block.", "Keep the description focused on the page's purpose.", "Expose only the actions users need before reading the page.", "On narrow screens, actions follow the content in source order."])}</section>`,
 
+  "block-resource-list": () =>
+    `${pageIntro("Block", "Resource List", "A compact collection of related destinations with enough context to choose the right one before navigating.")}
+    <section data-section-kind="preview" aria-labelledby="resource-list-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="resource-list-preview">Scan, compare, open</h2></div><span class="oc-pill">.oc-resource-list</span></div>
+      <div class="specimen-frame oc-app-surface"><ul class="oc-resource-list"><li class="oc-resource-list-item"><a class="oc-resource-list-link" href="#resource-list-guidance"><span class="oc-resource-list-content"><strong class="oc-resource-list-title">Research agent</strong><span class="oc-resource-list-description">Searches sources and prepares cited summaries.</span></span><span class="oc-resource-list-meta">12 tools</span><span class="oc-resource-list-arrow" aria-hidden="true">→</span></a></li><li class="oc-resource-list-item"><a class="oc-resource-list-link" href="#resource-list-guidance"><span class="oc-resource-list-content"><strong class="oc-resource-list-title">Release agent</strong><span class="oc-resource-list-description">Validates packages and coordinates deployment checks.</span></span><span class="oc-resource-list-meta">8 tools</span><span class="oc-resource-list-arrow" aria-hidden="true">→</span></a></li><li class="oc-resource-list-item"><a class="oc-resource-list-link" href="#resource-list-guidance"><span class="oc-resource-list-content"><strong class="oc-resource-list-title">Support agent</strong><span class="oc-resource-list-description">Triages incoming requests and escalates blockers.</span></span><span class="oc-resource-list-meta">6 tools</span><span class="oc-resource-list-arrow" aria-hidden="true">→</span></a></li></ul></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="resource-list-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="resource-list-markup">Keep each destination atomic</h2></div></div>${codeBlock(`<ul class="oc-resource-list">
+  <li class="oc-resource-list-item">
+    <a class="oc-resource-list-link" href="/agents/research">
+      <span class="oc-resource-list-content">
+        <strong class="oc-resource-list-title">Research agent</strong>
+        <span class="oc-resource-list-description">Prepares cited summaries.</span>
+      </span>
+      <span class="oc-resource-list-meta">12 tools</span>
+      <span class="oc-resource-list-arrow" aria-hidden="true">→</span>
+    </a>
+  </li>
+</ul>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="resource-list-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="resource-list-guidance">Make the destination clear</h2></div></div>${guidanceList(["Use a list when the resources form one comparable set.", "Make the complete row one link instead of nesting controls.", "Keep descriptions short enough to scan without opening the destination.", "Use metadata only when it helps users distinguish peers."])}</section>`,
+
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
     <div class="scope-note"><strong>Ownership boundary</strong><p>These controls demonstrate states and density. Their behavior and markup remain consumer-owned.</p></div>
