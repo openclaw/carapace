@@ -714,6 +714,23 @@ const contents = {
 </figure>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="custom-chart-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="custom-chart-guidance">Bespoke does not mean unstructured</h2></div></div>${guidanceList(["Use the shared chart shell before inventing a new surface.", "Keep the key result visible outside the graphic.", "Provide a useful accessible description and preserve source order on narrow screens.", "Promote repeated custom visuals into a named chart component only after stable reuse."])}</section>`,
 
+  "block-page-header": () =>
+    `${pageIntro("Block", "Page Header", "A reusable page opening that keeps identity, context, and primary actions in one predictable region.")}
+    <section data-section-kind="preview" aria-labelledby="page-header-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="page-header-preview">Context before action</h2></div><span class="oc-pill">.oc-page-header</span></div>
+      <div class="specimen-frame oc-app-surface"><header class="oc-page-header"><div class="oc-page-header-content"><p class="oc-page-header-kicker">Workspace</p><h3 class="oc-page-header-title">Agent catalog</h3><p class="oc-page-header-description">Manage the capabilities available to this workspace.</p></div><div class="oc-page-header-actions"><button class="oc-button oc-button-secondary" type="button">Import</button><button class="oc-button oc-button-primary" type="button">New agent</button></div></header></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="page-header-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="page-header-markup">Use a semantic page heading</h2></div></div>${codeBlock(`<header class="oc-page-header">
+  <div class="oc-page-header-content">
+    <p class="oc-page-header-kicker">Workspace</p>
+    <h1 class="oc-page-header-title">Agent catalog</h1>
+    <p class="oc-page-header-description">Manage available capabilities.</p>
+  </div>
+  <div class="oc-page-header-actions">
+    <button class="oc-button oc-button-primary" type="button">New agent</button>
+  </div>
+</header>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="page-header-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="page-header-guidance">Keep the opening decisive</h2></div></div>${guidanceList(["Use the page's single h1 inside the block.", "Keep the description focused on the page's purpose.", "Expose only the actions users need before reading the page.", "On narrow screens, actions follow the content in source order."])}</section>`,
+
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
     <div class="scope-note"><strong>Ownership boundary</strong><p>These controls demonstrate states and density. Their behavior and markup remain consumer-owned.</p></div>
