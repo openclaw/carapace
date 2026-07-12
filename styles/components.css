@@ -1174,6 +1174,99 @@
   margin-bottom: 0;
 }
 
+.oc-combobox {
+  position: relative;
+  width: 100%;
+  max-width: 22rem;
+}
+
+.oc-combobox-control {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: stretch;
+  border: 1px solid var(--oc-input-border);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-input-bg);
+}
+
+.oc-combobox-control:focus-within {
+  border-color: var(--oc-input-focus-border);
+  box-shadow: 0 0 0 3px var(--oc-input-focus-ring);
+}
+
+.oc-combobox-control .oc-input {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.oc-combobox-control .oc-input:focus-visible {
+  border: 0;
+  box-shadow: none;
+}
+
+.oc-combobox-toggle {
+  display: grid;
+  width: 2.5rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  border-left: 1px solid var(--oc-input-border);
+  background: transparent;
+  color: var(--oc-text-muted);
+  cursor: pointer;
+}
+
+.oc-combobox-toggle::before {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  content: "";
+  transform: rotate(45deg) translate(-0.125rem, -0.125rem);
+}
+
+.oc-combobox-listbox {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + var(--oc-space-2));
+  right: 0;
+  left: 0;
+  max-height: 14rem;
+  overflow: auto;
+  margin: 0;
+  padding: var(--oc-space-1);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-surface-overlay);
+  box-shadow: var(--oc-shadow-md);
+  list-style: none;
+}
+
+.oc-combobox-listbox[hidden] {
+  display: none;
+}
+
+.oc-combobox-option {
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border-radius: var(--oc-radius-inset);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-sm);
+  cursor: pointer;
+}
+
+.oc-combobox-option:hover,
+.oc-combobox-option[data-active] {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.oc-combobox-option[aria-selected="true"] {
+  color: var(--oc-accent-primary);
+  font-weight: 650;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;

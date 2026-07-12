@@ -1,4 +1,5 @@
 import { bindExampleDialog } from "./interaction.js";
+import { bindCombobox } from "./combobox.js";
 import {
   groupTokenDefinitions,
   resolveTokenHash,
@@ -11,6 +12,7 @@ import { nextThemeMode, resolveThemeMode, themeModes } from "./theme.js";
 
 renderReferenceContent();
 renderShell();
+bindCombobox();
 
 const root = document.documentElement;
 const tokenGrid = document.querySelector("[data-token-grid]");

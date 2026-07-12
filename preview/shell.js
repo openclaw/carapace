@@ -36,6 +36,7 @@ const pageKinds = {
   "primitive-clipboard-text": "reference",
   "primitive-code-highlighted": "reference",
   "primitive-collapsible": "reference",
+  "primitive-combobox": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",
