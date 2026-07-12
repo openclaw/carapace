@@ -110,12 +110,8 @@ a {
 .topbar-actions {
   grid-column: 3;
   display: flex;
-  gap: 0;
+  gap: 8px;
   align-items: center;
-  padding: 3px;
-  border: 1px solid var(--oc-border-subtle);
-  border-radius: var(--oc-radius-md);
-  background: var(--oc-input-bg);
 }
 
 .github-link {
@@ -123,7 +119,7 @@ a {
   min-height: 36px;
   gap: 7px;
   align-items: center;
-  padding: 0 10px;
+  padding: 8px 10px;
   color: var(--oc-text-secondary);
   font-size: 13px;
   font-weight: 700;
@@ -284,15 +280,12 @@ a {
   place-items: center;
   padding: 0;
   border: 0;
-  border-left: 1px solid var(--oc-border-subtle);
-  border-radius: 0;
   background: transparent;
   color: var(--oc-text-muted);
   cursor: pointer;
 }
 
 .theme-control:hover {
-  border-color: var(--oc-border-accent);
   color: var(--oc-text-primary);
 }
 

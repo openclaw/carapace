@@ -138,6 +138,7 @@ describe("preview contracts", () => {
     expect(previewStyles).toContain("width: min(100%, 480px)");
     expect(previewStyles).toContain("justify-self: center");
     expect(previewStyles).toContain(".search-field:focus-within");
+    expect(previewStyles).toContain(".topbar-actions {\n  grid-column: 3;\n  display: flex;\n  gap: 8px;");
   });
 
   test("renders foundation pages at the sidebar root", async () => {
