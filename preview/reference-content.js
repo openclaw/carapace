@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">14 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">15 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
@@ -122,6 +122,7 @@ const contents = {
         <a class="reference-card" href="./select/"><span>.oc-select</span><strong>Select</strong><p>Native selection for a compact list of options.</p></a>
         <a class="reference-card" href="./input-area/"><span>.oc-textarea</span><strong>Input Area</strong><p>Multiline text entry with native resizing.</p></a>
         <a class="reference-card" href="./label/"><span>.oc-label</span><strong>Label</strong><p>Visible field naming with required and optional metadata.</p></a>
+        <a class="reference-card" href="./input-group/"><span>.oc-input-group</span><strong>Input Group</strong><p>Text input with a structural prefix or suffix.</p></a>
       </div>
     </section>`,
 
@@ -267,6 +268,20 @@ const contents = {
 <span class="oc-label-description">Visible to installers.</span>
 <input class="oc-input" id="skill-name" required />`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="label-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="label-guidance">Name the value, not the control</h2></div></div>${guidanceList(["Keep labels visible and concise.", "Associate labels with controls using for and id or by nesting.", "Announce required state semantically with the required attribute.", "Use descriptions only when they clarify a non-obvious constraint."])}</section>`,
+
+  "primitive-input-group": () =>
+    `${pageIntro("Interface primitive", "Input Group", "A single text input with a non-editable prefix or suffix inside one focus boundary.")}
+    <section data-section-kind="preview" aria-labelledby="input-group-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="input-group-preview">Prefix and suffix</h2></div><span class="oc-pill">.oc-input-group</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="primitive-input-grid"><label class="oc-field"><span class="oc-field-label">Repository</span><span class="oc-input-group"><span class="oc-input-group-addon">github.com/</span><input class="oc-input" type="text" value="openclaw/design-system" /></span></label><label class="oc-field"><span class="oc-field-label">Timeout</span><span class="oc-input-group"><input class="oc-input" type="number" value="30" /><span class="oc-input-group-addon">seconds</span></span></label></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="input-group-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="input-group-markup">One field, one focus boundary</h2></div></div>${codeBlock(`<label class="oc-field">
+  <span class="oc-field-label">Repository</span>
+  <span class="oc-input-group">
+    <span class="oc-input-group-addon">github.com/</span>
+    <input class="oc-input" type="text" />
+  </span>
+</label>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="input-group-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="input-group-guidance">Keep addons structural</h2></div></div>${guidanceList(["Use addons for fixed units, protocols, or namespaces.", "Do not put a second editable control inside the group.", "Keep the complete value understandable to assistive technology.", "Use a separate button when the adjacent element performs an action."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

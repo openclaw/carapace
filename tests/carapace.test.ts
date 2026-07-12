@@ -85,6 +85,7 @@ describe("CSS contract", () => {
       ".oc-select",
       ".oc-textarea",
       ".oc-label",
+      ".oc-input-group",
     ]) {
       expect(components).toContain(className);
     }

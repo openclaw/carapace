@@ -165,6 +165,12 @@ export const referenceAreas = [
         keywords: "oc-label required optional description form",
       },
       {
+        id: "primitive-input-group",
+        label: "Input Group",
+        path: "interface/primitives/input-group/",
+        keywords: "oc-input-group addon prefix suffix input",
+      },
+      {
         id: "interface-examples",
         label: "Interaction examples",
         path: "interface/interaction-examples/",
@@ -316,6 +322,7 @@ const adjacentReferenceSequences = [
     "primitive-select",
     "primitive-input-area",
     "primitive-label",
+    "primitive-input-group",
   ],
 ];
 

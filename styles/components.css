@@ -644,6 +644,56 @@
   line-height: 1.4;
 }
 
+.oc-input-group {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: stretch;
+  border: 1px solid var(--oc-input-border);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-input-bg);
+  transition:
+    border-color var(--oc-duration-fast) var(--oc-ease-out),
+    box-shadow var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-input-group:hover {
+  border-color: var(--oc-border-accent);
+}
+
+.oc-input-group:focus-within {
+  border-color: var(--oc-input-focus-border);
+  box-shadow: 0 0 0 3px var(--oc-input-focus-ring);
+}
+
+.oc-input-group .oc-input {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.oc-input-group .oc-input:hover,
+.oc-input-group .oc-input:focus-visible {
+  border: 0;
+  box-shadow: none;
+}
+
+.oc-input-group-addon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  padding: 0 var(--oc-space-3);
+  border-right: 1px solid var(--oc-input-border);
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-sm);
+  line-height: 1;
+}
+
+.oc-input-group-addon:last-child {
+  border-right: 0;
+  border-left: 1px solid var(--oc-input-border);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-card-interactive {
     transition: none;
