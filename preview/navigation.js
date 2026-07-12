@@ -435,6 +435,12 @@ export const referenceAreas = [
         keywords: "oc-agent-input-bar composer textarea send stop attachments",
       },
       {
+        id: "markdown",
+        label: "Markdown",
+        path: "agent-components/markdown/",
+        keywords: "oc-agent-markdown formatted response headings lists code links",
+      },
+      {
         id: "suggestions",
         label: "Suggestions",
         path: "agent-components/suggestions/",
@@ -747,7 +753,7 @@ const adjacentReferenceSequences = [
   ],
   ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
   ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "bash-tool", "edit-tool", "error-message", "generic-tool", "input-bar", "message-list", "mode-selector", "model-picker", "plan-tool", "search-tool", "spiral-loader", "suggestions", "text-shimmer", "todo-tool", "tool-group", "user-message"],
+  ["agent-chat", "bash-tool", "edit-tool", "error-message", "generic-tool", "input-bar", "markdown", "message-list", "mode-selector", "model-picker", "plan-tool", "search-tool", "spiral-loader", "suggestions", "text-shimmer", "todo-tool", "tool-group", "user-message"],
 ];
 
 export function getReferencePage(id) {

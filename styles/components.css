@@ -3227,6 +3227,57 @@
   }
 }
 
+.oc-agent-markdown {
+  width: min(100%, 42rem);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-md);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.oc-agent-markdown > :first-child {
+  margin-top: 0;
+}
+
+.oc-agent-markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.oc-agent-markdown :is(h1, h2, h3, h4) {
+  margin: var(--oc-space-6) 0 var(--oc-space-2);
+  color: var(--oc-text-primary);
+  line-height: 1.2;
+}
+
+.oc-agent-markdown :is(p, ul, ol, blockquote, pre) {
+  margin: 0 0 var(--oc-space-4);
+}
+
+.oc-agent-markdown :is(ul, ol) {
+  padding-inline-start: var(--oc-space-6);
+}
+
+.oc-agent-markdown blockquote {
+  padding-inline-start: var(--oc-space-4);
+  border-inline-start: 2px solid var(--oc-border-accent);
+  color: var(--oc-text-muted);
+}
+
+.oc-agent-markdown pre {
+  max-width: 100%;
+  padding: var(--oc-space-4);
+  overflow-x: auto;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-inset);
+  background: var(--oc-bg-elevated);
+  color: var(--oc-text-primary);
+}
+
+.oc-agent-markdown code {
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-sm);
+}
+
 .oc-agent-suggestion {
   min-height: 2rem;
   padding: 0 var(--oc-space-3);

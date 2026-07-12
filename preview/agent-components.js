@@ -112,6 +112,22 @@ const components = {
 </form>`,
     guidance: ["Keep one visible message field and one current primary action.", "Change the send action to stop while a response is streaming.", "The consumer owns submission, draft persistence, attachment processing, and keyboard shortcuts."],
   },
+  markdown: {
+    slug: "markdown",
+    title: "Markdown",
+    className: "oc-agent-markdown",
+    lede: "Readable rich text for agent responses, with deliberate rhythm for prose, lists, links, quotes, and code.",
+    previewTitle: "Structured response content",
+    preview: `<article class="oc-agent-markdown"><h3>Validation complete</h3><p>The component contract is ready for review.</p><ul><li>Keyboard behavior is preserved.</li><li>Colors resolve from semantic tokens.</li></ul><blockquote>Review the rendered state before adoption.</blockquote><pre><code>bun run check</code></pre></article>`,
+    markup: `<article class="oc-agent-markdown">
+  <h3>Validation complete</h3>
+  <p>The component contract is ready for review.</p>
+  <ul><li>Keyboard behavior is preserved.</li></ul>
+  <blockquote>Review the rendered state before adoption.</blockquote>
+  <pre><code>bun run check</code></pre>
+</article>`,
+    guidance: ["Sanitize generated HTML before rendering it into the document.", "Preserve a clear heading hierarchy relative to the surrounding transcript.", "Keep links, code, tables, and quoted content keyboard accessible and horizontally contained."],
+  },
   "suggestions": {
     slug: "suggestions",
     title: "Suggestions",
