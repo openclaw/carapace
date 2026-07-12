@@ -2013,6 +2013,76 @@
   color: var(--oc-text-secondary);
 }
 
+.oc-sidebar {
+  display: flex;
+  width: 17rem;
+  max-width: 100%;
+  min-height: 22rem;
+  flex-direction: column;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-surface-card);
+}
+
+.oc-sidebar-header,
+.oc-sidebar-footer {
+  padding: var(--oc-space-4);
+}
+
+.oc-sidebar-header {
+  border-bottom: 1px solid var(--oc-border-subtle);
+}
+
+.oc-sidebar-title {
+  margin: 0;
+  color: var(--oc-text-primary);
+  font-family: var(--oc-font-display);
+  font-size: var(--oc-font-size-base);
+}
+
+.oc-sidebar-nav {
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: var(--oc-space-1);
+  padding: var(--oc-space-3);
+}
+
+.oc-sidebar-link {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--oc-space-3);
+  padding: 0 var(--oc-space-3);
+  border-radius: var(--oc-radius-control);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-sm);
+  text-decoration: none;
+}
+
+.oc-sidebar-link:hover {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.oc-sidebar-link:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
+.oc-sidebar-link[aria-current="page"] {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+  font-weight: 650;
+}
+
+.oc-sidebar-footer {
+  border-top: 1px solid var(--oc-border-subtle);
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-loader-spinner {
     animation: none;

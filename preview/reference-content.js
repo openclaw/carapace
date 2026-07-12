@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">40 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">41 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -148,6 +148,7 @@ const contents = {
         <a class="reference-card" href="./label/"><span>.oc-label</span><strong>Label</strong><p>Visible field naming with required and optional metadata.</p></a>
         <a class="reference-card" href="./input-group/"><span>.oc-input-group</span><strong>Input Group</strong><p>Text input with a structural prefix or suffix.</p></a>
         <a class="reference-card" href="./sensitive-input/"><span>.oc-sensitive-input</span><strong>Sensitive Input</strong><p>Secret entry with an explicit visibility control.</p></a>
+        <a class="reference-card" href="./sidebar/"><span>.oc-sidebar</span><strong>Sidebar</strong><p>Persistent navigation with clear current-page state.</p></a>
       </div>
     </section>`,
 
@@ -513,6 +514,23 @@ const contents = {
   </span>
 </label>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="sensitive-input-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="sensitive-input-guidance">Protect secrets without blocking correction</h2></div></div>${guidanceList(["Use type=password for secrets and credentials.", "Let users reveal the current value with an explicitly named button.", "Do not copy or expose the value without a deliberate action.", "Keep storage, validation, and clipboard policy in the consumer."])}</section>`,
+
+  "primitive-sidebar": () =>
+    `${pageIntro("Component", "Sidebar", "Persistent navigation for a bounded product area, with explicit structure and current-page state.")}
+    <section data-section-kind="preview" aria-labelledby="sidebar-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="sidebar-preview">Primary navigation rail</h2></div><span class="oc-pill">.oc-sidebar</span></div>
+      <div class="specimen-frame"><aside class="oc-sidebar" aria-label="Workspace"><header class="oc-sidebar-header"><h3 class="oc-sidebar-title">Workspace</h3></header><nav class="oc-sidebar-nav"><a class="oc-sidebar-link" href="#sidebar-preview" aria-current="page"><span>Overview</span><span aria-hidden="true">01</span></a><a class="oc-sidebar-link" href="#sidebar-markup"><span>Activity</span><span aria-hidden="true">08</span></a><a class="oc-sidebar-link" href="#sidebar-guidance"><span>Settings</span></a></nav><footer class="oc-sidebar-footer">OpenClaw</footer></aside></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="sidebar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="sidebar-markup">Keep the landmark explicit</h2></div></div>${codeBlock(`<aside class="oc-sidebar" aria-label="Workspace">
+  <header class="oc-sidebar-header">
+    <h2 class="oc-sidebar-title">Workspace</h2>
+  </header>
+  <nav class="oc-sidebar-nav">
+    <a class="oc-sidebar-link" href="/" aria-current="page">Overview</a>
+    <a class="oc-sidebar-link" href="/activity">Activity</a>
+  </nav>
+  <footer class="oc-sidebar-footer">OpenClaw</footer>
+</aside>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="sidebar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="sidebar-guidance">Navigation stays predictable</h2></div></div>${guidanceList(["Use one sidebar for one bounded navigation context.", "Name the landmark when more than one navigation region exists.", "Mark the current destination with aria-current=page.", "Keep disclosure state and responsive behavior in the consumer."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

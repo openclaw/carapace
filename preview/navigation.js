@@ -227,6 +227,12 @@ export const referenceAreas = [
         keywords: "oc-provider-logo integration brand mark identity",
       },
       {
+        id: "primitive-sidebar",
+        label: "Sidebar",
+        path: "interface/primitives/sidebar/",
+        keywords: "oc-sidebar navigation rail current page header footer",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -498,8 +504,9 @@ const adjacentReferenceSequences = [
     "primitive-radio",
     "primitive-section",
     "primitive-segmented",
-    "primitive-sensitive-input",
     "primitive-select",
+    "primitive-sensitive-input",
+    "primitive-sidebar",
     "primitive-switch",
   ],
 ];
