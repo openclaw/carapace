@@ -2154,6 +2154,48 @@
   font-weight: 650;
 }
 
+.oc-table-of-contents {
+  width: min(100%, 18rem);
+  padding-left: var(--oc-space-4);
+  border-left: 1px solid var(--oc-border-subtle);
+}
+
+.oc-table-of-contents-title {
+  margin: 0 0 var(--oc-space-3);
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.oc-table-of-contents-list {
+  display: grid;
+  gap: var(--oc-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.oc-table-of-contents-link {
+  display: block;
+  padding: var(--oc-space-2) 0;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-sm);
+  text-decoration: none;
+}
+
+.oc-table-of-contents-link:is(:hover, :focus-visible),
+.oc-table-of-contents-link[aria-current="location"] {
+  color: var(--oc-text-primary);
+}
+
+.oc-table-of-contents-link:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .oc-skeleton-line::after {
     animation: none;

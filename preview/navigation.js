@@ -245,6 +245,12 @@ export const referenceAreas = [
         keywords: "oc-table data rows columns responsive overflow",
       },
       {
+        id: "primitive-table-of-contents",
+        label: "Table of Contents",
+        path: "interface/primitives/table-of-contents/",
+        keywords: "oc-table-of-contents in page navigation anchors current location",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -522,6 +528,7 @@ const adjacentReferenceSequences = [
     "primitive-skeleton-line",
     "primitive-switch",
     "primitive-table",
+    "primitive-table-of-contents",
   ],
 ];
 

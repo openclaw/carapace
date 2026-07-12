@@ -55,6 +55,7 @@ const pageKinds = {
   "primitive-sidebar": "reference",
   "primitive-skeleton-line": "reference",
   "primitive-table": "reference",
+  "primitive-table-of-contents": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

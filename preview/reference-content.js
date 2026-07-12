@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">43 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">44 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -151,6 +151,7 @@ const contents = {
         <a class="reference-card" href="./sidebar/"><span>.oc-sidebar</span><strong>Sidebar</strong><p>Persistent navigation with clear current-page state.</p></a>
         <a class="reference-card" href="./skeleton-line/"><span>.oc-skeleton-line</span><strong>Skeleton Line</strong><p>Reserved text space during loading.</p></a>
         <a class="reference-card" href="./table/"><span>.oc-table</span><strong>Table</strong><p>Structured comparison across rows and columns.</p></a>
+        <a class="reference-card" href="./table-of-contents/"><span>.oc-table-of-contents</span><strong>Table of Contents</strong><p>Local navigation through page sections.</p></a>
       </div>
     </section>`,
 
@@ -554,6 +555,18 @@ const contents = {
   </table>
 </div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="table-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="table-guidance">Use tables for comparison</h2></div></div>${guidanceList(["Use a table only when rows share comparable columns.", "Keep native table, header, and scope semantics.", "Wrap wide tables so narrow viewports scroll without clipping the page.", "Move row actions into a clearly labeled final column."])}</section>`,
+
+  "primitive-table-of-contents": () =>
+    `${pageIntro("Component", "Table of Contents", "Local navigation for a long page, showing its section structure and current reading position.")}
+    <section data-section-kind="preview" aria-labelledby="table-of-contents-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="table-of-contents-preview">Page outline</h2></div><span class="oc-pill">.oc-table-of-contents</span></div><div class="specimen-frame"><nav class="oc-table-of-contents" aria-label="On this page"><p class="oc-table-of-contents-title">On this page</p><ol class="oc-table-of-contents-list"><li><a class="oc-table-of-contents-link" href="#table-of-contents-preview" aria-current="location">Overview</a></li><li><a class="oc-table-of-contents-link" href="#table-of-contents-markup">Markup</a></li><li><a class="oc-table-of-contents-link" href="#table-of-contents-guidance">Guidance</a></li></ol></nav></div></section>
+    <section data-section-kind="markup" aria-labelledby="table-of-contents-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="table-of-contents-markup">Link directly to section IDs</h2></div></div>${codeBlock(`<nav class="oc-table-of-contents" aria-label="On this page">
+  <p class="oc-table-of-contents-title">On this page</p>
+  <ol class="oc-table-of-contents-list">
+    <li><a class="oc-table-of-contents-link" href="#overview" aria-current="location">Overview</a></li>
+    <li><a class="oc-table-of-contents-link" href="#usage">Usage</a></li>
+  </ol>
+</nav>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="table-of-contents-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="table-of-contents-guidance">Mirror the visible document</h2></div></div>${guidanceList(["Include only stable headings that help readers navigate.", "Keep link labels identical to their section headings.", "Use aria-current=location for the section in view.", "Let the consumer own scroll observation and responsive placement."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
