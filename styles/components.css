@@ -3018,6 +3018,27 @@
   outline-offset: 2px;
 }
 
+.oc-agent-user-message {
+  display: grid;
+  width: min(100%, 36rem);
+  margin-left: auto;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-elevated);
+  color: var(--oc-text-primary);
+}
+
+.oc-agent-user-message p {
+  margin: 0;
+}
+
+.oc-agent-message-meta {
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+}
+
 .oc-agent-suggestion {
   min-height: 2rem;
   padding: 0 var(--oc-space-3);
