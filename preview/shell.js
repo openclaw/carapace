@@ -553,8 +553,10 @@ function bindCopyActions() {
     const textButton = event.target.closest("[data-copy-text]");
     if (textButton) {
       const value = textButton.dataset.copyText || "";
+      const status = textButton.closest(".oc-clipboard-text")?.querySelector("[data-copy-status]");
       if (await copyText(value)) {
         showShellFeedback("Text copied.");
+        if (status) status.textContent = "Copied to clipboard.";
         const label = textButton.textContent;
         textButton.textContent = "Copied";
         window.setTimeout(() => {
@@ -562,6 +564,7 @@ function bindCopyActions() {
         }, 800);
       } else {
         showShellFeedback("Clipboard access unavailable.");
+        if (status) status.textContent = "Clipboard access unavailable.";
       }
     }
   });

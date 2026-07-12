@@ -12,8 +12,46 @@ import {
 import { resolveTokenHash, syncTokenHash } from "../preview/token-catalog.js";
 import { bindTabs } from "../preview/tabs.js";
 import { getScrollFadeState } from "../preview/shell.js";
+import { setCurrentSidebarLink } from "../preview/sidebar.js";
+import { setCurrentTableOfContentsLink } from "../preview/table-of-contents.js";
 
 describe("preview behavior", () => {
+  test("moves table-of-contents location to the selected section", () => {
+    class Link {
+      attributes = new Map();
+      setAttribute(name, value) { this.attributes.set(name, value); }
+      removeAttribute(name) { this.attributes.delete(name); }
+      getAttribute(name) { return this.attributes.get(name); }
+    }
+
+    const overview = new Link();
+    const guidance = new Link();
+    overview.setAttribute("aria-current", "location");
+    const nav = { querySelectorAll: () => [overview, guidance] };
+
+    expect(setCurrentTableOfContentsLink(nav, guidance)).toBe(true);
+    expect(overview.getAttribute("aria-current")).toBeUndefined();
+    expect(guidance.getAttribute("aria-current")).toBe("location");
+  });
+
+  test("moves sidebar current-page state to the selected destination", () => {
+    class Link {
+      attributes = new Map();
+      setAttribute(name, value) { this.attributes.set(name, value); }
+      removeAttribute(name) { this.attributes.delete(name); }
+      getAttribute(name) { return this.attributes.get(name); }
+    }
+
+    const overview = new Link();
+    const activity = new Link();
+    overview.setAttribute("aria-current", "page");
+    const nav = { querySelectorAll: () => [overview, activity] };
+
+    expect(setCurrentSidebarLink(nav, activity)).toBe(true);
+    expect(overview.getAttribute("aria-current")).toBeUndefined();
+    expect(activity.getAttribute("aria-current")).toBe("page");
+  });
+
   test("shows sidebar fades only toward hidden navigation content", () => {
     expect(getScrollFadeState(0, 600, 900)).toEqual({ up: false, down: true });
     expect(getScrollFadeState(150, 600, 900)).toEqual({ up: true, down: true });
