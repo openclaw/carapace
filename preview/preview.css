@@ -2617,9 +2617,14 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
 @media (max-width: 900px) {
   .topbar {
-    grid-template-columns: auto auto minmax(80px, 1fr) auto;
-    gap: 10px;
-    padding-block: 2px;
+    grid-template-columns: 44px minmax(0, 1fr) 44px 44px;
+    gap: 4px;
+    min-height: 60px;
+    padding: 8px 10px;
+  }
+
+  .topbar::after {
+    display: none;
   }
 
   .mobile-nav-trigger,
@@ -2638,6 +2643,8 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   .mobile-nav-trigger {
     grid-column: 1;
     gap: 4px;
+    border-color: transparent;
+    background: transparent;
   }
 
   .mobile-nav-trigger span {
@@ -2648,23 +2655,32 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
   .brand {
     grid-column: 2;
+    min-width: 0;
     min-height: 44px;
+    overflow: hidden;
   }
 
   .search-trigger {
     grid-column: 3;
-    width: min(100%, 360px);
+    width: 44px;
     min-height: 44px;
+    justify-content: center;
+    justify-self: end;
+    padding: 0;
   }
 
   .topbar-actions {
     grid-column: 4;
+    gap: 0;
   }
 
   .github-link {
-    display: flex;
-    min-height: 44px;
-    align-items: center;
+    display: none;
+  }
+
+  .search-trigger-label > span,
+  .search-trigger kbd {
+    display: none;
   }
 
   .theme-control {
@@ -2808,9 +2824,7 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
 @media (max-width: 680px) {
   .topbar {
-    grid-template-columns: auto auto minmax(36px, 1fr) auto;
-    gap: 6px;
-    padding-inline: 14px;
+    grid-template-columns: 44px minmax(0, 1fr) 44px 44px;
   }
 
   .brand-context {
@@ -2832,13 +2846,6 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
   .theme-control {
     border-left: 0;
-  }
-
-  .search-trigger {
-    width: 44px;
-    justify-content: center;
-    justify-self: end;
-    padding: 0;
   }
 
   .search-trigger-label > span,
