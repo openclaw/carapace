@@ -51,6 +51,7 @@ const pageKinds = {
   "primitive-meter": "reference",
   "primitive-pagination": "reference",
   "primitive-popover": "reference",
+  "primitive-provider-logo": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",

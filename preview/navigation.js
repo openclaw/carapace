@@ -221,6 +221,12 @@ export const referenceAreas = [
         keywords: "oc-popover anchored content native light dismiss",
       },
       {
+        id: "primitive-provider-logo",
+        label: "Provider Logo",
+        path: "interface/primitives/provider-logo/",
+        keywords: "oc-provider-logo integration brand mark identity",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -486,6 +492,7 @@ const adjacentReferenceSequences = [
     "primitive-meter",
     "primitive-pagination",
     "primitive-popover",
+    "primitive-provider-logo",
     "primitive-hero",
     "primitive-pill",
     "primitive-radio",
