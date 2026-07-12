@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">7 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">8 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
@@ -115,6 +115,7 @@ const contents = {
         <a class="reference-card" href="./action/"><span>.oc-action</span><strong>Action</strong><p>Primary, secondary, ghost, and icon variants.</p></a>
         <a class="reference-card" href="./segmented-control/"><span>.oc-segmented</span><strong>Segmented control</strong><p>Compact selection among peer views.</p></a>
         <a class="reference-card" href="./pill/"><span>.oc-pill</span><strong>Pill</strong><p>Compact non-interactive metadata.</p></a>
+        <a class="reference-card" href="./input/"><span>.oc-input</span><strong>Input</strong><p>Labeled text entry with helper, error, and disabled states.</p></a>
       </div>
     </section>`,
 
@@ -173,6 +174,18 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="pill-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="pill-markup">Inline label</h2></div></div>${codeBlock(`<span class="oc-pill">Stable</span>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="pill-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="pill-guidance">Metadata, not interaction</h2></div></div>${guidanceList(["Keep the label short enough to scan inline.", "Use status tokens when the label communicates status.", "Do not style a button as a pill without a canonical interactive contract."])}</section>`,
+
+  "primitive-input": () =>
+    `${pageIntro("Interface primitive", "Input", "A labeled text-entry control with canonical focus, helper, error, and disabled states.")}
+    <section data-section-kind="preview" aria-labelledby="input-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="input-preview">Field states</h2></div><span class="oc-pill">.oc-input</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="primitive-input-grid"><label class="oc-field"><span class="oc-field-label">Skill name</span><input class="oc-input" type="text" placeholder="Search by name" /><span class="oc-field-message">Use a clear, recognizable name.</span></label><label class="oc-field"><span class="oc-field-label">Repository URL</span><input class="oc-input" type="url" value="not-a-url" aria-invalid="true" aria-describedby="input-error" /><span class="oc-field-message" id="input-error">Enter a valid URL.</span></label><label class="oc-field"><span class="oc-field-label">Owner</span><input class="oc-input" type="text" value="openclaw" disabled /></label></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="input-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="input-markup">Associate every field with its label</h2></div></div>${codeBlock(`<label class="oc-field">
+  <span class="oc-field-label">Skill name</span>
+  <input class="oc-input" type="text" aria-describedby="skill-name-help" />
+  <span class="oc-field-message" id="skill-name-help">Use a recognizable name.</span>
+</label>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="input-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="input-guidance">Behavior stays native</h2></div></div>${guidanceList(["Use the correct input type and autocomplete value.", "Keep a visible label; placeholders are examples, not labels.", "Connect helper and error messages with aria-describedby.", "Set aria-invalid only while the current value is invalid."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}

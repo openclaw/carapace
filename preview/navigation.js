@@ -123,6 +123,12 @@ export const referenceAreas = [
         keywords: "oc-pill label metadata",
       },
       {
+        id: "primitive-input",
+        label: "Input",
+        path: "interface/primitives/input/",
+        keywords: "oc-field oc-input label helper error disabled form",
+      },
+      {
         id: "interface-examples",
         label: "Interaction examples",
         path: "interface/interaction-examples/",
@@ -267,6 +273,7 @@ const adjacentReferenceSequences = [
     "primitive-action",
     "primitive-segmented",
     "primitive-pill",
+    "primitive-input",
   ],
 ];
 

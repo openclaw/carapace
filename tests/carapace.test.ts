@@ -78,6 +78,7 @@ describe("CSS contract", () => {
       ".oc-card",
       ".oc-action",
       ".oc-segmented",
+      ".oc-input",
     ]) {
       expect(components).toContain(className);
     }
