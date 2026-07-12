@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">37 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">38 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -129,6 +129,7 @@ const contents = {
         <a class="reference-card" href="./loader/"><span>.oc-loader</span><strong>Loader</strong><p>Indeterminate progress feedback.</p></a>
         <a class="reference-card" href="./menu-bar/"><span>.oc-menubar</span><strong>Menu Bar</strong><p>Grouped application commands.</p></a>
         <a class="reference-card" href="./meter/"><span>.oc-meter</span><strong>Meter</strong><p>Known measurements within a range.</p></a>
+        <a class="reference-card" href="./pagination/"><span>.oc-pagination</span><strong>Pagination</strong><p>Navigation across discrete pages.</p></a>
         <a class="reference-card" href="./app-surface/"><span>.oc-app-surface</span><strong>App surface</strong><p>Root visual context for an application surface.</p></a>
         <a class="reference-card" href="./hero/"><span>.oc-hero</span><strong>Hero</strong><p>Centered introduction with title and lede roles.</p></a>
         <a class="reference-card" href="./section/"><span>.oc-section</span><strong>Section</strong><p>Reusable heading, copy, and action structure.</p></a>
@@ -323,6 +324,14 @@ const contents = {
     </section>
     <section data-section-kind="markup" aria-labelledby="meter-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="meter-markup">Expose the numeric range</h2></div></div>${codeBlock(`<div class="oc-meter">\n  <div class="oc-meter-header"><strong>Storage used</strong><span>64%</span></div>\n  <meter class="oc-meter-value" min="0" max="100" value="64">64%</meter>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="meter-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="meter-guidance">Measure state, not task completion</h2></div></div>${guidanceList(["Use progress for an operation moving toward completion.", "Keep the numeric value visible when exactness matters.", "Set low, high, and optimum when the range has qualitative thresholds."])}</section>`,
+
+  "primitive-pagination": () =>
+    `${pageIntro("Component", "Pagination", "A navigation control for moving across stable, addressable pages in a larger collection.")}
+    <section data-section-kind="preview" aria-labelledby="pagination-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="pagination-preview">Page navigation</h2></div><span class="oc-pill">.oc-pagination</span></div>
+      <div class="specimen-frame"><nav class="oc-pagination" aria-label="Results pages"><a class="oc-pagination-link" href="#" aria-label="Previous page">←</a><ol class="oc-pagination-list"><li><a class="oc-pagination-link" href="#">1</a></li><li><a class="oc-pagination-link" href="#" aria-current="page">2</a></li><li><a class="oc-pagination-link" href="#">3</a></li><li><span class="oc-pagination-ellipsis" aria-hidden="true">…</span></li><li><a class="oc-pagination-link" href="#">12</a></li></ol><a class="oc-pagination-link" href="#" aria-label="Next page">→</a></nav></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="pagination-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="pagination-markup">Mark the current page</h2></div></div>${codeBlock(`<nav class="oc-pagination" aria-label="Results pages">\n  <ol class="oc-pagination-list">\n    <li><a class="oc-pagination-link" href="?page=1">1</a></li>\n    <li><a class="oc-pagination-link" href="?page=2" aria-current="page">2</a></li>\n  </ol>\n</nav>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="pagination-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="pagination-guidance">Keep pages addressable</h2></div></div>${guidanceList(["Use Load more for a continuous feed without stable page destinations.", "Preserve the current page in the URL.", "Give previous and next controls explicit accessible names."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}

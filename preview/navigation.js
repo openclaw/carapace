@@ -209,6 +209,12 @@ export const referenceAreas = [
         keywords: "oc-meter measurement range capacity score native",
       },
       {
+        id: "primitive-pagination",
+        label: "Pagination",
+        path: "interface/primitives/pagination/",
+        keywords: "oc-pagination pages previous next current navigation",
+      },
+      {
         id: "primitive-app-surface",
         label: "App surface",
         path: "interface/primitives/app-surface/",
@@ -472,6 +478,7 @@ const adjacentReferenceSequences = [
     "primitive-loader",
     "primitive-menu-bar",
     "primitive-meter",
+    "primitive-pagination",
     "primitive-hero",
     "primitive-pill",
     "primitive-radio",
