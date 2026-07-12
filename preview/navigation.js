@@ -387,6 +387,20 @@ export const referenceAreas = [
     ],
   },
   {
+    id: "agent-components",
+    label: "Agent Components",
+    description: "Conversation, message, input, and tool components",
+    path: "agent-components/",
+    pages: [
+      {
+        id: "agent-chat",
+        label: "Agent Chat",
+        path: "agent-components/agent-chat/",
+        keywords: "oc-agent-chat conversation messages suggestions input",
+      },
+    ],
+  },
+  {
     id: "charts",
     label: "Charts",
     description: "Data visualization components",

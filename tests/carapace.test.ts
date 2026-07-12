@@ -129,6 +129,7 @@ describe("CSS contract", () => {
       ".oc-page-header",
       ".oc-resource-list",
       ".oc-delete-resource",
+      ".oc-agent-chat",
     ]) {
       expect(components).toContain(className);
     }

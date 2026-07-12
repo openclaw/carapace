@@ -1,4 +1,5 @@
 import { exampleDialogAttribute } from "./interaction.js";
+import { agentReferenceContentIds, getAgentReferenceContent } from "./agent-components.js";
 
 function escapeHtml(value) {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -857,10 +858,10 @@ const contents = {
     <section aria-labelledby="release-consumer"><div class="section-heading"><div><p class="eyebrow">Consumers</p><h2 id="release-consumer">Migration remains explicit</h2></div></div>${guidanceList(["Pin an immutable semantic tag.", "Review compatibility surfaces and focused imports before updating.", "Validate rendered routes at desktop and mobile sizes.", "Check light and dark themes where supported."])}</section>`,
 };
 
-export const referenceContentIds = Object.keys(contents);
+export const referenceContentIds = [...Object.keys(contents), ...agentReferenceContentIds];
 
 export function getReferenceContent(id) {
-  return contents[id]?.() ?? "";
+  return contents[id]?.() ?? getAgentReferenceContent(id);
 }
 
 export function renderReferenceContent() {
