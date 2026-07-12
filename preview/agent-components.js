@@ -84,6 +84,18 @@ const components = {
 </section>`,
     guidance: ["Keep the message list as the primary flexible region.", "Expose streamed updates through a polite live region without repeatedly announcing the entire transcript.", "The consumer owns message data, submission, stopping, attachments, and tool execution."],
   },
+  "attachment-button": {
+    slug: "attachment-button",
+    title: "Attachment Button",
+    className: "oc-agent-attachment-button",
+    lede: "A composer action that opens file selection without competing with the current send or stop action.",
+    previewTitle: "Add supporting files",
+    preview: `<div class="oc-agent-button-row"><button class="oc-agent-attachment-button" type="button" aria-label="Attach files"><span aria-hidden="true">＋</span></button><button class="oc-agent-attachment-button" type="button" aria-label="Attach files" disabled><span aria-hidden="true">＋</span></button></div>`,
+    markup: `<button class="oc-agent-attachment-button" type="button" aria-label="Attach files">
+  <span aria-hidden="true">＋</span>
+</button>`,
+    guidance: ["Give icon-only attachment actions an explicit accessible name.", "Keep the button available next to the message field without making it the primary action.", "The consumer owns file selection, accepted types, size limits, upload, and error handling."],
+  },
   "message-list": {
     slug: "message-list",
     title: "Message List",
