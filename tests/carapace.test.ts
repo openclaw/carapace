@@ -90,6 +90,7 @@ describe("CSS contract", () => {
       ".oc-autocomplete",
       ".oc-badge",
       ".oc-banner",
+      ".oc-breadcrumbs",
     ]) {
       expect(components).toContain(className);
     }

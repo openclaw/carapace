@@ -31,6 +31,7 @@ const pageKinds = {
   "primitive-autocomplete": "reference",
   "primitive-badge": "reference",
   "primitive-banner": "reference",
+  "primitive-breadcrumbs": "reference",
   "primitive-hero": "reference",
   "primitive-section": "reference",
   "primitive-card": "reference",
