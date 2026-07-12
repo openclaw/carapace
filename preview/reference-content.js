@@ -106,7 +106,7 @@ const contents = {
   "interface-primitives": () =>
     `${pageIntro("Interface", "Shared primitives", "Framework-neutral classes exported by components.css. Consumers keep their own content and behavior.")}
     <div class="scope-note"><strong>Canonical scope</strong><p>Every page below documents classes already exported by components.css. No local example is promoted into the contract.</p></div>
-    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">48 references</span></div>
+    <section aria-labelledby="primitive-index"><div class="section-heading"><div><p class="eyebrow">Index</p><h2 id="primitive-index">Primitive families</h2></div><span class="oc-pill">49 references</span></div>
       <div class="reference-card-grid primitive-index-grid">
         <a class="reference-card" href="./autocomplete/"><span>.oc-autocomplete</span><strong>Autocomplete</strong><p>Text entry with native suggestions.</p></a>
         <a class="reference-card" href="./badge/"><span>.oc-badge</span><strong>Badge</strong><p>Compact status and metadata labels.</p></a>
@@ -156,6 +156,7 @@ const contents = {
         <a class="reference-card" href="./text/"><span>.oc-text</span><strong>Text</strong><p>Readable semantic text roles.</p></a>
         <a class="reference-card" href="./toolbar/"><span>.oc-toolbar</span><strong>Toolbar</strong><p>Grouped direct actions.</p></a>
         <a class="reference-card" href="./toast/"><span>.oc-toast</span><strong>Toast</strong><p>Temporary status feedback.</p></a>
+        <a class="reference-card" href="./tooltip/"><span>.oc-tooltip</span><strong>Tooltip</strong><p>Brief labels and supporting descriptions.</p></a>
       </div>
     </section>`,
 
@@ -618,6 +619,15 @@ const contents = {
   </div>
 </div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="toast-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="toast-guidance">Do not hide required decisions</h2></div></div>${guidanceList(["Use status for neutral or successful feedback that does not require immediate action.", "Keep errors near the affected control when correction is required.", "Make dismissal optional unless the message persists.", "Let the consumer own timing, stacking, focus policy, and lifecycle."])}</section>`,
+
+  "primitive-tooltip": () =>
+    `${pageIntro("Component", "Tooltip", "A brief label or supporting description revealed by both pointer hover and keyboard focus.")}
+    <section data-section-kind="preview" aria-labelledby="tooltip-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="tooltip-preview">Describe an icon action</h2></div><span class="oc-pill">.oc-tooltip</span></div><div class="specimen-frame"><span class="oc-tooltip"><button class="oc-button oc-button-secondary" type="button" aria-describedby="tooltip-copy">Copy</button><span class="oc-tooltip-content" id="tooltip-copy" role="tooltip">Copy component markup</span></span></div></section>
+    <section data-section-kind="markup" aria-labelledby="tooltip-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="tooltip-markup">Connect trigger and description</h2></div></div>${codeBlock(`<span class="oc-tooltip">
+  <button type="button" aria-describedby="copy-tooltip">Copy</button>
+  <span class="oc-tooltip-content" id="copy-tooltip" role="tooltip">Copy component markup</span>
+</span>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="tooltip-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="tooltip-guidance">Keep essential meaning visible</h2></div></div>${guidanceList(["Use tooltips for brief supporting labels, never required instructions.", "Reveal the same content on hover and keyboard focus.", "Connect the trigger with aria-describedby.", "Avoid interactive controls inside the tooltip."])}</section>`,
 
   "interface-examples": () =>
     `${pageIntro("Interface", "Interaction examples", "Preview-only examples that exercise canonical foundations without claiming a shared component contract.")}
