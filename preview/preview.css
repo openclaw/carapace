@@ -51,6 +51,7 @@ a {
 
 .shell-control,
 .brand,
+.openclaw-link,
 .github-link,
 .sidebar a,
 .page-navigation a,
@@ -59,6 +60,7 @@ a {
 }
 
 .shell-control:active,
+.openclaw-link:active,
 .github-link:active,
 .sidebar a:active,
 .page-navigation a:active,
@@ -111,6 +113,7 @@ a {
   align-items: center;
 }
 
+.openclaw-link,
 .github-link {
   display: inline-flex;
   min-height: 36px;
@@ -122,6 +125,13 @@ a {
   font-weight: 700;
   line-height: 1;
   text-decoration: none;
+}
+
+.openclaw-link img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
 .github-link svg,
@@ -158,6 +168,7 @@ a {
   stroke: none;
 }
 
+.openclaw-link:hover,
 .github-link:hover {
   color: var(--oc-text-primary);
 }
@@ -222,22 +233,6 @@ a {
   width: 26px;
   height: 26px;
   object-fit: contain;
-  transition: opacity var(--oc-duration-ui) var(--oc-ease-out), transform var(--oc-duration-ui) var(--oc-ease-out);
-}
-
-.brand-mark-hover {
-  opacity: 0;
-  transform: scale(0.82) rotate(-8deg);
-}
-
-.brand:is(:hover, :focus-visible) .brand-mark-default {
-  opacity: 0;
-  transform: scale(0.82) rotate(8deg);
-}
-
-.brand:is(:hover, :focus-visible) .brand-mark-hover {
-  opacity: 1;
-  transform: scale(1) rotate(0);
 }
 
 .brand-wordmark {
@@ -562,7 +557,7 @@ a {
   font-size: 13px;
 }
 
-.version {
+.sidebar > .version {
   display: flex;
   min-height: 54px;
   flex: 0 0 auto;
@@ -571,6 +566,7 @@ a {
   margin: 0;
   padding: 0 14px;
   border-top: 1px solid var(--oc-border-subtle);
+  border-radius: 0;
   background: var(--preview-shell-bg);
   color: var(--oc-text-muted);
   font-family: var(--oc-font-mono);
@@ -578,17 +574,42 @@ a {
   text-decoration: none;
 }
 
-.version {
-  font-variant-numeric: tabular-nums;
-}
-
-.version span {
-  display: block;
+.version-label {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
 }
 
 .version strong {
-  color: inherit;
-  font-weight: 500;
+  color: var(--oc-text-secondary);
+  font-weight: 650;
+}
+
+.version img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.version-external {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+}
+
+.version-external svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
+.sidebar > .version:hover {
+  color: var(--oc-text-primary);
 }
 
 .mobile-nav-close:focus-visible {
@@ -681,31 +702,40 @@ body[data-page-kind="home"] .preview-stage {
 }
 
 .home-brand-cell {
+  isolation: isolate;
   grid-column: span 2;
   grid-template-rows: minmax(0, 1fr);
-  background-image:
-    linear-gradient(
-      35deg,
-      var(--preview-shell-bg) 0%,
-      color-mix(in srgb, var(--preview-shell-bg) 86%, transparent) 46%,
-      transparent 72%
-    ),
-    url("./assets/home-carapace.png");
-  background-position: center, right -16px top -24px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%, 82% auto;
+}
+
+.home-brand-cell::before {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: -25%;
+  width: 50%;
+  height: 100%;
+  background: url("./assets/openclaw-mark-hover.png") center / contain no-repeat;
+  content: "";
+  opacity: 0.12;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / 35%), #000 60%);
+  mask-image: linear-gradient(to right, rgb(0 0 0 / 35%), #000 60%);
 }
 
 .home-brand-intro {
   display: grid;
   min-width: 0;
   align-content: end;
-  gap: 14px;
+  gap: 0;
   padding: 48px;
 }
 
+.home-brand-intro .eyebrow {
+  margin: 0 0 20px;
+}
+
 .home-brand-intro h1 {
-  margin: 0;
+  margin: 0 0 16px;
   font-family: var(--oc-font-display);
   font-size: 64px;
   letter-spacing: 0;
@@ -755,6 +785,11 @@ body[data-page-kind="home"] .preview-stage {
 
 .home-component-maturity {
   margin-left: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 120ms ease,
+    visibility 120ms ease;
 }
 
 .home-component-link:hover {
@@ -955,9 +990,19 @@ body[data-page-kind="home"] .preview-stage {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .home-component-cell:has(.home-component-link:hover) {
-    background: var(--oc-surface-secondary-soft);
+  .home-component-cell:has(.home-component-link):hover {
+    background: color-mix(in srgb, var(--preview-shell-bg) 94%, var(--oc-text-primary));
   }
+
+  .home-component-cell:hover .home-component-maturity {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.home-component-cell:focus-within .home-component-maturity {
+  opacity: 1;
+  visibility: visible;
 }
 
 .route-grid {
@@ -2819,6 +2864,7 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
     gap: 0;
   }
 
+  .openclaw-link,
   .github-link {
     display: none;
   }
@@ -2997,6 +3043,7 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
     font-size: 17px;
   }
 
+  .openclaw-link,
   .github-link {
     display: none;
   }
