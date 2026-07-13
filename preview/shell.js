@@ -179,7 +179,10 @@ function renderTopbar() {
       </button>
       <a class="brand" href="${hrefFor("")}" aria-label="Carapace overview" translate="no">
         <span class="brand-primary">
-          <img class="brand-mark" src="https://openclaw.ai/favicon.svg" alt="" width="26" height="26" fetchpriority="high" />
+          <span class="brand-mark-stack" aria-hidden="true">
+            <img class="brand-mark brand-mark-hover" src="${hrefFor("assets/openclaw-mark-hover.png")}" alt="" width="26" height="26" />
+            <img class="brand-mark brand-mark-default" src="${hrefFor("assets/openclaw-mark.png")}" alt="" width="26" height="26" fetchpriority="high" />
+          </span>
           <span class="brand-wordmark">OpenClaw</span>
         </span>
         <span class="brand-context">Carapace</span>

@@ -284,6 +284,22 @@ describe("preview contracts", () => {
     }
   });
 
+  test("crossfades local brand marks without adding click behavior", async () => {
+    const shell = await readFile("preview/shell.js", "utf8");
+    const previewStyles = await readFile("preview/preview.css", "utf8");
+
+    expect(shell).toContain('hrefFor("assets/openclaw-mark.png")');
+    expect(shell).toContain('hrefFor("assets/openclaw-mark-hover.png")');
+    expect(shell).not.toContain("openclaw.ai/favicon.svg");
+    expect(previewStyles).toContain(
+      ".brand:is(:hover, :focus-visible) .brand-mark-hover",
+    );
+    expect(previewStyles).toContain(".brand-mark {\n    transition: none;");
+    expect(shell).not.toContain(
+      'document.querySelector(".brand")?.addEventListener("click"',
+    );
+  });
+
   test("renders the header search as a complete command field", async () => {
     const shell = await readFile("preview/shell.js", "utf8");
     const previewStyles = await readFile("preview/preview.css", "utf8");

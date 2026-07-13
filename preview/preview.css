@@ -207,10 +207,37 @@ a {
   align-items: center;
 }
 
+.brand-mark-stack {
+  position: relative;
+  display: inline-grid;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  place-items: center;
+}
+
 .brand-mark {
+  position: absolute;
+  inset: 0;
   width: 26px;
   height: 26px;
   object-fit: contain;
+  transition: opacity var(--oc-duration-ui) var(--oc-ease-out), transform var(--oc-duration-ui) var(--oc-ease-out);
+}
+
+.brand-mark-hover {
+  opacity: 0;
+  transform: scale(0.82) rotate(-8deg);
+}
+
+.brand:is(:hover, :focus-visible) .brand-mark-default {
+  opacity: 0;
+  transform: scale(0.82) rotate(8deg);
+}
+
+.brand:is(:hover, :focus-visible) .brand-mark-hover {
+  opacity: 1;
+  transform: scale(1) rotate(0);
 }
 
 .brand-wordmark {
@@ -2949,6 +2976,12 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
     height: 24px;
   }
 
+  .brand-mark-stack {
+    width: 24px;
+    height: 24px;
+    flex-basis: 24px;
+  }
+
   .brand-wordmark {
     font-size: 17px;
   }
@@ -3203,5 +3236,9 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   .shell-feedback {
     transform: none;
     transition-property: opacity;
+  }
+
+  .brand-mark {
+    transition: none;
   }
 }
