@@ -12,6 +12,7 @@ import { tokenDefinitions } from "./token-catalog.js";
 
 const brandMarkUrl = new URL("./assets/openclaw-mark.png", import.meta.url).href;
 const brandMarkHoverUrl = new URL("./assets/openclaw-mark-hover.png", import.meta.url).href;
+const faviconUrl = brandMarkHoverUrl;
 
 let feedbackTimeout;
 const sidebarDisclosureStorageKey = "openclaw.preview.sidebar.openAreas.v2";
@@ -183,18 +184,18 @@ function renderTopbar() {
       <a class="brand" href="${hrefFor("")}" aria-label="Carapace overview" translate="no">
         <span class="brand-primary">
           <span class="brand-mark-stack" aria-hidden="true">
-            <img class="brand-mark brand-mark-hover" src="${brandMarkHoverUrl}" alt="" width="26" height="26" />
-            <img class="brand-mark brand-mark-default" src="${brandMarkUrl}" alt="" width="26" height="26" fetchpriority="high" />
+            <img class="brand-mark" src="${brandMarkHoverUrl}" alt="" width="26" height="26" fetchpriority="high" />
           </span>
-          <span class="brand-wordmark">OpenClaw</span>
+          <span class="brand-wordmark">Carapace</span>
         </span>
-        <span class="brand-context">Carapace</span>
+        <span class="brand-context">Design System</span>
       </a>
       <button class="search-trigger shell-command-field shell-control" type="button" data-open-search aria-label="Search routes, tokens, and primitives" aria-haspopup="dialog">
         <span class="search-trigger-label">${icon("search")}<span>Search routes, tokens, and primitives…</span></span><kbd>⌘ K</kbd>
       </button>
       <div class="topbar-actions">
-        <a class="github-link" href="https://github.com/openclaw/carapace" rel="noreferrer">${icon("github")}<span>GitHub</span></a>
+        <a class="openclaw-link" href="https://openclaw.ai/" rel="noreferrer"><img src="${brandMarkUrl}" alt="" width="20" height="20" /><span>OpenClaw</span></a>
+        <a class="github-link" href="https://github.com/openclaw/carapace" rel="noreferrer">${icon("github")}<span>Source</span></a>
         ${renderThemeControl()}
       </div>
     </header>
@@ -268,9 +269,10 @@ function renderSidebar() {
         ${foundationLinks}
         ${areas}
       </nav>
-      <div class="version" aria-label="Current release v0.1.0" translate="no">
-        <span>Release</span><strong>v0.1.0</strong>
-      </div>
+      <a class="version" href="https://github.com/openclaw/openclaw" rel="noreferrer" aria-label="An OpenClaw project" translate="no">
+        <span class="version-label">An <img src="${brandMarkUrl}" alt="" width="16" height="16" /><strong>OpenClaw</strong> project.</span>
+        <span class="version-external">${icon("external")}</span>
+      </a>
     </aside>
     <button class="navigation-backdrop" type="button" data-close-navigation aria-label="Close navigation"></button>
   `;
@@ -635,6 +637,14 @@ export function getScrollFadeState(scrollTop, clientHeight, scrollHeight) {
 }
 
 export function renderShell() {
+  let favicon = document.querySelector('link[rel="icon"]');
+  if (!favicon) {
+    favicon = document.createElement("link");
+    favicon.rel = "icon";
+    document.head.append(favicon);
+  }
+  favicon.href = faviconUrl;
+  favicon.type = "image/png";
   applyPageKind();
   const main = document.querySelector("main");
   if (main) {

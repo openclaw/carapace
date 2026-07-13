@@ -276,7 +276,15 @@ describe("preview contracts", () => {
   });
 
   test("renders accessible shell icons", () => {
-    for (const name of ["menu", "search", "github", "sun", "moon", "system"] as const) {
+    for (const name of [
+      "menu",
+      "search",
+      "github",
+      "external",
+      "sun",
+      "moon",
+      "system",
+    ] as const) {
       const markup = icon(name);
       expect(markup).toContain("<svg");
       expect(markup).toContain('aria-hidden="true"');
@@ -284,9 +292,8 @@ describe("preview contracts", () => {
     }
   });
 
-  test("crossfades local brand marks without adding click behavior", async () => {
+  test("uses local brand marks without adding click behavior", async () => {
     const shell = await readFile("preview/shell.js", "utf8");
-    const previewStyles = await readFile("preview/preview.css", "utf8");
 
     expect(shell).toContain(
       'new URL("./assets/openclaw-mark.png", import.meta.url).href',
@@ -296,11 +303,9 @@ describe("preview contracts", () => {
     );
     expect(shell).toContain('src="${brandMarkUrl}"');
     expect(shell).toContain('src="${brandMarkHoverUrl}"');
+    expect(shell).toContain("const faviconUrl = brandMarkHoverUrl;");
+    expect(shell).toContain('<span class="brand-wordmark">Carapace</span>');
     expect(shell).not.toContain("openclaw.ai/favicon.svg");
-    expect(previewStyles).toContain(
-      ".brand:is(:hover, :focus-visible) .brand-mark-hover",
-    );
-    expect(previewStyles).toContain(".brand-mark {\n    transition: none;");
     expect(shell).not.toContain(
       'document.querySelector(".brand")?.addEventListener("click"',
     );
