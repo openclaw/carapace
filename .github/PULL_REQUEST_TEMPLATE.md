@@ -63,3 +63,14 @@ changes when it clarifies the result.
 Reviewers will inspect the code, tests, and CI. Use this section to make the
 validation easy to understand, not to restate the diff.
 -->
+
+## Design System Checks
+
+<!--
+Include the most useful design-system proof: `bun run check`, focused tests,
+package contents, rendered consumer checks, screenshots, or audit output.
+-->
+
+- [ ] Tests or contract checks cover behavior changes
+- [ ] Affected consumer and compatibility surfaces were considered
+- [ ] No credentials, private paths, private hosts, or restricted assets are included
