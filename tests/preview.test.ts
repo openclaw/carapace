@@ -288,8 +288,14 @@ describe("preview contracts", () => {
     const shell = await readFile("preview/shell.js", "utf8");
     const previewStyles = await readFile("preview/preview.css", "utf8");
 
-    expect(shell).toContain('hrefFor("assets/openclaw-mark.png")');
-    expect(shell).toContain('hrefFor("assets/openclaw-mark-hover.png")');
+    expect(shell).toContain(
+      'new URL("./assets/openclaw-mark.png", import.meta.url).href',
+    );
+    expect(shell).toContain(
+      'new URL("./assets/openclaw-mark-hover.png", import.meta.url).href',
+    );
+    expect(shell).toContain('src="${brandMarkUrl}"');
+    expect(shell).toContain('src="${brandMarkHoverUrl}"');
     expect(shell).not.toContain("openclaw.ai/favicon.svg");
     expect(previewStyles).toContain(
       ".brand:is(:hover, :focus-visible) .brand-mark-hover",

@@ -10,6 +10,9 @@ import { icon } from "./icons.js";
 import { groupSearchResults, rankSearchEntries } from "./search.js";
 import { tokenDefinitions } from "./token-catalog.js";
 
+const brandMarkUrl = new URL("./assets/openclaw-mark.png", import.meta.url).href;
+const brandMarkHoverUrl = new URL("./assets/openclaw-mark-hover.png", import.meta.url).href;
+
 let feedbackTimeout;
 const sidebarDisclosureStorageKey = "openclaw.preview.sidebar.openAreas.v2";
 const defaultOpenSidebarAreas = [];
@@ -180,8 +183,8 @@ function renderTopbar() {
       <a class="brand" href="${hrefFor("")}" aria-label="Carapace overview" translate="no">
         <span class="brand-primary">
           <span class="brand-mark-stack" aria-hidden="true">
-            <img class="brand-mark brand-mark-hover" src="${hrefFor("assets/openclaw-mark-hover.png")}" alt="" width="26" height="26" />
-            <img class="brand-mark brand-mark-default" src="${hrefFor("assets/openclaw-mark.png")}" alt="" width="26" height="26" fetchpriority="high" />
+            <img class="brand-mark brand-mark-hover" src="${brandMarkHoverUrl}" alt="" width="26" height="26" />
+            <img class="brand-mark brand-mark-default" src="${brandMarkUrl}" alt="" width="26" height="26" fetchpriority="high" />
           </span>
           <span class="brand-wordmark">OpenClaw</span>
         </span>
