@@ -71,12 +71,15 @@ describe("preview contracts", () => {
       id: "overview",
       label: "Home",
       path: "",
-      keywords: "home overview design system visual contract",
+      keywords: "home overview carapace visual contract",
     });
     expect(home).toContain('data-preview-route="overview"');
     expect(home).toContain('class="home-component-grid"');
+    expect(home).toContain('class="home-component-cell home-brand-cell"');
+    expect(home).toContain('<h1 id="preview-title">Carapace</h1>');
+    expect(home).toContain("A carapace is a protective outer shell.");
     expect(home).not.toContain('class="home-hero"');
-    expect(home.match(/class="home-component-cell"/g)).toHaveLength(32);
+    expect(home.match(/home-component-cell/g)).toHaveLength(33);
     expect(home.match(/oc-app-surface/g)).toHaveLength(1);
     expect(previewStyles).toContain(
       "--home-grid-row-height: calc((100dvh - var(--preview-topbar-height) - 1px) / 2)",
@@ -97,6 +100,25 @@ describe("preview contracts", () => {
     ]) {
       expect(destinations).toContain(path);
     }
+  });
+
+  test("publishes the Carapace repository and domain contract", async () => {
+    const packageJson = JSON.parse(await readFile("package.json", "utf8")) as {
+      homepage: string;
+      name: string;
+      repository: { url: string };
+    };
+    const cname = await readFile("preview/public/CNAME", "utf8");
+    const shell = await readFile("preview/shell.js", "utf8");
+
+    expect(packageJson).toMatchObject({
+      name: "@openclaw/carapace",
+      repository: { url: "https://github.com/openclaw/carapace.git" },
+      homepage: "https://carapace.design/",
+    });
+    expect(cname.trim()).toBe("carapace.design");
+    expect(shell).toContain("https://github.com/openclaw/carapace");
+    expect(shell).not.toContain(["Design", "System"].join(" "));
   });
 
   test("documents every public package export", async () => {

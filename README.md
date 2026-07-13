@@ -1,21 +1,25 @@
-# OpenClaw Design System
+# Carapace
 
-Canonical web design tokens, shared CSS foundations, and agent guidance for
-OpenClaw public sites and products.
+Carapace is the shared visual foundation for OpenClaw public sites and
+products: canonical tokens, CSS foundations, and agent guidance.
+
+A carapace is the protective outer shell of a crustacean. The name fits this
+project because it gives OpenClaw products a consistent, durable surface while
+the applications beneath it keep their own behavior.
 
 The initial contract was extracted from `openclaw/openclaw.ai` at
 `b94b43b24f728c902ebb4c09ca3f89aa21e4f1d5` and checked against
 `openclaw/clawhub` at `0e898b1dfd309728a031416cd57fa1262af0d064` and
 `openclaw/docs` at `2a10e88b244232f9a91d7c9a97f2816297eb2eb4`.
-This repository became canonical with `v0.0.1`. Latest tagged release:
-`v0.0.1`.
+This repository became canonical with `v0.0.1`. The Carapace name and package
+begin with `v0.1.0`. Latest tagged release: `v0.1.0`.
 
 ## Install
 
 Install an immutable GitHub release without publishing to npm:
 
 ```bash
-bun add "git+https://github.com/openclaw/design-system.git#v0.0.1"
+bun add "git+https://github.com/openclaw/carapace.git#v0.1.0"
 ```
 
 The package is distributed through immutable Git tags rather than npm. Its
@@ -25,26 +29,26 @@ access to this public repository.
 Import the complete CSS contract:
 
 ```css
-@import "@openclaw/design-system";
+@import "@openclaw/carapace";
 ```
 
 Consumers can instead import focused entry points:
 
 ```css
-@import "@openclaw/design-system/tokens.css";
-@import "@openclaw/design-system/themes.css";
-@import "@openclaw/design-system/typography.css";
-@import "@openclaw/design-system/base.css";
-@import "@openclaw/design-system/components.css";
-@import "@openclaw/design-system/themes/product.css";
-@import "@openclaw/design-system/compat/clawhub.css";
-@import "@openclaw/design-system/tailwind.css";
+@import "@openclaw/carapace/tokens.css";
+@import "@openclaw/carapace/themes.css";
+@import "@openclaw/carapace/typography.css";
+@import "@openclaw/carapace/base.css";
+@import "@openclaw/carapace/components.css";
+@import "@openclaw/carapace/themes/product.css";
+@import "@openclaw/carapace/compat/clawhub.css";
+@import "@openclaw/carapace/tailwind.css";
 ```
 
 The Tailwind entry point only maps canonical custom properties into Tailwind
 4. Applications continue to own their components and product-specific layout.
 The product theme and ClawHub compatibility entry points are transitional,
-opt-in adapters rather than a second design system.
+opt-in adapters rather than a second shared visual layer.
 
 `components.css` provides framework-neutral primitives for shared heroes,
 section headings, cards, actions, pills, and segmented controls. Consumers keep
@@ -74,11 +78,11 @@ Install all five project skills from the repository's moving default branch:
 
 ```bash
 npx skills@1.5.16 add \
-  "openclaw/design-system" \
+  "openclaw/carapace" \
   --skill \
     openclaw-design \
     openclaw-brand \
-    openclaw-design-system \
+    openclaw-carapace \
     openclaw-marketing-pages \
     openclaw-design-audit \
   --agent codex \
@@ -96,7 +100,7 @@ npx skills@1.5.16 update --project --yes
 The `openclaw-design` router skill routes work to:
 
 - `openclaw-brand`
-- `openclaw-design-system`
+- `openclaw-carapace`
 - `openclaw-marketing-pages`
 - `openclaw-design-audit`
 
@@ -119,7 +123,7 @@ Consumers must load licensed assets locally.
 
 ## Preview
 
-Run the design-system reference surface locally:
+Run Carapace reference surface locally:
 
 ```bash
 bun run preview:dev
@@ -131,6 +135,4 @@ Build the static preview:
 bun run preview:build
 ```
 
-The Pages workflow is ready for `https://openclaw.github.io/design-system/`.
-Enable GitHub Pages for this repository, then run the Pages workflow manually
-to publish the preview.
+The Pages workflow publishes the preview at `https://carapace.design/`.

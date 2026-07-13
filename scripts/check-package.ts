@@ -4,15 +4,25 @@ import { readFile } from "node:fs/promises";
 type PackageJson = {
   exports?: Record<string, string>;
   files?: string[];
+  homepage?: string;
   name?: string;
   private?: boolean;
+  repository?: {
+    url?: string;
+  };
   version?: string;
 };
 
 const packageJson = JSON.parse(await readFile("package.json", "utf8")) as PackageJson;
 
-if (packageJson.name !== "@openclaw/design-system") {
+if (packageJson.name !== "@openclaw/carapace") {
   throw new Error("Unexpected package name");
+}
+if (packageJson.repository?.url !== "https://github.com/openclaw/carapace.git") {
+  throw new Error("Unexpected package repository");
+}
+if (packageJson.homepage !== "https://carapace.design/") {
+  throw new Error("Unexpected package homepage");
 }
 if (!packageJson.version) {
   throw new Error("Missing package version");

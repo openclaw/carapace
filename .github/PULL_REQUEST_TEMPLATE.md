@@ -1,7 +1,7 @@
 ## What Problem This Solves
 
 <!--
-Describe the concrete problem for OpenClaw sites, products, or design-system
+Describe the concrete problem for OpenClaw sites, products, or Carapace
 maintainers. Name the affected tokens, themes, stylesheets, package exports, or
 agent guidance.
 -->

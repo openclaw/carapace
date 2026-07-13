@@ -1,6 +1,6 @@
 # GitHub CODEOWNERS uses last-match-wins semantics.
 
-# Default maintainership for the design system.
+# Default maintainership for Carapace.
 * @Patrick-Erichsen
 
 # Protect repository governance and automation.
@@ -19,5 +19,6 @@
 /openclaw-design/ @openclaw/openclaw-secops @Patrick-Erichsen
 /openclaw-brand/ @openclaw/openclaw-secops @Patrick-Erichsen
 /openclaw-design-audit/ @openclaw/openclaw-secops @Patrick-Erichsen
+/openclaw-carapace/ @openclaw/openclaw-secops @Patrick-Erichsen
 /openclaw-design-system/ @openclaw/openclaw-secops @Patrick-Erichsen
 /openclaw-marketing-pages/ @openclaw/openclaw-secops @Patrick-Erichsen

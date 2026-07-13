@@ -2,7 +2,7 @@
 
 ## Scope
 
-This repository owns the canonical OpenClaw web design contract:
+Carapace owns the canonical OpenClaw web design contract:
 
 - framework-neutral CSS tokens and themes
 - a thin Tailwind 4 token adapter

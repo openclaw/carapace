@@ -122,22 +122,22 @@ function renderTopbar() {
       <button class="mobile-nav-trigger shell-control" type="button" data-open-navigation aria-label="Open navigation" aria-controls="reference-navigation" aria-expanded="false">
         <span></span><span></span>
       </button>
-      <a class="brand" href="${hrefFor("")}" aria-label="OpenClaw design system overview" translate="no">
+      <a class="brand" href="${hrefFor("")}" aria-label="Carapace overview" translate="no">
         <span class="brand-primary">
           <img class="brand-mark" src="https://openclaw.ai/favicon.svg" alt="" width="26" height="26" fetchpriority="high" />
           <span class="brand-wordmark">OpenClaw</span>
         </span>
-        <span class="brand-context">Design System</span>
+        <span class="brand-context">Carapace</span>
       </a>
       <button class="search-trigger shell-command-field shell-control" type="button" data-open-search aria-label="Search routes, tokens, and primitives" aria-haspopup="dialog">
         <span class="search-trigger-label">${icon("search")}<span>Search routes, tokens, and primitives…</span></span><kbd>⌘ K</kbd>
       </button>
       <div class="topbar-actions">
-        <a class="github-link" href="https://github.com/openclaw/design-system" rel="noreferrer">${icon("github")}<span>GitHub</span></a>
+        <a class="github-link" href="https://github.com/openclaw/carapace" rel="noreferrer">${icon("github")}<span>GitHub</span></a>
         ${renderThemeControl()}
       </div>
     </header>
-    <dialog class="search-dialog" data-search-dialog aria-label="Search design system reference">
+    <dialog class="search-dialog" data-search-dialog aria-label="Search Carapace reference">
       <div class="search-field">
         <span class="search-field-icon">${icon("search")}</span>
         <input id="reference-search" type="search" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" aria-haspopup="listbox" data-search-input aria-label="Search reference" placeholder="Search routes, tokens, and primitives…" autocomplete="off" />
@@ -201,13 +201,13 @@ function renderSidebar() {
       <div class="sidebar-heading">
         <button class="mobile-nav-close shell-control" type="button" data-close-navigation aria-label="Close navigation">×</button>
       </div>
-      <nav aria-label="Design system reference">
+      <nav aria-label="Carapace reference">
         <a class="sidebar-root-link" href="${hrefFor(introductionPage.path)}"${currentId === introductionPage.id ? ' aria-current="page"' : ""}>${introductionPage.label}</a>
         ${foundationLinks}
         ${areas}
       </nav>
-      <div class="version" aria-label="Current release v0.0.1" translate="no">
-        <span>Release</span><strong>v0.0.1</strong>
+      <div class="version" aria-label="Current release v0.1.0" translate="no">
+        <span>Release</span><strong>v0.1.0</strong>
       </div>
     </aside>
     <button class="navigation-backdrop" type="button" data-close-navigation aria-label="Close navigation"></button>
@@ -325,7 +325,7 @@ function bindGlobalSearch() {
   const entries = [
     {
       label: introductionPage.label,
-      detail: "Design system",
+      detail: "Carapace",
       type: "Page",
       href: hrefFor(introductionPage.path),
       keywords: introductionPage.keywords,

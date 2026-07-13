@@ -7,6 +7,7 @@ const root = process.cwd();
 const skillFiles = [
   "openclaw-design/SKILL.md",
   "openclaw-brand/SKILL.md",
+  "openclaw-carapace/SKILL.md",
   "openclaw-design-system/SKILL.md",
   "openclaw-marketing-pages/SKILL.md",
   "openclaw-design-audit/SKILL.md",

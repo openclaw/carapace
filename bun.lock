@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "@openclaw/design-system",
+      "name": "@openclaw/carapace",
       "devDependencies": {
         "lightningcss": "1.32.0",
         "tailwindcss": "4.3.2",
