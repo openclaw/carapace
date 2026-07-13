@@ -77,7 +77,7 @@ const components = {
     previewTitle: "Recover from a failed response",
     preview: `<div class="oc-agent-error-message" role="alert" data-agent-error-message>
   <span class="oc-agent-error-icon" aria-hidden="true">${agentIcon("alert")}</span>
-  <div class="oc-agent-error-copy"><strong>Response interrupted</strong><p>The connection ended before the response completed. Your draft is still available.</p><div class="oc-agent-error-actions"><button class="oc-agent-error-action" type="button" data-agent-retry>Try again</button><button class="oc-agent-error-action" type="button">Copy details</button></div></div>
+  <div class="oc-agent-error-copy"><strong>Response interrupted</strong><p>The connection ended before the response completed. Your draft is still available.</p><div class="oc-agent-error-actions"><button class="oc-agent-error-action" type="button" data-agent-retry>Try again</button><button class="oc-agent-error-action" type="button" data-copy-text="Response interrupted: The connection ended before the response completed. Your draft is still available.">Copy details</button></div></div>
 </div>`,
     markup: `<div class="oc-agent-error-message" role="alert">
   <span class="oc-agent-error-icon" aria-hidden="true">…</span>

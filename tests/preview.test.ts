@@ -7,6 +7,7 @@ import {
   getReferenceMaturity,
   getReferencePage,
   introductionPage,
+  referenceAreas,
   referencePages,
 } from "../preview/navigation.js";
 import { getReferenceContent, referenceContentIds } from "../preview/reference-content.js";
@@ -43,6 +44,10 @@ describe("preview contracts", () => {
   test("keeps the route manifest, files, and rendered content aligned", async () => {
     expect(new Set(referencePages.map(({ id }) => id)).size).toBe(referencePages.length);
     expect(new Set(referencePages.map(({ path }) => path)).size).toBe(referencePages.length);
+
+    for (const area of referenceAreas) {
+      await expect(readFile(`preview/${area.path}index.html`, "utf8")).resolves.toBeString();
+    }
 
     for (const page of referencePages) {
       const html = await readFile(`preview/${page.path}index.html`, "utf8");
@@ -108,6 +113,9 @@ describe("preview contracts", () => {
     expect(previewStyles).toContain(".home-agent-question");
     expect(previewStyles).toContain(".home-agent-tool-group");
     expect(previewStyles).toContain(".home-page-header");
+    expect(home).toContain(
+      'class="oc-autocomplete home-input-demo"><span class="oc-field-label">Component</span><span class="oc-autocomplete-control">',
+    );
     expect(previewScript).toContain('.home-component-grid .oc-segmented');
     expect(componentLabels.slice(0, 8)).toEqual([
       "Action",
@@ -213,6 +221,49 @@ describe("preview contracts", () => {
     for (const specifier of Object.keys(packageJson.exports)) {
       expect(content).toContain(specifier);
     }
+  });
+
+  test("documents unavailable links and collapsed menus without active behavior", async () => {
+    const lab = await readFile("preview/lab.css", "utf8");
+    const dropdown = getReferenceContent("primitive-dropdown");
+
+    expect(lab).toContain('.oc-link[aria-disabled="true"]:not([href])');
+    expect(lab).toContain('.oc-pagination-link[aria-disabled="true"]:not([href])');
+    expect(dropdown).toContain('<ul class="oc-dropdown-menu" role="menu" hidden>');
+  });
+
+  test("documents separate accessible names and descriptions for charts", async () => {
+    const customChart = getReferenceContent("chart-custom");
+    const chartSources = await Promise.all(
+      ["preview/index.html", "preview/reference-content.js"].map((path) =>
+        readFile(path, "utf8"),
+      ),
+    );
+
+    expect(customChart).toContain(
+      'aria-labelledby="chart-title" aria-describedby="chart-description"',
+    );
+    expect(customChart).toContain(
+      '&lt;title id="chart-title"&gt;Completion distribution&lt;/title&gt;',
+    );
+    expect(customChart).toContain('&lt;desc id="chart-description"&gt;');
+    expect(chartSources.join("\n")).not.toMatch(
+      /aria-labelledby="[^"]+-title [^"]+-description"/,
+    );
+  });
+
+  test("keeps Sankey flow widths proportional to the published totals", () => {
+    const sankey = getReferenceContent("chart-sankey");
+    const flowWidths = [...sankey.matchAll(/stroke-width="(\d+)"/g)].map(
+      ([, width]) => Number(width),
+    );
+
+    expect(flowWidths.slice(0, 3)).toEqual([78, 28, 14]);
+    expect(sankey).toContain("780 completed, 280 moved to review, and 140 were blocked");
+    expect(sankey).toContain('x="60" y="90" width="30" height="120"');
+    expect(sankey).toContain('x="510" y="41" width="30" height="78"');
+    expect(sankey).toContain('x="510" y="166" width="30" height="28"');
+    expect(sankey).toContain('x="510" y="239" width="30" height="14"');
   });
 
   test("cycles light, dark, and system themes", () => {
@@ -332,6 +383,14 @@ describe("preview contracts", () => {
     expect(getAdjacentReferencePages("primitive-avatar")).toMatchObject({
       previous: { id: "primitive-autocomplete" },
       next: { id: "primitive-badge" },
+    });
+    expect(getAdjacentReferencePages("primitive-grid")).toMatchObject({
+      previous: { id: "primitive-flow" },
+      next: { id: "primitive-hero" },
+    });
+    expect(getAdjacentReferencePages("primitive-input")).toMatchObject({
+      previous: { id: "primitive-hero" },
+      next: { id: "primitive-input-area" },
     });
     expect(getAdjacentReferencePages("resource-theming")).toEqual({
       previous: undefined,

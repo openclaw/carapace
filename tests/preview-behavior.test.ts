@@ -210,10 +210,17 @@ describe("preview behavior", () => {
   test("moves focus through dropdown menus and closes after native Tab focus", async () => {
     class Element extends EventTarget {
       attributes = new Map();
+      handlers = {};
       hidden = false;
       disabled = false;
       focused = false;
+      addEventListener(type, handler) {
+        this.handlers[type] = handler;
+        super.addEventListener(type, handler);
+      }
       setAttribute(name, value) { this.attributes.set(name, value); }
+      getAttribute(name) { return this.attributes.get(name); }
+      closest(selector) { return selector === "[role='menuitem']" ? this : null; }
       focus() { this.focused = true; }
     }
 
@@ -221,7 +228,9 @@ describe("preview behavior", () => {
     const menu = new Element();
     menu.hidden = true;
     const items = [new Element(), new Element(), new Element()];
-    menu.querySelectorAll = () => items;
+    const disabledItem = new Element();
+    disabledItem.setAttribute("aria-disabled", "true");
+    menu.querySelectorAll = () => [...items, disabledItem];
     const dropdown = new Element();
     dropdown.querySelector = (selector) => ({
       "[data-dropdown-trigger]": trigger,
@@ -278,6 +287,12 @@ describe("preview behavior", () => {
 
     trigger.dispatchEvent(new Event("click"));
     rootHandlers.click({ target: new Element() });
+    expect(menu.hidden).toBe(true);
+
+    trigger.dispatchEvent(new Event("click"));
+    dropdown.handlers.click({ target: disabledItem });
+    expect(menu.hidden).toBe(false);
+    dropdown.handlers.click({ target: items[0] });
     expect(menu.hidden).toBe(true);
   });
 
@@ -484,6 +499,14 @@ describe("preview behavior", () => {
     const markup = getAgentReferenceContent("markdown");
     expect(markup).toContain('href="../../foundations/tokens/"');
     expect(markup).not.toContain('href="/foundations/');
+  });
+
+  test("gives visible agent error actions a copy payload", () => {
+    const markup = getAgentReferenceContent("error-message");
+
+    expect(markup).toContain(
+      'data-copy-text="Response interrupted: The connection ended before the response completed. Your draft is still available."',
+    );
   });
 
   test("keeps agent chat suggestions actionable without making the transcript live", () => {
