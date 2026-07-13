@@ -1,12 +1,12 @@
 # Security Policy
 
-If you believe you found a security issue in the OpenClaw Design System,
+If you believe you found a security issue in Carapace,
 report it privately.
 
 ## Reporting
 
 Open a private report through
-[GitHub Security Advisories](https://github.com/openclaw/design-system/security/advisories/new)
+[GitHub Security Advisories](https://github.com/openclaw/carapace/security/advisories/new)
 or email `security@openclaw.ai`.
 
 Include:

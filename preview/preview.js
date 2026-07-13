@@ -353,7 +353,7 @@ function setActivePreviewSection(section) {
   }
 
   if (previewContextMeta) {
-    previewContextMeta.textContent = section.dataset.previewMeta || "OpenClaw design system";
+    previewContextMeta.textContent = section.dataset.previewMeta || "Carapace";
   }
 }
 

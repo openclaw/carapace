@@ -2,7 +2,7 @@ export const introductionPage = {
   id: "overview",
   label: "Home",
   path: "",
-  keywords: "home overview design system visual contract",
+  keywords: "home overview carapace visual contract",
 };
 
 export const referenceAreas = [

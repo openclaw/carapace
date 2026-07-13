@@ -1,4 +1,4 @@
-# Contributing to OpenClaw Design System
+# Contributing to Carapace
 
 Thanks for helping improve the shared visual contract used across OpenClaw
 sites and products.
