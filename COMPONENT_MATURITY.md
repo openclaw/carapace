@@ -147,4 +147,4 @@ The branch is not release-ready until automated checks prove all of the followin
 8. A packed candidate builds in isolated clean worktrees for docs, ClawHub, and openclaw.ai without requiring adoption.
 9. Control UI review is recorded as evidence only and never treated as direct package compatibility proof.
 
-No token addition is approved by this inventory. `NEXT_RELEASE_TOKEN_GAPS.md` remains a candidate map until each proposed role is traced to at least two independent consumer repositories.
+Only `--oc-control-min-height` is approved by this inventory. Its evidence is recorded in `NEXT_RELEASE_TOKEN_GAPS.md`; every other proposed role remains deferred until it is traced to at least two independent package consumers.
