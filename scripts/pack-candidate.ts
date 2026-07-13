@@ -1,7 +1,7 @@
 import { mkdir, rm } from "node:fs/promises";
 
 const destination = "dist/candidate";
-const filename = "openclaw-design-system-candidate.tgz";
+const filename = "carapace-candidate.tgz";
 
 await rm(destination, { recursive: true, force: true });
 await mkdir(destination, { recursive: true });

@@ -13,7 +13,7 @@ This inventory separates the published runtime contract from opt-in candidates a
 
 ## Compatibility floor
 
-The current stable floor is the published `v0.0.1` package. The following consumers define the adoption boundary:
+The compatibility floor remains the published `v0.0.1` contract, now carried forward by Carapace `v0.1.0`. The following consumers define the adoption boundary:
 
 | Consumer | Current entry points | Local integration risk |
 | --- | --- | --- |

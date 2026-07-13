@@ -23,6 +23,8 @@ const canonicalPreviewImports = [
   "../styles/base.css",
   "../styles/components.css",
 ];
+const legacyDisplayName = ["OpenClaw", "Design System"].join(" ");
+const legacyPackageName = ["@openclaw", "design-system"].join("/");
 
 describe("preview contracts", () => {
   test("loads canonical styles through valid CSS", async () => {
@@ -47,6 +49,7 @@ describe("preview contracts", () => {
       expect(html).toContain(`data-preview-page="${page.id}"`);
       expect(html).toContain("data-shell-header");
       expect(html).toContain("data-shell-sidebar");
+      expect(html).not.toContain(legacyDisplayName);
     }
 
     const areaOverviewIds = new Set(["foundations", "interface", "compositions", "resources"]);
@@ -138,6 +141,8 @@ describe("preview contracts", () => {
       repository: { url: string };
     };
     const cname = await readFile("preview/public/CNAME", "utf8");
+    const home = await readFile("preview/index.html", "utf8");
+    const referenceContent = await readFile("preview/reference-content.js", "utf8");
     const shell = await readFile("preview/shell.js", "utf8");
 
     expect(packageJson).toMatchObject({
@@ -147,7 +152,11 @@ describe("preview contracts", () => {
     });
     expect(cname.trim()).toBe("carapace.design");
     expect(shell).toContain("https://github.com/openclaw/carapace");
-    expect(shell).not.toContain(["Design", "System"].join(" "));
+    expect(home).toContain("@openclaw/carapace");
+    expect(home).not.toContain(legacyDisplayName);
+    expect(home).not.toContain(legacyPackageName);
+    expect(referenceContent).not.toContain(legacyPackageName);
+    expect(shell).not.toContain(legacyDisplayName);
   });
 
   test("classifies every component reference by runtime maturity", () => {

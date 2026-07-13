@@ -222,9 +222,9 @@ const contents = {
   "primitive-clipboard-text": () =>
     `${pageIntro("Component", "Clipboard Text", "A compact read-only value with an explicit copy action and accessible status feedback.")}
     <section data-section-kind="preview" aria-labelledby="clipboard-text-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="clipboard-text-preview">Literal value</h2></div><span class="oc-pill">.oc-clipboard-text</span></div>
-      <div class="specimen-frame"><div class="oc-clipboard-text"><code class="oc-clipboard-value" id="package-specifier">@openclaw/design-system</code><button class="oc-clipboard-action" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/design-system">Copy</button><span class="sr-only" aria-live="polite" data-copy-status></span></div></div>
+      <div class="specimen-frame"><div class="oc-clipboard-text"><code class="oc-clipboard-value" id="package-specifier">@openclaw/carapace</code><button class="oc-clipboard-action" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace">Copy</button><span class="sr-only" aria-live="polite" data-copy-status></span></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="clipboard-text-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="clipboard-text-markup">Keep value and action adjacent</h2></div></div>${codeBlock(`<div class="oc-clipboard-text">\n  <code class="oc-clipboard-value">@openclaw/design-system</code>\n  <button class="oc-clipboard-action" type="button" aria-label="Copy package specifier">Copy</button>\n  <span class="sr-only" aria-live="polite" data-copy-status></span>\n</div>`, "html")}</section>
+    <section data-section-kind="markup" aria-labelledby="clipboard-text-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="clipboard-text-markup">Keep value and action adjacent</h2></div></div>${codeBlock(`<div class="oc-clipboard-text">\n  <code class="oc-clipboard-value">@openclaw/carapace</code>\n  <button class="oc-clipboard-action" type="button" aria-label="Copy package specifier">Copy</button>\n  <span class="sr-only" aria-live="polite" data-copy-status></span>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="clipboard-text-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="clipboard-text-guidance">Copy exactly what is shown</h2></div></div>${guidanceList(["Do not silently normalize or transform the copied value.", "Announce success without moving focus.", "Use a code block when the content is multiline."])}</section>`,
 
   "primitive-code-highlighted": () =>
@@ -889,5 +889,13 @@ export function renderReferenceContent() {
   mount.innerHTML = content;
   const maturity = getReferenceMaturity(pageId);
   const eyebrow = mount.querySelector(".reference-intro > .eyebrow");
-  if (maturity && eyebrow) eyebrow.textContent = `${eyebrow.textContent} · ${maturity}`;
+  if (maturity && eyebrow) {
+    const meta = document.createElement("div");
+    const badge = document.createElement("span");
+    meta.className = "reference-intro-meta";
+    badge.className = "maturity-badge";
+    badge.textContent = maturity;
+    eyebrow.before(meta);
+    meta.append(eyebrow, badge);
+  }
 }
