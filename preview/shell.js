@@ -326,49 +326,6 @@ function renderPageNavigation() {
   mount.append(navigation);
 }
 
-function renderTableOfContents() {
-  const mount = document.querySelector("[data-page-toc]");
-  const headings = [...document.querySelectorAll(".reference-page section h2[id]")];
-  if (!mount || headings.length < 2) {
-    mount?.parentElement?.classList.add("page-layout-no-toc");
-    mount?.remove();
-    return;
-  }
-
-  const linksMarkup = headings
-    .map((heading) => `<a href="#${heading.id}">${heading.textContent}</a>`)
-    .join("");
-  mount.innerHTML = `<p>On this page</p><nav aria-label="Page contents">${linksMarkup}</nav>`;
-
-  const intro = document.querySelector(".reference-intro");
-  if (intro) {
-    intro.insertAdjacentHTML(
-      "afterend",
-      `<details class="inline-toc"><summary><span>On this page</span><small>${headings.length} sections</small></summary><nav aria-label="Page contents">${linksMarkup}</nav></details>`,
-    );
-    document.querySelector(".inline-toc")?.addEventListener("click", (event) => {
-      if (event.target.closest("a")) event.currentTarget.open = false;
-    });
-  }
-
-  if (!("IntersectionObserver" in window)) return;
-  const links = [...document.querySelectorAll(".page-toc a, .inline-toc a")];
-  const setActive = (id) => {
-    for (const link of links) {
-      link.toggleAttribute("aria-current", link.hash === `#${id}`);
-    }
-  };
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries.find((entry) => entry.isIntersecting);
-      if (visible) setActive(visible.target.id);
-    },
-    { rootMargin: "-18% 0px -72% 0px", threshold: [0, 1] },
-  );
-  headings.forEach((heading) => observer.observe(heading));
-  setActive(headings[0].id);
-}
-
 function bindGlobalSearch() {
   const dialog = document.querySelector("[data-search-dialog]");
   const trigger = document.querySelector("[data-open-search]");
@@ -682,7 +639,7 @@ export function renderShell() {
   renderSidebar();
   renderPageContext();
   renderPageNavigation();
-  renderTableOfContents();
+  document.querySelector("[data-page-toc]")?.remove();
   bindSidebarDisclosures();
   bindNavigation();
   bindGlobalSearch();

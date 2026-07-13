@@ -6,12 +6,12 @@ Validation date: 2026-07-12.
 
 ## Compatibility result
 
-- The published `v0.0.1` stable contract remains the default runtime.
+- The `v0.0.1` selector and token compatibility floor remains the default stable runtime inside Carapace `v0.1.0`.
 - `components.css` and `styles.css` do not import Candidate or Lab CSS.
 - Existing exports, stable selectors, tokens, theme values, and compatibility aliases are protected by `contracts/v0.0.1.json` and the contract check.
 - Controls, Feedback, and Data are separate opt-in Candidate entry points.
 - Lab components, Agent Components, charts, blocks, shell, and preview infrastructure are excluded from package runtime files.
-- The packed package remains version `0.0.1`; this work does not create a release.
+- The packed package inherits the current Carapace version, `0.1.0`; this branch does not create another version, tag, or release.
 
 ## Candidate entry points
 

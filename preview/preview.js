@@ -32,7 +32,7 @@ document.querySelectorAll(".home-component-link").forEach((link) => {
   if (!maturity) return;
 
   const marker = document.createElement("span");
-  marker.className = "home-component-maturity";
+  marker.className = "home-component-maturity maturity-badge";
   marker.textContent = maturity;
   link.append(marker);
 });
