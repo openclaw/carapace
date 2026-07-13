@@ -65,7 +65,8 @@ export function bindDropdowns(root = document) {
       open(index);
     });
     dropdown.addEventListener("click", (event) => {
-      if (event.target.closest("[role='menuitem']")) close({ focus: true });
+      const item = event.target.closest("[role='menuitem']");
+      if (item && menuItems().includes(item)) close({ focus: true });
     });
     dropdown.addEventListener("focusout", (event) => {
       const next = event.relatedTarget;

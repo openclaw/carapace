@@ -1215,7 +1215,7 @@
   font-family: var(--oc-font-mono);
 }
 
-.oc-link[aria-disabled="true"] {
+.oc-link[aria-disabled="true"]:not([href]) {
   color: var(--oc-text-muted);
   cursor: default;
   pointer-events: none;
@@ -1382,7 +1382,7 @@
   font-weight: 650;
 }
 
-.oc-pagination-link[aria-disabled="true"] {
+.oc-pagination-link[aria-disabled="true"]:not([href]) {
   color: var(--oc-text-muted);
   cursor: default;
   pointer-events: none;

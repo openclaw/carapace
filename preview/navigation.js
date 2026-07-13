@@ -396,7 +396,7 @@ export const referenceAreas = [
     id: "agent-components",
     label: "Agent Components",
     description: "Conversation, message, input, and tool components",
-    path: "agent-components/",
+    path: "agent-components/agent-chat/",
     pages: [
       {
         id: "agent-chat",
@@ -738,6 +738,10 @@ export const referencePages = referenceAreas.flatMap((area) =>
   area.pages.map((page) => ({ ...page, areaId: area.id, areaLabel: area.label })),
 );
 
+export function compareReferenceLabels(left, right) {
+  return left.label.localeCompare(right.label);
+}
+
 const stableReferenceIds = new Set([
   "primitive-action",
   "primitive-app-surface",
@@ -773,72 +777,23 @@ export function getReferenceMaturity(id) {
   return labAreaIds.has(getReferencePage(id)?.areaId) ? "Lab" : undefined;
 }
 
-const adjacentReferenceSequences = [
-  [
-    "foundation-tokens",
-    "foundation-colors",
-    "foundation-typography",
-    "foundation-layout",
-    "foundation-shape-depth",
-    "foundation-motion",
-    "foundation-base",
-  ],
-  [
-    "primitive-action",
-    "primitive-app-surface",
-    "primitive-autocomplete",
-    "primitive-avatar",
-    "primitive-badge",
-    "primitive-banner",
-    "primitive-breadcrumbs",
-    "primitive-button",
-    "primitive-card",
-    "primitive-checkbox",
-    "primitive-clipboard-text",
-    "primitive-code-highlighted",
-    "primitive-collapsible",
-    "primitive-combobox",
-    "primitive-command-palette",
-    "primitive-date-picker",
-    "primitive-dialog",
-    "primitive-dropdown",
-    "primitive-empty",
-    "primitive-flow",
-    "primitive-grid",
-    "primitive-input-area",
-    "primitive-input-group",
-    "primitive-input",
-    "primitive-label",
-    "primitive-layer-card",
-    "primitive-link",
-    "primitive-loader",
-    "primitive-menu-bar",
-    "primitive-meter",
-    "primitive-pagination",
-    "primitive-popover",
-    "primitive-provider-logo",
-    "primitive-hero",
-    "primitive-pill",
-    "primitive-radio",
-    "primitive-section",
-    "primitive-segmented",
-    "primitive-select",
-    "primitive-sensitive-input",
-    "primitive-sidebar",
-    "primitive-skeleton-line",
-    "primitive-switch",
-    "primitive-table",
-    "primitive-table-of-contents",
-    "primitive-tabs",
-    "primitive-text",
-    "primitive-toolbar",
-    "primitive-toast",
-    "primitive-tooltip",
-  ],
-  ["chart-base", "chart-colors", "chart-timeseries", "chart-maps", "chart-sankey", "chart-custom"],
-  ["block-page-header", "block-resource-list", "block-delete-resource"],
-  ["agent-chat", "attachment-button", "bash-tool", "edit-tool", "error-message", "file-attachment", "generic-tool", "input-bar", "markdown", "mcp-tool", "message-list", "mode-selector", "model-picker", "plan-tool", "question-tool", "search-tool", "send-button", "spiral-loader", "subagent-tool", "suggestions", "text-shimmer", "thinking-tool", "todo-tool", "tool-group", "user-message"],
-];
+const sequencedAreaIds = new Set([
+  "foundations",
+  "interface",
+  "agent-components",
+  "charts",
+  "blocks",
+]);
+
+const adjacentReferenceSequences = referenceAreas
+  .filter((area) => sequencedAreaIds.has(area.id))
+  .map((area) => {
+    const pages = area.pages.filter(
+      (page) => !page.hiddenFromSidebar && page.id !== area.id,
+    );
+    const orderedPages = area.id === "foundations" ? pages : [...pages].sort(compareReferenceLabels);
+    return orderedPages.map((page) => page.id);
+  });
 
 export function getReferencePage(id) {
   return referencePages.find((page) => page.id === id);
