@@ -194,7 +194,6 @@ function renderTopbar() {
         <span class="search-trigger-label">${icon("search")}<span>Search routes, tokens, and primitives…</span></span><kbd>⌘ K</kbd>
       </button>
       <div class="topbar-actions">
-        <a class="openclaw-link" href="https://openclaw.ai/" rel="noreferrer"><img src="${brandMarkUrl}" alt="" width="20" height="20" /><span>OpenClaw</span></a>
         <a class="github-link" href="https://github.com/openclaw/carapace" rel="noreferrer">${icon("github")}<span>Source</span></a>
         ${renderThemeControl()}
       </div>
@@ -270,7 +269,7 @@ function renderSidebar() {
         ${areas}
       </nav>
       <a class="version" href="https://github.com/openclaw/openclaw" rel="noreferrer" aria-label="An OpenClaw project" translate="no">
-        <span class="version-label">An <img src="${brandMarkUrl}" alt="" width="16" height="16" /><strong>OpenClaw</strong> project.</span>
+        <span class="version-label">An <img src="${brandMarkUrl}" alt="" width="16" height="16" /><strong>OpenClaw</strong> project</span>
         <span class="version-external">${icon("external")}</span>
       </a>
     </aside>

@@ -51,7 +51,6 @@ a {
 
 .shell-control,
 .brand,
-.openclaw-link,
 .github-link,
 .sidebar a,
 .page-navigation a,
@@ -60,7 +59,6 @@ a {
 }
 
 .shell-control:active,
-.openclaw-link:active,
 .github-link:active,
 .sidebar a:active,
 .page-navigation a:active,
@@ -113,7 +111,6 @@ a {
   align-items: center;
 }
 
-.openclaw-link,
 .github-link {
   display: inline-flex;
   min-height: 36px;
@@ -125,13 +122,6 @@ a {
   font-weight: 700;
   line-height: 1;
   text-decoration: none;
-}
-
-.openclaw-link img {
-  display: block;
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
 }
 
 .github-link svg,
@@ -168,7 +158,6 @@ a {
   stroke: none;
 }
 
-.openclaw-link:hover,
 .github-link:hover {
   color: var(--oc-text-primary);
 }
@@ -2887,7 +2876,6 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
     gap: 0;
   }
 
-  .openclaw-link,
   .github-link {
     display: none;
   }
@@ -3066,7 +3054,6 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
     font-size: 17px;
   }
 
-  .openclaw-link,
   .github-link {
     display: none;
   }
