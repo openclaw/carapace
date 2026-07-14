@@ -235,6 +235,10 @@ a {
   object-fit: contain;
 }
 
+html[data-theme="light"] .brand-mark {
+  filter: invert(0.08);
+}
+
 .brand-wordmark {
   color: var(--oc-text-primary);
   font-family: var(--oc-font-display);
