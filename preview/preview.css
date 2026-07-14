@@ -2340,7 +2340,8 @@ body[data-page-kind="reference"] [data-section-kind="guidance"] {
 }
 
 body[data-page-kind="reference"] [data-section-kind="guidance"] .guidance-list {
-  max-width: 760px;
+  width: 100%;
+  max-width: none;
 }
 
 .reference-page > section {
@@ -2658,6 +2659,7 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 .primitive-input-grid {
   display: grid;
   width: min(100%, 620px);
+  margin-inline: auto;
   gap: var(--oc-space-5);
 }
 
