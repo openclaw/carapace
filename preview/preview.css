@@ -899,6 +899,21 @@ body[data-page-kind="home"] .preview-stage {
   bottom: 24px;
 }
 
+.home-pagination .oc-pagination-link {
+  appearance: none;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.home-pagination .oc-pagination-link:hover {
+  background: var(--oc-surface-interactive);
+}
+
+.home-pagination .oc-pagination-link[aria-current="page"] {
+  background: var(--oc-surface-accent-soft);
+}
+
 .home-chart {
   gap: 12px;
   padding: 16px;

@@ -109,6 +109,7 @@ describe("preview contracts", () => {
     expect(previewStyles).toContain("grid-auto-rows: var(--home-grid-row-height)");
     expect(previewStyles).toContain(".home-agent-input-bar");
     expect(previewStyles).toContain(".home-agent-tool-group");
+    expect(home).not.toContain('class="oc-pagination-link" href="#"');
     expect(home).toContain(
       'class="oc-autocomplete home-input-demo"><span class="oc-field-label">Component</span><span class="oc-autocomplete-control">',
     );
