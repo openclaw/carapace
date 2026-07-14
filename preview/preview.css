@@ -14,7 +14,7 @@
   --preview-rail-width: 280px;
   --preview-topbar-height: 64px;
   --preview-canvas-header-height: 0px;
-  --preview-shell-bg: var(--oc-bg-page);
+  --preview-shell-bg: #080808;
   --preview-nav-surface: var(--oc-bg-surface);
 }
 
