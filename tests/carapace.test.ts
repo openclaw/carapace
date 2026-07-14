@@ -306,6 +306,7 @@ describe("CSS contract", () => {
           !path.startsWith("node_modules/") &&
           path !== "preview/assets/openclaw-mark.png" &&
           path !== "preview/assets/openclaw-mark-hover.png" &&
+          path !== "preview/assets/carapace-home-artwork.avif" &&
           forbiddenExtensions.test(path),
       ),
     ).toEqual([]);

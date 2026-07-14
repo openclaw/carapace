@@ -702,6 +702,13 @@ body[data-page-kind="home"] .preview-stage {
 }
 
 .home-brand-cell {
+  --home-artwork-size: 54%;
+  --home-artwork-offset-x: -16%;
+  --home-artwork-offset-y: -1%;
+  --home-artwork-opacity: 0.36;
+  --home-artwork-fade: 45%;
+  --home-artwork-reach: 44%;
+
   isolation: isolate;
   grid-column: span 2;
   grid-template-rows: minmax(0, 1fr);
@@ -711,15 +718,25 @@ body[data-page-kind="home"] .preview-stage {
   position: absolute;
   z-index: -1;
   top: 0;
-  right: -25%;
-  width: 50%;
-  height: 100%;
-  background: url("./assets/openclaw-mark-hover.png") center / contain no-repeat;
+  right: var(--home-artwork-offset-x);
+  width: var(--home-artwork-size);
+  height: auto;
+  aspect-ratio: 1024 / 826;
+  background: url("./assets/carapace-home-artwork.avif") center / contain no-repeat;
   content: "";
-  opacity: 0.12;
+  opacity: var(--home-artwork-opacity);
   pointer-events: none;
-  -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / 35%), #000 60%);
-  mask-image: linear-gradient(to right, rgb(0 0 0 / 35%), #000 60%);
+  transform: translateY(var(--home-artwork-offset-y));
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgb(0 0 0 / var(--home-artwork-fade)),
+    #000 var(--home-artwork-reach)
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgb(0 0 0 / var(--home-artwork-fade)),
+    #000 var(--home-artwork-reach)
+  );
 }
 
 .home-brand-intro {
@@ -731,13 +748,13 @@ body[data-page-kind="home"] .preview-stage {
 }
 
 .home-brand-intro .eyebrow {
-  margin: 0 0 20px;
+  margin: 0 0 8px;
 }
 
 .home-brand-intro h1 {
   margin: 0 0 16px;
   font-family: var(--oc-font-display);
-  font-size: 64px;
+  font-size: 44px;
   letter-spacing: 0;
   line-height: 1;
 }
@@ -990,7 +1007,7 @@ body[data-page-kind="home"] .preview-stage {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .home-component-cell:has(.home-component-link):hover {
+  .home-component-cell:has(.home-component-link:hover) {
     background: color-mix(in srgb, var(--preview-shell-bg) 94%, var(--oc-text-primary));
   }
 
@@ -3079,10 +3096,6 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
   .home-brand-intro {
     padding: 32px 24px;
-  }
-
-  .home-brand-intro h1 {
-    font-size: 46px;
   }
 
   body[data-page-kind="index"] .intro-compact {
