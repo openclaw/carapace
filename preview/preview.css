@@ -871,9 +871,25 @@ body[data-page-kind="home"] .preview-stage {
 }
 
 .home-demo-actions {
-  width: min(100%, 320px);
+  width: min(100%, 8.75rem);
   flex-direction: column;
-  align-items: center;
+}
+
+.home-demo-actions > .oc-button {
+  width: 100%;
+}
+
+.home-radio-group {
+  width: min(100%, 10rem);
+  gap: 0;
+}
+
+.home-radio-group legend {
+  margin-bottom: 4px;
+}
+
+.home-radio-group .oc-radio-option {
+  min-height: 2.5rem;
 }
 
 .home-chart {
