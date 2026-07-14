@@ -16,11 +16,13 @@
   --preview-canvas-header-height: 0px;
   --preview-shell-bg: #080808;
   --preview-nav-surface: var(--oc-bg-surface);
+  --oc-input-bg: #171717;
 }
 
 html[data-theme="light"] {
   --preview-shell-bg: #fafafa;
   --preview-nav-surface: #fafafa;
+  --oc-input-bg: var(--oc-bg-elevated);
 }
 
 html {
