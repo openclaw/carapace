@@ -19,8 +19,8 @@
 }
 
 html[data-theme="light"] {
-  --preview-shell-bg: var(--oc-palette-paper-50);
-  --preview-nav-surface: var(--oc-palette-paper-50);
+  --preview-shell-bg: #fafafa;
+  --preview-nav-surface: #fafafa;
 }
 
 html {
