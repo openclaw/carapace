@@ -422,6 +422,50 @@ describe("preview behavior", () => {
     expect(markup).not.toContain('class="oc-toast" role="status"');
   });
 
+  test("creates a toast from an explicit trigger", () => {
+    class Element extends EventTarget {
+      attributes = new Map();
+      children = [];
+      focused = false;
+      removed = false;
+      id = "";
+      parentElement = null;
+      setAttribute(name, value) { this.attributes.set(name, value); }
+      getAttribute(name) { return this.attributes.get(name); }
+      removeAttribute(name) { this.attributes.delete(name); }
+      append(child) { this.children.push(child); }
+      remove() { this.removed = true; }
+      focus() { this.focused = true; }
+    }
+
+    const region = new Element();
+    region.id = "home-toast-region";
+    region.querySelectorAll = () => region.children.filter(({ removed }) => !removed);
+    const templateToast = new Element();
+    templateToast.cloneNode = () => {
+      const toast = new Element();
+      const dismiss = new Element();
+      toast.querySelector = () => dismiss;
+      toast.dismiss = dismiss;
+      return toast;
+    };
+    const template = { content: { firstElementChild: templateToast } };
+    const trigger = new Element();
+    trigger.setAttribute("aria-controls", region.id);
+    trigger.parentElement = { querySelector: () => template };
+    const root = {
+      querySelectorAll: (selector) => selector === "[data-toast-region]" ? [region] : [trigger],
+    };
+
+    expect(bindToasts(root)).toBe(1);
+    trigger.dispatchEvent(new Event("click"));
+    expect(region.children).toHaveLength(1);
+    expect(region.children[0].getAttribute("data-toast-bound")).toBe("true");
+    region.children[0].dismiss.dispatchEvent(new Event("click"));
+    expect(region.children[0].removed).toBe(true);
+    expect(trigger.focused).toBe(true);
+  });
+
   test("opens, dismisses, and collision-aligns tooltips", () => {
     class Element extends EventTarget {
       attributes = new Map();

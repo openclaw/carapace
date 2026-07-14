@@ -872,6 +872,8 @@ body[data-page-kind="home"] .preview-stage {
 
 .home-demo-actions {
   width: min(100%, 320px);
+  flex-direction: column;
+  align-items: center;
 }
 
 .home-chart {
@@ -984,6 +986,23 @@ body[data-page-kind="home"] .preview-stage {
 
 .home-agent-input-bar .oc-agent-input {
   min-height: 4rem;
+}
+
+.home-agent-input-bar .oc-agent-send-button {
+  position: relative;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.home-agent-input-bar .oc-agent-send-button::after {
+  position: absolute;
+  inset: -0.125rem;
+  content: "";
+}
+
+.home-agent-input-bar .oc-agent-send-button .oc-agent-icon {
+  width: 0.875rem;
+  height: 0.875rem;
 }
 
 .home-agent-question fieldset {

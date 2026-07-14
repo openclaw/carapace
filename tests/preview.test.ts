@@ -95,10 +95,10 @@ describe("preview contracts", () => {
     expect(home).toContain('<h1 id="preview-title">Carapace</h1>');
     expect(home).toContain("A carapace is a protective outer shell.");
     expect(home).not.toContain('class="home-hero"');
-    expect(home.match(/home-component-cell/g)).toHaveLength(33);
-    expect(home.match(/class="home-component-cell"/g)).toHaveLength(32);
-    expect(new Set(componentLabels).size).toBe(32);
-    expect(new Set(componentPaths).size).toBe(32);
+    expect(home.match(/home-component-cell/g)).toHaveLength(32);
+    expect(home.match(/class="home-component-cell"/g)).toHaveLength(31);
+    expect(new Set(componentLabels).size).toBe(31);
+    expect(new Set(componentPaths).size).toBe(31);
     expect(componentPaths.every((path) => referencePages.some((page) => page.path === path))).toBe(
       true,
     );
@@ -107,36 +107,32 @@ describe("preview contracts", () => {
       "--home-grid-row-height: calc((100dvh - var(--preview-topbar-height) - 1px) / 2)",
     );
     expect(previewStyles).toContain("grid-auto-rows: var(--home-grid-row-height)");
-    expect(previewStyles).toContain(".home-chart .oc-chart-plot");
-    expect(previewStyles).toContain(".home-table .oc-table");
     expect(previewStyles).toContain(".home-agent-input-bar");
-    expect(previewStyles).toContain(".home-agent-question");
     expect(previewStyles).toContain(".home-agent-tool-group");
-    expect(previewStyles).toContain(".home-page-header");
     expect(home).toContain(
       'class="oc-autocomplete home-input-demo"><span class="oc-field-label">Component</span><span class="oc-autocomplete-control">',
     );
     expect(previewScript).toContain('.home-component-grid .oc-segmented');
     expect(componentLabels.slice(0, 8)).toEqual([
-      "Action",
+      "Button",
       "Input Bar",
       "Select",
-      "Toolbar",
-      "Input",
-      "Question Tool",
       "Tool Group",
-      "Table",
+      "Input",
+      "Combobox",
+      "Tabs",
+      "Switch",
     ]);
 
     for (const path of [
-      "./interface/primitives/action/",
+      "./interface/primitives/button/",
       "./agent-components/input-bar/",
       "./interface/primitives/select/",
-      "./interface/primitives/toolbar/",
-      "./interface/primitives/input/",
-      "./agent-components/question-tool/",
       "./agent-components/tool-group/",
-      "./interface/primitives/table/",
+      "./interface/primitives/input/",
+      "./interface/primitives/combobox/",
+      "./interface/primitives/tabs/",
+      "./interface/primitives/switch/",
     ]) {
       expect(destinations).toContain(path);
     }
