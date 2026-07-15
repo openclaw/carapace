@@ -38,6 +38,7 @@ import {
   attachmentButtonWorkbenchMarkup,
   autocompleteWorkbenchMarkup,
   composerWorkbenchMarkup,
+  errorMessageWorkbenchMarkup,
   fileAttachmentWorkbenchMarkup,
   messageListWorkbenchMarkup,
   modeSelectorWorkbenchMarkup,
@@ -159,6 +160,15 @@ describe("preview behavior", () => {
     expect(composerWorkbenchMarkup({ status: "ready", disabled: true })).toContain(
       'textarea id="workbench-composer-message" class="oc-agent-input" rows="3" placeholder="Send a message…" disabled',
     );
+  });
+
+  test("keeps Error Message retry state visible and busy", () => {
+    const retrying = errorMessageWorkbenchMarkup({ state: "retrying" });
+
+    expect(retrying).toContain('data-state="retrying"');
+    expect(retrying).toContain('aria-busy="true"');
+    expect(retrying).toContain("Retrying…");
+    expect(retrying).toContain(" disabled");
   });
 
   test("renders exact input-family variants from the reference contract", () => {
