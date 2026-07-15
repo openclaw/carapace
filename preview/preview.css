@@ -2659,6 +2659,52 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
   max-width: 100%;
 }
 
+.component-workbench-comparison {
+  display: grid;
+  width: min(100%, 760px);
+}
+
+.component-workbench-comparison-item {
+  min-width: 0;
+  border-bottom: 1px solid var(--oc-border-subtle);
+}
+
+.component-workbench-comparison-item:first-child {
+  border-top: 1px solid var(--oc-border-subtle);
+}
+
+.component-workbench-comparison-label {
+  margin: 0;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+}
+
+.component-workbench-comparison-preview {
+  display: grid;
+  min-width: 0;
+  width: 100%;
+  place-items: center;
+}
+
+.component-workbench-comparison-rows .component-workbench-comparison-item {
+  display: grid;
+  min-height: 72px;
+  grid-template-columns: minmax(88px, 120px) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--oc-space-5);
+  padding: 14px 0;
+}
+
+.component-workbench-comparison-stack .component-workbench-comparison-item {
+  display: grid;
+  gap: var(--oc-space-3);
+  padding: 20px 0;
+}
+
+.component-workbench-comparison-stack .component-workbench-comparison-preview {
+  justify-items: stretch;
+}
+
 .component-workbench-frame > .specimen-frame > :is(
     .oc-agent-attachment-list,
     .oc-agent-suggestions

@@ -1,5 +1,7 @@
 import { agentIcon } from "./agent-components.js";
 
+export const WORKBENCH_ALL_VALUE = "__all__";
+
 const actionVariants = [
   { label: "Primary", value: "primary" },
   { label: "Secondary", value: "secondary" },
@@ -726,6 +728,7 @@ const definitions = {
         id: "example",
         label: "Example",
         type: "choice",
+        compare: "stack",
         options: markdownExamples,
       },
     ],
@@ -741,6 +744,7 @@ const definitions = {
         id: "size",
         label: "Size",
         type: "choice",
+        compare: "rows",
         options: spiralLoaderSizes,
       },
     ],
@@ -756,6 +760,7 @@ const definitions = {
         id: "example",
         label: "Example",
         type: "choice",
+        compare: "stack",
         options: textShimmerExamples,
       },
     ],
@@ -771,6 +776,7 @@ const definitions = {
         id: "content",
         label: "Content",
         type: "choice",
+        compare: "stack",
         options: userMessageContent,
       },
     ],
@@ -874,6 +880,7 @@ const definitions = {
         id: "variant",
         label: "Variant",
         type: "choice",
+        compare: "rows",
         options: actionVariants,
       },
     ],
@@ -889,6 +896,7 @@ const definitions = {
         id: "tone",
         label: "Tone",
         type: "choice",
+        compare: "stack",
         options: bannerTones,
       },
       {
@@ -1080,6 +1088,7 @@ const definitions = {
         id: "icon",
         label: "Icon",
         type: "choice",
+        compare: "rows",
         options: attachmentButtonIcons,
       },
     ],
@@ -1217,14 +1226,40 @@ export function getWorkbenchDefinition(pageId) {
   return definitions[pageId];
 }
 
+export function getWorkbenchControlOptions(control) {
+  if (!control?.compare) return control?.options ?? [];
+  return [{ label: "All", value: WORKBENCH_ALL_VALUE }, ...control.options];
+}
+
+export function getWorkbenchComparison(definition, state) {
+  const control = definition?.controls.find(
+    (candidate) =>
+      candidate.type === "choice" &&
+      candidate.compare &&
+      state[candidate.id] === WORKBENCH_ALL_VALUE,
+  );
+  if (!control) return null;
+
+  return {
+    layout: control.compare,
+    items: control.options.map((option) => ({
+      label: option.label,
+      state: { ...state, [control.id]: option.value },
+    })),
+  };
+}
+
 export function normalizeWorkbenchState(definition, candidate = {}) {
   if (!definition) return {};
   const state = { ...definition.defaults };
 
   for (const control of definition.controls) {
     const value = candidate[control.id];
-    if (control.type === "choice" && control.options.some((option) => option.value === value)) {
-      state[control.id] = value;
+    if (control.type === "choice") {
+      const validChoice = control.options.some((option) => option.value === value);
+      if (validChoice || (control.compare && value === WORKBENCH_ALL_VALUE)) {
+        state[control.id] = value;
+      }
     } else if (control.type === "toggle" && typeof value === "boolean") {
       state[control.id] = value;
     }
