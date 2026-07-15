@@ -8,6 +8,9 @@ import {
   workbenchViewportModes,
 } from "../preview/component-workbench.js";
 import {
+  WORKBENCH_ALL_VALUE,
+  getWorkbenchComparison,
+  getWorkbenchControlOptions,
   getWorkbenchDefinition,
   normalizeWorkbenchState,
 } from "../preview/component-workbench-config.js";
@@ -79,6 +82,39 @@ describe("preview contracts", () => {
     });
     expect(normalizeWorkbenchState(definition, { variant: "loading" })).toEqual({
       variant: "primary",
+    });
+  });
+
+  test("offers All only for comparable visual variants", () => {
+    const action = getWorkbenchDefinition("primitive-action");
+    const control = action?.controls[0];
+    const state = normalizeWorkbenchState(action, { variant: WORKBENCH_ALL_VALUE });
+
+    expect(getWorkbenchControlOptions(control).map(({ label }) => label)).toEqual([
+      "All",
+      "Primary",
+      "Secondary",
+      "Ghost",
+      "Icon",
+    ]);
+    expect(getWorkbenchComparison(action, state)).toMatchObject({
+      layout: "rows",
+      items: [
+        { label: "Primary", state: { variant: "primary" } },
+        { label: "Secondary", state: { variant: "secondary" } },
+        { label: "Ghost", state: { variant: "ghost" } },
+        { label: "Icon", state: { variant: "icon" } },
+      ],
+    });
+
+    const sendButton = getWorkbenchDefinition("send-button");
+    expect(getWorkbenchControlOptions(sendButton?.controls[0]).map(({ label }) => label)).toEqual([
+      "Idle",
+      "Typing",
+      "Streaming",
+    ]);
+    expect(normalizeWorkbenchState(sendButton, { state: WORKBENCH_ALL_VALUE })).toEqual({
+      state: "idle",
     });
   });
 

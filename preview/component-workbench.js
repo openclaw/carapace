@@ -1,5 +1,7 @@
 import { getReferencePage } from "./navigation.js";
 import {
+  getWorkbenchComparison,
+  getWorkbenchControlOptions,
   getWorkbenchDefinition,
   normalizeWorkbenchState,
 } from "./component-workbench-config.js";
@@ -138,7 +140,7 @@ function createChoiceControl(pageId, control, state, update) {
   fieldset.append(legend);
 
   const options = createElement("div", "component-workbench-choice-list");
-  for (const option of control.options) {
+  for (const option of getWorkbenchControlOptions(control)) {
     const label = createElement("label", "component-workbench-choice");
     const input = document.createElement("input");
     input.type = "radio";
@@ -156,6 +158,28 @@ function createChoiceControl(pageId, control, state, update) {
   }
   fieldset.append(options);
   return fieldset;
+}
+
+function renderWorkbenchComparison(specimen, definition, comparison, update) {
+  const list = createElement(
+    "div",
+    `component-workbench-comparison component-workbench-comparison-${comparison.layout}`,
+  );
+  list.setAttribute("role", "list");
+
+  for (const item of comparison.items) {
+    const row = createElement("div", "component-workbench-comparison-item");
+    row.setAttribute("role", "listitem");
+    const label = createElement("p", "component-workbench-comparison-label");
+    label.textContent = item.label;
+    const preview = createElement("div", "component-workbench-comparison-preview");
+    definition.render(preview, item.state);
+    row.append(label, preview);
+    list.append(row);
+    definition.bind?.(preview, item.state, update);
+  }
+
+  specimen.replaceChildren(list);
 }
 
 function createToggleControl(control, state, update) {
@@ -189,10 +213,18 @@ function mountWorkbenchDefinition(workbench, pageId) {
 
   const state = normalizeWorkbenchState(definition);
   const apply = () => {
-    definition.render(specimen, state);
-    code.textContent = definition.markup(state);
+    const comparison = getWorkbenchComparison(definition, state);
+    if (comparison) {
+      renderWorkbenchComparison(specimen, definition, comparison, update);
+      code.textContent = comparison.items
+        .map((item) => `<!-- ${item.label} -->\n${definition.markup(item.state)}`)
+        .join("\n\n");
+    } else {
+      definition.render(specimen, state);
+      code.textContent = definition.markup(state);
+      definition.bind?.(specimen, state, update);
+    }
     syncControlInputs(controls, state);
-    definition.bind?.(specimen, state, update);
   };
   const update = (id, value) => {
     preserveWorkbenchScrollPosition(document.scrollingElement, () => {
