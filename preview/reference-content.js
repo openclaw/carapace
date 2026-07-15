@@ -1,6 +1,7 @@
 import { exampleDialogAttribute } from "./interaction.js";
 import { agentReferenceContentIds, getAgentReferenceContent } from "./agent-components.js";
 import { renderComponentWorkbench } from "./component-workbench.js";
+import { icon } from "./icons.js";
 import { getReferenceMaturity } from "./navigation.js";
 
 function escapeHtml(value) {
@@ -252,9 +253,9 @@ const contents = {
   "primitive-autocomplete": () =>
     `${pageIntro("Component", "Autocomplete", "A labeled text field connected to native suggestions without replacing keyboard or form behavior.")}
     <section data-section-kind="preview" aria-labelledby="autocomplete-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="autocomplete-preview">Known values, free entry</h2></div><span class="oc-pill">.oc-autocomplete</span></div>
-      <div class="specimen-frame"><label class="oc-autocomplete"><span class="oc-field-label">Component</span><span class="oc-autocomplete-control"><input class="oc-input" type="text" name="component" list="component-options" placeholder="Start typing…" autocomplete="off" /></span><datalist id="component-options"><option value="Action"></option><option value="Card"></option><option value="Input"></option><option value="Select"></option></datalist></label></div>
+      <div class="specimen-frame"><label class="oc-autocomplete"><span class="oc-field-label">Component</span><span class="oc-autocomplete-control"><span class="oc-autocomplete-icon" aria-hidden="true">${icon("search")}</span><input class="oc-input" type="text" name="component" list="component-options" placeholder="Search components…" autocomplete="off" /></span><datalist id="component-options"><option value="Action"></option><option value="Card"></option><option value="Input"></option><option value="Select"></option></datalist></label></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="autocomplete-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="autocomplete-markup">Connect input and datalist</h2></div></div>${codeBlock(`<label class="oc-autocomplete">\n  <span class="oc-field-label">Component</span>\n  <span class="oc-autocomplete-control">\n    <input class="oc-input" name="component" list="components" autocomplete="off" />\n  </span>\n  <datalist id="components">\n    <option value="Action"></option>\n    <option value="Card"></option>\n  </datalist>\n</label>`, "html")}</section>
+    <section data-section-kind="markup" aria-labelledby="autocomplete-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="autocomplete-markup">Connect input and datalist</h2></div></div>${codeBlock(`<label class="oc-autocomplete">\n  <span class="oc-field-label">Component</span>\n  <span class="oc-autocomplete-control">\n    <span class="oc-autocomplete-icon" aria-hidden="true"><!-- search icon --></span>\n    <input class="oc-input" name="component" list="components" autocomplete="off" />\n  </span>\n  <datalist id="components">\n    <option value="Action"></option>\n    <option value="Card"></option>\n  </datalist>\n</label>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="autocomplete-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="autocomplete-guidance">Suggestions do not constrain entry</h2></div></div>${guidanceList(["Use Select when the value must come from a fixed set.", "Keep a visible label even when the placeholder is descriptive.", "Let the browser preserve keyboard, form, and assistive-technology behavior."])}</section>`,
 
   "primitive-avatar": () =>

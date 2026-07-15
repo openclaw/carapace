@@ -36,6 +36,7 @@ import {
   actionWorkbenchMarkup,
   agentChatWorkbenchMarkup,
   attachmentButtonWorkbenchMarkup,
+  autocompleteWorkbenchMarkup,
   composerWorkbenchMarkup,
   fileAttachmentWorkbenchMarkup,
   messageListWorkbenchMarkup,
@@ -125,6 +126,16 @@ describe("preview behavior", () => {
     expect(selectWorkbenchMarkup({ value: "fast", disabled: true })).not.toContain(
       '<option value="balanced" selected>',
     );
+  });
+
+  test("keeps Autocomplete as a labeled native datalist field", () => {
+    const markup = autocompleteWorkbenchMarkup({ value: "Card", disabled: true });
+
+    expect(markup).toContain('class="oc-autocomplete"');
+    expect(markup).toContain('list="workbench-autocomplete-options"');
+    expect(markup).toContain('value="Card"');
+    expect(markup).toContain(" disabled");
+    expect(markup).toContain('<option value="Action"></option>');
   });
 
   test("keeps Toast dismissal optional in the rendered markup", () => {
