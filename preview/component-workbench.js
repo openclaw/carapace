@@ -162,23 +162,24 @@ function createDock(markupSection, guidanceSection, pageId) {
   const codeTab = createElement("button", "component-workbench-dock-tab");
   codeTab.type = "button";
   codeTab.id = `${pageId}-workbench-code-tab`;
+  codeTab.tabIndex = -1;
   codeTab.setAttribute("role", "tab");
-  codeTab.setAttribute("aria-selected", "true");
+  codeTab.setAttribute("aria-selected", "false");
   codeTab.setAttribute("aria-controls", `${pageId}-workbench-code-panel`);
   codeTab.textContent = "Code";
 
   const usageTab = createElement("button", "component-workbench-dock-tab");
   usageTab.type = "button";
   usageTab.id = `${pageId}-workbench-usage-tab`;
-  usageTab.tabIndex = -1;
   usageTab.setAttribute("role", "tab");
-  usageTab.setAttribute("aria-selected", "false");
+  usageTab.setAttribute("aria-selected", "true");
   usageTab.setAttribute("aria-controls", `${pageId}-workbench-usage-panel`);
   usageTab.textContent = "Usage";
-  tabList.append(codeTab, usageTab);
+  tabList.append(usageTab, codeTab);
 
   const codePanel = createElement("div", "component-workbench-dock-panel");
   codePanel.id = `${pageId}-workbench-code-panel`;
+  codePanel.hidden = true;
   codePanel.setAttribute("role", "tabpanel");
   codePanel.setAttribute("aria-labelledby", codeTab.id);
   const codeBlock = markupSection.querySelector(".code-block");
@@ -186,13 +187,12 @@ function createDock(markupSection, guidanceSection, pageId) {
 
   const usagePanel = createElement("div", "component-workbench-dock-panel");
   usagePanel.id = `${pageId}-workbench-usage-panel`;
-  usagePanel.hidden = true;
   usagePanel.setAttribute("role", "tabpanel");
   usagePanel.setAttribute("aria-labelledby", usageTab.id);
   const guidance = guidanceSection.querySelector(".guidance-list");
   if (guidance) usagePanel.append(guidance);
 
-  dock.append(tabList, codePanel, usagePanel);
+  dock.append(tabList, usagePanel, codePanel);
   return dock;
 }
 
