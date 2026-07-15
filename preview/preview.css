@@ -3811,6 +3811,10 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
     height: 44px;
   }
 
+  .component-workbench-choice {
+    min-height: 44px;
+  }
+
   .component-workbench-stage {
     min-height: 440px;
   }
