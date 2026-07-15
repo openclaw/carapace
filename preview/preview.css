@@ -3313,20 +3313,34 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   gap: var(--oc-space-5);
 }
 
-.primitive-avatar-example {
+.primitive-avatar-variants {
   display: grid;
-  justify-items: center;
-  gap: var(--oc-space-2);
+  width: min(100%, 18rem);
+  gap: var(--oc-space-3);
+}
+
+.primitive-avatar-variants .primitive-avatar-example,
+.primitive-avatar-variants .primitive-avatar-presence {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  min-height: 3rem;
+  align-items: center;
+  gap: var(--oc-space-3);
+}
+
+.primitive-avatar-variants .primitive-avatar-example {
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);
 }
 
-.primitive-avatar-presence {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--oc-space-2);
+.primitive-avatar-variants .primitive-avatar-presence {
   color: var(--oc-text-secondary);
   font-size: var(--oc-font-size-sm);
+}
+
+.primitive-avatar-variants .primitive-avatar-example > :first-child,
+.primitive-avatar-variants .primitive-avatar-presence > :first-child {
+  justify-self: center;
 }
 
 .agent-specimen {
