@@ -207,6 +207,20 @@ describe("preview contracts", () => {
     });
   });
 
+  test("models documented Spiral Loader sizes", () => {
+    const definition = getWorkbenchDefinition("spiral-loader");
+
+    expect(definition?.controls[0]).toMatchObject({
+      id: "size",
+      type: "choice",
+      options: [
+        { label: "Small", value: "16" },
+        { label: "Medium", value: "24" },
+        { label: "Large", value: "32" },
+      ],
+    });
+  });
+
   test("models Agent tool lifecycle without synthetic states", () => {
     for (const pageId of [
       "bash-tool",

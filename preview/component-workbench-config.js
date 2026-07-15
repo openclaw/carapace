@@ -100,6 +100,12 @@ const markdownExamples = [
   { label: "Streaming update", value: "streaming" },
 ];
 
+const spiralLoaderSizes = [
+  { label: "Small", value: "16" },
+  { label: "Medium", value: "24" },
+  { label: "Large", value: "32" },
+];
+
 function escapeHtml(value = "") {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -439,6 +445,13 @@ export function markdownWorkbenchMarkup({ example = "release" } = {}) {
 </article>`;
 }
 
+export function spiralLoaderWorkbenchMarkup({ size = "24" } = {}) {
+  return `<span class="oc-agent-spiral-loader" role="status" style="width: ${size}px; height: ${size}px">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="oc-agent-spiral-track" cx="12" cy="12" r="9"></circle><path class="oc-agent-spiral-path" d="M12 12c0-1.1.9-2 2-2 1.7 0 3 1.3 3 3 0 2.8-2.2 5-5 5-3.9 0-7-3.1-7-7 0-5 4-9 9-9"></path></svg>
+  <span class="sr-only">Working</span>
+</span>`;
+}
+
 export function agentChatWorkbenchMarkup({
   example = "basic",
   status = "ready",
@@ -593,6 +606,21 @@ const definitions = {
     markup: markdownWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = markdownWorkbenchMarkup(state);
+    },
+  },
+  "spiral-loader": {
+    defaults: { size: "24" },
+    controls: [
+      {
+        id: "size",
+        label: "Size",
+        type: "choice",
+        options: spiralLoaderSizes,
+      },
+    ],
+    markup: spiralLoaderWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = spiralLoaderWorkbenchMarkup(state);
     },
   },
   "bash-tool": createToolWorkbenchDefinition("bash"),

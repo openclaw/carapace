@@ -46,6 +46,7 @@ import {
   modelPickerWorkbenchMarkup,
   selectWorkbenchMarkup,
   sendButtonWorkbenchMarkup,
+  spiralLoaderWorkbenchMarkup,
   suggestionsWorkbenchMarkup,
   toolWorkbenchMarkup,
   todoToolWorkbenchMarkup,
@@ -176,6 +177,13 @@ describe("preview behavior", () => {
     expect(markdownWorkbenchMarkup({ example: "release" })).toContain("Release notes");
     expect(markdownWorkbenchMarkup({ example: "table" })).toContain("Validation results");
     expect(markdownWorkbenchMarkup({ example: "streaming" })).toContain("Final answer coming next");
+  });
+
+  test("renders Spiral Loader at the selected square size", () => {
+    const markup = spiralLoaderWorkbenchMarkup({ size: "32" });
+
+    expect(markup).toContain('style="width: 32px; height: 32px"');
+    expect(markup).toContain('<span class="sr-only">Working</span>');
   });
 
   test("renders exact input-family variants from the reference contract", () => {
