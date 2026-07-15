@@ -3410,7 +3410,7 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
 .primitive-card-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: min(100%, 36rem);
   gap: 12px;
 }
 
@@ -3942,10 +3942,6 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
   .marketing-sample {
     gap: 32px;
-  }
-
-  .primitive-card-grid {
-    grid-template-columns: 1fr;
   }
 
   .marketing-sample aside {
