@@ -2917,16 +2917,16 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
 
 .component-workbench-dock-tabs {
   display: flex;
-  min-height: 52px;
+  min-height: 48px;
   align-items: center;
   gap: 4px;
-  padding: 6px 16px;
+  padding: 4px 16px;
   border-bottom: 1px solid var(--oc-border-subtle);
 }
 
 .component-workbench-dock-tab {
-  min-height: 40px;
-  padding: 0 14px;
+  min-height: 36px;
+  padding: 0 12px;
   border: 0;
   background: transparent;
   color: var(--oc-text-muted);
@@ -2947,8 +2947,7 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
 }
 
 .component-workbench-dock-panel {
-  min-height: 180px;
-  max-height: 320px;
+  max-height: 280px;
   overflow: auto;
 }
 
@@ -2957,11 +2956,21 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
 }
 
 .component-workbench-dock-panel .code-block {
+  margin: 0;
   border: 0;
 }
 
+.component-workbench-dock-panel .code-block-header {
+  min-height: 36px;
+  padding-inline: 16px;
+}
+
 .component-workbench-dock-panel .code-block pre {
-  max-height: 250px;
+  max-height: 236px;
+  padding: 16px;
+  overflow-wrap: anywhere;
+  line-height: 1.55;
+  white-space: pre-wrap;
 }
 
 .component-workbench-dock-panel > .guidance-list {
