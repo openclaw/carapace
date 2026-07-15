@@ -1134,7 +1134,7 @@ body[data-page-kind="home"] .preview-stage {
 }
 
 .route-card:hover {
-  border-color: var(--oc-border-accent);
+  border-color: var(--oc-border-strong);
   background: var(--oc-surface-interactive);
 }
 
@@ -1491,7 +1491,7 @@ body[data-page-kind="home"] .preview-stage {
 }
 
 .search-trigger:hover {
-  border-color: var(--oc-border-accent);
+  border-color: var(--oc-border-strong);
   color: var(--oc-text-secondary);
 }
 
@@ -1998,7 +1998,7 @@ input[type="checkbox"] {
 }
 
 .button-secondary:hover {
-  border-color: var(--oc-border-accent);
+  border-color: var(--oc-border-strong);
   background: var(--oc-surface-interactive);
 }
 
