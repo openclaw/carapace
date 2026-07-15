@@ -13,9 +13,42 @@ const selectOptions = [
   { label: "Deep", value: "deep" },
 ];
 
-const composerModes = [
-  { label: "Idle", value: "idle" },
+const composerStatuses = [
+  { label: "Ready", value: "ready" },
+  { label: "Submitted", value: "submitted" },
   { label: "Streaming", value: "streaming" },
+];
+
+const sendButtonStates = [
+  { label: "Idle", value: "idle" },
+  { label: "Typing", value: "typing" },
+  { label: "Streaming", value: "streaming" },
+];
+
+const attachmentButtonIcons = [
+  { label: "Plus", value: "plus" },
+  { label: "Paperclip", value: "paperclip" },
+];
+
+const attachmentKinds = [
+  { label: "File", value: "file" },
+  { label: "Image", value: "image" },
+];
+
+const attachmentDisplays = [
+  { label: "Chip", value: "chip" },
+  { label: "Image only", value: "image-only" },
+];
+
+const agentModels = [
+  { label: "Fast · 2.1", value: "fast" },
+  { label: "Balanced · 4.6", value: "balanced" },
+  { label: "Deep · 4.6", value: "deep" },
+];
+
+const agentModes = [
+  { label: "Agent", value: "agent" },
+  { label: "Plan", value: "plan" },
 ];
 
 const chatExamples = [
@@ -92,18 +125,86 @@ export function toastWorkbenchMarkup({ dismissible = true } = {}) {
 </div>`;
 }
 
-export function composerWorkbenchMarkup({ mode = "idle" } = {}) {
-  const action = mode === "streaming"
-    ? '<button class="oc-agent-send-button" type="button" data-state="stop" aria-label="Stop response">…</button>'
-    : '<button class="oc-agent-send-button" type="submit" aria-label="Send message">…</button>';
+export function sendButtonWorkbenchMarkup({ state = "idle" } = {}) {
+  if (state === "streaming") {
+    return `<button class="oc-agent-send-button" type="button" data-state="stop" aria-label="Stop response">${agentIcon("stop")}</button>`;
+  }
 
-  return `<form class="oc-agent-input-bar oc-agent-input-bar-standalone">
+  const disabled = state === "idle" ? " disabled" : "";
+  return `<button class="oc-agent-send-button" type="submit" aria-label="Send message"${disabled}>${agentIcon("send")}</button>`;
+}
+
+export function attachmentButtonWorkbenchMarkup({ icon = "plus" } = {}) {
+  const glyph = icon === "paperclip" ? agentIcon("paperclip") : '<span aria-hidden="true">+</span>';
+  return `<button class="oc-agent-attachment-button" type="button" aria-label="Attach">${glyph}</button>`;
+}
+
+export function suggestionsWorkbenchMarkup({ disabled = false } = {}) {
+  const disabledAttribute = disabled ? " disabled" : "";
+  return `<div class="oc-agent-suggestions" aria-label="Suggested prompts">
+  <button class="oc-agent-suggestion" type="button"${disabledAttribute} data-agent-suggestion-value="Review the current changes">Review changes</button>
+  <button class="oc-agent-suggestion" type="button"${disabledAttribute} data-agent-suggestion-value="Run the validation checks">Run checks</button>
+  <span class="sr-only" aria-live="polite" data-workbench-suggestion-status></span>
+</div>`;
+}
+
+export function modelPickerWorkbenchMarkup({ value = "balanced" } = {}) {
+  const options = agentModels.map(({ label, value: optionValue }) => {
+    const selected = optionValue === value ? " selected" : "";
+    return `<option value="${optionValue}"${selected}>${label}</option>`;
+  }).join("");
+  return `<label class="oc-agent-model-field"><span class="sr-only">Model</span>${agentIcon("model")}<select class="oc-agent-model-picker">${options}</select>${agentIcon("chevron")}</label>`;
+}
+
+export function modeSelectorWorkbenchMarkup({ value = "agent" } = {}) {
+  const active = agentModes.find((mode) => mode.value === value) ?? agentModes[0];
+  const options = agentModes.map((mode) => {
+    const checked = mode.value === active.value ? " checked" : "";
+    return `<label class="oc-agent-mode-option"><input type="radio" name="workbench-agent-mode" value="${mode.value}"${checked}><span><strong>${mode.label}</strong><small>${mode.value === "agent" ? "Complete tasks directly" : "Plan before making changes"}</small></span></label>`;
+  }).join("");
+  return `<details class="oc-agent-mode-selector" data-workbench-mode-selector>
+  <summary>${agentIcon("mode")}<span data-agent-mode-label>${active.label}</span>${agentIcon("chevron")}</summary>
+  <div class="oc-agent-mode-menu">${options}</div>
+</details>`;
+}
+
+export function fileAttachmentWorkbenchMarkup({
+  kind = "file",
+  display = "chip",
+  removable = true,
+} = {}) {
+  const isImage = kind === "image";
+  const effectiveDisplay = isImage && display === "image-only" ? "image-only" : "chip";
+  const filename = isImage ? "interface.png" : "component-spec.md";
+  const detail = isImage ? "PNG · 842 KB" : "Markdown · 3.1 KB";
+  const remove = removable
+    ? `<button class="oc-agent-file-remove" type="button" aria-label="Remove ${filename}" data-workbench-attachment-remove>${agentIcon("close")}</button>`
+    : "";
+  const content = effectiveDisplay === "image-only"
+    ? `<span class="oc-agent-file-preview" role="img" aria-label="${filename}">${agentIcon("image")}</span>`
+    : `<span class="oc-agent-file-type" aria-hidden="true">${agentIcon(isImage ? "image" : "file")}</span><span class="oc-agent-file-details"><strong>${filename}</strong><span>${detail}</span></span>`;
+
+  return `<li class="oc-agent-file-attachment" data-display="${effectiveDisplay}" data-kind="${kind}">${content}${remove}</li>`;
+}
+
+export function composerWorkbenchMarkup({
+  status = "ready",
+  disabled = false,
+  draft = "",
+} = {}) {
+  const isBusy = status === "streaming" || status === "submitted";
+  const sendState = isBusy ? "streaming" : draft.trim() && !disabled ? "typing" : "idle";
+  const disabledAttribute = disabled ? " disabled" : "";
+  const action = sendButtonWorkbenchMarkup({ state: sendState });
+
+  return `<form class="oc-agent-input-bar oc-agent-input-bar-standalone" data-agent-compose-form>
   <label class="sr-only" for="workbench-composer-message">Message</label>
-  <textarea id="workbench-composer-message" class="oc-agent-input" rows="3" placeholder="Send a message…"></textarea>
+  <textarea id="workbench-composer-message" class="oc-agent-input" rows="3" placeholder="Send a message…"${disabledAttribute}>${escapeHtml(draft)}</textarea>
   <div class="oc-agent-input-toolbar">
     <div class="oc-agent-input-tools">…</div>
     ${action}
   </div>
+  <span class="sr-only" data-agent-compose-status aria-live="polite"></span>
 </form>`;
 }
 
@@ -332,33 +433,32 @@ const definitions = {
     },
   },
   "input-bar": {
-    defaults: { mode: "idle", draft: "" },
+    defaults: { status: "ready", disabled: false, draft: "" },
     controls: [
       {
-        id: "mode",
-        label: "State",
+        id: "status",
+        label: "Status",
         type: "choice",
-        options: composerModes,
+        options: composerStatuses,
+      },
+      {
+        id: "disabled",
+        label: "Disabled",
+        type: "toggle",
       },
     ],
-    markup: composerWorkbenchMarkup,
+    markup(state) {
+      return compactIconMarkup(composerWorkbenchMarkup(state));
+    },
     render(specimen, state) {
-      const action = state.mode === "streaming"
-        ? `<button class="oc-agent-send-button" type="button" data-state="stop" aria-label="Stop response">${agentIcon("stop")}</button>`
-        : `<button class="oc-agent-send-button" type="submit" aria-label="Send message">${agentIcon("send")}</button>`;
-      specimen.innerHTML = `<form class="oc-agent-input-bar oc-agent-input-bar-standalone" data-agent-compose-form>
-  <label class="sr-only" for="workbench-composer-message">Message</label>
-  <textarea id="workbench-composer-message" class="oc-agent-input" rows="3" placeholder="Send a message…">${escapeHtml(state.draft)}</textarea>
-  <div class="oc-agent-input-toolbar">
-    <div class="oc-agent-input-tools">
+      specimen.innerHTML = composerWorkbenchMarkup(state).replace(
+        '<div class="oc-agent-input-tools">…</div>',
+        `<div class="oc-agent-input-tools">
       <button class="oc-agent-input-action" type="button" aria-label="Attach file">${agentIcon("paperclip")}</button>
       <button class="oc-agent-input-meta" type="button">${agentIcon("mode")}<span>Agent</span>${agentIcon("chevron")}</button>
       <button class="oc-agent-input-meta" type="button">${agentIcon("model")}<span>Balanced</span>${agentIcon("chevron")}</button>
-    </div>
-    ${action}
-  </div>
-  <span class="sr-only" data-agent-compose-status aria-live="polite"></span>
-</form>`;
+    </div>`,
+      );
     },
     bind(specimen, state, update) {
       const form = specimen.querySelector("[data-agent-compose-form]");
@@ -370,19 +470,154 @@ const definitions = {
         state.draft = input.value;
       });
 
-      if (state.mode === "streaming") {
+      if (state.status === "streaming" || state.status === "submitted") {
         form.querySelector('[aria-label="Stop response"]')?.addEventListener("click", () => {
-          update("mode", "idle");
+          update("status", "ready");
         });
         return;
       }
 
       form.addEventListener("submit", (event) => {
         event.preventDefault();
-        if (!input.value.trim()) return;
+        if (state.disabled || !input.value.trim()) return;
         state.draft = "";
         input.value = "";
         status.textContent = "Message sent";
+      });
+    },
+  },
+  "send-button": {
+    defaults: { state: "idle" },
+    controls: [
+      {
+        id: "state",
+        label: "State",
+        type: "choice",
+        options: sendButtonStates,
+      },
+    ],
+    markup(state) {
+      return compactIconMarkup(sendButtonWorkbenchMarkup(state));
+    },
+    render(specimen, state) {
+      specimen.innerHTML = `<div class="oc-agent-button-row">${sendButtonWorkbenchMarkup(state)}</div>`;
+    },
+  },
+  "attachment-button": {
+    defaults: { icon: "plus" },
+    controls: [
+      {
+        id: "icon",
+        label: "Icon",
+        type: "choice",
+        options: attachmentButtonIcons,
+      },
+    ],
+    markup(state) {
+      return compactIconMarkup(attachmentButtonWorkbenchMarkup(state));
+    },
+    render(specimen, state) {
+      specimen.innerHTML = `<div class="oc-agent-button-row">${attachmentButtonWorkbenchMarkup(state)}</div>`;
+    },
+  },
+  "file-attachment": {
+    defaults: { kind: "file", display: "chip", removable: true },
+    controls: [
+      {
+        id: "kind",
+        label: "Kind",
+        type: "choice",
+        options: attachmentKinds,
+      },
+      {
+        id: "display",
+        label: "Display",
+        type: "choice",
+        options: attachmentDisplays,
+      },
+      {
+        id: "removable",
+        label: "Removable",
+        type: "toggle",
+      },
+    ],
+    markup(state) {
+      return compactIconMarkup(fileAttachmentWorkbenchMarkup(state));
+    },
+    render(specimen, state) {
+      specimen.innerHTML = `<ul class="oc-agent-attachment-list" aria-label="Attached files">${fileAttachmentWorkbenchMarkup(state)}</ul>`;
+    },
+    bind(specimen, _state, update) {
+      specimen.querySelector("[data-workbench-attachment-remove]")?.addEventListener("click", () => {
+        update("removable", false);
+      });
+    },
+  },
+  suggestions: {
+    defaults: { disabled: false },
+    controls: [
+      {
+        id: "disabled",
+        label: "Disabled",
+        type: "toggle",
+      },
+    ],
+    markup: suggestionsWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = suggestionsWorkbenchMarkup(state);
+    },
+    bind(specimen) {
+      const status = specimen.querySelector("[data-workbench-suggestion-status]");
+      specimen.querySelectorAll("[data-agent-suggestion-value]").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (status) status.textContent = `${button.textContent} selected`;
+        });
+      });
+    },
+  },
+  "model-picker": {
+    defaults: { value: "balanced" },
+    controls: [
+      {
+        id: "value",
+        label: "Model",
+        type: "choice",
+        options: agentModels,
+      },
+    ],
+    markup(state) {
+      return compactIconMarkup(modelPickerWorkbenchMarkup(state));
+    },
+    render(specimen, state) {
+      specimen.innerHTML = `<div class="oc-agent-model-demo">${modelPickerWorkbenchMarkup(state)}</div>`;
+    },
+    bind(specimen, _state, update) {
+      specimen.querySelector("select")?.addEventListener("change", (event) => {
+        update("value", event.currentTarget.value);
+      });
+    },
+  },
+  "mode-selector": {
+    defaults: { value: "agent" },
+    controls: [
+      {
+        id: "value",
+        label: "Mode",
+        type: "choice",
+        options: agentModes,
+      },
+    ],
+    markup(state) {
+      return compactIconMarkup(modeSelectorWorkbenchMarkup(state));
+    },
+    render(specimen, state) {
+      specimen.innerHTML = modeSelectorWorkbenchMarkup(state);
+    },
+    bind(specimen, _state, update) {
+      specimen.querySelectorAll('input[name="workbench-agent-mode"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          if (input.checked) update("value", input.value);
+        });
       });
     },
   },

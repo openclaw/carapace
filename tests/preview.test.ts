@@ -104,22 +104,53 @@ describe("preview contracts", () => {
     });
   });
 
-  test("models the Composer send and stop states documented by the component", () => {
+  test("models the Composer status and disabled states documented by the component", () => {
     const definition = getWorkbenchDefinition("input-bar");
 
     expect(definition?.controls).toMatchObject([
       {
-        id: "mode",
+        id: "status",
         type: "choice",
         options: [
-          { label: "Idle", value: "idle" },
+          { label: "Ready", value: "ready" },
+          { label: "Submitted", value: "submitted" },
           { label: "Streaming", value: "streaming" },
         ],
       },
+      { id: "disabled", type: "toggle" },
     ]);
-    expect(normalizeWorkbenchState(definition, { mode: "streaming" })).toMatchObject({
-      mode: "streaming",
+    expect(normalizeWorkbenchState(definition, { status: "submitted", disabled: true })).toMatchObject({
+      status: "submitted",
+      disabled: true,
     });
+  });
+
+  test("models exact Agent input-family variant sets", () => {
+    expect(getWorkbenchDefinition("send-button")?.controls[0]).toMatchObject({
+      id: "state",
+      options: [
+        { label: "Idle", value: "idle" },
+        { label: "Typing", value: "typing" },
+        { label: "Streaming", value: "streaming" },
+      ],
+    });
+    expect(getWorkbenchDefinition("attachment-button")?.controls[0]).toMatchObject({
+      id: "icon",
+      options: [
+        { label: "Plus", value: "plus" },
+        { label: "Paperclip", value: "paperclip" },
+      ],
+    });
+    expect(getWorkbenchDefinition("file-attachment")?.controls.map(({ id }) => id)).toEqual([
+      "kind",
+      "display",
+      "removable",
+    ]);
+    expect(getWorkbenchDefinition("suggestions")?.controls).toMatchObject([
+      { id: "disabled", type: "toggle" },
+    ]);
+    expect(getWorkbenchDefinition("model-picker")?.controls[0].id).toBe("value");
+    expect(getWorkbenchDefinition("mode-selector")?.controls[0].id).toBe("value");
   });
 
   test("models Agent Chat examples and ChatStatus values from the reference contract", () => {

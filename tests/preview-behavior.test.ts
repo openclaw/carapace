@@ -32,9 +32,15 @@ import { setWorkbenchViewport } from "../preview/component-workbench.js";
 import {
   actionWorkbenchMarkup,
   agentChatWorkbenchMarkup,
+  attachmentButtonWorkbenchMarkup,
   composerWorkbenchMarkup,
+  fileAttachmentWorkbenchMarkup,
   messageListWorkbenchMarkup,
+  modeSelectorWorkbenchMarkup,
+  modelPickerWorkbenchMarkup,
   selectWorkbenchMarkup,
+  sendButtonWorkbenchMarkup,
+  suggestionsWorkbenchMarkup,
   toastWorkbenchMarkup,
 } from "../preview/component-workbench-config.js";
 
@@ -99,16 +105,45 @@ describe("preview behavior", () => {
     expect(toastWorkbenchMarkup({ dismissible: false })).toContain('aria-live="polite"');
   });
 
-  test("switches the Composer primary action contract between send and stop", () => {
-    expect(composerWorkbenchMarkup({ mode: "idle" })).toContain(
+  test("maps Composer ChatStatus and disabled state to its real affordances", () => {
+    expect(composerWorkbenchMarkup({ status: "ready", draft: "Review this" })).toContain(
       'type="submit" aria-label="Send message"',
     );
-    expect(composerWorkbenchMarkup({ mode: "streaming" })).toContain(
+    expect(composerWorkbenchMarkup({ status: "submitted" })).toContain(
       'type="button" data-state="stop" aria-label="Stop response"',
     );
-    expect(composerWorkbenchMarkup({ mode: "streaming" })).not.toContain(
+    expect(composerWorkbenchMarkup({ status: "streaming" })).not.toContain(
       'aria-label="Send message"',
     );
+    expect(composerWorkbenchMarkup({ status: "ready", disabled: true })).toContain(
+      'textarea id="workbench-composer-message" class="oc-agent-input" rows="3" placeholder="Send a message…" disabled',
+    );
+  });
+
+  test("renders exact input-family variants from the reference contract", () => {
+    expect(sendButtonWorkbenchMarkup({ state: "idle" })).toContain("disabled");
+    expect(sendButtonWorkbenchMarkup({ state: "typing" })).toContain('aria-label="Send message"');
+    expect(sendButtonWorkbenchMarkup({ state: "streaming" })).toContain('data-state="stop"');
+    expect(attachmentButtonWorkbenchMarkup({ icon: "plus" })).toContain(">+<");
+    expect(attachmentButtonWorkbenchMarkup({ icon: "paperclip" })).toContain("<svg");
+    expect(suggestionsWorkbenchMarkup({ disabled: true })).toContain(" disabled");
+    expect(modelPickerWorkbenchMarkup({ value: "deep" })).toContain(
+      '<option value="deep" selected>Deep · 4.6</option>',
+    );
+    expect(modeSelectorWorkbenchMarkup({ value: "plan" })).toContain(
+      '<span data-agent-mode-label>Plan</span>',
+    );
+  });
+
+  test("keeps File Attachment display and removal independently configurable", () => {
+    expect(fileAttachmentWorkbenchMarkup({ kind: "image", display: "image-only", removable: true }))
+      .toContain('data-display="image-only"');
+    expect(fileAttachmentWorkbenchMarkup({ kind: "image", display: "image-only", removable: true }))
+      .toContain('aria-label="Remove interface.png"');
+    expect(fileAttachmentWorkbenchMarkup({ kind: "file", display: "image-only", removable: false }))
+      .not.toContain('data-display="image-only"');
+    expect(fileAttachmentWorkbenchMarkup({ kind: "file", removable: false }))
+      .not.toContain("oc-agent-file-remove");
   });
 
   test("renders distinct Agent Chat empty, streaming, and error states", () => {
