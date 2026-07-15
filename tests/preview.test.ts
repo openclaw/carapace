@@ -49,7 +49,7 @@ describe("preview contracts", () => {
     expect(isComponentWorkbenchPage("interface")).toBe(false);
   });
 
-  test("preserves page position while segmented controls update the specimen", () => {
+  test("preserves page position while choice controls update the specimen", () => {
     const scroller = { scrollLeft: 18, scrollTop: 640 };
     const result = preserveWorkbenchScrollPosition(scroller, () => {
       scroller.scrollLeft = 0;
