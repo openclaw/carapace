@@ -96,6 +96,15 @@ describe("preview contracts", () => {
     expect(css).not.toContain(".oc-autocomplete-control::after");
   });
 
+  test("keeps workbench focus neutral in both isolated themes", async () => {
+    const css = await readFile("preview/preview.css", "utf8");
+
+    expect(css.match(/--oc-focus-ring: oklch\(0\.935 0 0 \/ 0\.72\);/g)).toHaveLength(2);
+    expect(css.match(/--oc-focus-ring: oklch\(0\.15 0 0 \/ 0\.7\);/g)).toHaveLength(2);
+    expect(css).not.toContain("--oc-focus-ring: rgb(79 200 174 / 0.72);");
+    expect(css).not.toContain("--oc-focus-ring: rgb(20 128 110 / 0.58);");
+  });
+
   test("publishes only real action variants through the workbench schema", () => {
     const definition = getWorkbenchDefinition("primitive-action");
 

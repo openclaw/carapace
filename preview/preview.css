@@ -2556,7 +2556,7 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
   --oc-surface-secondary-soft: rgb(79 200 174 / 0.14);
   --oc-chart-line: rgb(237 237 237 / 0.09);
   --oc-selection-bg: rgb(245 101 74 / 0.28);
-  --oc-focus-ring: rgb(79 200 174 / 0.72);
+  --oc-focus-ring: oklch(0.935 0 0 / 0.72);
   --oc-status-success-bg: rgb(34 197 94 / 0.12);
   --oc-status-success-fg: #22c55e;
   --oc-status-warning-bg: rgb(251 191 36 / 0.12);
@@ -2604,7 +2604,7 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
   --oc-surface-secondary-soft: rgb(20 128 110 / 0.13);
   --oc-chart-line: rgb(23 23 26 / 0.12);
   --oc-selection-bg: rgb(216 74 49 / 0.2);
-  --oc-focus-ring: rgb(20 128 110 / 0.58);
+  --oc-focus-ring: oklch(0.15 0 0 / 0.7);
   --oc-status-success-bg: rgb(34 197 94 / 0.1);
   --oc-status-success-fg: #16a34a;
   --oc-status-warning-bg: rgb(245 158 11 / 0.1);
