@@ -2453,7 +2453,7 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
 
   display: grid;
   min-height: calc(100dvh - var(--preview-topbar-height));
-  padding-bottom: 56px;
+  padding-bottom: 96px;
   grid-template-columns: minmax(0, 1fr) var(--workbench-inspector-width);
   grid-template-rows: 64px minmax(480px, 1fr) auto;
 }
@@ -3932,7 +3932,7 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   .component-workbench {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: 60px auto auto auto;
-    padding-bottom: 40px;
+    padding-bottom: 72px;
   }
 
   .component-workbench-header,
