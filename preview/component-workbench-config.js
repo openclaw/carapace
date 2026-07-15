@@ -1,3 +1,5 @@
+import { agentIcon } from "./agent-components.js";
+
 const actionVariants = [
   { label: "Primary", value: "primary" },
   { label: "Secondary", value: "secondary" },
@@ -10,6 +12,19 @@ const selectOptions = [
   { label: "Fast", value: "fast" },
   { label: "Deep", value: "deep" },
 ];
+
+const composerModes = [
+  { label: "Idle", value: "idle" },
+  { label: "Streaming", value: "streaming" },
+];
+
+function escapeHtml(value = "") {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
 
 export function actionWorkbenchMarkup({ variant = "primary" } = {}) {
   if (variant === "icon") {
@@ -54,6 +69,21 @@ export function toastWorkbenchMarkup({ dismissible = true } = {}) {
     </div>${close}
   </div>
 </div>`;
+}
+
+export function composerWorkbenchMarkup({ mode = "idle" } = {}) {
+  const action = mode === "streaming"
+    ? '<button class="oc-agent-send-button" type="button" data-state="stop" aria-label="Stop response">…</button>'
+    : '<button class="oc-agent-send-button" type="submit" aria-label="Send message">…</button>';
+
+  return `<form class="oc-agent-input-bar oc-agent-input-bar-standalone">
+  <label class="sr-only" for="workbench-composer-message">Message</label>
+  <textarea id="workbench-composer-message" class="oc-agent-input" rows="3" placeholder="Send a message…"></textarea>
+  <div class="oc-agent-input-toolbar">
+    <div class="oc-agent-input-tools">…</div>
+    ${action}
+  </div>
+</form>`;
 }
 
 const definitions = {
@@ -130,6 +160,61 @@ const definitions = {
       });
       specimen.querySelector("[data-workbench-toast-dismiss]")?.addEventListener("click", () => {
         update("visible", false);
+      });
+    },
+  },
+  "input-bar": {
+    defaults: { mode: "idle", draft: "" },
+    controls: [
+      {
+        id: "mode",
+        label: "State",
+        type: "choice",
+        options: composerModes,
+      },
+    ],
+    markup: composerWorkbenchMarkup,
+    render(specimen, state) {
+      const action = state.mode === "streaming"
+        ? `<button class="oc-agent-send-button" type="button" data-state="stop" aria-label="Stop response">${agentIcon("stop")}</button>`
+        : `<button class="oc-agent-send-button" type="submit" aria-label="Send message">${agentIcon("send")}</button>`;
+      specimen.innerHTML = `<form class="oc-agent-input-bar oc-agent-input-bar-standalone" data-agent-compose-form>
+  <label class="sr-only" for="workbench-composer-message">Message</label>
+  <textarea id="workbench-composer-message" class="oc-agent-input" rows="3" placeholder="Send a message…">${escapeHtml(state.draft)}</textarea>
+  <div class="oc-agent-input-toolbar">
+    <div class="oc-agent-input-tools">
+      <button class="oc-agent-input-action" type="button" aria-label="Attach file">${agentIcon("paperclip")}</button>
+      <button class="oc-agent-input-meta" type="button">${agentIcon("mode")}<span>Agent</span>${agentIcon("chevron")}</button>
+      <button class="oc-agent-input-meta" type="button">${agentIcon("model")}<span>Balanced</span>${agentIcon("chevron")}</button>
+    </div>
+    ${action}
+  </div>
+  <span class="sr-only" data-agent-compose-status aria-live="polite"></span>
+</form>`;
+    },
+    bind(specimen, state, update) {
+      const form = specimen.querySelector("[data-agent-compose-form]");
+      const input = form?.querySelector(".oc-agent-input");
+      const status = form?.querySelector("[data-agent-compose-status]");
+      if (!form || !input || !status) return;
+
+      input.addEventListener("input", () => {
+        state.draft = input.value;
+      });
+
+      if (state.mode === "streaming") {
+        form.querySelector('[aria-label="Stop response"]')?.addEventListener("click", () => {
+          update("mode", "idle");
+        });
+        return;
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!input.value.trim()) return;
+        state.draft = "";
+        input.value = "";
+        status.textContent = "Message sent";
       });
     },
   },

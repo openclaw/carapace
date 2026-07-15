@@ -30,7 +30,7 @@ const agentIconPaths = {
   write: '<path d="m4 20 4.2-1 10.4-10.4a2.1 2.1 0 0 0-3-3L5.2 16 4 20ZM13.8 7.4l3 3" />',
 };
 
-function agentIcon(name) {
+export function agentIcon(name) {
   const paths = agentIconPaths[name] || "";
   return `<svg class="oc-agent-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths}</svg>`;
 }

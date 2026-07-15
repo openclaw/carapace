@@ -31,6 +31,7 @@ import { bindSensitiveInputs } from "../preview/sensitive-input.js";
 import { setWorkbenchViewport } from "../preview/component-workbench.js";
 import {
   actionWorkbenchMarkup,
+  composerWorkbenchMarkup,
   selectWorkbenchMarkup,
   toastWorkbenchMarkup,
 } from "../preview/component-workbench-config.js";
@@ -94,6 +95,18 @@ describe("preview behavior", () => {
     );
     expect(toastWorkbenchMarkup({ dismissible: false })).not.toContain("oc-toast-close");
     expect(toastWorkbenchMarkup({ dismissible: false })).toContain('aria-live="polite"');
+  });
+
+  test("switches the Composer primary action contract between send and stop", () => {
+    expect(composerWorkbenchMarkup({ mode: "idle" })).toContain(
+      'type="submit" aria-label="Send message"',
+    );
+    expect(composerWorkbenchMarkup({ mode: "streaming" })).toContain(
+      'type="button" data-state="stop" aria-label="Stop response"',
+    );
+    expect(composerWorkbenchMarkup({ mode: "streaming" })).not.toContain(
+      'aria-label="Send message"',
+    );
   });
 
   test("moves table-of-contents location to the selected section", () => {

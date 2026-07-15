@@ -104,6 +104,24 @@ describe("preview contracts", () => {
     });
   });
 
+  test("models the Composer send and stop states documented by the component", () => {
+    const definition = getWorkbenchDefinition("input-bar");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "mode",
+        type: "choice",
+        options: [
+          { label: "Idle", value: "idle" },
+          { label: "Streaming", value: "streaming" },
+        ],
+      },
+    ]);
+    expect(normalizeWorkbenchState(definition, { mode: "streaming" })).toMatchObject({
+      mode: "streaming",
+    });
+  });
+
   test("loads canonical styles through valid CSS", async () => {
     const css = await readFile("preview/preview.css", "utf8");
     const imports = [...css.matchAll(/@import\s+"([^"]+)"/g)].map(([, path]) => path);
