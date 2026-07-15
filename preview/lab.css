@@ -1021,6 +1021,7 @@
 
 .oc-flow {
   display: flex;
+  width: min(100%, 44rem);
   min-width: 0;
   align-items: center;
   gap: var(--oc-space-3);
@@ -1029,7 +1030,7 @@
   padding: var(--oc-space-4);
   border: 1px solid var(--oc-border-subtle);
   border-radius: var(--oc-radius-surface);
-  background: var(--oc-surface-secondary-soft);
+  background: var(--oc-bg-recessed);
   list-style: none;
   overscroll-behavior-inline: contain;
   scrollbar-gutter: stable;
@@ -1048,7 +1049,7 @@
   padding: var(--oc-space-3);
   border: 1px solid var(--oc-border-subtle);
   border-radius: var(--oc-radius-control);
-  background: var(--oc-surface-card);
+  background: var(--oc-component-surface, var(--oc-bg-elevated));
   color: var(--oc-text-secondary);
   font-size: var(--oc-font-size-xs);
 }
