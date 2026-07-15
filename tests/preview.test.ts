@@ -178,6 +178,21 @@ describe("preview contracts", () => {
     expect(getWorkbenchDefinition("mode-selector")?.controls[0].id).toBe("value");
   });
 
+  test("models recoverable Error Message states", () => {
+    const definition = getWorkbenchDefinition("error-message");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "state",
+        type: "choice",
+        options: [
+          { label: "Failed", value: "failed" },
+          { label: "Retrying", value: "retrying" },
+        ],
+      },
+    ]);
+  });
+
   test("models Agent tool lifecycle without synthetic states", () => {
     for (const pageId of [
       "bash-tool",

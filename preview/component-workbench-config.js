@@ -48,6 +48,11 @@ const attachmentDisplays = [
   { label: "Image only", value: "image-only" },
 ];
 
+const errorMessageStates = [
+  { label: "Failed", value: "failed" },
+  { label: "Retrying", value: "retrying" },
+];
+
 const agentModels = [
   { label: "Fast · 2.1", value: "fast" },
   { label: "Balanced · 4.6", value: "balanced" },
@@ -228,6 +233,18 @@ export function fileAttachmentWorkbenchMarkup({
     : `<span class="oc-agent-file-type" aria-hidden="true">${agentIcon(isImage ? "image" : "file")}</span><span class="oc-agent-file-details"><strong>${filename}</strong><span>${detail}</span></span>`;
 
   return `<li class="oc-agent-file-attachment" data-display="${effectiveDisplay}" data-kind="${kind}">${content}${remove}</li>`;
+}
+
+export function errorMessageWorkbenchMarkup({ state = "failed" } = {}) {
+  const retrying = state === "retrying";
+  const stateAttributes = retrying ? ' data-state="retrying" aria-busy="true"' : "";
+  const retryLabel = retrying ? "Retrying…" : "Try again";
+  const retryDisabled = retrying ? " disabled" : "";
+
+  return `<div class="oc-agent-error-message" role="alert" data-agent-error-message${stateAttributes}>
+  <span class="oc-agent-error-icon" aria-hidden="true">${agentIcon("alert")}</span>
+  <div class="oc-agent-error-copy"><strong>Response interrupted</strong><p>The connection ended before the response completed. Your draft is still available.</p><div class="oc-agent-error-actions"><button class="oc-agent-error-action" type="button" data-workbench-error-retry${retryDisabled}>${retryLabel}</button><button class="oc-agent-error-action" type="button" data-copy-text="Response interrupted: The connection ended before the response completed. Your draft is still available.">Copy details</button></div></div>
+</div>`;
 }
 
 function toolDisclosureAttributes(state, open) {
@@ -836,6 +853,26 @@ const definitions = {
     bind(specimen, _state, update) {
       specimen.querySelector("[data-workbench-attachment-remove]")?.addEventListener("click", () => {
         update("removable", false);
+      });
+    },
+  },
+  "error-message": {
+    defaults: { state: "failed" },
+    controls: [
+      {
+        id: "state",
+        label: "State",
+        type: "choice",
+        options: errorMessageStates,
+      },
+    ],
+    markup: errorMessageWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = errorMessageWorkbenchMarkup(state);
+    },
+    bind(specimen, _state, update) {
+      specimen.querySelector("[data-workbench-error-retry]")?.addEventListener("click", () => {
+        update("state", "retrying");
       });
     },
   },
