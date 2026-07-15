@@ -2673,6 +2673,56 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
   display: none;
 }
 
+.component-workbench-control {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.component-workbench-control-label {
+  margin: 0 0 var(--oc-space-2);
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-sm);
+}
+
+.component-workbench-choice-list {
+  display: grid;
+  gap: var(--oc-space-1);
+}
+
+.component-workbench-choice {
+  position: relative;
+  display: flex;
+  min-height: 2.5rem;
+  padding: 0 var(--oc-space-3);
+  align-items: center;
+  border-radius: var(--oc-radius-control);
+  color: var(--oc-text-secondary);
+  cursor: pointer;
+}
+
+.component-workbench-choice:hover,
+.component-workbench-choice:has(input:checked) {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.component-workbench-choice:has(input:focus-visible) {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
+.component-workbench-choice input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .component-workbench-dock {
   min-width: 0;
 }
