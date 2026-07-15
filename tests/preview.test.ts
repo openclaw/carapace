@@ -116,7 +116,7 @@ describe("preview contracts", () => {
     expect(previewScript).toContain('.home-component-grid .oc-segmented');
     expect(componentLabels.slice(0, 8)).toEqual([
       "Button",
-      "Input Bar",
+      "Composer",
       "Select",
       "Tool Group",
       "Input",

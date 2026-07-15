@@ -454,7 +454,7 @@ export const referenceAreas = [
       },
       {
         id: "input-bar",
-        label: "Input Bar",
+        label: "Composer",
         path: "agent-components/input-bar/",
         keywords: "oc-agent-input-bar composer textarea send stop attachments",
       },

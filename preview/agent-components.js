@@ -208,7 +208,7 @@ const components = {
   },
   "input-bar": {
     slug: "input-bar",
-    title: "Input Bar",
+    title: "Composer",
     className: "oc-agent-input-bar",
     lede: "A message composer that keeps text entry, attachments, and the current send or stop action in one bounded control.",
     previewTitle: "Compose and submit",
