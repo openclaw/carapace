@@ -437,7 +437,6 @@
 .oc-label {
   display: inline-flex;
   align-items: baseline;
-  gap: var(--oc-space-2);
   color: var(--oc-text-primary);
   font-size: var(--oc-font-size-sm);
   font-weight: 650;
@@ -445,10 +444,12 @@
 }
 
 .oc-label-required {
+  margin-inline-start: var(--oc-space-1);
   color: var(--oc-status-error-fg);
 }
 
 .oc-label-optional {
+  margin-inline-start: var(--oc-space-2);
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);
   font-weight: 500;
