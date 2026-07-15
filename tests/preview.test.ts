@@ -3,6 +3,7 @@ import { describe, expect, test } from "bun:test";
 import { transform } from "lightningcss";
 import {
   isComponentWorkbenchPage,
+  workbenchCanvasThemes,
   workbenchViewportModes,
 } from "../preview/component-workbench.js";
 import {
@@ -38,6 +39,7 @@ const legacyPackageName = ["@openclaw", "design-system"].join("/");
 describe("preview contracts", () => {
   test("limits the component workbench to component reference pages", () => {
     expect(workbenchViewportModes.map(({ id }) => id)).toEqual(["desktop", "tablet", "mobile"]);
+    expect(workbenchCanvasThemes.map(({ id }) => id)).toEqual(["light", "dark"]);
     expect(isComponentWorkbenchPage("primitive-action")).toBe(true);
     expect(isComponentWorkbenchPage("input-bar")).toBe(true);
     expect(isComponentWorkbenchPage("foundation-colors")).toBe(false);

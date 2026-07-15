@@ -24,6 +24,19 @@ export const workbenchViewportModes = [
   },
 ];
 
+export const workbenchCanvasThemes = [
+  {
+    id: "light",
+    label: "Light canvas",
+    icon: '<circle cx="12" cy="12" r="3.5"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>',
+  },
+  {
+    id: "dark",
+    label: "Dark canvas",
+    icon: '<path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2Z"></path>',
+  },
+];
+
 export function isComponentWorkbenchPage(pageId) {
   const page = getReferencePage(pageId);
   return Boolean(
@@ -42,6 +55,18 @@ export function setWorkbenchViewport(workbench, viewport) {
   canvas.dataset.viewport = viewport;
   for (const button of workbench.querySelectorAll("[data-workbench-viewport]")) {
     button.setAttribute("aria-pressed", String(button.dataset.workbenchViewport === viewport));
+  }
+  return true;
+}
+
+export function setWorkbenchCanvasTheme(workbench, theme) {
+  if (!workbenchCanvasThemes.some(({ id }) => id === theme)) return false;
+  const canvas = workbench.querySelector("[data-workbench-canvas]");
+  if (!canvas) return false;
+
+  canvas.dataset.workbenchTheme = theme;
+  for (const button of workbench.querySelectorAll("[data-workbench-theme]")) {
+    button.setAttribute("aria-pressed", String(button.dataset.workbenchTheme === theme));
   }
   return true;
 }
@@ -69,6 +94,31 @@ function createViewportSwitcher() {
   }
 
   return group;
+}
+
+function createCanvasThemeSwitcher(theme) {
+  const group = createElement("div", "component-workbench-theme-switcher");
+  group.setAttribute("role", "group");
+  group.setAttribute("aria-label", "Canvas theme");
+
+  for (const option of workbenchCanvasThemes) {
+    const button = createElement("button", "component-workbench-theme");
+    button.type = "button";
+    button.dataset.workbenchTheme = option.id;
+    button.setAttribute("aria-label", option.label);
+    button.setAttribute("aria-pressed", String(option.id === theme));
+    button.title = option.label;
+    button.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${option.icon}</svg>`;
+    group.append(button);
+  }
+
+  return group;
+}
+
+function createCanvasTools(theme) {
+  const tools = createElement("div", "component-workbench-canvas-tools");
+  tools.append(createCanvasThemeSwitcher(theme), createViewportSwitcher());
+  return tools;
 }
 
 function createChoiceControl(pageId, control, state, update) {
@@ -236,10 +286,12 @@ export function renderComponentWorkbench(mount, pageId) {
   const canvas = createElement("div", "component-workbench-canvas");
   canvas.dataset.workbenchCanvas = "";
   canvas.dataset.viewport = "desktop";
+  const canvasTheme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+  canvas.dataset.workbenchTheme = canvasTheme;
   const frame = createElement("div", "component-workbench-frame");
   frame.append(specimen);
   canvas.append(frame);
-  stage.append(stageTitle, canvas, createViewportSwitcher());
+  stage.append(stageTitle, canvas, createCanvasTools(canvasTheme));
 
   const inspector = createElement("aside", "component-workbench-inspector");
   inspector.setAttribute("aria-labelledby", `${pageId}-workbench-controls`);
@@ -283,6 +335,11 @@ export function bindComponentWorkbenches(root = document) {
     for (const button of workbench.querySelectorAll("[data-workbench-viewport]")) {
       button.addEventListener("click", () => {
         setWorkbenchViewport(workbench, button.dataset.workbenchViewport);
+      });
+    }
+    for (const button of workbench.querySelectorAll("[data-workbench-theme]")) {
+      button.addEventListener("click", () => {
+        setWorkbenchCanvasTheme(workbench, button.dataset.workbenchTheme);
       });
     }
   }

@@ -28,7 +28,10 @@ import { getScrollFadeState } from "../preview/shell.js";
 import { setCurrentSidebarLink } from "../preview/sidebar.js";
 import { setCurrentTableOfContentsLink } from "../preview/table-of-contents.js";
 import { bindSensitiveInputs } from "../preview/sensitive-input.js";
-import { setWorkbenchViewport } from "../preview/component-workbench.js";
+import {
+  setWorkbenchCanvasTheme,
+  setWorkbenchViewport,
+} from "../preview/component-workbench.js";
 import {
   actionWorkbenchMarkup,
   agentChatWorkbenchMarkup,
@@ -78,6 +81,29 @@ describe("preview behavior", () => {
     ]);
     expect(setWorkbenchViewport(workbench, "wide")).toBe(false);
     expect(canvas.dataset.viewport).toBe("mobile");
+  });
+
+  test("changes only the workbench canvas color theme", () => {
+    class Button {
+      attributes = new Map();
+      constructor(theme) { this.dataset = { workbenchTheme: theme }; }
+      setAttribute(name, value) { this.attributes.set(name, value); }
+    }
+
+    const canvas = { dataset: { workbenchTheme: "dark" } };
+    const buttons = [new Button("light"), new Button("dark")];
+    const workbench = {
+      querySelector: () => canvas,
+      querySelectorAll: () => buttons,
+    };
+
+    expect(setWorkbenchCanvasTheme(workbench, "light")).toBe(true);
+    expect(canvas.dataset.workbenchTheme).toBe("light");
+    expect(buttons.map((button) => button.attributes.get("aria-pressed"))).toEqual([
+      "true",
+      "false",
+    ]);
+    expect(setWorkbenchCanvasTheme(workbench, "system")).toBe(false);
   });
 
   test("keeps action specimen markup aligned with the selected public variant", () => {
