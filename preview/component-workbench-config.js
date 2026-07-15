@@ -13,6 +13,14 @@ const selectOptions = [
   { label: "Deep", value: "deep" },
 ];
 
+const autocompleteOptions = [
+  { label: "Empty", value: "" },
+  { label: "Action", value: "Action" },
+  { label: "Card", value: "Card" },
+  { label: "Input", value: "Input" },
+  { label: "Select", value: "Select" },
+];
+
 const composerStatuses = [
   { label: "Ready", value: "ready" },
   { label: "Submitted", value: "submitted" },
@@ -124,6 +132,25 @@ ${options}
     </select>
   </span>
 </div>`;
+}
+
+export function autocompleteWorkbenchMarkup({ value = "", disabled = false } = {}) {
+  const disabledAttribute = disabled ? " disabled" : "";
+  const options = autocompleteOptions
+    .filter(({ value: optionValue }) => optionValue)
+    .map(({ value: optionValue }) => `    <option value="${optionValue}"></option>`)
+    .join("\n");
+
+  return `<label class="oc-autocomplete">
+  <span class="oc-field-label">Component</span>
+  <span class="oc-autocomplete-control">
+    <span class="oc-autocomplete-icon" aria-hidden="true">${agentIcon("search")}</span>
+    <input class="oc-input" type="text" name="component" list="workbench-autocomplete-options" value="${escapeHtml(value)}" placeholder="Search components…" autocomplete="off"${disabledAttribute} />
+  </span>
+  <datalist id="workbench-autocomplete-options">
+${options}
+  </datalist>
+</label>`;
 }
 
 export function toastWorkbenchMarkup({ dismissible = true } = {}) {
@@ -626,6 +653,31 @@ const definitions = {
     },
     bind(specimen, _state, update) {
       specimen.querySelector("select")?.addEventListener("change", (event) => {
+        update("value", event.currentTarget.value);
+      });
+    },
+  },
+  "primitive-autocomplete": {
+    defaults: { value: "", disabled: false },
+    controls: [
+      {
+        id: "value",
+        label: "Value",
+        type: "choice",
+        options: autocompleteOptions,
+      },
+      {
+        id: "disabled",
+        label: "Disabled",
+        type: "toggle",
+      },
+    ],
+    markup: autocompleteWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = autocompleteWorkbenchMarkup(state);
+    },
+    bind(specimen, _state, update) {
+      specimen.querySelector("input")?.addEventListener("change", (event) => {
         update("value", event.currentTarget.value);
       });
     },

@@ -93,6 +93,29 @@ describe("preview contracts", () => {
     });
   });
 
+  test("models native Autocomplete values and disabled state", () => {
+    const definition = getWorkbenchDefinition("primitive-autocomplete");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "value",
+        type: "choice",
+        options: [
+          { label: "Empty", value: "" },
+          { label: "Action", value: "Action" },
+          { label: "Card", value: "Card" },
+          { label: "Input", value: "Input" },
+          { label: "Select", value: "Select" },
+        ],
+      },
+      { id: "disabled", type: "toggle" },
+    ]);
+    expect(normalizeWorkbenchState(definition, { value: "Card", disabled: true })).toEqual({
+      value: "Card",
+      disabled: true,
+    });
+  });
+
   test("models only observable Toast demo states", () => {
     const definition = getWorkbenchDefinition("primitive-toast");
 
