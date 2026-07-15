@@ -191,6 +191,37 @@ export function bannerWorkbenchMarkup({ tone = "warning", action = true } = {}) 
 </div>`;
 }
 
+export function tableWorkbenchMarkup({ interactive = false } = {}) {
+  const records = [
+    { component: "Button", status: "Stable", updated: "Today" },
+    { component: "Dialog", status: "Stable", updated: "Yesterday" },
+    { component: "Table", status: "Draft", updated: "Now" },
+  ];
+  const actionHeader = interactive ? '<th scope="col">Action</th>' : "";
+  const rows = records
+    .map(({ component, status, updated }) => {
+      const action = interactive
+        ? `<td><button class="oc-action oc-action-ghost" type="button" aria-label="Open ${component}">Open</button></td>`
+        : "";
+      return `<tr><td>${component}</td><td>${status}</td><td>${updated}</td>${action}</tr>`;
+    })
+    .join("\n      ");
+  const modifier = interactive ? " oc-table-interactive" : "";
+  const caption = interactive
+    ? "Component status, most recent update, and available actions"
+    : "Component status and most recent update";
+
+  return `<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0">
+  <table class="oc-table${modifier}">
+    <caption class="sr-only">${caption}</caption>
+    <thead><tr><th scope="col">Component</th><th scope="col">Status</th><th scope="col">Updated</th>${actionHeader}</tr></thead>
+    <tbody>
+      ${rows}
+    </tbody>
+  </table>
+</div>`;
+}
+
 export function selectWorkbenchMarkup({ value = "balanced", disabled = false } = {}) {
   const disabledAttribute = disabled ? " disabled" : "";
   const options = selectOptions
@@ -869,6 +900,20 @@ const definitions = {
     markup: bannerWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = bannerWorkbenchMarkup(state);
+    },
+  },
+  "primitive-table": {
+    defaults: { interactive: false },
+    controls: [
+      {
+        id: "interactive",
+        label: "Interactive rows",
+        type: "toggle",
+      },
+    ],
+    markup: tableWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = tableWorkbenchMarkup(state);
     },
   },
   "primitive-select": {

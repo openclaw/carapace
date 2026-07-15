@@ -49,6 +49,7 @@ import {
   sendButtonWorkbenchMarkup,
   spiralLoaderWorkbenchMarkup,
   suggestionsWorkbenchMarkup,
+  tableWorkbenchMarkup,
   textShimmerWorkbenchMarkup,
   toolWorkbenchMarkup,
   todoToolWorkbenchMarkup,
@@ -145,6 +146,28 @@ describe("preview behavior", () => {
       expect(markup).toContain('class="oc-banner-indicator" aria-hidden="true"');
     }
     expect(success).toContain('<button class="oc-action oc-action-secondary" type="button">Review</button>');
+  });
+
+  test("renders Table interaction only with real row actions", () => {
+    const staticTable = tableWorkbenchMarkup({ interactive: false });
+    const interactiveTable = tableWorkbenchMarkup({ interactive: true });
+
+    expect(staticTable).toContain('class="oc-table"');
+    expect(staticTable).not.toContain("oc-table-interactive");
+    expect(staticTable).not.toContain('<th scope="col">Action</th>');
+    expect(staticTable).not.toContain("<button");
+    expect(interactiveTable).toContain('class="oc-table oc-table-interactive"');
+    expect(interactiveTable).toContain('<th scope="col">Action</th>');
+    expect(interactiveTable).toContain('aria-label="Open Button"');
+    expect(interactiveTable).toContain('aria-label="Open Dialog"');
+    expect(interactiveTable).toContain('aria-label="Open Table"');
+    for (const markup of [staticTable, interactiveTable]) {
+      expect(markup).toContain('role="region"');
+      expect(markup).toContain('aria-label="Component status"');
+      expect(markup).toContain('tabindex="0"');
+      expect(markup).toContain('<caption class="sr-only">');
+      expect(markup).toContain('scope="col"');
+    }
   });
 
   test("serializes the selected native option and disabled state", () => {

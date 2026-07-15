@@ -108,6 +108,20 @@ describe("preview contracts", () => {
     });
   });
 
+  test("models Table interactive rows as an opt-in behavior", () => {
+    const definition = getWorkbenchDefinition("primitive-table");
+
+    expect(definition?.controls).toMatchObject([
+      { id: "interactive", label: "Interactive rows", type: "toggle" },
+    ]);
+    expect(normalizeWorkbenchState(definition, { interactive: true })).toEqual({
+      interactive: true,
+    });
+    expect(normalizeWorkbenchState(definition, { interactive: "yes" })).toEqual({
+      interactive: false,
+    });
+  });
+
   test("models native Select values and disabled state without synthetic variants", () => {
     const definition = getWorkbenchDefinition("primitive-select");
 
