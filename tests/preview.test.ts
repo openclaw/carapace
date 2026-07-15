@@ -90,6 +90,12 @@ describe("preview contracts", () => {
     );
   });
 
+  test("keeps the native Autocomplete disclosure indicator singular", async () => {
+    const css = await readFile("preview/lab.css", "utf8");
+
+    expect(css).not.toContain(".oc-autocomplete-control::after");
+  });
+
   test("publishes only real action variants through the workbench schema", () => {
     const definition = getWorkbenchDefinition("primitive-action");
 

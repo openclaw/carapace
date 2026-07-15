@@ -167,19 +167,6 @@
   stroke-width: 1.75;
 }
 
-.oc-autocomplete-control::after {
-  position: absolute;
-  right: var(--oc-space-3);
-  top: 50%;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-right: 1px solid var(--oc-text-muted);
-  border-bottom: 1px solid var(--oc-text-muted);
-  content: "";
-  pointer-events: none;
-  transform: translateY(-65%) rotate(45deg);
-}
-
 .oc-avatar {
   position: relative;
   display: inline-grid;
