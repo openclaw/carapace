@@ -112,6 +112,12 @@ const textShimmerExamples = [
   { label: "Fast shimmer", value: "fast" },
 ];
 
+const userMessageContent = [
+  { label: "Text only", value: "text" },
+  { label: "With image", value: "image" },
+  { label: "With file", value: "file" },
+];
+
 function escapeHtml(value = "") {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -470,6 +476,30 @@ export function textShimmerWorkbenchMarkup({ example = "inline" } = {}) {
   return `<span class="oc-agent-text-shimmer" role="status" aria-live="polite" style="animation-duration: ${selected.duration}${delay}">${selected.text}</span>`;
 }
 
+export function userMessageWorkbenchMarkup({ content = "text" } = {}) {
+  const examples = {
+    text: {
+      message: "Share the latest status.",
+      attachment: "",
+    },
+    image: {
+      message: "Here is the screenshot.",
+      attachment: `<div class="oc-agent-user-attachment">${agentIcon("image")}<span><strong>mobile-reference.png</strong><small>PNG · 428 KB</small></span></div>`,
+    },
+    file: {
+      message: "Review the attached component specification.",
+      attachment: `<div class="oc-agent-user-attachment">${agentIcon("file")}<span><strong>component-spec.md</strong><small>Markdown · 3.1 KB</small></span></div>`,
+    },
+  };
+  const selected = examples[content] ?? examples.text;
+
+  return `<div class="oc-agent-user-message-stack">
+  ${selected.attachment}
+  <article class="oc-agent-user-message"><p>${selected.message}</p></article>
+  <span class="oc-agent-message-meta">You · now</span>
+</div>`;
+}
+
 export function agentChatWorkbenchMarkup({
   example = "basic",
   status = "ready",
@@ -654,6 +684,23 @@ const definitions = {
     markup: textShimmerWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = textShimmerWorkbenchMarkup(state);
+    },
+  },
+  "user-message": {
+    defaults: { content: "text" },
+    controls: [
+      {
+        id: "content",
+        label: "Content",
+        type: "choice",
+        options: userMessageContent,
+      },
+    ],
+    markup(state) {
+      return compactIconMarkup(userMessageWorkbenchMarkup(state));
+    },
+    render(specimen, state) {
+      specimen.innerHTML = userMessageWorkbenchMarkup(state);
     },
   },
   "bash-tool": createToolWorkbenchDefinition("bash"),

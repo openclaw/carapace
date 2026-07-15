@@ -241,6 +241,26 @@ describe("preview contracts", () => {
     });
   });
 
+  test("models supported User Message content", () => {
+    const definition = getWorkbenchDefinition("user-message");
+
+    expect(definition?.controls[0]).toMatchObject({
+      id: "content",
+      type: "choice",
+      options: [
+        { label: "Text only", value: "text" },
+        { label: "With image", value: "image" },
+        { label: "With file", value: "file" },
+      ],
+    });
+    expect(normalizeWorkbenchState(definition, { content: "file" })).toEqual({
+      content: "file",
+    });
+    expect(normalizeWorkbenchState(definition, { content: "unknown" })).toEqual({
+      content: "text",
+    });
+  });
+
   test("models Agent tool lifecycle without synthetic states", () => {
     for (const pageId of [
       "bash-tool",

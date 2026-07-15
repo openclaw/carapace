@@ -54,6 +54,7 @@ import {
   planToolWorkbenchMarkup,
   questionToolWorkbenchMarkup,
   toastWorkbenchMarkup,
+  userMessageWorkbenchMarkup,
 } from "../preview/component-workbench-config.js";
 
 function keyboardEvent(key) {
@@ -203,6 +204,24 @@ describe("preview behavior", () => {
     for (const markup of [inline, delayed, fast]) {
       expect(markup).toContain('class="oc-agent-text-shimmer"');
       expect(markup).toContain('role="status" aria-live="polite"');
+    }
+  });
+
+  test("renders supported User Message content without synthetic actions", () => {
+    const text = userMessageWorkbenchMarkup({ content: "text" });
+    const image = userMessageWorkbenchMarkup({ content: "image" });
+    const file = userMessageWorkbenchMarkup({ content: "file" });
+
+    expect(text).toContain("Share the latest status.");
+    expect(text).not.toContain("oc-agent-user-attachment");
+    expect(image).toContain("mobile-reference.png");
+    expect(image).toContain("Here is the screenshot.");
+    expect(file).toContain("component-spec.md");
+    expect(file).toContain("Review the attached component specification.");
+    for (const markup of [text, image, file]) {
+      expect(markup).toContain('class="oc-agent-user-message"');
+      expect(markup).toContain('class="oc-agent-message-meta"');
+      expect(markup).not.toContain("<button");
     }
   });
 
