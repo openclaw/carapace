@@ -3343,6 +3343,22 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   justify-self: center;
 }
 
+.primitive-variant-list {
+  display: grid;
+  width: min(100%, 16rem);
+  gap: var(--oc-space-3);
+  justify-items: start;
+}
+
+.primitive-badge-list {
+  width: min(100%, 10rem);
+}
+
+.primitive-badge-list > .oc-badge {
+  width: 100%;
+  justify-content: center;
+}
+
 .agent-specimen {
   display: grid;
   min-height: clamp(22rem, 48vw, 34rem);
