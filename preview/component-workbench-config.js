@@ -386,7 +386,7 @@ export function toolWorkbenchMarkup({
 
   if (kind === "search") {
     const content = complete
-      ? `<p class="oc-agent-search-query">Searched for “semantic token adapter”</p><ol class="oc-agent-search-results"><li><a href="../../foundations/tokens/"><span class="oc-agent-search-result-icon" aria-hidden="true">${agentIcon("file")}</span><span><strong>Design tokens</strong><small>/foundations/tokens/</small></span></a></li></ol>`
+      ? `<p class="oc-agent-search-query">Searched for “semantic token adapter”</p><ol class="oc-agent-search-results"><li><a href="../../foundations/tokens/" data-workbench-inert-link><span class="oc-agent-search-result-icon" aria-hidden="true">${agentIcon("file")}</span><span><strong>Design tokens</strong><small>/foundations/tokens/</small></span></a></li></ol>`
       : `<p class="oc-agent-search-query">Searching for “semantic token adapter”…</p>`;
     return `<details class="oc-agent-tool oc-agent-search-tool" ${attributes}><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">${agentIcon("search")}</span><span>${toolStateLabel(state, "Searching", "Found 3 results")}</span><span class="oc-agent-tool-status">Reference</span></summary><div class="oc-agent-tool-content">${content}</div></details>`;
   }
@@ -515,7 +515,7 @@ export function markdownWorkbenchMarkup({ example = "release" } = {}) {
   if (example === "table") {
     return `<article class="oc-agent-markdown">
   <h3>Validation results</h3>
-  <p>Review the <a href="../../foundations/tokens/">token reference</a> before adoption.</p>
+  <p>Review the <a href="../../foundations/tokens/" data-workbench-inert-link>token reference</a> before adoption.</p>
   <div class="oc-agent-markdown-table" tabindex="0" role="region" aria-label="Validation results"><table><thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead><tbody><tr><td>CSS contract</td><td>Passed</td></tr><tr><td>Preview build</td><td>Passed</td></tr></tbody></table></div>
 </article>`;
   }

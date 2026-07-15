@@ -89,6 +89,14 @@ export function preserveWorkbenchScrollPosition(scroller, update) {
   return result;
 }
 
+export function preventWorkbenchDemoLinkNavigation(event) {
+  const link = event.target?.closest?.("[data-workbench-inert-link]");
+  if (!link) return false;
+
+  event.preventDefault();
+  return true;
+}
+
 function createViewportSwitcher() {
   const group = createElement("div", "component-workbench-viewports");
   group.setAttribute("role", "group");
@@ -376,6 +384,7 @@ export function renderComponentWorkbench(mount, pageId) {
 export function bindComponentWorkbenches(root = document) {
   const workbenches = [...root.querySelectorAll("[data-component-workbench]")];
   for (const workbench of workbenches) {
+    workbench.addEventListener("click", preventWorkbenchDemoLinkNavigation);
     for (const button of workbench.querySelectorAll("[data-workbench-viewport]")) {
       button.addEventListener("click", () => {
         setWorkbenchViewport(workbench, button.dataset.workbenchViewport);

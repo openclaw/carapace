@@ -29,6 +29,7 @@ import { setCurrentSidebarLink } from "../preview/sidebar.js";
 import { setCurrentTableOfContentsLink } from "../preview/table-of-contents.js";
 import { bindSensitiveInputs } from "../preview/sensitive-input.js";
 import {
+  preventWorkbenchDemoLinkNavigation,
   setWorkbenchCanvasTheme,
   setWorkbenchViewport,
 } from "../preview/component-workbench.js";
@@ -112,6 +113,49 @@ describe("preview behavior", () => {
       "false",
     ]);
     expect(setWorkbenchCanvasTheme(workbench, "system")).toBe(false);
+  });
+
+  test("cancels demonstration link navigation without disabling real links", () => {
+    const demoLink = {
+      blurred: false,
+      blur() { this.blurred = true; },
+      closest: (selector) => selector === "[data-workbench-inert-link]" ? demoLink : null,
+    };
+    const realLink = { closest: () => null };
+
+    for (const detail of [0, 1]) {
+      const activation = new Event("click", { cancelable: true });
+      Object.defineProperties(activation, {
+        detail: { value: detail },
+        target: { value: demoLink },
+      });
+
+      expect(preventWorkbenchDemoLinkNavigation(activation)).toBe(true);
+      expect(activation.defaultPrevented).toBe(true);
+      expect(demoLink.blurred).toBe(false);
+    }
+
+    const realNavigation = new Event("click", { cancelable: true });
+    Object.defineProperty(realNavigation, "target", { value: realLink });
+
+    expect(preventWorkbenchDemoLinkNavigation(realNavigation)).toBe(false);
+    expect(realNavigation.defaultPrevented).toBe(false);
+  });
+
+  test("marks only route-changing specimen links as workbench demonstrations", () => {
+    for (const pageId of ["primitive-breadcrumbs", "primitive-link", "primitive-pagination"]) {
+      expect(getReferenceContent(pageId)).toContain("data-workbench-inert-link");
+    }
+    expect(toolWorkbenchMarkup({ kind: "search", state: "complete" })).toContain(
+      "data-workbench-inert-link",
+    );
+    expect(markdownWorkbenchMarkup({ example: "table" })).toContain(
+      "data-workbench-inert-link",
+    );
+
+    for (const pageId of ["primitive-card", "primitive-sidebar", "primitive-table-of-contents"]) {
+      expect(getReferenceContent(pageId)).not.toContain("data-workbench-inert-link");
+    }
   });
 
   test("keeps action specimen markup aligned with the selected public variant", () => {
