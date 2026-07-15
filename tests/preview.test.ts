@@ -105,6 +105,34 @@ describe("preview contracts", () => {
     expect(css).not.toContain("--oc-focus-ring: rgb(20 128 110 / 0.58);");
   });
 
+  test("keeps preview-only hover boundaries neutral", async () => {
+    const lab = await readFile("preview/lab.css", "utf8");
+    const shell = await readFile("preview/preview.css", "utf8");
+
+    for (const selector of [
+      ".oc-input-group:hover:not(:has(.oc-input:disabled))",
+      ".oc-sensitive-input:hover",
+      '.oc-button-secondary:hover:not(:disabled):not([aria-disabled="true"])',
+      ".oc-date-input:hover:not(:disabled)",
+    ]) {
+      const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const declarations =
+        lab.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+      expect(declarations).toContain("border-color: var(--oc-border-strong)");
+    }
+
+    for (const selector of [
+      ".route-card:hover",
+      ".search-trigger:hover",
+      ".button-secondary:hover",
+    ]) {
+      const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const declarations =
+        shell.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+      expect(declarations).toContain("border-color: var(--oc-border-strong)");
+    }
+  });
+
   test("publishes only real action variants through the workbench schema", () => {
     const definition = getWorkbenchDefinition("primitive-action");
 

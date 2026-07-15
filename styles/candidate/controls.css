@@ -46,7 +46,7 @@
 }
 
 .oc-input:hover:not(:disabled) {
-  border-color: var(--oc-border-accent);
+  border-color: var(--oc-border-strong);
 }
 
 .oc-input:focus-visible {
@@ -107,7 +107,7 @@
 }
 
 .oc-checkbox:hover:not(:disabled) {
-  border-color: var(--oc-border-accent);
+  border-color: var(--oc-border-strong);
 }
 
 .oc-checkbox:checked {
@@ -210,7 +210,7 @@
 }
 
 .oc-radio:hover:not(:disabled) {
-  border-color: var(--oc-border-accent);
+  border-color: var(--oc-border-strong);
 }
 
 .oc-radio:checked {
@@ -286,7 +286,7 @@
 }
 
 .oc-switch:hover:not(:disabled) {
-  border-color: var(--oc-border-accent);
+  border-color: var(--oc-border-strong);
 }
 
 .oc-switch:checked {
@@ -360,7 +360,7 @@
 }
 
 .oc-select:hover:not(:disabled) {
-  border-color: var(--oc-border-accent);
+  border-color: var(--oc-border-strong);
 }
 
 .oc-select:focus-visible {
@@ -412,7 +412,7 @@
 }
 
 .oc-textarea:hover:not(:disabled) {
-  border-color: var(--oc-border-accent);
+  border-color: var(--oc-border-strong);
 }
 
 .oc-textarea:focus-visible {

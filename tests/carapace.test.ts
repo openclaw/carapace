@@ -98,6 +98,23 @@ describe("CSS contract", () => {
     expect(controls).not.toContain("min-height: 2.75rem;");
   });
 
+  test("keeps generic control hover boundaries neutral", async () => {
+    const controls = await readFile("styles/candidate/controls.css", "utf8");
+
+    for (const selector of [
+      ".oc-input:hover:not(:disabled)",
+      ".oc-checkbox:hover:not(:disabled)",
+      ".oc-radio:hover:not(:disabled)",
+      ".oc-switch:hover:not(:disabled)",
+      ".oc-select:hover:not(:disabled)",
+      ".oc-textarea:hover:not(:disabled)",
+    ]) {
+      const declarations = ruleDeclarations(controls, selector);
+      expect(declarations).toContain("border-color: var(--oc-border-strong)");
+      expect(declarations).not.toContain("var(--oc-border-accent)");
+    }
+  });
+
   test("the default component entry point contains only the stable floor", async () => {
     const components = await readFile("styles/components.css", "utf8");
     const references = customProperties(components, /var\((--[\w-]+)/g);
