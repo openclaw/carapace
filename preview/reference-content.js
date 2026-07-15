@@ -453,7 +453,7 @@ const contents = {
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
     <section data-section-kind="preview" aria-labelledby="hero-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="hero-preview">Default composition</h2></div><span class="oc-pill">.oc-hero</span></div>
-      <div class="specimen-frame oc-app-surface"><div class="oc-hero"><h3 class="oc-hero-title">Build where your work already lives.</h3><p class="oc-hero-lede">A shared visual introduction with consumer-owned content and actions.</p></div></div>
+      <div class="specimen-frame oc-app-surface"><div class="oc-hero"><h3 class="oc-hero-title">Build the thing that builds things.</h3><p class="oc-hero-lede">A shared visual introduction with consumer-owned content and actions.</p></div></div>
     </section>
     <section data-section-kind="markup" aria-labelledby="hero-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="hero-markup">Three explicit roles</h2></div></div>${codeBlock(`<div class="oc-hero">\n  <h1 class="oc-hero-title">Build with OpenClaw</h1>\n  <p class="oc-hero-lede">Supporting copy.</p>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="hero-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="hero-guidance">Keep the introduction literal</h2></div></div>${guidanceList(["Use one clear title and one supporting lede.", "Keep actions and media consumer-owned.", "The exported responsive rule reduces title size below 42rem."])}</section>`,
