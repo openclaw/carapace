@@ -5,6 +5,8 @@ html[data-theme="dark"] {
   --oc-bg-page: var(--oc-palette-ink-950);
   --oc-bg-surface: var(--oc-palette-ink-900);
   --oc-bg-elevated: var(--oc-palette-ink-850);
+  --oc-bg-recessed: color-mix(in oklch, var(--oc-bg-page) 86%, oklch(0 0 0));
+  --oc-bg-contrast: var(--oc-text-primary);
 
   --oc-accent-primary: var(--oc-palette-coral-dark-bright);
   --oc-accent-primary-hover: var(--oc-palette-coral-dark-mid);
@@ -15,9 +17,13 @@ html[data-theme="dark"] {
   --oc-text-primary: var(--oc-palette-ink-50);
   --oc-text-secondary: var(--oc-palette-ink-300);
   --oc-text-muted: var(--oc-palette-ink-500);
+  --oc-text-inactive: color-mix(in oklch, var(--oc-text-muted) 62%, transparent);
+  --oc-text-inverse: var(--oc-bg-page);
+  --oc-text-link: var(--oc-accent-primary);
   --oc-text-on-accent: var(--oc-palette-ink-950);
 
   --oc-border-subtle: rgb(154 154 162 / 0.18);
+  --oc-border-strong: color-mix(in oklch, var(--oc-text-primary) 32%, transparent);
   --oc-border-accent: rgb(245 101 74 / 0.4);
 
   --oc-surface-card: rgb(25 25 28 / 0.72);
@@ -25,6 +31,8 @@ html[data-theme="dark"] {
   --oc-surface-overlay: rgb(0 0 0 / 0.3);
   --oc-surface-interactive: rgb(237 237 237 / 0.08);
   --oc-surface-interactive-hover: rgb(237 237 237 / 0.16);
+  --oc-control-bg: var(--oc-surface-interactive);
+  --oc-control-bg-hover: var(--oc-surface-interactive-hover);
   --oc-surface-accent-soft: rgb(245 101 74 / 0.14);
   --oc-surface-secondary-soft: rgb(79 200 174 / 0.14);
   --oc-chart-line: rgb(237 237 237 / 0.09);
@@ -64,6 +72,12 @@ html[data-theme="light"] {
   --oc-bg-page: var(--oc-palette-paper-100);
   --oc-bg-surface: var(--oc-palette-paper-200);
   --oc-bg-elevated: var(--oc-palette-paper-50);
+  --oc-bg-recessed: color-mix(
+    in oklch,
+    var(--oc-bg-page) 94%,
+    var(--oc-text-primary)
+  );
+  --oc-bg-contrast: var(--oc-text-primary);
 
   --oc-accent-primary: var(--oc-palette-coral-light-bright);
   --oc-accent-primary-hover: var(--oc-palette-coral-light-mid);
@@ -74,9 +88,13 @@ html[data-theme="light"] {
   --oc-text-primary: var(--oc-palette-paper-950);
   --oc-text-secondary: var(--oc-palette-paper-700);
   --oc-text-muted: var(--oc-palette-paper-600);
+  --oc-text-inactive: color-mix(in oklch, var(--oc-text-muted) 62%, transparent);
+  --oc-text-inverse: var(--oc-bg-page);
+  --oc-text-link: var(--oc-accent-primary);
   --oc-text-on-accent: var(--oc-palette-paper-50);
 
   --oc-border-subtle: rgb(23 23 26 / 0.14);
+  --oc-border-strong: color-mix(in oklch, var(--oc-text-primary) 28%, transparent);
   --oc-border-accent: rgb(216 74 49 / 0.42);
 
   --oc-surface-card: rgb(255 255 255 / 0.8);
@@ -84,6 +102,8 @@ html[data-theme="light"] {
   --oc-surface-overlay: rgb(23 23 26 / 0.08);
   --oc-surface-interactive: rgb(23 23 26 / 0.07);
   --oc-surface-interactive-hover: rgb(23 23 26 / 0.14);
+  --oc-control-bg: var(--oc-surface-interactive);
+  --oc-control-bg-hover: var(--oc-surface-interactive-hover);
   --oc-surface-accent-soft: rgb(216 74 49 / 0.12);
   --oc-surface-secondary-soft: rgb(20 128 110 / 0.13);
   --oc-chart-line: rgb(23 23 26 / 0.12);

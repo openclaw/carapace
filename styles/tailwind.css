@@ -1,16 +1,24 @@
 @theme {
   --color-bg: var(--oc-bg-page);
   --color-bg-soft: var(--oc-bg-surface);
+  --color-bg-recessed: var(--oc-bg-recessed);
+  --color-bg-contrast: var(--oc-bg-contrast);
   --color-surface: var(--oc-bg-elevated);
   --color-surface-muted: var(--oc-bg-surface);
+  --color-control: var(--oc-control-bg);
+  --color-control-hover: var(--oc-control-bg-hover);
   --color-ink: var(--oc-text-primary);
   --color-ink-soft: var(--oc-text-secondary);
   --color-ink-muted: var(--oc-text-muted);
+  --color-ink-inactive: var(--oc-text-inactive);
+  --color-ink-inverse: var(--oc-text-inverse);
+  --color-link: var(--oc-text-link);
   --color-accent: var(--oc-accent-primary);
   --color-accent-fg: var(--oc-text-on-accent);
   --color-accent-deep: var(--oc-accent-primary-hover);
   --color-seafoam: var(--oc-accent-secondary);
   --color-line: var(--oc-border-subtle);
+  --color-line-strong: var(--oc-border-strong);
   --color-status-success-bg: var(--oc-status-success-bg);
   --color-status-success-fg: var(--oc-status-success-fg);
   --color-status-warning-bg: var(--oc-status-warning-bg);

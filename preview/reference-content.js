@@ -26,6 +26,21 @@ function referenceTable(headers, rows) {
   return `<div class="table-wrap reference-table"><table><thead><tr>${headers.map((header) => `<th scope="col">${header}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((cell, index) => `${index === 0 ? '<th scope="row">' : "<td>"}${cell}${index === 0 ? "</th>" : "</td>"}`).join("")}</tr>`).join("")}</tbody></table></div>`;
 }
 
+function colorRoleTable(rows) {
+  return referenceTable(
+    ["Preview", "Token", "Purpose"],
+    rows.map(([token, purpose]) => [
+      `<span class="color-swatch" style="--color-swatch: var(${token})"><span class="sr-only">Preview of ${token}</span></span>`,
+      `<code>${token}</code>`,
+      purpose,
+    ]),
+  );
+}
+
+function colorStatusCard(label, background, foreground, purpose) {
+  return `<article class="color-status-card" style="--status-background: var(${background}); --status-foreground: var(${foreground})"><div class="color-status-sample"><span aria-hidden="true"></span><strong>${label}</strong></div><p>${purpose}</p><code>${background}</code><code>${foreground}</code></article>`;
+}
+
 export const skillsInstallCommand = `npx skills@1.5.16 add \\
   "openclaw/carapace" \\
   --skill \\
@@ -45,15 +60,77 @@ const contents = {
     `${pageIntro("Foundations", "Design tokens", "Use the shared variables to build consistent color, type, spacing, shape, depth, and motion across OpenClaw interfaces.")}${tokenSection()}`,
 
   "foundation-colors": () =>
-    `${pageIntro("Foundations", "Colors", "Fixed palette sources and theme-aware semantic roles for backgrounds, text, borders, actions, and operational feedback.")}
-    <section aria-labelledby="color-model"><div class="section-heading"><div><p class="eyebrow">Model</p><h2 id="color-model">Choose intent before value</h2></div></div>
-      <div class="principle-grid">
-        <article><h3>Palette</h3><p>Fixed source colors. Direct use is reserved for documented exceptions.</p></article>
-        <article><h3>Semantic</h3><p>Theme-aware roles for page, surface, text, accent, and borders.</p></article>
-        <article><h3>Product</h3><p>Opt-in status, input, selection, chart, and diff roles for operational UI.</p></article>
+    `${pageIntro("Foundations", "Colors", "Semantic color roles keep OpenClaw interfaces consistent across light and dark modes without coupling components to raw values.")}
+    <section aria-labelledby="color-usage"><div class="section-heading"><div><p class="eyebrow">Usage</p><h2 id="color-usage">Choose the role, not the shade</h2></div></div><p class="section-copy">Components should consume semantic variables. Palette variables are fixed sources reserved for mapping themes and documented exceptions.</p>${codeBlock(`.panel {\n  background: var(--oc-bg-surface);\n  color: var(--oc-text-primary);\n  border: 1px solid var(--oc-border-subtle);\n}\n\n.panel:hover {\n  background: var(--oc-surface-interactive-hover);\n}`)}</section>
+    <section aria-labelledby="color-surfaces"><div class="section-heading"><div><p class="eyebrow">Semantic roles</p><h2 id="color-surfaces">Surface hierarchy</h2></div></div><p class="section-copy">Move from the outer page toward elevated, interactive, and tinted surfaces. Each role resolves for the active theme.</p>
+      ${colorRoleTable([
+        ["--oc-bg-page", "Outermost application background."],
+        ["--oc-bg-surface", "Default section and component surface."],
+        ["--oc-bg-elevated", "Menus, dialogs, and raised controls."],
+        ["--oc-bg-recessed", "Inset regions within a containing surface."],
+        ["--oc-bg-contrast", "Inverted surfaces that require inverse content."],
+        ["--oc-surface-card", "Translucent grouped content."],
+        ["--oc-surface-card-strong", "Higher-contrast grouped content."],
+        ["--oc-surface-overlay", "Backdrop behind elevated content."],
+        ["--oc-surface-interactive", "Resting interactive surface."],
+        ["--oc-surface-interactive-hover", "Hover and pressed emphasis."],
+        ["--oc-control-bg", "Resting background shared by neutral controls."],
+        ["--oc-control-bg-hover", "Hover background shared by neutral controls."],
+        ["--oc-surface-accent-soft", "Restrained primary-accent fill."],
+        ["--oc-surface-secondary-soft", "Restrained secondary-accent fill."],
+      ])}
+    </section>
+    <section aria-labelledby="color-text-accent"><div class="section-heading"><div><p class="eyebrow">Content</p><h2 id="color-text-accent">Text and accent hierarchy</h2></div></div>
+      <div class="color-role-group"><h3>Text</h3>${colorRoleTable([
+        ["--oc-text-primary", "Headings, important labels, and primary content."],
+        ["--oc-text-secondary", "Body copy and supporting content."],
+        ["--oc-text-muted", "Metadata and captions."],
+        ["--oc-text-inactive", "Unavailable and disabled content."],
+        ["--oc-text-inverse", "Content placed on a contrast background."],
+        ["--oc-text-link", "Navigational text within prose and data."],
+        ["--oc-text-on-accent", "Content placed on a primary accent fill."],
+      ])}</div>
+      <div class="color-role-group"><h3>Accent</h3>${colorRoleTable([
+        ["--oc-accent-primary", "Primary actions and selected emphasis."],
+        ["--oc-accent-primary-hover", "Hover state for primary emphasis."],
+        ["--oc-accent-primary-deep", "Strong primary contrast and pressed states."],
+        ["--oc-accent-secondary", "Secondary emphasis and supporting signals."],
+        ["--oc-accent-secondary-deep", "Strong secondary contrast."],
+      ])}</div>
+    </section>
+    <section aria-labelledby="color-feedback"><div class="section-heading"><div><p class="eyebrow">Feedback</p><h2 id="color-feedback">Borders, focus, and selection</h2></div></div>
+      ${colorRoleTable([
+        ["--oc-border-subtle", "Quiet separation between adjacent surfaces."],
+        ["--oc-border-strong", "Neutral boundaries that need clear definition."],
+        ["--oc-border-accent", "Emphasized edge tied to the primary accent."],
+        ["--oc-focus-ring", "Visible keyboard focus outside form fields."],
+        ["--oc-selection-bg", "Selected text and content ranges."],
+        ["--oc-chart-line", "Low-emphasis chart guides and reference lines."],
+      ])}
+    </section>
+    <section aria-labelledby="color-status"><div class="section-heading"><div><p class="eyebrow">Operational states</p><h2 id="color-status">Status colors work in pairs</h2></div></div><p class="section-copy">Use the background and foreground roles together. Preserve text or icon meaning so state never depends on color alone.</p>
+      <div class="color-status-grid">
+        ${colorStatusCard("Success", "--oc-status-success-bg", "--oc-status-success-fg", "Completed and healthy states.")}
+        ${colorStatusCard("Warning", "--oc-status-warning-bg", "--oc-status-warning-fg", "Attention without immediate failure.")}
+        ${colorStatusCard("Error", "--oc-status-error-bg", "--oc-status-error-fg", "Failures and destructive consequences.")}
+        ${colorStatusCard("Information", "--oc-status-info-bg", "--oc-status-info-fg", "Neutral operational context.")}
       </div>
     </section>
-    <section aria-labelledby="color-product-boundary"><div class="section-heading"><div><p class="eyebrow">Ownership</p><h2 id="color-product-boundary">Product roles are opt-in</h2></div></div><p class="section-copy">Status, input, and diff variables come from the product theme. They extend the semantic foundation for operational interfaces without creating a second color system.</p></section>
+    <section aria-labelledby="color-product-boundary"><div class="section-heading"><div><p class="eyebrow">Product theme</p><h2 id="color-product-boundary">Inputs and diffs are opt-in</h2></div></div><p class="section-copy">These roles extend the semantic foundation for operational interfaces. They ship in the product theme so consumers can adopt them deliberately.</p>
+      <div class="color-role-group"><h3>Inputs</h3>${colorRoleTable([
+        ["--oc-input-bg", "Field and control background."],
+        ["--oc-input-border", "Resting field boundary."],
+        ["--oc-input-placeholder", "Placeholder and hint content."],
+        ["--oc-input-focus-border", "Focused field boundary."],
+        ["--oc-input-focus-ring", "Focused field halo."],
+      ])}</div>
+      <div class="color-role-group"><h3>Diffs</h3>${colorRoleTable([
+        ["--oc-diff-added", "Added content."],
+        ["--oc-diff-added-strong", "Strong added-content emphasis."],
+        ["--oc-diff-removed", "Removed content."],
+        ["--oc-diff-removed-strong", "Strong removed-content emphasis."],
+      ])}</div>
+    </section>
     ${tokenSection("palette,background,accent,text,border,surface,feedback,status,input,diff")}`,
 
   "foundation-typography": () =>
