@@ -3428,6 +3428,18 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   font-size: 18px;
 }
 
+.component-workbench-frame > .specimen-frame > .oc-grid {
+  width: min(100%, 44rem);
+}
+
+.component-workbench-frame > .specimen-frame > .oc-grid > .oc-grid-item {
+  display: grid;
+  min-height: 8rem;
+  place-items: center;
+  padding: var(--oc-space-4);
+  text-align: center;
+}
+
 .primitive-row {
   display: flex;
   flex-wrap: wrap;
