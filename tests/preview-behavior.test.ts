@@ -29,6 +29,7 @@ import { setCurrentSidebarLink } from "../preview/sidebar.js";
 import { setCurrentTableOfContentsLink } from "../preview/table-of-contents.js";
 import { bindSensitiveInputs } from "../preview/sensitive-input.js";
 import { setWorkbenchViewport } from "../preview/component-workbench.js";
+import { actionWorkbenchMarkup } from "../preview/component-workbench-config.js";
 
 function keyboardEvent(key) {
   const event = new Event("keydown", { cancelable: true });
@@ -60,6 +61,15 @@ describe("preview behavior", () => {
     ]);
     expect(setWorkbenchViewport(workbench, "wide")).toBe(false);
     expect(canvas.dataset.viewport).toBe("mobile");
+  });
+
+  test("keeps action specimen markup aligned with the selected public variant", () => {
+    expect(actionWorkbenchMarkup({ variant: "secondary" })).toBe(
+      '<button class="oc-action oc-action-secondary" type="button">\n  Secondary\n</button>',
+    );
+    expect(actionWorkbenchMarkup({ variant: "icon" })).toBe(
+      '<button class="oc-action oc-action-icon" type="button" aria-label="Add item">\n  +\n</button>',
+    );
   });
 
   test("moves table-of-contents location to the selected section", () => {

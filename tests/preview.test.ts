@@ -5,6 +5,10 @@ import {
   isComponentWorkbenchPage,
   workbenchViewportModes,
 } from "../preview/component-workbench.js";
+import {
+  getWorkbenchDefinition,
+  normalizeWorkbenchState,
+} from "../preview/component-workbench-config.js";
 import { icon } from "../preview/icons.js";
 import {
   getAdjacentReferencePages,
@@ -39,6 +43,27 @@ describe("preview contracts", () => {
     expect(isComponentWorkbenchPage("foundation-colors")).toBe(false);
     expect(isComponentWorkbenchPage("chart-base")).toBe(false);
     expect(isComponentWorkbenchPage("interface")).toBe(false);
+  });
+
+  test("publishes only real action variants through the workbench schema", () => {
+    const definition = getWorkbenchDefinition("primitive-action");
+
+    expect(definition?.controls[0]).toMatchObject({
+      id: "variant",
+      type: "choice",
+      options: [
+        { label: "Primary", value: "primary" },
+        { label: "Secondary", value: "secondary" },
+        { label: "Ghost", value: "ghost" },
+        { label: "Icon", value: "icon" },
+      ],
+    });
+    expect(normalizeWorkbenchState(definition, { variant: "secondary" })).toEqual({
+      variant: "secondary",
+    });
+    expect(normalizeWorkbenchState(definition, { variant: "loading" })).toEqual({
+      variant: "primary",
+    });
   });
 
   test("loads canonical styles through valid CSS", async () => {

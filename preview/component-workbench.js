@@ -1,4 +1,8 @@
 import { getReferencePage } from "./navigation.js";
+import {
+  getWorkbenchDefinition,
+  normalizeWorkbenchState,
+} from "./component-workbench-config.js";
 
 const workbenchAreaIds = new Set(["interface", "agent-components"]);
 
@@ -65,6 +69,59 @@ function createViewportSwitcher() {
   }
 
   return group;
+}
+
+function createChoiceControl(pageId, control, state, update) {
+  const fieldset = createElement("fieldset", "component-workbench-control");
+  const legend = createElement("legend", "component-workbench-control-label");
+  legend.textContent = control.label;
+  fieldset.append(legend);
+
+  const options = createElement("div", "component-workbench-choice-list");
+  for (const option of control.options) {
+    const label = createElement("label", "component-workbench-choice");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = `${pageId}-${control.id}`;
+    input.value = option.value;
+    input.checked = state[control.id] === option.value;
+    input.addEventListener("change", () => {
+      if (input.checked) update(control.id, input.value);
+    });
+    const text = document.createElement("span");
+    text.textContent = option.label;
+    label.append(input, text);
+    options.append(label);
+  }
+  fieldset.append(options);
+  return fieldset;
+}
+
+function mountWorkbenchDefinition(workbench, pageId) {
+  const definition = getWorkbenchDefinition(pageId);
+  if (!definition) return false;
+  const specimen = workbench.querySelector(".specimen-frame");
+  const controls = workbench.querySelector("[data-workbench-controls]");
+  const code = workbench.querySelector(".component-workbench-dock-panel code");
+  if (!specimen || !controls || !code) return false;
+
+  const state = normalizeWorkbenchState(definition);
+  const apply = () => {
+    definition.render(specimen, state);
+    code.textContent = definition.markup(state);
+  };
+  const update = (id, value) => {
+    state[id] = value;
+    apply();
+  };
+
+  for (const control of definition.controls) {
+    if (control.type === "choice") {
+      controls.append(createChoiceControl(pageId, control, state, update));
+    }
+  }
+  apply();
+  return true;
 }
 
 function createDock(markupSection, guidanceSection, pageId) {
@@ -187,6 +244,7 @@ export function renderComponentWorkbench(mount, pageId) {
   inspector.append(controls);
 
   workbench.append(header, stage, inspector, createDock(markupSection, guidanceSection, pageId));
+  mountWorkbenchDefinition(workbench, pageId);
   mount.replaceChildren(workbench);
   mount.dataset.componentWorkbenchRoot = "";
   document.body.dataset.referenceLayout = "workbench";
