@@ -95,15 +95,15 @@
 
 .oc-checkbox::before {
   position: absolute;
-  top: 0.16rem;
-  left: 0.2rem;
-  width: 0.48rem;
+  top: 50%;
+  left: 50%;
+  width: 0.46rem;
   height: 0.24rem;
   border-bottom: 2px solid var(--oc-text-on-accent);
   border-left: 2px solid var(--oc-text-on-accent);
   content: "";
   opacity: 0;
-  transform: rotate(-45deg);
+  transform: translate(-50%, -62%) rotate(-45deg);
 }
 
 .oc-checkbox:hover:not(:disabled) {
