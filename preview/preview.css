@@ -3359,6 +3359,10 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   justify-content: center;
 }
 
+.primitive-button-list > .oc-button {
+  width: 100%;
+}
+
 .agent-specimen {
   display: grid;
   min-height: clamp(22rem, 48vw, 34rem);
