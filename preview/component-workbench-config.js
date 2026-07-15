@@ -7,6 +7,14 @@ const actionVariants = [
   { label: "Icon", value: "icon" },
 ];
 
+const bannerTones = [
+  { label: "Default", value: "default" },
+  { label: "Success", value: "success" },
+  { label: "Warning", value: "warning" },
+  { label: "Error", value: "error" },
+  { label: "Information", value: "info" },
+];
+
 const selectOptions = [
   { label: "Balanced", value: "balanced" },
   { label: "Fast", value: "fast" },
@@ -142,6 +150,45 @@ export function actionWorkbenchMarkup({ variant = "primary" } = {}) {
     ? "Primary action"
     : `${variant.slice(0, 1).toUpperCase()}${variant.slice(1)}`;
   return `<button class="oc-action oc-action-${variant}" type="button">\n  ${label}\n</button>`;
+}
+
+export function bannerWorkbenchMarkup({ tone = "warning", action = true } = {}) {
+  const content = {
+    default: {
+      title: "Notice",
+      message: "Review the context before continuing.",
+    },
+    success: {
+      title: "Changes saved",
+      message: "The latest contract is ready to use.",
+    },
+    warning: {
+      title: "Update available",
+      message: "Review the changes before applying the new contract.",
+    },
+    error: {
+      title: "Update failed",
+      message: "Resolve the reported issues before trying again.",
+    },
+    info: {
+      title: "Reference available",
+      message: "A new component reference is ready to review.",
+    },
+  };
+  const selectedTone = bannerTones.some(({ value }) => value === tone) ? tone : "warning";
+  const modifier = selectedTone === "default" ? "" : ` oc-banner-${selectedTone}`;
+  const selected = content[selectedTone];
+  const adjacentAction = action
+    ? '\n  <button class="oc-action oc-action-secondary" type="button">Review</button>'
+    : "";
+
+  return `<div class="oc-banner${modifier}" role="status">
+  <span class="oc-banner-indicator" aria-hidden="true"></span>
+  <div class="oc-banner-content">
+    <strong class="oc-banner-title">${selected.title}</strong>
+    <p>${selected.message}</p>
+  </div>${adjacentAction}
+</div>`;
 }
 
 export function selectWorkbenchMarkup({ value = "balanced", disabled = false } = {}) {
@@ -802,6 +849,26 @@ const definitions = {
     markup: actionWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = `<div class="primitive-row">${actionWorkbenchMarkup(state)}</div>`;
+    },
+  },
+  "primitive-banner": {
+    defaults: { tone: "warning", action: true },
+    controls: [
+      {
+        id: "tone",
+        label: "Tone",
+        type: "choice",
+        options: bannerTones,
+      },
+      {
+        id: "action",
+        label: "Action",
+        type: "toggle",
+      },
+    ],
+    markup: bannerWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = bannerWorkbenchMarkup(state);
     },
   },
   "primitive-select": {

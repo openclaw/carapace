@@ -81,6 +81,33 @@ describe("preview contracts", () => {
     });
   });
 
+  test("models Banner tones and its optional adjacent action", () => {
+    const definition = getWorkbenchDefinition("primitive-banner");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "tone",
+        type: "choice",
+        options: [
+          { label: "Default", value: "default" },
+          { label: "Success", value: "success" },
+          { label: "Warning", value: "warning" },
+          { label: "Error", value: "error" },
+          { label: "Information", value: "info" },
+        ],
+      },
+      { id: "action", type: "toggle" },
+    ]);
+    expect(normalizeWorkbenchState(definition, { tone: "success", action: false })).toEqual({
+      tone: "success",
+      action: false,
+    });
+    expect(normalizeWorkbenchState(definition, { tone: "unknown", action: "yes" })).toEqual({
+      tone: "warning",
+      action: true,
+    });
+  });
+
   test("models native Select values and disabled state without synthetic variants", () => {
     const definition = getWorkbenchDefinition("primitive-select");
 

@@ -37,6 +37,7 @@ import {
   agentChatWorkbenchMarkup,
   attachmentButtonWorkbenchMarkup,
   autocompleteWorkbenchMarkup,
+  bannerWorkbenchMarkup,
   composerWorkbenchMarkup,
   errorMessageWorkbenchMarkup,
   fileAttachmentWorkbenchMarkup,
@@ -119,6 +120,31 @@ describe("preview behavior", () => {
     expect(actionWorkbenchMarkup({ variant: "icon" })).toBe(
       '<button class="oc-action oc-action-icon" type="button" aria-label="Add item">\n  +\n</button>',
     );
+  });
+
+  test("renders Banner tones without relying on color alone", () => {
+    const neutral = bannerWorkbenchMarkup({ tone: "default", action: false });
+    const success = bannerWorkbenchMarkup({ tone: "success", action: true });
+    const warning = bannerWorkbenchMarkup({ tone: "warning", action: true });
+    const error = bannerWorkbenchMarkup({ tone: "error", action: false });
+    const info = bannerWorkbenchMarkup({ tone: "info", action: false });
+
+    expect(neutral).toContain('class="oc-banner"');
+    expect(neutral).not.toContain("oc-banner-default");
+    expect(neutral).not.toContain("<button");
+    expect(success).toContain('class="oc-banner oc-banner-success"');
+    expect(success).toContain("Changes saved");
+    expect(warning).toContain('class="oc-banner oc-banner-warning"');
+    expect(warning).toContain("Update available");
+    expect(error).toContain('class="oc-banner oc-banner-error"');
+    expect(error).toContain("Update failed");
+    expect(info).toContain('class="oc-banner oc-banner-info"');
+    expect(info).toContain("Reference available");
+    for (const markup of [neutral, success, warning, error, info]) {
+      expect(markup).toContain('role="status"');
+      expect(markup).toContain('class="oc-banner-indicator" aria-hidden="true"');
+    }
+    expect(success).toContain('<button class="oc-action oc-action-secondary" type="button">Review</button>');
   });
 
   test("serializes the selected native option and disabled state", () => {
