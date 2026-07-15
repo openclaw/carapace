@@ -2658,6 +2658,13 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
   max-width: 100%;
 }
 
+.component-workbench-frame > .specimen-frame > :is(
+    .oc-agent-attachment-list,
+    .oc-agent-suggestions
+  ) {
+  justify-content: center;
+}
+
 .component-workbench-canvas-tools {
   position: absolute;
   right: 20px;
