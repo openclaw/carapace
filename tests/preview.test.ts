@@ -70,6 +70,12 @@ describe("preview contracts", () => {
     );
   });
 
+  test("provides a surface role for the Layer Card specimen", () => {
+    expect(getReferenceContent("primitive-layer-card")).toContain(
+      'class="specimen-frame oc-app-surface"',
+    );
+  });
+
   test("publishes only real action variants through the workbench schema", () => {
     const definition = getWorkbenchDefinition("primitive-action");
 
