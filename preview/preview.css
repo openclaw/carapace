@@ -3440,6 +3440,27 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   text-align: center;
 }
 
+.component-workbench-canvas[data-viewport="desktop"]
+  .component-workbench-frame
+  > .specimen-frame
+  > .oc-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.component-workbench-canvas[data-viewport="tablet"]
+  .component-workbench-frame
+  > .specimen-frame
+  > .oc-grid-3 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.component-workbench-canvas[data-viewport="mobile"]
+  .component-workbench-frame
+  > .specimen-frame
+  > .oc-grid-3 {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .component-workbench-frame > .specimen-frame > .oc-layer-card {
   width: min(100%, 32rem);
 }

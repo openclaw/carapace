@@ -70,6 +70,20 @@ describe("preview contracts", () => {
     );
   });
 
+  test("adapts the Grid specimen to workbench viewport controls", async () => {
+    const css = await readFile("preview/preview.css", "utf8");
+
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="desktop"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-3 {\n  grid-template-columns: repeat(3, minmax(0, 1fr));',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="tablet"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-3 {\n  grid-template-columns: repeat(2, minmax(0, 1fr));',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-3 {\n  grid-template-columns: minmax(0, 1fr);',
+    );
+  });
+
   test("provides a surface role for the Layer Card specimen", () => {
     expect(getReferenceContent("primitive-layer-card")).toContain(
       'class="specimen-frame oc-app-surface"',
