@@ -249,6 +249,10 @@ describe("CSS contract", () => {
       expect(ruleDeclarations(feedback, selector)).toContain("box-sizing: border-box");
     }
 
+    expect(ruleDeclarations(feedback, ".oc-empty-description")).toContain(
+      "text-wrap: pretty",
+    );
+
     for (const selector of [".oc-table-wrap", ".oc-table", ".oc-resource-list"]) {
       expect(ruleDeclarations(data, selector)).toContain("box-sizing: border-box");
     }

@@ -160,6 +160,7 @@
   font-size: var(--oc-font-size-sm);
   line-height: 1.5;
   overflow-wrap: anywhere;
+  text-wrap: pretty;
 }
 
 .oc-empty-actions {
