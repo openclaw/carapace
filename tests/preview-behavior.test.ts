@@ -48,6 +48,7 @@ import {
   sendButtonWorkbenchMarkup,
   spiralLoaderWorkbenchMarkup,
   suggestionsWorkbenchMarkup,
+  textShimmerWorkbenchMarkup,
   toolWorkbenchMarkup,
   todoToolWorkbenchMarkup,
   planToolWorkbenchMarkup,
@@ -184,6 +185,25 @@ describe("preview behavior", () => {
 
     expect(markup).toContain('style="width: 32px; height: 32px"');
     expect(markup).toContain('<span class="sr-only">Working</span>');
+  });
+
+  test("renders distinct Text Shimmer timing examples", () => {
+    const inline = textShimmerWorkbenchMarkup({ example: "inline" });
+    const delayed = textShimmerWorkbenchMarkup({ example: "delayed" });
+    const fast = textShimmerWorkbenchMarkup({ example: "fast" });
+
+    expect(inline).toContain("Syncing metadata");
+    expect(inline).toContain("animation-duration: 1.4s");
+    expect(inline).not.toContain("animation-delay");
+    expect(delayed).toContain("Calculating risk score");
+    expect(delayed).toContain("animation-duration: 2.2s; animation-delay: 0.6s");
+    expect(fast).toContain("Rapid sync");
+    expect(fast).toContain("animation-duration: 0.9s");
+    expect(fast).not.toContain("animation-delay");
+    for (const markup of [inline, delayed, fast]) {
+      expect(markup).toContain('class="oc-agent-text-shimmer"');
+      expect(markup).toContain('role="status" aria-live="polite"');
+    }
   });
 
   test("renders exact input-family variants from the reference contract", () => {

@@ -221,6 +221,26 @@ describe("preview contracts", () => {
     });
   });
 
+  test("models documented Text Shimmer examples", () => {
+    const definition = getWorkbenchDefinition("text-shimmer");
+
+    expect(definition?.controls[0]).toMatchObject({
+      id: "example",
+      type: "choice",
+      options: [
+        { label: "Inline status", value: "inline" },
+        { label: "Delayed shimmer", value: "delayed" },
+        { label: "Fast shimmer", value: "fast" },
+      ],
+    });
+    expect(normalizeWorkbenchState(definition, { example: "fast" })).toEqual({
+      example: "fast",
+    });
+    expect(normalizeWorkbenchState(definition, { example: "unknown" })).toEqual({
+      example: "inline",
+    });
+  });
+
   test("models Agent tool lifecycle without synthetic states", () => {
     for (const pageId of [
       "bash-tool",

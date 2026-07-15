@@ -106,6 +106,12 @@ const spiralLoaderSizes = [
   { label: "Large", value: "32" },
 ];
 
+const textShimmerExamples = [
+  { label: "Inline status", value: "inline" },
+  { label: "Delayed shimmer", value: "delayed" },
+  { label: "Fast shimmer", value: "fast" },
+];
+
 function escapeHtml(value = "") {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -452,6 +458,18 @@ export function spiralLoaderWorkbenchMarkup({ size = "24" } = {}) {
 </span>`;
 }
 
+export function textShimmerWorkbenchMarkup({ example = "inline" } = {}) {
+  const examples = {
+    inline: { text: "Syncing metadata", duration: "1.4s" },
+    delayed: { text: "Calculating risk score", duration: "2.2s", delay: "0.6s" },
+    fast: { text: "Rapid sync", duration: "0.9s" },
+  };
+  const selected = examples[example] ?? examples.inline;
+  const delay = selected.delay ? `; animation-delay: ${selected.delay}` : "";
+
+  return `<span class="oc-agent-text-shimmer" role="status" aria-live="polite" style="animation-duration: ${selected.duration}${delay}">${selected.text}</span>`;
+}
+
 export function agentChatWorkbenchMarkup({
   example = "basic",
   status = "ready",
@@ -621,6 +639,21 @@ const definitions = {
     markup: spiralLoaderWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = spiralLoaderWorkbenchMarkup(state);
+    },
+  },
+  "text-shimmer": {
+    defaults: { example: "inline" },
+    controls: [
+      {
+        id: "example",
+        label: "Example",
+        type: "choice",
+        options: textShimmerExamples,
+      },
+    ],
+    markup: textShimmerWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = textShimmerWorkbenchMarkup(state);
     },
   },
   "bash-tool": createToolWorkbenchDefinition("bash"),
