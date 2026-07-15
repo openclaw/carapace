@@ -687,13 +687,13 @@
 }
 
 .oc-command-palette {
-  width: min(32rem, calc(100vw - 2rem));
+  width: min(30rem, calc(100vw - 2rem));
   max-height: min(36rem, calc(100dvh - 2rem));
   overflow: hidden;
   padding: 0;
   border: 1px solid var(--oc-border-subtle);
   border-radius: var(--oc-radius-surface);
-  background: var(--oc-surface-overlay);
+  background: var(--oc-bg-elevated);
   color: var(--oc-text-primary);
   box-shadow: var(--oc-shadow-lg);
 }
@@ -705,16 +705,19 @@
 
 .oc-command-palette-search {
   display: flex;
-  min-height: 3rem;
+  min-height: 2.75rem;
   align-items: center;
   gap: var(--oc-space-2);
-  padding: 0 var(--oc-space-3);
-  border-bottom: 1px solid var(--oc-border-subtle);
+  padding: 0 var(--oc-space-2) 0 var(--oc-space-3);
+  border: 1px solid var(--oc-input-border);
+  border-radius: var(--oc-radius-control);
+  margin: var(--oc-space-2);
+  background: var(--oc-input-bg);
 }
 
 .oc-command-palette-search:focus-within {
-  border-bottom-color: var(--oc-input-focus-border);
-  box-shadow: inset 0 -1px 0 var(--oc-input-focus-border);
+  border-color: var(--oc-input-focus-border);
+  box-shadow: 0 0 0 2px var(--oc-input-focus-ring);
 }
 
 .oc-command-palette-search-icon {
@@ -755,7 +758,7 @@
   display: grid;
   max-height: 24rem;
   overflow: auto;
-  gap: 1px;
+  gap: var(--oc-space-1);
   margin: 0;
   padding: 0 var(--oc-space-2) var(--oc-space-2);
   list-style: none;
@@ -763,7 +766,7 @@
 
 .oc-command-palette-group-label {
   margin: 0;
-  padding: var(--oc-space-3) var(--oc-space-3) var(--oc-space-1);
+  padding: var(--oc-space-2) var(--oc-space-3) var(--oc-space-1);
   color: var(--oc-text-muted);
   font-family: var(--oc-font-mono);
   font-size: var(--oc-font-size-xs);
@@ -786,21 +789,17 @@
 
 .oc-command-palette-empty {
   margin: 0;
-  padding: var(--oc-space-2) var(--oc-space-4);
+  padding-block: var(--oc-space-6);
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);
   line-height: 1.5;
-}
-
-.oc-command-palette-empty {
-  padding-block: var(--oc-space-6);
   text-align: center;
 }
 
 .oc-command-palette-item {
   display: flex;
   width: 100%;
-  min-height: 2.5rem;
+  min-height: 2.75rem;
   align-items: center;
   justify-content: space-between;
   gap: var(--oc-space-3);
@@ -825,7 +824,7 @@
 
 .oc-command-palette-item kbd,
 .oc-command-palette-search kbd {
-  min-width: 1.75rem;
+  min-width: 1.625rem;
   padding: var(--oc-space-1) var(--oc-space-2);
   border: 1px solid var(--oc-border-subtle);
   border-radius: var(--oc-radius-inset);
