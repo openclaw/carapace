@@ -1004,6 +1004,7 @@ const definitions = {
       bindCombobox(specimen);
       specimen.querySelector("input")?.addEventListener("change", (event) => {
         update("value", event.currentTarget.value);
+        specimen.querySelector("input")?.focus();
       });
     },
   },

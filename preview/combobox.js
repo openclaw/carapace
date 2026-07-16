@@ -57,6 +57,7 @@ export function bindCombobox(root = document) {
       const query = input.value.trim().toLowerCase();
       for (const option of options) {
         option.hidden = query !== "" && !option.textContent.toLowerCase().includes(query);
+        option.setAttribute("aria-selected", "false");
       }
       clearActive();
       const visible = visibleOptions();

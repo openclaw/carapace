@@ -508,8 +508,13 @@ describe("preview behavior", () => {
     expect(end.defaultPrevented).toBe(false);
     expect(input.getAttribute("aria-activedescendant")).toBe("option-card");
 
+    input.dispatchEvent(keyboardEvent("Enter"));
+    expect(input.value).toBe("Card");
+    expect(options[2].getAttribute("aria-selected")).toBe("true");
+
     input.value = "missing";
     input.dispatchEvent(new Event("input"));
+    expect(options.every(({ attributes }) => attributes.get("aria-selected") === "false")).toBe(true);
     input.dispatchEvent(keyboardEvent("Enter"));
     expect(input.value).toBe("missing");
     expect(options.every(({ attributes }) => attributes.get("aria-selected") !== "true")).toBe(true);

@@ -409,6 +409,25 @@ describe("preview contracts", () => {
     });
   });
 
+  test("restores Autocomplete focus after a selected value rerenders the specimen", () => {
+    const definition = getWorkbenchDefinition("primitive-autocomplete");
+    const initialInput = Object.assign(new EventTarget(), { value: "Card" });
+    const replacementInput = { focused: false, focus() { this.focused = true; } };
+    let currentInput = initialInput;
+    const specimen = {
+      querySelectorAll: () => [],
+      querySelector: (selector) => selector === "input" ? currentInput : null,
+    };
+
+    definition?.bind?.(specimen, {}, (id, value) => {
+      expect([id, value]).toEqual(["value", "Card"]);
+      currentInput = replacementInput;
+    });
+    initialInput.dispatchEvent(new Event("change"));
+
+    expect(replacementInput.focused).toBe(true);
+  });
+
   test("models only observable Toast demo states", () => {
     const definition = getWorkbenchDefinition("primitive-toast");
 
