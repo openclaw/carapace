@@ -26,15 +26,28 @@ describe("preview route build", () => {
     expect(indexes.map((path) => relative("preview", path))).toEqual(["index.html"]);
   });
 
+  test("keeps route bootstrap scripts outside replaceable body content", async () => {
+    const source = await readFile("preview/index.html", "utf8");
+    const headEnd = source.indexOf("</head>");
+    const bodyStart = source.indexOf("<body");
+
+    expect(headEnd).toBeGreaterThan(-1);
+    expect(bodyStart).toBeGreaterThan(headEnd);
+    expect(source.slice(0, headEnd)).toContain(
+      '<script type="module" src="./preview.js"></script>',
+    );
+    expect(source.slice(bodyStart)).not.toContain("<script");
+  });
+
   test("derives route roots from manifest depth", () => {
     expect(getRouteRoot("")).toBe("./");
     expect(getRouteRoot("foundations/")).toBe("../");
     expect(getRouteRoot("interface/primitives/button/")).toBe("../../../");
   });
 
-  test("rewrites a neutral bootstrap document for a deep link", () => {
-    const html = createRouteHtml(
-      '<title>Carapace</title><link href="./assets/app.css"><body data-preview-route="overview" data-preview-page="overview" data-preview-root="./"><main class="home-component-grid">Home</main><script type="module" src="./assets/app.js"></script></body>',
+  test("rewrites a neutral bootstrap document for a deep link", async () => {
+    const html = await createRouteHtml(
+      '<title>Carapace</title><link href="./assets/app.css"><script type="module" src="./assets/app.js"></script><body data-preview-route="overview" data-preview-page="overview" data-preview-root="./"><main class="home-component-grid">Home</main></body>',
       {
         id: "primitive-button",
         label: "Button",
@@ -54,8 +67,8 @@ describe("preview route build", () => {
     expect(html).not.toContain(">Home</main>");
   });
 
-  test("uses area names for overview document titles", () => {
-    const source = '<title>Carapace</title><body data-preview-route="overview" data-preview-page="overview" data-preview-root="./"><script type="module" src="./app.js"></script></body>';
+  test("uses area names for overview document titles", async () => {
+    const source = '<title>Carapace</title><script type="module" src="./app.js"></script><body data-preview-route="overview" data-preview-page="overview" data-preview-root="./"></body>';
 
     for (const [id, title] of [
       ["foundations", "Foundations · Carapace"],
@@ -65,15 +78,15 @@ describe("preview route build", () => {
     ]) {
       const route = previewRoutes.find((entry) => entry.id === id);
       expect(route).toBeDefined();
-      expect(createRouteHtml(source, route!)).toContain(`<title>${title}</title>`);
+      expect(await createRouteHtml(source, route!)).toContain(`<title>${title}</title>`);
     }
   });
 
-  test("emits one deep-link stub for every non-root manifest route", () => {
+  test("emits one deep-link stub for every non-root manifest route", async () => {
     const emitted: Array<{ fileName: string; source: string }> = [];
     const plugin = createPreviewRouteStubsPlugin();
 
-    plugin.generateBundle.call(
+    await plugin.generateBundle.call(
       {
         emitFile(asset) {
           emitted.push(asset);
@@ -88,7 +101,7 @@ describe("preview route build", () => {
           type: "asset",
           fileName: "index.html",
           source:
-            '<title>Carapace</title><body data-preview-route="overview" data-preview-page="overview" data-preview-root="./"><script src="./assets/app.js"></script></body>',
+            '<title>Carapace</title><script src="./assets/app.js"></script><body data-preview-route="overview" data-preview-page="overview" data-preview-root="./"></body>',
         },
       },
     );
