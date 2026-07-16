@@ -3043,12 +3043,12 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
 
 .component-workbench-dock-panel .code-block pre {
   padding: 24px 24px 40px;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
-  overflow-wrap: normal;
+  overflow-wrap: anywhere;
   line-height: 1.6;
   tab-size: 2;
-  white-space: pre;
+  white-space: pre-wrap;
 }
 
 .component-workbench-dock-panel .code-block pre:focus-visible {
@@ -3148,7 +3148,7 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
 
 .component-workbench-code-readable code {
   display: block;
-  min-width: max-content;
+  min-width: 0;
 }
 
 .component-workbench-dock-panel .component-workbench-code-readable {

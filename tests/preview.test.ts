@@ -115,16 +115,21 @@ describe("preview contracts", () => {
     expect(css).not.toContain("--oc-focus-ring: rgb(20 128 110 / 0.58);");
   });
 
-  test("keeps workbench code readable without nested vertical scrolling", async () => {
+  test("wraps complete workbench code without nested scrolling", async () => {
     const css = await readFile("preview/preview.css", "utf8");
     const source = await readFile("preview/component-workbench.js", "utf8");
+    const preRule =
+      css.match(/\.component-workbench-dock-panel \.code-block pre \{([^}]*)\}/)?.[1] ?? "";
+    const codeRule =
+      css.match(/\.component-workbench-code-readable code \{([^}]*)\}/)?.[1] ?? "";
 
-    expect(css).toContain("overflow-wrap: normal;");
-    expect(css).toContain("white-space: pre;");
-    expect(css).toContain("overflow-y: hidden;");
-    expect(css).not.toContain(
-      ".component-workbench-dock-panel .code-block pre {\n  max-height:",
-    );
+    expect(preRule).toContain("overflow-x: hidden;");
+    expect(preRule).toContain("overflow-y: hidden;");
+    expect(preRule).toContain("overflow-wrap: anywhere;");
+    expect(preRule).toContain("white-space: pre-wrap;");
+    expect(preRule).not.toContain("max-height:");
+    expect(codeRule).toContain("min-width: 0;");
+    expect(codeRule).not.toContain("min-width: max-content;");
     expect(source).toContain('copy.textContent = "Copy code"');
     expect(source).toContain('status.setAttribute("aria-live", "polite")');
     expect(source).toContain("dock.dataset.tabsKey");
