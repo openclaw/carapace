@@ -2,6 +2,7 @@ import { exampleDialogAttribute } from "./interaction.js";
 import { agentReferenceContentIds, getAgentReferenceContent } from "./agent-components.js";
 import {
   avatarWorkbenchExamples,
+  buttonWorkbenchExamples,
   formatComponentWorkbenchCode,
 } from "./component-reference.js";
 import { renderComponentWorkbench } from "./component-workbench.js";
@@ -308,7 +309,7 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="button-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="button-preview">Action hierarchy</h2></div><span class="oc-pill">.oc-button</span></div>
       <div class="specimen-frame"><div class="primitive-variant-list primitive-button-list"><button class="oc-button oc-button-primary" type="button">Save changes</button><button class="oc-button oc-button-secondary" type="button">Preview</button><button class="oc-button oc-button-ghost" type="button">Cancel</button><button class="oc-button oc-button-secondary" type="button" disabled>Unavailable</button></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="button-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="button-markup">Use the native element</h2></div></div>${codeBlock(`<button class="oc-button oc-button-primary" type="button">\n  Save changes\n</button>`, "html")}</section>
+    <section data-section-kind="markup" aria-labelledby="button-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="button-markup">Use the native element</h2></div></div>${codeBlock(formatComponentWorkbenchCode(buttonWorkbenchExamples), "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="button-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="button-guidance">One hierarchy per action set</h2></div></div>${guidanceList(["Use Button for in-place actions and links for navigation.", "Keep one primary action in a local decision group.", "Prefer disabled only when the reason is visible or immediately inferable."])}</section>`,
 
   "primitive-clipboard-text": () =>

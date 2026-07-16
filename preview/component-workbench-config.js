@@ -1,5 +1,6 @@
 import { agentIcon } from "./agent-components.js";
 import { bindCombobox } from "./combobox.js";
+import { buttonWorkbenchExamples } from "./component-reference.js";
 
 export const WORKBENCH_ALL_VALUE = "__all__";
 
@@ -9,6 +10,8 @@ const actionVariants = [
   { label: "Ghost", value: "ghost" },
   { label: "Icon", value: "icon" },
 ];
+
+const buttonVariants = buttonWorkbenchExamples.map(({ label, id: value }) => ({ label, value }));
 
 const bannerTones = [
   { label: "Default", value: "default" },
@@ -153,6 +156,12 @@ export function actionWorkbenchMarkup({ variant = "primary" } = {}) {
     ? "Primary action"
     : `${variant.slice(0, 1).toUpperCase()}${variant.slice(1)}`;
   return `<button class="oc-action oc-action-${variant}" type="button">\n  ${label}\n</button>`;
+}
+
+export function buttonWorkbenchMarkup({ variant = "primary" } = {}) {
+  const example = buttonWorkbenchExamples.find(({ id }) => id === variant)
+    ?? buttonWorkbenchExamples[0];
+  return example.markup;
 }
 
 export function bannerWorkbenchMarkup({ tone = "warning", action = true } = {}) {
@@ -894,6 +903,22 @@ const definitions = {
     markup: actionWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = `<div class="primitive-row">${actionWorkbenchMarkup(state)}</div>`;
+    },
+  },
+  "primitive-button": {
+    defaults: { variant: WORKBENCH_ALL_VALUE },
+    controls: [
+      {
+        id: "variant",
+        label: "Variant",
+        type: "choice",
+        compare: "rows",
+        options: buttonVariants,
+      },
+    ],
+    markup: buttonWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = `<div class="primitive-variant-list primitive-button-list">${buttonWorkbenchMarkup(state)}</div>`;
     },
   },
   "primitive-banner": {

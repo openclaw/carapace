@@ -16,6 +16,7 @@ import {
 } from "../preview/component-workbench-config.js";
 import {
   avatarWorkbenchExamples,
+  buttonWorkbenchExamples,
   formatComponentWorkbenchCode,
   formatWorkbenchMarkup,
   getComponentWorkbenchReference,
@@ -1061,6 +1062,38 @@ describe("preview contracts", () => {
     const content = getReferenceContent("primitive-avatar");
     expect(content).toContain("&lt;!-- Small --&gt;");
     expect(content).toContain("&lt;!-- Presence --&gt;");
+  });
+
+  test("keeps every Button variant discoverable in canvas, usage, and code", () => {
+    const definition = getWorkbenchDefinition("primitive-button");
+    const reference = getComponentWorkbenchReference("primitive-button");
+    const state = normalizeWorkbenchState(definition);
+    const comparison = getWorkbenchComparison(definition, state);
+    const allCode = formatComponentWorkbenchCode(buttonWorkbenchExamples);
+
+    expect(buttonWorkbenchExamples.map(({ id }) => id)).toEqual([
+      "primary",
+      "secondary",
+      "ghost",
+      "disabled",
+    ]);
+    expect(reference?.examples).toBe(buttonWorkbenchExamples);
+    expect(state).toEqual({ variant: WORKBENCH_ALL_VALUE });
+    expect(comparison).toMatchObject({
+      layout: "rows",
+      items: [
+        { label: "Primary", state: { variant: "primary" } },
+        { label: "Secondary", state: { variant: "secondary" } },
+        { label: "Ghost", state: { variant: "ghost" } },
+        { label: "Disabled", state: { variant: "disabled" } },
+      ],
+    });
+    expect(allCode.match(/<!-- (Primary|Secondary|Ghost|Disabled) -->/g)).toHaveLength(4);
+    expect(allCode).not.toContain("...");
+    expect(allCode).toContain("oc-button-primary");
+    expect(allCode).toContain("oc-button-secondary");
+    expect(allCode).toContain("oc-button-ghost");
+    expect(allCode).toContain(" disabled");
   });
 
   test("formats complete component markup through the shared workbench renderer", async () => {

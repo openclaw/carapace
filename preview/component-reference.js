@@ -11,6 +11,10 @@ function avatarExample(id, label, purpose, markup) {
   };
 }
 
+function componentExample(id, label, purpose, markup) {
+  return { id, label, purpose, markup, previewMarkup: markup };
+}
+
 export const avatarWorkbenchExamples = [
   avatarExample(
     "small",
@@ -62,6 +66,41 @@ export const avatarWorkbenchExamples = [
   ),
 ];
 
+export const buttonWorkbenchExamples = [
+  componentExample(
+    "primary",
+    "Primary",
+    "The single highest-priority action in a local decision group.",
+    `<button class="oc-button oc-button-primary" type="button">
+  Save changes
+</button>`,
+  ),
+  componentExample(
+    "secondary",
+    "Secondary",
+    "A supporting action that remains visible without competing with the primary action.",
+    `<button class="oc-button oc-button-secondary" type="button">
+  Preview
+</button>`,
+  ),
+  componentExample(
+    "ghost",
+    "Ghost",
+    "A low-emphasis action for dismissal or optional adjacent behavior.",
+    `<button class="oc-button oc-button-ghost" type="button">
+  Cancel
+</button>`,
+  ),
+  componentExample(
+    "disabled",
+    "Disabled",
+    "An unavailable action whose reason is visible or immediately inferable.",
+    `<button class="oc-button oc-button-secondary" type="button" disabled>
+  Unavailable
+</button>`,
+  ),
+];
+
 const componentWorkbenchReferences = {
   "primitive-avatar": {
     examples: avatarWorkbenchExamples,
@@ -83,6 +122,30 @@ const componentWorkbenchReferences = {
           "Give fallback-only avatars an image role and an accessible name; hide their initials from assistive technology.",
           "Use an empty image alt when adjacent text already names the same person or agent.",
           "Pair a visual status indicator with visible text or an equivalent accessible state.",
+        ],
+      },
+    ],
+  },
+  "primitive-button": {
+    examples: buttonWorkbenchExamples,
+    usage: [
+      {
+        title: "When to use",
+        items: [
+          "Use Button for in-place actions; use Link when activating the control changes location.",
+          "Keep one primary action in each local decision group.",
+        ],
+      },
+      {
+        title: "Choose a variant",
+        examples: buttonWorkbenchExamples,
+      },
+      {
+        title: "Accessibility",
+        items: [
+          "Use the native button element and set its type explicitly inside forms.",
+          "Name icon-only buttons with an accessible label.",
+          "Disable an action only when its unavailable state and recovery path are clear.",
         ],
       },
     ],
