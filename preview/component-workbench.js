@@ -306,7 +306,7 @@ function highlightWorkbenchCode(parent, source) {
 }
 
 function renderWorkbenchCode(code, source) {
-  const formatted = formatWorkbenchMarkup(source ?? "");
+  const formatted = formatWorkbenchMarkup(source);
   code.replaceChildren();
   highlightWorkbenchCode(code, formatted);
   code.closest(".code-block")?.classList.add("component-workbench-code-readable");

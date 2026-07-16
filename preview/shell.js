@@ -515,24 +515,8 @@ function bindCopyActions() {
     const codeButton = event.target.closest("[data-copy-code]");
     if (codeButton) {
       const code = codeButton.closest(".code-block")?.querySelector("code")?.textContent || "";
-      const status = codeButton.closest(".code-block")?.querySelector("[data-copy-code-status]");
-      if (await copyText(code)) {
-        if (status) {
-          const label = codeButton.textContent;
-          status.textContent = "Code copied.";
-          codeButton.textContent = "Copied";
-          window.setTimeout(() => {
-            status.textContent = "";
-            codeButton.textContent = label;
-          }, 1000);
-        } else {
-          showShellFeedback("Code copied.");
-        }
-      } else if (status) {
-        status.textContent = "Clipboard access unavailable.";
-      } else {
-        showShellFeedback("Clipboard access unavailable.");
-      }
+      if (await copyText(code)) showShellFeedback("Code copied.");
+      else showShellFeedback("Clipboard access unavailable.");
       return;
     }
 
