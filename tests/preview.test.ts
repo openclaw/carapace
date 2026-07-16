@@ -14,6 +14,12 @@ import {
   getWorkbenchDefinition,
   normalizeWorkbenchState,
 } from "../preview/component-workbench-config.js";
+import {
+  avatarWorkbenchExamples,
+  formatComponentWorkbenchCode,
+  formatWorkbenchMarkup,
+  getComponentWorkbenchReference,
+} from "../preview/component-reference.js";
 import { icon } from "../preview/icons.js";
 import {
   getAdjacentReferencePages,
@@ -23,6 +29,7 @@ import {
   referenceAreas,
   referencePages,
 } from "../preview/navigation.js";
+import { bindCopyActions, createFeedbackReporter } from "../preview/page-lifecycle.js";
 import { getReferenceContent, referenceContentIds } from "../preview/reference-content.js";
 import { groupSearchResults, rankSearchEntries } from "../preview/search.js";
 import { resolveOpenSidebarAreas } from "../preview/shell.js";
@@ -113,12 +120,98 @@ describe("preview contracts", () => {
 
     expect(css).toContain("overflow-wrap: normal;");
     expect(css).toContain("white-space: pre;");
+    expect(css).toContain("overflow-y: hidden;");
     expect(css).not.toContain(
       ".component-workbench-dock-panel .code-block pre {\n  max-height:",
     );
     expect(source).toContain('copy.textContent = "Copy code"');
     expect(source).toContain('status.setAttribute("aria-live", "polite")');
     expect(source).toContain("dock.dataset.tabsKey");
+
+    const lifecycle = await readFile("preview/page-lifecycle.js", "utf8");
+    expect(lifecycle).toContain("function bindCopyActions(root, reportFeedback)");
+    expect(lifecycle).toContain('[data-copy-token], [data-copy-code], [data-copy-text]');
+    expect(lifecycle).toContain('codeBlock?.querySelector("code")?.textContent');
+  });
+
+  test("restores shared copy feedback after repeat clicks and route cleanup", async () => {
+    let nextTimer = 1;
+    const timers = new Map<number, () => void>();
+    const view = {
+      navigator: { clipboard: { writeText: async () => undefined } },
+      setTimeout(callback: () => void) {
+        const id = nextTimer++;
+        timers.set(id, callback);
+        return id;
+      },
+      clearTimeout(id: number) {
+        timers.delete(id);
+      },
+    };
+    const classes = new Set<string>();
+    const feedback = {
+      textContent: "",
+      classList: {
+        add: (name: string) => classes.add(name),
+        remove: (name: string) => classes.delete(name),
+      },
+    };
+    const status = { textContent: "" };
+    const code = { textContent: "<button>Save</button>" };
+    const codeBlock = {
+      querySelector(selector: string) {
+        if (selector === "code") return code;
+        if (selector === "[data-copy-code-status]") return status;
+        return null;
+      },
+    };
+    const button = {
+      dataset: {},
+      textContent: "Copy code",
+      classList: { add() {}, remove() {} },
+      hasAttribute: (name: string) => name === "data-copy-code",
+      closest(selector: string) {
+        if (selector.startsWith("[data-copy-token]")) return button;
+        if (selector === ".code-block") return codeBlock;
+        return null;
+      },
+    };
+    let click: ((event: { target: typeof button }) => Promise<void>) | undefined;
+    const root = {
+      ownerDocument: { defaultView: view },
+      contains: () => true,
+      addEventListener(_type: string, listener: typeof click) {
+        click = listener;
+      },
+      removeEventListener() {},
+    };
+    const reporter = createFeedbackReporter(
+      { querySelector: () => feedback },
+      view,
+    );
+    const stop = bindCopyActions(root, reporter.show);
+
+    await click?.({ target: button });
+    await click?.({ target: button });
+    expect(button.textContent).toBe("Copied");
+    expect(status.textContent).toBe("Code copied.");
+    expect(timers.size).toBe(2);
+
+    const copyReset = Math.max(...timers.keys());
+    const reset = timers.get(copyReset);
+    timers.delete(copyReset);
+    reset?.();
+    expect(button.textContent).toBe("Copy code");
+    expect(status.textContent).toBe("");
+
+    await click?.({ target: button });
+    stop();
+    reporter.cleanup();
+    expect(button.textContent).toBe("Copy code");
+    expect(status.textContent).toBe("");
+    expect(feedback.textContent).toBe("");
+    expect(classes.has("is-visible")).toBe(false);
+    expect(timers.size).toBe(0);
   });
 
   test("keeps preview-only hover boundaries neutral", async () => {
@@ -947,5 +1040,61 @@ describe("preview contracts", () => {
     expect(avatar).toContain('class="oc-avatar-status" aria-hidden="true"');
     expect(avatar).toContain("Online");
     expect(avatar).toContain("Never rely on the status indicator alone");
+  });
+
+  test("keeps Avatar preview, usage, and code variants on one reference model", () => {
+    const reference = getComponentWorkbenchReference("primitive-avatar");
+    const allCode = formatComponentWorkbenchCode(avatarWorkbenchExamples);
+
+    expect(reference?.examples).toBe(avatarWorkbenchExamples);
+    expect(avatarWorkbenchExamples.map(({ id }) => id)).toEqual([
+      "small",
+      "default",
+      "large",
+      "presence",
+    ]);
+    expect(allCode.match(/<!-- (Small|Default|Large|Presence) -->/g)).toHaveLength(4);
+    expect(allCode).not.toContain("...");
+    expect(allCode).toContain("oc-avatar-sm");
+    expect(allCode).toContain("oc-avatar-lg");
+    expect(allCode).toContain("oc-avatar-status");
+    const content = getReferenceContent("primitive-avatar");
+    expect(content).toContain("&lt;!-- Small --&gt;");
+    expect(content).toContain("&lt;!-- Presence --&gt;");
+  });
+
+  test("formats complete component markup through the shared workbench renderer", async () => {
+    const source = await readFile("preview/component-workbench.js", "utf8");
+    const css = await readFile("preview/preview.css", "utf8");
+    const compact =
+      '<details class="oc-agent-tool" open><summary><span>Ran command</span><span data-status="success">Exit 0</span></summary><div><button type="button" aria-label="Copy result">Copy</button></div></details>';
+    const formatted = formatWorkbenchMarkup(compact);
+
+    expect(source).not.toContain("workbenchCodeSelections");
+    expect(source).not.toContain("highlightCompleteCode");
+    expect(source).not.toContain("component-workbench-code-complete");
+    expect(source).toContain("highlightWorkbenchCode");
+    expect(source).toContain("formatWorkbenchMarkup");
+    expect(source).toContain("renderWorkbenchCode(code, definition.markup(state))");
+    expect(source).toContain('classList.add("component-workbench-code-readable")');
+    expect(formatted).toContain("\n  <summary>");
+    expect(formatted).toContain("\n    <span>Ran command</span>");
+    expect(formatted).toContain("\n    <span data-status=\"success\">Exit 0</span>");
+    expect(formatted).toContain(
+      '\n    <button type="button" aria-label="Copy result">Copy</button>',
+    );
+    expect(formatted).toContain("\n</details>");
+    expect(formatWorkbenchMarkup(formatted)).toBe(formatted);
+    expect(
+      formatWorkbenchMarkup('<button disabled data-label="More > actions">Open</button>'),
+    ).toBe('<button disabled data-label="More > actions">Open</button>');
+    expect(formatWorkbenchMarkup("<pre><code>line 1\n  line 2</code></pre>")).toContain(
+      "line 1\n  line 2",
+    );
+    expect(css).toContain(".component-workbench-code-token.is-tag");
+    expect(css).toContain(".component-workbench-code-token.is-string");
+    expect(css).toContain(".component-workbench-code-readable code");
+    expect(css).not.toContain(".component-workbench-code-complete");
+    expect(css).not.toContain("component-workbench-code-example-field");
   });
 });

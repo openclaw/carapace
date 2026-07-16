@@ -5,6 +5,11 @@ import {
   getWorkbenchDefinition,
   normalizeWorkbenchState,
 } from "./component-workbench-config.js";
+import {
+  formatComponentWorkbenchCode,
+  formatWorkbenchMarkup,
+  getComponentWorkbenchReference,
+} from "./component-reference.js";
 
 export const workbenchViewportModes = [
   {
@@ -224,12 +229,15 @@ function mountWorkbenchDefinition(workbench, pageId) {
     const comparison = getWorkbenchComparison(definition, state);
     if (comparison) {
       renderWorkbenchComparison(specimen, definition, comparison, update);
-      code.textContent = comparison.items
-        .map((item) => `<!-- ${item.label} -->\n${definition.markup(item.state)}`)
-        .join("\n\n");
+      renderWorkbenchCode(
+        code,
+        comparison.items
+          .map((item) => `<!-- ${item.label} -->\n${definition.markup(item.state)}`)
+          .join("\n\n"),
+      );
     } else {
       definition.render(specimen, state);
-      code.textContent = definition.markup(state);
+      renderWorkbenchCode(code, definition.markup(state));
       definition.bind?.(specimen, state, update);
     }
     syncControlInputs(controls, state);
@@ -252,13 +260,53 @@ function mountWorkbenchDefinition(workbench, pageId) {
   return true;
 }
 
-function prepareCodeBlock(codeBlock, pageId) {
+function appendCodeToken(parent, value, type) {
+  const token = createElement("span", `component-workbench-code-token is-${type}`);
+  token.textContent = value;
+  parent.append(token);
+}
+
+function highlightWorkbenchCode(parent, source) {
+  const pattern = /(<!--[\s\S]*?-->|<\/?[a-z][\w:-]*|\/?>|[\w:@.-]+(?=\s*=)|=|"[^"]*"|'[^']*')/gi;
+  let cursor = 0;
+
+  for (const match of source.matchAll(pattern)) {
+    const value = match[0];
+    const index = match.index ?? 0;
+    if (index > cursor) parent.append(document.createTextNode(source.slice(cursor, index)));
+
+    if (value.startsWith("<!--")) {
+      appendCodeToken(parent, value, "comment");
+    } else if (value.startsWith("<")) {
+      appendCodeToken(parent, value, "tag");
+    } else if (value.startsWith('"') || value.startsWith("'")) {
+      appendCodeToken(parent, value, "string");
+    } else if (value === "=" || value === ">" || value === "/>") {
+      appendCodeToken(parent, value, "punctuation");
+    } else {
+      appendCodeToken(parent, value, "attribute");
+    }
+    cursor = index + value.length;
+  }
+
+  if (cursor < source.length) parent.append(document.createTextNode(source.slice(cursor)));
+}
+
+function renderWorkbenchCode(code, source) {
+  const formatted = formatWorkbenchMarkup(source ?? "");
+  code.replaceChildren();
+  highlightWorkbenchCode(code, formatted);
+  code.closest(".code-block")?.classList.add("component-workbench-code-readable");
+}
+
+function prepareCodeBlock(codeBlock, pageId, sourceOverride) {
   if (!codeBlock) return null;
 
   const header = codeBlock.querySelector(".code-block-header");
   const language = header?.querySelector("span")?.textContent?.trim() || "Code";
   const copy = header?.querySelector("[data-copy-code]");
   const pre = codeBlock.querySelector("pre");
+  const code = pre?.querySelector("code");
   if (copy) {
     copy.textContent = "Copy code";
     copy.setAttribute("aria-describedby", `${pageId}-workbench-copy-status`);
@@ -274,7 +322,49 @@ function prepareCodeBlock(codeBlock, pageId) {
     pre.tabIndex = 0;
     pre.setAttribute("aria-label", `${language.toUpperCase()} example`);
   }
+  if (code && language.toLowerCase() === "html") {
+    renderWorkbenchCode(code, sourceOverride ?? code.textContent ?? "");
+  }
   return codeBlock;
+}
+
+function createUsageReference(reference) {
+  const usage = createElement("div", "component-workbench-usage");
+
+  for (const section of reference.usage) {
+    const group = createElement("section", "component-workbench-usage-section");
+    const title = createElement("h3");
+    title.textContent = section.title;
+    group.append(title);
+
+    if (section.items) {
+      const list = createElement("ul", "component-workbench-usage-list");
+      for (const item of section.items) {
+        const listItem = document.createElement("li");
+        listItem.textContent = item;
+        list.append(listItem);
+      }
+      group.append(list);
+    }
+
+    if (section.examples) {
+      const list = createElement("dl", "component-workbench-usage-examples");
+      for (const example of section.examples) {
+        const item = createElement("div", "component-workbench-usage-example");
+        const term = document.createElement("dt");
+        term.textContent = example.label;
+        const description = document.createElement("dd");
+        description.textContent = example.purpose;
+        item.append(term, description);
+        list.append(item);
+      }
+      group.append(list);
+    }
+
+    usage.append(group);
+  }
+
+  return usage;
 }
 
 function createDock(markupSection, guidanceSection, pageId) {
@@ -312,15 +402,27 @@ function createDock(markupSection, guidanceSection, pageId) {
   codePanel.hidden = true;
   codePanel.setAttribute("role", "tabpanel");
   codePanel.setAttribute("aria-labelledby", codeTab.id);
-  const codeBlock = prepareCodeBlock(markupSection.querySelector(".code-block"), pageId);
-  if (codeBlock) codePanel.append(codeBlock);
+  const reference = getComponentWorkbenchReference(pageId);
+  const referenceCode = reference ? formatComponentWorkbenchCode(reference.examples) : undefined;
+  const codeBlock = prepareCodeBlock(
+    markupSection.querySelector(".code-block"),
+    pageId,
+    referenceCode,
+  );
+  if (codeBlock) {
+    codePanel.append(codeBlock);
+  }
 
   const usagePanel = createElement("div", "component-workbench-dock-panel");
   usagePanel.id = `${pageId}-workbench-usage-panel`;
   usagePanel.setAttribute("role", "tabpanel");
   usagePanel.setAttribute("aria-labelledby", usageTab.id);
-  const guidance = guidanceSection.querySelector(".guidance-list");
-  if (guidance) usagePanel.append(guidance);
+  if (reference) {
+    usagePanel.append(createUsageReference(reference));
+  } else {
+    const guidance = guidanceSection.querySelector(".guidance-list");
+    if (guidance) usagePanel.append(guidance);
+  }
 
   dock.append(tabList, usagePanel, codePanel);
   return dock;

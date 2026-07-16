@@ -394,43 +394,88 @@ function observePreviewSections(root) {
   };
 }
 
-function createFeedbackReporter(document, view) {
+export function createFeedbackReporter(document, view) {
   let timeout = 0;
+  let feedback = null;
   return {
     cleanup() {
       if (timeout) view.clearTimeout(timeout);
       timeout = 0;
+      feedback?.classList.remove("is-visible");
+      if (feedback) feedback.textContent = "";
+      feedback = null;
     },
     show(message) {
-      const feedback = document.querySelector("[data-shell-feedback]");
+      feedback = document.querySelector("[data-shell-feedback]");
       if (!feedback) return;
       if (timeout) view.clearTimeout(timeout);
       feedback.textContent = message;
       feedback.classList.add("is-visible");
-      timeout = view.setTimeout(() => feedback.classList.remove("is-visible"), 1400);
+      timeout = view.setTimeout(() => {
+        feedback?.classList.remove("is-visible");
+        timeout = 0;
+      }, 1400);
     },
   };
 }
 
-function bindTokenCopy(root, reportFeedback) {
+export function bindCopyActions(root, reportFeedback) {
   const view = root.ownerDocument.defaultView;
   let active = true;
-  const timeouts = new Set();
+  const buttonStates = new Map();
+  const resetButton = (button) => {
+    const state = buttonStates.get(button);
+    if (!state) return;
+    view.clearTimeout(state.timeout);
+    button.classList.remove("is-copied");
+    if (state.status) state.status.textContent = "";
+    if (state.label !== null) button.textContent = state.label;
+    buttonStates.delete(button);
+  };
+  const scheduleButtonReset = (button, state, delay) => {
+    const timeout = view.setTimeout(() => resetButton(button), delay);
+    buttonStates.set(button, { ...state, timeout });
+  };
+
   const onClick = async (event) => {
-    const button = event.target.closest?.("[data-copy-token]");
+    const button = event.target.closest?.("[data-copy-token], [data-copy-code], [data-copy-text]");
     if (!button || !root.contains(button)) return;
+
+    const token = button.dataset.copyToken;
+    const codeBlock = button.closest(".code-block");
+    const textContainer = button.closest(".oc-clipboard-text");
+    const value = token
+      ?? (button.hasAttribute("data-copy-code") ? codeBlock?.querySelector("code")?.textContent : undefined)
+      ?? button.dataset.copyText
+      ?? "";
+
     try {
-      await view.navigator.clipboard.writeText(button.dataset.copyToken);
+      await view.navigator.clipboard.writeText(value);
       if (!active) return;
-      button.classList.add("is-copied");
-      reportFeedback(`Copied ${button.dataset.copyToken}`);
-      const timeout = view.setTimeout(() => {
-        timeouts.delete(timeout);
-        button.classList.remove("is-copied");
-      }, 800);
-      timeouts.add(timeout);
+
+      if (token !== undefined) {
+        resetButton(button);
+        button.classList.add("is-copied");
+        reportFeedback(`Copied ${token}`);
+        scheduleButtonReset(button, { label: null, status: null }, 800);
+        return;
+      }
+
+      const status = codeBlock?.querySelector("[data-copy-code-status]")
+        ?? textContainer?.querySelector("[data-copy-status]");
+      const label = buttonStates.get(button)?.label ?? button.textContent;
+      resetButton(button);
+      button.textContent = "Copied";
+      if (status) status.textContent = button.hasAttribute("data-copy-code")
+        ? "Code copied."
+        : "Copied to clipboard.";
+      reportFeedback(button.hasAttribute("data-copy-code") ? "Code copied." : "Text copied.");
+      scheduleButtonReset(button, { label, status }, 1000);
     } catch {
       if (!active) return;
+      const status = codeBlock?.querySelector("[data-copy-code-status]")
+        ?? textContainer?.querySelector("[data-copy-status]");
+      if (status) status.textContent = "Clipboard access unavailable.";
       button.title = "Copy unavailable in this browser";
       reportFeedback("Copy unavailable in this browser");
     }
@@ -439,8 +484,7 @@ function bindTokenCopy(root, reportFeedback) {
   return () => {
     active = false;
     root.removeEventListener("click", onClick);
-    timeouts.forEach((timeout) => view.clearTimeout(timeout));
-    timeouts.clear();
+    [...buttonStates.keys()].forEach(resetButton);
   };
 }
 
@@ -489,7 +533,7 @@ export function mountPage(
   const stopObservingSections = observePreviewSections(root);
   const feedback = createFeedbackReporter(document, view);
   const reportFeedback = showFeedback || feedback.show;
-  const stopCopy = bindTokenCopy(root, reportFeedback);
+  const stopCopy = bindCopyActions(root, reportFeedback);
   let active = true;
 
   return {
