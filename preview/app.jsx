@@ -142,6 +142,7 @@ function PreviewApp({ initialRoute, siteRoot }) {
 
   useEffect(() => {
     const previousRestoration = window.history.scrollRestoration;
+    let scrollFrame = 0;
     window.history.scrollRestoration = "manual";
     window.history.replaceState(
       createPreviewHistoryState(
@@ -179,14 +180,24 @@ function PreviewApp({ initialRoute, siteRoot }) {
       }));
     };
     const handlePageHide = () => saveCurrentScroll();
+    const handleScroll = () => {
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = 0;
+        saveCurrentScroll();
+      });
+    };
 
     document.addEventListener("click", handleClick);
     window.addEventListener("popstate", handlePopState);
     window.addEventListener("pagehide", handlePageHide);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       document.removeEventListener("click", handleClick);
       window.removeEventListener("popstate", handlePopState);
       window.removeEventListener("pagehide", handlePageHide);
+      window.removeEventListener("scroll", handleScroll);
+      window.cancelAnimationFrame(scrollFrame);
       window.history.scrollRestoration = previousRestoration;
     };
   }, [initialRoute, navigate, saveCurrentScroll, siteRoot]);
