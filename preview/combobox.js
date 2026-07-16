@@ -1,13 +1,19 @@
 export function bindCombobox(root = document) {
   const controls = [...root.querySelectorAll("[data-combobox]")];
+  let bound = 0;
 
   for (const control of controls) {
+    if (control.dataset.comboboxBound === "true") continue;
+
     const input = control.querySelector("[role='combobox']");
     const toggle = control.querySelector("[data-combobox-toggle]");
     const listbox = control.querySelector("[role='listbox']");
     if (!input || !toggle || !listbox) continue;
 
+    control.dataset.comboboxBound = "true";
+    bound += 1;
     const options = [...listbox.querySelectorAll("[role='option']")];
+    const freeEntry = control.dataset.comboboxFreeEntry === "true";
     let activeIndex = -1;
 
     const visibleOptions = () => options.filter((option) => !option.hidden);
@@ -37,6 +43,7 @@ export function bindCombobox(root = document) {
       input.value = option.dataset.value || option.textContent.trim();
       for (const item of options) item.setAttribute("aria-selected", String(item === option));
       setOpen(false);
+      input.dispatchEvent(new Event("change", { bubbles: true }));
       input.focus();
     };
 
@@ -52,8 +59,9 @@ export function bindCombobox(root = document) {
         option.hidden = query !== "" && !option.textContent.toLowerCase().includes(query);
       }
       clearActive();
-      setOpen(true);
-      if (visibleOptions().length) setActive(0);
+      const visible = visibleOptions();
+      setOpen(visible.length > 0);
+      if (!freeEntry && visible.length) setActive(0);
     });
     input.addEventListener("keydown", (event) => {
       if (event.key === "ArrowDown" || event.key === "ArrowUp") {
@@ -80,10 +88,11 @@ export function bindCombobox(root = document) {
       const option = event.target.closest("[role='option']");
       if (option) select(option);
     });
+    listbox.addEventListener("pointerdown", (event) => event.preventDefault());
     control.addEventListener("focusout", (event) => {
       if (!control.contains(event.relatedTarget)) setOpen(false);
     });
   }
 
-  return controls.length;
+  return bound;
 }

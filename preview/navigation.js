@@ -86,7 +86,7 @@ export const referenceAreas = [
         id: "primitive-autocomplete",
         label: "Autocomplete",
         path: "interface/primitives/autocomplete/",
-        keywords: "oc-autocomplete suggestions datalist input native",
+        keywords: "oc-autocomplete suggestions listbox free entry input",
       },
       {
         id: "primitive-avatar",

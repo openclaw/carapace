@@ -133,14 +133,23 @@
   gap: var(--oc-space-2);
 }
 
-.oc-autocomplete-control {
+.oc-autocomplete-field {
   position: relative;
-  display: grid;
 }
 
-.oc-autocomplete .oc-input {
+.oc-autocomplete .oc-combobox-control {
+  position: relative;
   min-height: 2.75rem;
-  padding-inline: 2.625rem;
+}
+
+.oc-autocomplete .oc-combobox-control .oc-input {
+  min-height: 2.75rem;
+  padding-inline-start: 2.625rem;
+}
+
+.oc-autocomplete .oc-combobox-toggle {
+  width: 2.75rem;
+  border-left: 0;
 }
 
 .oc-autocomplete-icon {
@@ -165,6 +174,10 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.75;
+}
+
+.oc-combobox-toggle[aria-expanded="true"]::before {
+  transform: rotate(225deg) translate(-0.125rem, -0.125rem);
 }
 
 .oc-avatar {
@@ -613,6 +626,7 @@
 }
 
 .oc-combobox-toggle {
+  appearance: none;
   display: grid;
   width: 2.5rem;
   flex: 0 0 auto;
@@ -622,6 +636,11 @@
   background: transparent;
   color: var(--oc-text-muted);
   cursor: pointer;
+}
+
+.oc-combobox-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .oc-combobox-toggle::before {
@@ -645,7 +664,7 @@
   padding: var(--oc-space-1);
   border: 1px solid var(--oc-border-subtle);
   border-radius: var(--oc-radius-surface);
-  background: var(--oc-surface-overlay);
+  background: var(--oc-bg-elevated);
   box-shadow: var(--oc-shadow-md);
   list-style: none;
 }

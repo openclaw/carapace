@@ -90,10 +90,12 @@ describe("preview contracts", () => {
     );
   });
 
-  test("keeps the native Autocomplete disclosure indicator singular", async () => {
+  test("uses the shared chevron for Autocomplete disclosure", async () => {
     const css = await readFile("preview/lab.css", "utf8");
 
-    expect(css).not.toContain(".oc-autocomplete-control::after");
+    expect(css).toContain(".oc-combobox-toggle::before");
+    expect(css).toContain('.oc-combobox-toggle[aria-expanded="true"]::before');
+    expect(css).not.toContain(".oc-autocomplete-control");
   });
 
   test("keeps workbench focus neutral in both isolated themes", async () => {
@@ -253,7 +255,7 @@ describe("preview contracts", () => {
     });
   });
 
-  test("models native Autocomplete values and disabled state", () => {
+  test("models free-entry Autocomplete values and disabled state", () => {
     const definition = getWorkbenchDefinition("primitive-autocomplete");
 
     expect(definition?.controls).toMatchObject([
@@ -603,8 +605,9 @@ describe("preview contracts", () => {
     expect(previewStyles).toContain(".home-agent-tool-group");
     expect(home).not.toContain('class="oc-pagination-link" href="#"');
     expect(home).toContain(
-      'class="oc-autocomplete home-input-demo"><span class="oc-field-label">Component</span><span class="oc-autocomplete-control">',
+      'class="oc-autocomplete home-input-demo" data-combobox data-combobox-free-entry="true"><label class="oc-field-label"',
     );
+    expect(home).toContain('id="home-autocomplete-options" role="listbox" hidden');
     expect(pageLifecycle).toContain('.home-component-grid .oc-segmented');
     expect(componentLabels.slice(0, 8)).toEqual([
       "Button",

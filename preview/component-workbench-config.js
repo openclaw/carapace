@@ -1,4 +1,5 @@
 import { agentIcon } from "./agent-components.js";
+import { bindCombobox } from "./combobox.js";
 
 export const WORKBENCH_ALL_VALUE = "__all__";
 
@@ -247,19 +248,25 @@ export function autocompleteWorkbenchMarkup({ value = "", disabled = false } = {
   const disabledAttribute = disabled ? " disabled" : "";
   const options = autocompleteOptions
     .filter(({ value: optionValue }) => optionValue)
-    .map(({ value: optionValue }) => `    <option value="${optionValue}"></option>`)
+    .map(
+      ({ value: optionValue }, index) =>
+        `    <li class="oc-combobox-option" id="workbench-autocomplete-option-${index}" role="option" aria-selected="${String(optionValue === value)}" data-value="${optionValue}">${optionValue}</li>`,
+    )
     .join("\n");
 
-  return `<label class="oc-autocomplete">
-  <span class="oc-field-label">Component</span>
-  <span class="oc-autocomplete-control">
-    <span class="oc-autocomplete-icon" aria-hidden="true">${agentIcon("search")}</span>
-    <input class="oc-input" type="text" name="component" list="workbench-autocomplete-options" value="${escapeHtml(value)}" placeholder="Search components…" autocomplete="off"${disabledAttribute} />
-  </span>
-  <datalist id="workbench-autocomplete-options">
+  return `<div class="oc-autocomplete" data-combobox data-combobox-free-entry="true">
+  <label class="oc-field-label" for="workbench-autocomplete-input">Component</label>
+  <div class="oc-autocomplete-field">
+    <div class="oc-combobox-control">
+      <span class="oc-autocomplete-icon" aria-hidden="true">${agentIcon("search")}</span>
+      <input class="oc-input" id="workbench-autocomplete-input" type="text" name="component" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-expanded="false" aria-controls="workbench-autocomplete-options" value="${escapeHtml(value)}" placeholder="Search components…" autocomplete="off"${disabledAttribute} />
+      <button class="oc-combobox-toggle" type="button" tabindex="-1" aria-label="Toggle component suggestions" aria-expanded="false" data-combobox-toggle${disabledAttribute}></button>
+    </div>
+    <ul class="oc-combobox-listbox" id="workbench-autocomplete-options" role="listbox" hidden>
 ${options}
-  </datalist>
-</label>`;
+    </ul>
+  </div>
+</div>`;
 }
 
 export function toastWorkbenchMarkup({ dismissible = true } = {}) {
@@ -969,6 +976,7 @@ const definitions = {
       specimen.innerHTML = autocompleteWorkbenchMarkup(state);
     },
     bind(specimen, _state, update) {
+      bindCombobox(specimen);
       specimen.querySelector("input")?.addEventListener("change", (event) => {
         update("value", event.currentTarget.value);
       });

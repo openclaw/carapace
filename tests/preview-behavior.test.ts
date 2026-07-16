@@ -226,14 +226,20 @@ describe("preview behavior", () => {
     );
   });
 
-  test("keeps Autocomplete as a labeled native datalist field", () => {
+  test("renders Autocomplete as a free-entry combobox with a controlled listbox", () => {
     const markup = autocompleteWorkbenchMarkup({ value: "Card", disabled: true });
 
-    expect(markup).toContain('class="oc-autocomplete"');
-    expect(markup).toContain('list="workbench-autocomplete-options"');
+    expect(markup).toContain('class="oc-autocomplete" data-combobox');
+    expect(markup).toContain('data-combobox-free-entry="true"');
+    expect(markup).toContain('role="combobox"');
+    expect(markup).toContain('aria-autocomplete="list"');
+    expect(markup).toContain('id="workbench-autocomplete-options" role="listbox" hidden');
+    expect(markup).toContain('class="oc-combobox-toggle"');
+    expect(markup).toContain('tabindex="-1"');
     expect(markup).toContain('value="Card"');
     expect(markup).toContain(" disabled");
-    expect(markup).toContain('<option value="Action"></option>');
+    expect(markup).toContain('role="option" aria-selected="true" data-value="Card"');
+    expect(markup).not.toContain("<datalist");
   });
 
   test("keeps Toast dismissal optional in the rendered markup", () => {
@@ -475,15 +481,18 @@ describe("preview behavior", () => {
     const root = { querySelectorAll: () => [control] };
 
     expect(bindCombobox(root)).toBe(1);
+    expect(bindCombobox(root)).toBe(0);
 
     input.value = "zz";
     input.dispatchEvent(new Event("input"));
     expect(options.every(({ hidden }) => hidden)).toBe(true);
+    expect(listbox.hidden).toBe(true);
     expect(input.getAttribute("aria-activedescendant")).toBeUndefined();
     expect(options.some(({ attributes }) => attributes.has("data-active"))).toBe(false);
 
     input.value = "";
     input.dispatchEvent(new Event("input"));
+    expect(listbox.hidden).toBe(false);
     expect(input.getAttribute("aria-activedescendant")).toBe("option-action");
 
     input.dispatchEvent(keyboardEvent("ArrowUp"));
