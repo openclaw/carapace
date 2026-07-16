@@ -72,7 +72,6 @@ export function createPreviewRouteStubsPlugin(routes = previewRoutes) {
       const entry = bundle["index.html"];
       if (!entry || entry.type !== "asset" || typeof entry.source !== "string") {
         this.error("The preview build did not emit index.html");
-        return;
       }
 
       for (const route of routes) {

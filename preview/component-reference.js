@@ -12,7 +12,7 @@ function avatarExample(id, label, purpose, markup) {
 }
 
 function componentExample(id, label, purpose, markup) {
-  return { id, label, purpose, markup, previewMarkup: markup };
+  return { id, label, purpose, markup };
 }
 
 export const avatarWorkbenchExamples = [
