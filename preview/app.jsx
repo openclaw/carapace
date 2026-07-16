@@ -219,10 +219,7 @@ function PreviewApp({ initialRoute, siteRoot }) {
 }
 
 export function mountPreviewApp() {
-  const siteRoot = resolvePreviewSiteRoot(
-    window.location.href,
-    document.body.dataset.previewRoot || "./",
-  );
+  const siteRoot = resolvePreviewSiteRoot(window.location.href);
   const initialRoute = resolvePreviewRoute(window.location.href, siteRoot);
   if (!initialRoute) throw new Error(`Unknown preview route: ${window.location.href}`);
 

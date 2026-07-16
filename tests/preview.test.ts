@@ -666,23 +666,18 @@ describe("preview contracts", () => {
     ).not.toThrow();
   });
 
-  test("keeps the route manifest, files, and rendered content aligned", async () => {
+  test("keeps the route manifest and rendered content aligned", async () => {
     expect(new Set(referencePages.map(({ id }) => id)).size).toBe(referencePages.length);
     expect(new Set(referencePages.map(({ path }) => path)).size).toBe(referencePages.length);
 
-    for (const area of referenceAreas) {
-      await expect(readFile(`preview/${area.path}index.html`, "utf8")).resolves.toBeString();
-    }
-
-    for (const page of referencePages) {
-      const html = await readFile(`preview/${page.path}index.html`, "utf8");
-      expect(html).toContain(`data-preview-page="${page.id}"`);
-      expect(html).toContain("data-shell-header");
-      expect(html).toContain("data-shell-sidebar");
-      expect(html).not.toContain(legacyDisplayName);
-    }
-
     const areaOverviewIds = new Set(["foundations", "interface", "compositions", "resources"]);
+    for (const area of referenceAreas.filter(({ id }) => areaOverviewIds.has(id))) {
+      const fragment = await readFile(`preview/static-routes/${area.id}.html`, "utf8");
+      expect(fragment).toContain('class="preview-stage"');
+      expect(fragment).not.toContain("<html");
+      expect(fragment).not.toContain(legacyDisplayName);
+    }
+
     const contentPageIds = referencePages
       .map(({ id }) => id)
       .filter((id) => !areaOverviewIds.has(id))
