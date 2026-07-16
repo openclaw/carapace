@@ -252,9 +252,35 @@ function mountWorkbenchDefinition(workbench, pageId) {
   return true;
 }
 
+function prepareCodeBlock(codeBlock, pageId) {
+  if (!codeBlock) return null;
+
+  const header = codeBlock.querySelector(".code-block-header");
+  const language = header?.querySelector("span")?.textContent?.trim() || "Code";
+  const copy = header?.querySelector("[data-copy-code]");
+  const pre = codeBlock.querySelector("pre");
+  if (copy) {
+    copy.textContent = "Copy code";
+    copy.setAttribute("aria-describedby", `${pageId}-workbench-copy-status`);
+  }
+  if (header && !header.querySelector("[data-copy-code-status]")) {
+    const status = createElement("span", "component-workbench-copy-status sr-only");
+    status.id = `${pageId}-workbench-copy-status`;
+    status.dataset.copyCodeStatus = "";
+    status.setAttribute("aria-live", "polite");
+    header.append(status);
+  }
+  if (pre) {
+    pre.tabIndex = 0;
+    pre.setAttribute("aria-label", `${language.toUpperCase()} example`);
+  }
+  return codeBlock;
+}
+
 function createDock(markupSection, guidanceSection, pageId) {
   const dock = createElement("section", "component-workbench-dock");
   dock.dataset.tabs = "";
+  dock.dataset.tabsKey = `component-workbench-${pageId}`;
   dock.setAttribute("aria-label", "Component reference");
 
   const tabList = createElement("div", "component-workbench-dock-tabs");
@@ -268,6 +294,7 @@ function createDock(markupSection, guidanceSection, pageId) {
   codeTab.setAttribute("role", "tab");
   codeTab.setAttribute("aria-selected", "false");
   codeTab.setAttribute("aria-controls", `${pageId}-workbench-code-panel`);
+  codeTab.dataset.tabValue = "code";
   codeTab.textContent = "Code";
 
   const usageTab = createElement("button", "component-workbench-dock-tab");
@@ -276,6 +303,7 @@ function createDock(markupSection, guidanceSection, pageId) {
   usageTab.setAttribute("role", "tab");
   usageTab.setAttribute("aria-selected", "true");
   usageTab.setAttribute("aria-controls", `${pageId}-workbench-usage-panel`);
+  usageTab.dataset.tabValue = "usage";
   usageTab.textContent = "Usage";
   tabList.append(usageTab, codeTab);
 
@@ -284,7 +312,7 @@ function createDock(markupSection, guidanceSection, pageId) {
   codePanel.hidden = true;
   codePanel.setAttribute("role", "tabpanel");
   codePanel.setAttribute("aria-labelledby", codeTab.id);
-  const codeBlock = markupSection.querySelector(".code-block");
+  const codeBlock = prepareCodeBlock(markupSection.querySelector(".code-block"), pageId);
   if (codeBlock) codePanel.append(codeBlock);
 
   const usagePanel = createElement("div", "component-workbench-dock-panel");

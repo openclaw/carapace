@@ -107,6 +107,20 @@ describe("preview contracts", () => {
     expect(css).not.toContain("--oc-focus-ring: rgb(20 128 110 / 0.58);");
   });
 
+  test("keeps workbench code readable without nested vertical scrolling", async () => {
+    const css = await readFile("preview/preview.css", "utf8");
+    const source = await readFile("preview/component-workbench.js", "utf8");
+
+    expect(css).toContain("overflow-wrap: normal;");
+    expect(css).toContain("white-space: pre;");
+    expect(css).not.toContain(
+      ".component-workbench-dock-panel .code-block pre {\n  max-height:",
+    );
+    expect(source).toContain('copy.textContent = "Copy code"');
+    expect(source).toContain('status.setAttribute("aria-live", "polite")');
+    expect(source).toContain("dock.dataset.tabsKey");
+  });
+
   test("keeps preview-only hover boundaries neutral", async () => {
     const lab = await readFile("preview/lab.css", "utf8");
     const shell = await readFile("preview/preview.css", "utf8");

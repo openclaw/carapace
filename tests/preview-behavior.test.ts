@@ -1295,6 +1295,58 @@ describe("preview behavior", () => {
     expect(markup).not.toContain('id="tab-preview"');
   });
 
+  test("restores keyed tab selections without moving the page", () => {
+    class Tab extends EventTarget {
+      attributes = new Map();
+      dataset;
+      tabIndex = 0;
+      constructor(value, controls, selected = false) {
+        super();
+        this.dataset = { tabValue: value };
+        this.attributes.set("aria-controls", controls);
+        this.attributes.set("aria-selected", String(selected));
+      }
+      getAttribute(name) { return this.attributes.get(name); }
+      setAttribute(name, value) { this.attributes.set(name, value); }
+      focus() {}
+    }
+
+    const createTabset = () => {
+      const tabs = [
+        new Tab("usage", "usage-panel", true),
+        new Tab("code", "code-panel"),
+      ];
+      const panels = [
+        { id: "usage-panel", hidden: false },
+        { id: "code-panel", hidden: true },
+      ];
+      const scrollingElement = { scrollLeft: 12, scrollTop: 240 };
+      return {
+        tabs,
+        panels,
+        tabset: {
+          dataset: { tabsKey: "component-workbench-avatar" },
+          ownerDocument: { scrollingElement },
+          querySelectorAll(selector) {
+            return selector === '[role="tab"]' ? tabs : panels;
+          },
+        },
+        scrollingElement,
+      };
+    };
+
+    const first = createTabset();
+    bindTabs({ querySelectorAll: () => [first.tabset] });
+    first.tabs[1].dispatchEvent(new Event("click"));
+    expect(first.scrollingElement.scrollTop).toBe(240);
+
+    const second = createTabset();
+    bindTabs({ querySelectorAll: () => [second.tabset] });
+    expect(second.tabs[1].getAttribute("aria-selected")).toBe("true");
+    expect(second.panels.map((panel) => panel.hidden)).toEqual([true, false]);
+    expect(second.scrollingElement.scrollTop).toBe(240);
+  });
+
   test("reveals and conceals a sensitive value through its named control", () => {
     class Toggle extends EventTarget {
       attributes = new Map();
