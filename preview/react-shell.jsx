@@ -783,6 +783,3 @@ export function ReactShell({
     </>
   );
 }
-
-export const PreviewShell = ReactShell;
-export default ReactShell;
