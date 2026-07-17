@@ -463,9 +463,12 @@ export function bindCopyActions(root, reportFeedback) {
 
       const status = codeBlock?.querySelector("[data-copy-code-status]")
         ?? textContainer?.querySelector("[data-copy-status]");
-      const label = buttonStates.get(button)?.label ?? button.textContent;
+      const hasIcon = Boolean(button.querySelector?.("svg, [data-lucide]"));
+      const label = hasIcon
+        ? null
+        : buttonStates.get(button)?.label ?? button.textContent;
       resetButton(button);
-      button.textContent = "Copied";
+      if (!hasIcon) button.textContent = "Copied";
       if (status) status.textContent = button.hasAttribute("data-copy-code")
         ? "Code copied."
         : "Copied to clipboard.";
@@ -529,6 +532,12 @@ export function mountPage(
   });
   bindHomeSegmentedControls(root);
   bindPageInteractions(root);
+  view.lucide?.createIcons({
+    attrs: {
+      "aria-hidden": "true",
+      "stroke-width": "1.75",
+    },
+  });
 
   const tokenCatalog = createTokenCatalog(root, resolvedTheme);
   const stopObservingSections = observePreviewSections(root);

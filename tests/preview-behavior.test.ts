@@ -35,6 +35,7 @@ import {
 } from "../preview/component-workbench.js";
 import {
   actionWorkbenchMarkup,
+  clipboardTextWorkbenchMarkup,
   agentChatWorkbenchMarkup,
   attachmentButtonWorkbenchMarkup,
   autocompleteWorkbenchMarkup,
@@ -42,7 +43,16 @@ import {
   composerWorkbenchMarkup,
   errorMessageWorkbenchMarkup,
   fileAttachmentWorkbenchMarkup,
+  appSurfaceWorkbenchMarkup,
+  heroWorkbenchMarkup,
+  sectionWorkbenchMarkup,
+  inputAreaWorkbenchMarkup,
+  inputGroupWorkbenchMarkup,
+  linkWorkbenchMarkup,
+  loaderWorkbenchMarkup,
+  skeletonLineWorkbenchMarkup,
   messageListWorkbenchMarkup,
+  providerLogoWorkbenchMarkup,
   markdownWorkbenchMarkup,
   modeSelectorWorkbenchMarkup,
   modelPickerWorkbenchMarkup,
@@ -146,12 +156,10 @@ describe("preview behavior", () => {
     for (const pageId of ["primitive-breadcrumbs", "primitive-link", "primitive-pagination"]) {
       expect(getReferenceContent(pageId)).toContain("data-workbench-inert-link");
     }
-    expect(toolWorkbenchMarkup({ kind: "search", state: "complete" })).toContain(
-      "data-workbench-inert-link",
-    );
     expect(markdownWorkbenchMarkup({ example: "table" })).toContain(
       "data-workbench-inert-link",
     );
+    expect(linkWorkbenchMarkup({ variant: "standalone" })).toContain("data-workbench-inert-link");
 
     for (const pageId of ["primitive-card", "primitive-sidebar", "primitive-table-of-contents"]) {
       expect(getReferenceContent(pageId)).not.toContain("data-workbench-inert-link");
@@ -165,6 +173,47 @@ describe("preview behavior", () => {
     expect(actionWorkbenchMarkup({ variant: "icon" })).toBe(
       '<button class="oc-action oc-action-icon" type="button" aria-label="Add item">\n  +\n</button>',
     );
+  });
+
+  test("keeps ClipboardText specimen markup aligned with label and icon actions", () => {
+    expect(clipboardTextWorkbenchMarkup({ variant: "label" })).toContain(
+      'class="oc-clipboard-action" type="button" aria-label="Copy package specifier"',
+    );
+    expect(clipboardTextWorkbenchMarkup({ variant: "label" })).toContain(">Copy</button>");
+    expect(clipboardTextWorkbenchMarkup({ variant: "label" })).not.toContain(
+      "oc-clipboard-action-icon",
+    );
+    expect(clipboardTextWorkbenchMarkup({ variant: "icon" })).toContain(
+      'class="oc-clipboard-action oc-clipboard-action-icon"',
+    );
+    expect(clipboardTextWorkbenchMarkup({ variant: "icon" })).toContain('data-lucide="copy"');
+    expect(clipboardTextWorkbenchMarkup({ variant: "icon" })).not.toContain(">Copy</button>");
+
+    const reference = getReferenceContent("primitive-clipboard-text");
+    expect(reference).toContain('class="oc-clipboard-action oc-clipboard-action-icon"');
+    expect(reference).toContain('data-lucide="copy"');
+  });
+
+  test("keeps Link specimen markup aligned with public variants and a single trailing arrow", () => {
+    expect(linkWorkbenchMarkup({ variant: "inline" })).toBe(
+      '<a class="oc-link" href="/foundations/" data-workbench-inert-link>Inline link</a>',
+    );
+    expect(linkWorkbenchMarkup({ variant: "muted" })).toBe(
+      '<a class="oc-link oc-link-muted" href="/resources/" data-workbench-inert-link>Muted link</a>',
+    );
+    expect(linkWorkbenchMarkup({ variant: "standalone" })).toBe(
+      '<a class="oc-link oc-link-standalone" href="/components/" data-workbench-inert-link>Browse components</a>',
+    );
+    expect(linkWorkbenchMarkup({ variant: "standalone" })).not.toContain("data-lucide");
+    expect(linkWorkbenchMarkup({ variant: "standalone" })).not.toContain("→");
+    expect(linkWorkbenchMarkup({ variant: "standalone", disabled: true })).toBe(
+      '<a class="oc-link oc-link-standalone" role="link" aria-disabled="true" tabindex="-1">Browse components</a>',
+    );
+
+    const reference = getReferenceContent("primitive-link");
+    expect(reference).toContain('class="oc-link oc-link-standalone"');
+    expect(reference).toContain(">Browse components</a>");
+    expect(reference).not.toMatch(/oc-link-standalone[^>]*>Browse components[\s\S]*?data-lucide="arrow-right"/);
   });
 
   test("renders Banner tones without relying on color alone", () => {
@@ -190,6 +239,81 @@ describe("preview behavior", () => {
       expect(markup).toContain('class="oc-banner-indicator" aria-hidden="true"');
     }
     expect(success).toContain('<button class="oc-action oc-action-secondary" type="button">Review</button>');
+  });
+
+  test("renders App Surface with optional toolbar chrome and nested card", () => {
+    const defaultSurface = appSurfaceWorkbenchMarkup();
+    const foundationOnly = appSurfaceWorkbenchMarkup({ toolbar: false, card: false });
+    const toolbarOnly = appSurfaceWorkbenchMarkup({ toolbar: true, card: false });
+    const cardOnly = appSurfaceWorkbenchMarkup({ toolbar: false, card: true });
+
+    expect(defaultSurface).toContain('class="primitive-app-surface-demo"');
+    expect(defaultSurface).toContain("OpenClaw application");
+    expect(defaultSurface).toContain("Children inherit the canonical interface foundation.");
+    expect(defaultSurface).toContain('class="primitive-app-surface-toolbar"');
+    expect(defaultSurface).toContain('class="oc-pill"');
+    expect(defaultSurface).toContain('class="oc-action oc-action-ghost"');
+    expect(defaultSurface).toContain('class="oc-action oc-action-secondary"');
+    expect(defaultSurface).toContain('class="oc-card primitive-app-surface-card"');
+    expect(defaultSurface).toContain("Nested card");
+    expect(foundationOnly).toContain("OpenClaw application");
+    expect(foundationOnly).not.toContain("primitive-app-surface-toolbar");
+    expect(foundationOnly).not.toContain("oc-card");
+    expect(toolbarOnly).toContain('class="primitive-app-surface-toolbar"');
+    expect(toolbarOnly).not.toContain("oc-card");
+    expect(cardOnly).toContain('class="oc-card primitive-app-surface-card"');
+    expect(cardOnly).not.toContain("primitive-app-surface-toolbar");
+  });
+
+  test("renders Hero with optional lede and consumer-owned actions", () => {
+    const defaultHero = heroWorkbenchMarkup();
+    const titleOnly = heroWorkbenchMarkup({ lede: false, actions: false });
+    const withActions = heroWorkbenchMarkup({ lede: true, actions: true });
+
+    expect(defaultHero).toContain('class="oc-hero"');
+    expect(defaultHero).toContain('class="oc-hero-title"');
+    expect(defaultHero).toContain('class="oc-hero-lede"');
+    expect(defaultHero).not.toContain("<button");
+    expect(titleOnly).toContain("Build the thing that builds things.");
+    expect(titleOnly).not.toContain("oc-hero-lede");
+    expect(titleOnly).not.toContain("<button");
+    expect(withActions).toContain('class="oc-hero-lede"');
+    expect(withActions).toContain('class="oc-action oc-action-primary"');
+    expect(withActions).toContain('class="oc-action oc-action-secondary"');
+    expect(withActions).not.toContain("oc-hero-actions");
+  });
+
+  test("renders Section with optional eyebrow, copy, and adjacent action", () => {
+    const defaultSection = sectionWorkbenchMarkup();
+    const titleOnly = sectionWorkbenchMarkup({
+      eyebrow: false,
+      copy: false,
+      actions: false,
+    });
+    const withoutAction = sectionWorkbenchMarkup({
+      eyebrow: true,
+      copy: true,
+      actions: false,
+    });
+
+    expect(defaultSection).toContain('class="oc-section"');
+    expect(defaultSection).toContain('class="oc-section-header"');
+    expect(defaultSection).toContain('class="oc-eyebrow"');
+    expect(defaultSection).toContain("Featured");
+    expect(defaultSection).toContain('class="oc-section-title"');
+    expect(defaultSection).toContain("Build with OpenClaw");
+    expect(defaultSection).toContain('class="oc-section-copy"');
+    expect(defaultSection).toContain('class="oc-action oc-action-secondary"');
+    expect(defaultSection).toContain("Browse");
+    expect(defaultSection).toContain('data-lucide="arrow-right"');
+    expect(defaultSection).toContain("data-workbench-inert-link");
+    expect(titleOnly).toContain("Build with OpenClaw");
+    expect(titleOnly).not.toContain("oc-eyebrow");
+    expect(titleOnly).not.toContain("oc-section-copy");
+    expect(titleOnly).not.toContain("oc-action");
+    expect(withoutAction).toContain('class="oc-eyebrow"');
+    expect(withoutAction).toContain('class="oc-section-copy"');
+    expect(withoutAction).not.toContain("oc-action");
   });
 
   test("renders Table interaction only with real row actions", () => {
@@ -226,6 +350,75 @@ describe("preview behavior", () => {
     );
   });
 
+  test("renders Input Area states from the shared field contract", () => {
+    const defaults = inputAreaWorkbenchMarkup({ state: "default", message: true });
+    const invalid = inputAreaWorkbenchMarkup({ state: "invalid", message: true });
+    const disabled = inputAreaWorkbenchMarkup({ state: "disabled", message: true });
+    const withoutMessage = inputAreaWorkbenchMarkup({ state: "invalid", message: false });
+
+    expect(defaults).toContain('class="oc-textarea"');
+    expect(defaults).toContain("Markdown is supported.");
+    expect(defaults).toContain('aria-describedby="workbench-input-area-default-message"');
+    expect(invalid).toContain('aria-invalid="true"');
+    expect(invalid).toContain("Enter at least 20 characters.");
+    expect(invalid).toContain("Short note");
+    expect(disabled).toContain(" disabled");
+    expect(disabled).toContain("Read-only after archival.");
+    expect(disabled).not.toContain("oc-field-message");
+    expect(withoutMessage).toContain('aria-invalid="true"');
+    expect(withoutMessage).not.toContain("oc-field-message");
+    expect(withoutMessage).not.toContain("aria-describedby");
+  });
+
+  test("renders Input Group addon positions and field states from real markup", () => {
+    const prefix = inputGroupWorkbenchMarkup({
+      addon: "prefix",
+      state: "default",
+      message: true,
+    });
+    const suffixInvalid = inputGroupWorkbenchMarkup({
+      addon: "suffix",
+      state: "invalid",
+      message: true,
+    });
+    const bothDisabled = inputGroupWorkbenchMarkup({
+      addon: "both",
+      state: "disabled",
+      message: true,
+    });
+    const withoutMessage = inputGroupWorkbenchMarkup({
+      addon: "prefix",
+      state: "invalid",
+      message: false,
+    });
+
+    expect(prefix).toContain('class="oc-input-group"');
+    expect(prefix).toContain('class="oc-input-group-addon" id="workbench-input-group-prefix"');
+    expect(prefix).toContain("github.com/");
+    expect(prefix).toContain("Owner and repository path.");
+    expect(prefix).toContain(
+      'aria-describedby="workbench-input-group-prefix workbench-input-group-message"',
+    );
+    expect(prefix).not.toContain("workbench-input-group-suffix");
+    expect(suffixInvalid).toContain("seconds");
+    expect(suffixInvalid).toContain('aria-invalid="true"');
+    expect(suffixInvalid).toContain('value="0"');
+    expect(suffixInvalid).toContain("Enter at least 1 second.");
+    expect(suffixInvalid).toContain(
+      'aria-describedby="workbench-input-group-suffix workbench-input-group-message"',
+    );
+    expect(bothDisabled).toContain("https://");
+    expect(bothDisabled).toContain("/v1");
+    expect(bothDisabled).toContain(" disabled");
+    expect(bothDisabled).toContain(
+      'aria-describedby="workbench-input-group-prefix workbench-input-group-suffix"',
+    );
+    expect(bothDisabled).not.toContain("oc-field-message");
+    expect(withoutMessage).toContain('aria-invalid="true"');
+    expect(withoutMessage).toContain('aria-describedby="workbench-input-group-prefix"');
+    expect(withoutMessage).not.toContain("oc-field-message");
+  });
+
   test("renders Autocomplete as a free-entry combobox with a controlled listbox", () => {
     const markup = autocompleteWorkbenchMarkup({ value: "Card", disabled: true });
 
@@ -252,7 +445,7 @@ describe("preview behavior", () => {
 
   test("maps Composer ChatStatus and disabled state to its real affordances", () => {
     expect(composerWorkbenchMarkup({ status: "ready", draft: "Review this" })).toContain(
-      'type="submit" aria-label="Send message"',
+      'type="submit" data-state="typing" aria-label="Send message"',
     );
     expect(composerWorkbenchMarkup({ status: "submitted" })).toContain(
       'type="button" data-state="stop" aria-label="Stop response"',
@@ -261,23 +454,120 @@ describe("preview behavior", () => {
       'aria-label="Send message"',
     );
     expect(composerWorkbenchMarkup({ status: "ready", disabled: true })).toContain(
-      'textarea id="workbench-composer-message" class="oc-agent-input" rows="3" placeholder="Send a message…" disabled',
+      'textarea id="workbench-composer-message" class="oc-agent-input" rows="1" placeholder="Send a message..." disabled',
     );
   });
 
-  test("keeps Error Message retry state visible and busy", () => {
-    const retrying = errorMessageWorkbenchMarkup({ state: "retrying" });
+  test("keeps Error Message inline, plain, and free of synthetic actions", () => {
+    const interrupted = errorMessageWorkbenchMarkup({ example: "interrupted" });
+    const rateLimit = errorMessageWorkbenchMarkup({ example: "rate-limit" });
 
-    expect(retrying).toContain('data-state="retrying"');
-    expect(retrying).toContain('aria-busy="true"');
-    expect(retrying).toContain("Retrying…");
-    expect(retrying).toContain(" disabled");
+    expect(interrupted).toContain('role="alert"');
+    expect(interrupted).toContain("Something went wrong");
+    expect(interrupted).not.toContain("<button");
+    expect(rateLimit).toContain("Rate limit reached");
+    expect(rateLimit).not.toContain("<button");
   });
 
   test("renders distinct Markdown content examples", () => {
     expect(markdownWorkbenchMarkup({ example: "release" })).toContain("Release notes");
     expect(markdownWorkbenchMarkup({ example: "table" })).toContain("Validation results");
     expect(markdownWorkbenchMarkup({ example: "streaming" })).toContain("Final answer coming next");
+  });
+
+  test("renders Loader sizes with visible or assistive labels only", () => {
+    const small = loaderWorkbenchMarkup({ size: "sm", label: true });
+    const medium = loaderWorkbenchMarkup({ size: "md", label: true });
+    const large = loaderWorkbenchMarkup({ size: "lg", label: false });
+
+    expect(small).toContain('class="oc-loader oc-loader-sm"');
+    expect(small).toContain("<span>Loading…</span>");
+    expect(small).not.toContain("sr-only");
+    expect(medium).toContain('class="oc-loader"');
+    expect(medium).not.toContain("oc-loader-md");
+    expect(medium).toContain("<span>Syncing components…</span>");
+    expect(large).toContain('class="oc-loader oc-loader-lg"');
+    expect(large).toContain('<span class="sr-only">Loading…</span>');
+    expect(large).not.toContain("<span>Loading…</span>");
+    for (const markup of [small, medium, large]) {
+      expect(markup).toContain('role="status" aria-atomic="true"');
+      expect(markup).toContain('class="oc-loader-spinner" aria-hidden="true"');
+    }
+
+    const reference = getReferenceContent("primitive-loader");
+    expect(reference).toContain("primitive-loader-list");
+    expect(reference).toContain("oc-loader-sm");
+    expect(reference).toContain("oc-loader-lg");
+  });
+
+  test("renders Skeleton Line count and width variants with a sized demo shell", () => {
+    const oneShort = skeletonLineWorkbenchMarkup({ count: "1", width: "short" });
+    const threeMixed = skeletonLineWorkbenchMarkup({ count: "3", width: "mixed" });
+    const fiveFull = skeletonLineWorkbenchMarkup({ count: "5", width: "full" });
+
+    expect(oneShort).toContain('class="workbench-skeleton-demo"');
+    expect(oneShort).toContain('aria-busy="true"');
+    expect(oneShort.match(/class="oc-skeleton-line[^"]*"/g)).toHaveLength(1);
+    expect(oneShort).toContain("oc-skeleton-line-short");
+    expect(threeMixed.match(/class="oc-skeleton-line"/g)).toHaveLength(2);
+    expect(threeMixed.match(/oc-skeleton-line-short/g)).toHaveLength(1);
+    expect(fiveFull.match(/class="oc-skeleton-line"/g)).toHaveLength(5);
+    expect(fiveFull).not.toContain("oc-skeleton-line-short");
+    for (const markup of [oneShort, threeMixed, fiveFull]) {
+      expect(markup).toContain('aria-hidden="true"');
+      expect(markup).toContain('role="status"');
+      expect(markup).toContain("Content is loading…");
+    }
+
+    const reference = getReferenceContent("primitive-skeleton-line");
+    expect(reference).toContain("workbench-skeleton-demo");
+    expect(reference).toContain("oc-skeleton-line-short");
+  });
+
+  test("renders Provider Logo marks as inline SVG with size, label, state, and layout variants", () => {
+    const defaults = providerLogoWorkbenchMarkup();
+    const markOnly = providerLogoWorkbenchMarkup({
+      size: "sm",
+      label: false,
+      state: "selected",
+      layout: "row",
+    });
+    const muted = providerLogoWorkbenchMarkup({
+      size: "lg",
+      label: true,
+      state: "muted",
+      layout: "stack",
+    });
+
+    expect(defaults).toContain('class="provider-logo-gallery" data-layout="wrap"');
+    expect(defaults).toContain('data-provider="openai"');
+    expect(defaults).toContain('data-provider="gemini"');
+    expect(defaults).toContain('data-provider="xai"');
+    expect(defaults).toContain("<svg");
+    expect(defaults).toContain("<span>OpenAI</span>");
+    expect(defaults).toContain("<span>Gemini</span>");
+    expect(defaults).toContain("<span>xAI</span>");
+    expect(defaults).not.toContain('>O</span>');
+    expect(defaults).not.toContain('>G</span>');
+    expect(defaults).not.toContain('>X</span>');
+
+    expect(markOnly).toContain("oc-provider-logo-sm");
+    expect(markOnly).toContain('data-layout="row"');
+    expect(markOnly).toContain('data-selected="true"');
+    expect(markOnly).toContain('aria-label="OpenAI"');
+    expect(markOnly).not.toContain("<span>OpenAI</span>");
+    expect(markOnly).not.toContain("oc-provider-logo-muted");
+
+    expect(muted).toContain("oc-provider-logo-lg");
+    expect(muted).toContain("oc-provider-logo-muted");
+    expect(muted).toContain('aria-disabled="true"');
+    expect(muted).toContain('data-layout="stack"');
+    expect(muted).not.toContain("data-selected");
+
+    const reference = getReferenceContent("primitive-provider-logo");
+    expect(reference).toContain('data-provider="openai"');
+    expect(reference).toContain("<svg");
+    expect(reference).not.toContain('aria-hidden="true">O</');
   });
 
   test("renders Spiral Loader at the selected square size", () => {
@@ -328,14 +618,16 @@ describe("preview behavior", () => {
     expect(sendButtonWorkbenchMarkup({ state: "idle" })).toContain("disabled");
     expect(sendButtonWorkbenchMarkup({ state: "typing" })).toContain('aria-label="Send message"');
     expect(sendButtonWorkbenchMarkup({ state: "streaming" })).toContain('data-state="stop"');
+    expect(attachmentButtonWorkbenchMarkup({ icon: "plus" })).toContain('aria-label="Attach"');
     expect(attachmentButtonWorkbenchMarkup({ icon: "plus" })).toContain('data-lucide="plus"');
     expect(attachmentButtonWorkbenchMarkup({ icon: "paperclip" })).toContain(
       'data-lucide="paperclip"',
     );
     expect(suggestionsWorkbenchMarkup({ disabled: true })).toContain(" disabled");
-    expect(modelPickerWorkbenchMarkup({ value: "deep" })).toContain(
-      '<option value="deep" selected>Deep · 4.6</option>',
+    expect(modelPickerWorkbenchMarkup({ value: "gpt-5-6" })).toContain(
+      'type="radio" name="workbench-agent-model" value="gpt-5-6" checked',
     );
+    expect(modelPickerWorkbenchMarkup({ value: "gpt-5-6" })).toContain("<strong>GPT-5.6</strong>");
     expect(modeSelectorWorkbenchMarkup({ value: "plan" })).toContain(
       '<span data-agent-mode-label>Plan</span>',
     );
@@ -587,6 +879,10 @@ describe("preview behavior", () => {
 
     const markup = getReferenceContent("primitive-command-palette");
     expect(markup).toContain('class="oc-command-palette-status sr-only"');
+    expect(markup).toContain('class="oc-command-palette-search-icon"');
+    expect(markup).toContain('class="oc-command-palette-item-label"');
+    expect(markup).toContain('class="oc-command-palette-item-keys"');
+    expect(markup).toContain('class="oc-command-palette-footer"');
   });
 
   test("activates the current command from the search input with Enter", () => {
@@ -984,12 +1280,11 @@ describe("preview behavior", () => {
     expect(markup).toContain('aria-label="Copy component markup"');
   });
 
-  test("keeps agent search results inside the deployed preview base path", () => {
+  test("keeps agent search results informational rather than navigable", () => {
     const markup = getAgentReferenceContent("search-tool");
-    expect(markup).toContain('href="../../resources/tailwind/"');
-    expect(markup).toContain('href="../../foundations/tokens/"');
-    expect(markup).not.toContain('href="/resources/');
-    expect(markup).not.toContain('href="/foundations/');
+    expect(markup).toContain("Searched for");
+    expect(markup).toContain("/foundations/tokens/");
+    expect(markup).not.toContain("<a href");
   });
 
   test("keeps agent markdown links inside the deployed preview base path", () => {
@@ -998,12 +1293,12 @@ describe("preview behavior", () => {
     expect(markup).not.toContain('href="/foundations/');
   });
 
-  test("gives visible agent error actions a copy payload", () => {
+  test("keeps the agent error message plain and alert-scoped", () => {
     const markup = getAgentReferenceContent("error-message");
 
-    expect(markup).toContain(
-      'data-copy-text="Response interrupted: The connection ended before the response completed. Your draft is still available."',
-    );
+    expect(markup).toContain('class="oc-agent-error-message" role="alert"');
+    expect(markup).toContain("Something went wrong");
+    expect(markup).not.toContain("data-agent-retry");
   });
 
   test("keeps agent chat suggestions actionable without making the transcript live", () => {
@@ -1030,13 +1325,18 @@ describe("preview behavior", () => {
     const ownerDocument = { createElement: () => new Element(ownerDocument) };
     const input = new Element(ownerDocument);
     const transcript = new Element(ownerDocument);
+    const scroller = new Element(ownerDocument);
     const status = new Element(ownerDocument);
-    transcript.scrollHeight = 320;
-    transcript.scrollTop = 0;
+    scroller.scrollHeight = 320;
+    scroller.scrollTop = 0;
     const form = new Element(ownerDocument);
     form.querySelector = () => input;
     form.closest = () => ({
-      querySelector: (selector) => selector === ".oc-agent-chat-messages" ? transcript : status,
+      querySelector: (selector) => {
+        if (selector === ".oc-agent-message-list-content") return transcript;
+        if (selector === ".oc-agent-message-list") return scroller;
+        return status;
+      },
     });
     const root = {
       querySelectorAll(selector) {
@@ -1051,9 +1351,12 @@ describe("preview behavior", () => {
 
     expect(submit.defaultPrevented).toBe(true);
     expect(input.value).toBe("");
-    expect(transcript.scrollTop).toBe(320);
-    expect(transcript.children[0].className).toBe("oc-user-message");
-    expect(transcript.children[0].children[0].textContent).toBe("Review the current diff.");
+    expect(scroller.scrollTop).toBe(320);
+    const turn = transcript.children[0];
+    expect(turn.className).toBe("oc-agent-turn");
+    expect(turn.children[0].className).toBe("oc-agent-user-message-stack");
+    expect(turn.children[0].children[0].className).toBe("oc-agent-user-message");
+    expect(turn.children[0].children[0].children[0].textContent).toBe("Review the current diff.");
     expect(status.textContent).toBe("Message sent");
   });
 
@@ -1146,25 +1449,41 @@ describe("preview behavior", () => {
     expect(summary.focused).toBe(true);
   });
 
-  test("marks a failed agent response as retrying", () => {
-    const attributes = new Map();
-    const error = { setAttribute: (name, value) => attributes.set(name, value) };
-    const button = new EventTarget();
-    button.disabled = false;
-    button.textContent = "Try again";
-    button.closest = () => error;
+  test("updates and closes the agent model picker", () => {
+    const name = { textContent: "Balanced" };
+    const version = { textContent: "4.6" };
+    const summary = { focused: false, focus() { this.focused = true; } };
+    const balanced = new EventTarget();
+    balanced.checked = true;
+    balanced.value = "Balanced";
+    balanced.dataset = { agentModelOptionVersion: "4.6" };
+    const fast = new EventTarget();
+    fast.checked = false;
+    fast.value = "Fast";
+    fast.dataset = { agentModelOptionVersion: "2.1" };
+    const picker = {
+      open: true,
+      querySelector: (query) => {
+        if (query === "[data-agent-model-name]") return name;
+        if (query === "[data-agent-model-version]") return version;
+        return summary;
+      },
+      querySelectorAll: () => [balanced, fast],
+    };
     const root = {
       querySelectorAll(query) {
-        return query === "[data-agent-retry]" ? [button] : [];
+        return query === "[data-agent-model-picker]" ? [picker] : [];
       },
     };
 
     expect(bindAgentComponentDemos(root)).toBe(1);
-    button.dispatchEvent(new Event("click"));
-    expect(button.disabled).toBe(true);
-    expect(button.textContent).toBe("Retrying…");
-    expect(attributes.get("aria-busy")).toBe("true");
-    expect(attributes.get("data-state")).toBe("retrying");
+    balanced.checked = false;
+    fast.checked = true;
+    fast.dispatchEvent(new Event("change"));
+    expect(name.textContent).toBe("Fast");
+    expect(version.textContent).toBe("2.1");
+    expect(picker.open).toBe(false);
+    expect(summary.focused).toBe(true);
   });
 
   test("removes only the selected file attachment", () => {
@@ -1207,12 +1526,12 @@ describe("preview behavior", () => {
     expect(button.disabled).toBe(true);
   });
 
-  test("labels plan step states and exposes only functional actions", () => {
+  test("keeps the plan card named, expandable, and approvable", () => {
     const markup = getAgentReferenceContent("plan-tool");
-    expect(markup).toContain("Completed: ");
-    expect(markup).toContain("In progress: ");
-    expect(markup).toContain("Not started: ");
-    expect(markup).not.toContain("Open details");
+    expect(markup).toContain("plan-working.md");
+    expect(markup).toContain('aria-label="Expand plan" aria-expanded="false"');
+    expect(markup).toContain("Read detailed plan");
+    expect(markup).toContain("data-agent-plan-approve");
   });
 
   test("submits and skips agent questions without navigating", () => {
@@ -1221,7 +1540,10 @@ describe("preview behavior", () => {
     const form = new EventTarget();
     form.dataset = {};
     form.querySelector = () => status;
-    form.querySelectorAll = () => [skip];
+    form.querySelectorAll = (selector) => {
+      if (selector === "[data-agent-question-skip]") return [skip];
+      return [];
+    };
     const root = {
       querySelectorAll(selector) {
         return selector === "[data-agent-question-form]" ? [form] : [];
@@ -1244,7 +1566,7 @@ describe("preview behavior", () => {
     const markup = getAgentReferenceContent("mcp-tool");
     expect(markup).toContain('aria-label="MCP tool result"');
     expect(markup).toContain('tabindex="0"');
-    expect(markup).toContain("read_resource");
+    expect(markup).toContain("design-system://tokens");
   });
 
   test("shows sidebar fades only toward hidden navigation content", () => {
@@ -1357,7 +1679,7 @@ describe("preview behavior", () => {
   test("reveals and conceals a sensitive value through its named control", () => {
     class Toggle extends EventTarget {
       attributes = new Map();
-      textContent = "Show";
+      innerHTML = "";
       setAttribute(name, value) { this.attributes.set(name, value); }
       getAttribute(name) { return this.attributes.get(name); }
     }
@@ -1375,15 +1697,16 @@ describe("preview behavior", () => {
     const root = { querySelectorAll: () => [control] };
 
     expect(bindSensitiveInputs(root)).toBe(1);
+    expect(toggle.innerHTML).toContain('data-lucide="eye"');
     toggle.dispatchEvent(new Event("click"));
     expect(input.type).toBe("text");
-    expect(toggle.textContent).toBe("Hide");
+    expect(toggle.innerHTML).toContain('data-lucide="eye-off"');
     expect(toggle.getAttribute("aria-pressed")).toBe("true");
     expect(toggle.getAttribute("aria-label")).toBe("Hide API key");
 
     toggle.dispatchEvent(new Event("click"));
     expect(input.type).toBe("password");
-    expect(toggle.textContent).toBe("Show");
+    expect(toggle.innerHTML).toContain('data-lucide="eye"');
     expect(toggle.getAttribute("aria-pressed")).toBe("false");
     expect(toggle.getAttribute("aria-label")).toBe("Show API key");
   });

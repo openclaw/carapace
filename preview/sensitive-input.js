@@ -1,3 +1,15 @@
+function setSensitiveToggleIcon(toggle, revealed) {
+  const icon = revealed ? "eye-off" : "eye";
+  toggle.innerHTML = `<i data-lucide="${icon}" aria-hidden="true"></i>`;
+  toggle.ownerDocument?.defaultView?.lucide?.createIcons({
+    root: toggle,
+    attrs: {
+      "aria-hidden": "true",
+      "stroke-width": "1.75",
+    },
+  });
+}
+
 export function bindSensitiveInputs(root = document) {
   const controls = [...root.querySelectorAll("[data-sensitive-input]")];
   let bound = 0;
@@ -10,7 +22,7 @@ export function bindSensitiveInputs(root = document) {
     const label = toggle.getAttribute("data-sensitive-label") || "value";
     const sync = () => {
       const revealed = input.type === "text";
-      toggle.textContent = revealed ? "Hide" : "Show";
+      setSensitiveToggleIcon(toggle, revealed);
       toggle.setAttribute("aria-pressed", String(revealed));
       toggle.setAttribute("aria-label", `${revealed ? "Hide" : "Show"} ${label}`);
     };

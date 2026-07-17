@@ -14,8 +14,10 @@ export function bindAgentComponentDemos(root = document) {
 
   for (const form of forms) {
     const input = form.querySelector(".oc-agent-input");
-    const transcript = form.closest(".oc-agent-chat")?.querySelector(".oc-agent-chat-messages");
-    const status = form.closest(".oc-agent-chat")?.querySelector("[data-agent-chat-status]");
+    const chat = form.closest(".oc-agent-chat");
+    const transcript = chat?.querySelector(".oc-agent-message-list-content");
+    const scroller = chat?.querySelector(".oc-agent-message-list");
+    const status = chat?.querySelector("[data-agent-chat-status]");
     if (!input || !transcript) continue;
 
     form.addEventListener("submit", (event) => {
@@ -23,15 +25,22 @@ export function bindAgentComponentDemos(root = document) {
       const draft = normalizeAgentDraft(input.value);
       if (!draft) return;
 
-      const item = form.ownerDocument.createElement("li");
-      item.className = "oc-user-message";
-      const message = form.ownerDocument.createElement("p");
+      const doc = form.ownerDocument;
+      const turn = doc.createElement("div");
+      turn.className = "oc-agent-turn";
+      const stack = doc.createElement("div");
+      stack.className = "oc-agent-user-message-stack";
+      const bubble = doc.createElement("div");
+      bubble.className = "oc-agent-user-message";
+      const message = doc.createElement("p");
       message.textContent = draft;
-      item.append(message);
-      transcript.append(item);
-      const reduced = form.ownerDocument?.defaultView
+      bubble.append(message);
+      stack.append(bubble);
+      turn.append(stack);
+      transcript.append(turn);
+      const reduced = doc.defaultView
         ?.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      item.animate?.(
+      turn.animate?.(
         reduced
           ? [{ opacity: 0 }, { opacity: 1 }]
           : [
@@ -44,7 +53,7 @@ export function bindAgentComponentDemos(root = document) {
         },
       );
       input.value = "";
-      transcript.scrollTop = transcript.scrollHeight;
+      if (scroller) scroller.scrollTop = scroller.scrollHeight;
       if (status) status.textContent = "Message sent";
     });
   }
@@ -91,15 +100,21 @@ export function bindAgentComponentDemos(root = document) {
     }
   }
 
-  const retryButtons = [...root.querySelectorAll("[data-agent-retry]")];
-  for (const button of retryButtons) {
-    button.addEventListener("click", () => {
-      const error = button.closest("[data-agent-error-message]");
-      button.disabled = true;
-      button.textContent = "Retrying…";
-      error?.setAttribute("aria-busy", "true");
-      error?.setAttribute("data-state", "retrying");
-    });
+  const modelPickers = [...root.querySelectorAll("[data-agent-model-picker]")];
+  for (const picker of modelPickers) {
+    const name = picker.querySelector("[data-agent-model-name]");
+    const version = picker.querySelector("[data-agent-model-version]");
+    const summary = picker.querySelector("summary");
+    const inputs = [...picker.querySelectorAll('input[type="radio"]')];
+    for (const input of inputs) {
+      input.addEventListener("change", () => {
+        if (!input.checked) return;
+        if (name) name.textContent = input.value;
+        if (version) version.textContent = input.dataset.agentModelOptionVersion || "";
+        picker.open = false;
+        summary?.focus();
+      });
+    }
   }
 
   const attachmentRemoveButtons = [...root.querySelectorAll("[data-agent-attachment-remove]")];
@@ -152,7 +167,19 @@ export function bindAgentComponentDemos(root = document) {
         if (status) status.textContent = "Question skipped";
       });
     }
+    for (const custom of form.querySelectorAll(".oc-agent-question-option-custom")) {
+      const radio = custom.querySelector('input[type="radio"]');
+      const field = custom.querySelector('input[type="text"]');
+      if (!radio || !field) continue;
+      const selectCustom = () => {
+        if (radio.checked) return;
+        radio.checked = true;
+        radio.dispatchEvent(new Event("change", { bubbles: true }));
+      };
+      field.addEventListener("focus", selectCustom);
+      field.addEventListener("input", selectCustom);
+    }
   }
 
-  return forms.length + composeForms.length + suggestions.length + modeSelectors.length + retryButtons.length + attachmentRemoveButtons.length + planApproveButtons.length + questionForms.length;
+  return forms.length + composeForms.length + suggestions.length + modeSelectors.length + modelPickers.length + attachmentRemoveButtons.length + planApproveButtons.length + questionForms.length;
 }

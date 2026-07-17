@@ -33,12 +33,13 @@
                   <img src="./assets/carapace-home-artwork.avif" alt="" draggable="false" />
                 </div>
                 <div class="home-brand-intro">
+                  <code class="home-brand-package">@openclaw/carapace</code>
                   <p class="eyebrow">OpenClaw visual foundation</p>
                   <h1 id="preview-title">Carapace</h1>
                   <p>
-                    A carapace is a protective outer shell. Here, it is the shared
-                    visual layer that keeps OpenClaw products coherent while each
-                    application keeps its own behavior.
+                    A carapace is a protective outer shell. For OpenClaw, it’s the
+                    shared visual layer that keeps products coherent while letting
+                    each one work in its own way.
                   </p>
                 </div>
               </li>
@@ -55,15 +56,19 @@
               <li class="home-component-cell">
                 <a class="home-component-link" href="./agent-components/input-bar/">Composer</a>
                 <div class="home-component-demo home-component-demo-fill">
-                  <form class="oc-agent-input-bar oc-agent-input-bar-standalone home-agent-input-bar" data-agent-compose-form>
-                    <label class="sr-only" for="home-agent-message">Message</label>
-                    <textarea id="home-agent-message" class="oc-agent-input" rows="2" placeholder="Send a message…"></textarea>
-                    <div class="oc-agent-input-toolbar">
-                      <div class="oc-agent-input-tools">
-                        <button class="oc-agent-input-action" type="button" aria-label="Attach file"><svg class="oc-agent-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m20 11.5-8.5 8.5a5 5 0 0 1-7-7L14 3.5a3.5 3.5 0 0 1 5 5L9.5 18a2 2 0 0 1-3-3l8-8" /></svg></button>
-                        <button class="oc-agent-input-meta" type="button"><span>Agent</span><svg class="oc-agent-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4" /></svg></button>
+                  <form class="oc-agent-input-bar home-agent-input-bar" data-agent-compose-form>
+                    <div class="oc-agent-input-container">
+                      <label class="sr-only" for="home-agent-message">Message</label>
+                      <textarea id="home-agent-message" class="oc-agent-input" rows="2" placeholder="Send a message..."></textarea>
+                      <div class="oc-agent-input-toolbar">
+                        <div class="oc-agent-input-tools">
+                          <button class="oc-agent-attachment-button" type="button" aria-label="Attach"><i class="oc-agent-icon" data-lucide="plus" aria-hidden="true"></i></button>
+                          <button class="oc-agent-input-meta" type="button"><i class="oc-agent-icon" data-lucide="mouse-pointer-2" aria-hidden="true"></i><span>Agent</span><i class="oc-agent-icon" data-lucide="chevron-down" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="oc-agent-input-actions">
+                          <button class="oc-agent-send-button" type="submit" data-state="typing" aria-label="Send message"><i class="oc-agent-icon" data-lucide="arrow-up" aria-hidden="true"></i></button>
+                        </div>
                       </div>
-                      <button class="oc-agent-send-button" type="submit" aria-label="Send message"><svg class="oc-agent-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6" /></svg></button>
                     </div>
                     <span class="sr-only" data-agent-compose-status aria-live="polite"></span>
                   </form>
@@ -78,7 +83,7 @@
               <li class="home-component-cell">
                 <a class="home-component-link" href="./agent-components/tool-group/">Tool Group</a>
                 <div class="home-component-demo home-component-demo-fill">
-                  <details class="oc-agent-tool-group home-agent-tool-group" open><summary class="oc-agent-tool-group-summary"><strong>Task completed</strong><span>3 tools</span><time datetime="PT6S">6s</time></summary><ul class="oc-agent-tool-group-list"><li><span aria-hidden="true"><svg class="oc-agent-icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m7 9 3 3-3 3m5 0h5" /></svg></span><strong>Ran command</strong><code>bun run check</code></li><li><span aria-hidden="true"><svg class="oc-agent-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m16 16 4 4" /></svg></span><strong>Found results</strong><code>semantic tokens</code></li><li><span aria-hidden="true"><svg class="oc-agent-icon" viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z" /><path d="M14 3v4h4" /></svg></span><strong>Read file</strong><code>components.css</code></li></ul></details>
+                  <details class="oc-agent-tool-row home-agent-tool-group" open><summary class="oc-agent-tool-row-summary"><span class="oc-agent-tool-row-label">Task completed</span><span class="oc-agent-tool-row-detail">3 tools</span><span class="oc-agent-tool-row-meta">6s</span><span class="oc-agent-tool-row-chevron" aria-hidden="true"><i class="oc-agent-icon" data-lucide="chevron-right" aria-hidden="true"></i></span></summary><div class="oc-agent-tool-row-panel"><div class="oc-agent-tool-row-list"><div class="oc-agent-tool-row"><span class="oc-agent-tool-row-icon" aria-hidden="true"><i class="oc-agent-icon" data-lucide="terminal" aria-hidden="true"></i></span><span class="oc-agent-tool-row-label">Ran command</span><span class="oc-agent-tool-row-detail">bun run check</span></div><div class="oc-agent-tool-row"><span class="oc-agent-tool-row-icon" aria-hidden="true"><i class="oc-agent-icon" data-lucide="search" aria-hidden="true"></i></span><span class="oc-agent-tool-row-label">Found results</span><span class="oc-agent-tool-row-detail">semantic tokens</span></div><div class="oc-agent-tool-row"><span class="oc-agent-tool-row-icon" aria-hidden="true"><i class="oc-agent-icon" data-lucide="file-text" aria-hidden="true"></i></span><span class="oc-agent-tool-row-label">Read file</span><span class="oc-agent-tool-row-detail">components.css</span></div></div></div></details>
                 </div>
               </li>
               <li class="home-component-cell">
@@ -134,21 +139,24 @@
                 </div>
               </li>
               <li class="home-component-cell">
-                <a class="home-component-link" href="./interface/primitives/sensitive-input/">Sensitive Input</a>
+                <a class="home-component-link" href="./interface/primitives/loader/">Loader</a>
                 <div class="home-component-demo">
-                  <label class="oc-field home-input-demo"><span class="oc-field-label">API key</span><span class="oc-sensitive-input" data-sensitive-input><input class="oc-input" id="home-sensitive-input" type="password" value="sk-openclaw-example" autocomplete="off" aria-label="API key" data-sensitive-value /><button class="oc-sensitive-toggle" type="button" aria-controls="home-sensitive-input" aria-label="Show API key" aria-pressed="false" data-sensitive-label="API key" data-toggle-sensitive>Show</button></span></label>
+                  <span class="oc-loader" role="status" aria-atomic="true"><span class="oc-loader-spinner" aria-hidden="true"></span><span>Syncing components…</span></span>
                 </div>
               </li>
               <li class="home-component-cell">
-                <a class="home-component-link" href="./interface/primitives/dialog/">Dialog</a>
+                <a class="home-component-link" href="./interface/primitives/sensitive-input/">Sensitive Input</a>
                 <div class="home-component-demo">
-                  <div data-dialog>
-                    <button class="oc-button oc-button-secondary" type="button" data-dialog-open>Open dialog</button>
-                    <dialog class="oc-dialog" aria-labelledby="home-dialog-title">
-                      <header class="oc-dialog-header"><h3 class="oc-dialog-title" id="home-dialog-title">Apply changes?</h3><button class="oc-dialog-close" type="button" aria-label="Close dialog" data-dialog-close>×</button></header>
-                      <div class="oc-dialog-body"><p>The updated settings will be applied to this workspace.</p></div>
-                      <footer class="oc-dialog-footer"><button class="oc-button oc-button-ghost" type="button" data-dialog-close>Cancel</button><button class="oc-button oc-button-primary" type="button" data-dialog-close>Apply</button></footer>
-                    </dialog>
+                  <label class="oc-field home-input-demo"><span class="oc-field-label">API key</span><span class="oc-sensitive-input" data-sensitive-input><input class="oc-input" id="home-sensitive-input" type="password" value="sk-openclaw-example" autocomplete="off" aria-label="API key" data-sensitive-value /><button class="oc-sensitive-toggle" type="button" aria-controls="home-sensitive-input" aria-label="Show API key" aria-pressed="false" data-sensitive-label="API key" data-toggle-sensitive><i data-lucide="eye" aria-hidden="true"></i></button></span></label>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./agent-components/suggestions/">Suggestions</a>
+                <div class="home-component-demo home-component-demo-fill">
+                  <div class="oc-agent-suggestions home-agent-suggestions" aria-label="Suggested prompts">
+                    <button class="oc-agent-suggestion" type="button"><i class="oc-agent-icon" data-lucide="pen-line" aria-hidden="true"></i><span>Write</span></button>
+                    <button class="oc-agent-suggestion" type="button"><i class="oc-agent-icon" data-lucide="search" aria-hidden="true"></i><span>Learn</span></button>
+                    <button class="oc-agent-suggestion" type="button"><i class="oc-agent-icon" data-lucide="file-code" aria-hidden="true"></i><span>Code</span></button>
                   </div>
                 </div>
               </li>
@@ -162,9 +170,14 @@
                 </div>
               </li>
               <li class="home-component-cell">
-                <a class="home-component-link" href="./interface/primitives/toolbar/">Toolbar</a>
-                <div class="home-component-demo">
-                  <div class="oc-toolbar" role="toolbar" aria-label="Text formatting"><div class="oc-toolbar-group"><button class="oc-toolbar-button" type="button" aria-label="Bold" aria-pressed="true"><strong>B</strong></button><button class="oc-toolbar-button" type="button" aria-label="Italic" aria-pressed="false"><em>I</em></button></div><div class="oc-toolbar-group"><button class="oc-toolbar-button" type="button">Link</button><button class="oc-toolbar-button" type="button">Code</button></div></div>
+                <a class="home-component-link" href="./agent-components/todo-tool/">Todo Tool</a>
+                <div class="home-component-demo home-component-demo-fill">
+                  <ul class="oc-agent-todo-list home-agent-todo">
+                    <li data-state="complete"><span class="oc-agent-todo-marker" aria-hidden="true"><i class="oc-agent-icon" data-lucide="check" aria-hidden="true"></i></span><span class="sr-only">Completed: </span><span class="oc-agent-todo-text">Inspect contract</span></li>
+                    <li data-state="complete"><span class="oc-agent-todo-marker" aria-hidden="true"><i class="oc-agent-icon" data-lucide="check" aria-hidden="true"></i></span><span class="sr-only">Completed: </span><span class="oc-agent-todo-text">Implement component</span></li>
+                    <li data-state="active"><span class="oc-agent-todo-marker" aria-hidden="true"><i class="oc-agent-icon" data-lucide="arrow-right" aria-hidden="true"></i></span><span class="sr-only">In progress: </span><span class="oc-agent-todo-text">Run visual check</span></li>
+                    <li data-state="pending"><span class="oc-agent-todo-marker" aria-hidden="true"></span><span class="sr-only">Not started: </span><span class="oc-agent-todo-text">Publish reference</span></li>
+                  </ul>
                 </div>
               </li>
               <li class="home-component-cell">
@@ -176,7 +189,7 @@
               <li class="home-component-cell">
                 <a class="home-component-link" href="./interface/primitives/date-picker/">Date Picker</a>
                 <div class="home-component-demo">
-                  <label class="oc-date-picker home-input-demo"><span class="oc-field-label">Review date</span><input class="oc-date-input" type="date" value="2026-07-12" /></label>
+                  <label class="oc-date-picker home-input-demo"><span class="oc-field-label">Review date</span><span class="oc-date-control"><input class="oc-date-input" type="date" value="2026-07-12" /><i class="oc-date-icon" data-lucide="calendar" aria-hidden="true"></i></span></label>
                 </div>
               </li>
               <li class="home-component-cell">
@@ -208,9 +221,12 @@
                 </div>
               </li>
               <li class="home-component-cell">
-                <a class="home-component-link" href="./interface/primitives/clipboard-text/">Clipboard Text</a>
+                <a class="home-component-link" href="./agent-components/edit-tool/">Edit Tool</a>
                 <div class="home-component-demo home-component-demo-fill">
-                  <div class="oc-clipboard-text home-clipboard"><code class="oc-clipboard-value">@openclaw/carapace</code><button class="oc-clipboard-action" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace">Copy</button><span class="sr-only" aria-live="polite" data-copy-status></span></div>
+                  <div class="oc-agent-tool-card oc-agent-edit-tool home-agent-edit" data-status="complete">
+                    <header class="oc-agent-tool-card-header"><span class="oc-agent-tool-card-icon" aria-hidden="true"><i class="oc-agent-icon" data-lucide="file-code" aria-hidden="true"></i></span><span class="oc-agent-tool-card-title">Edited components.css</span><span class="oc-agent-diff-stats"><span class="oc-agent-diff-add">+3</span> <span class="oc-agent-diff-remove">−1</span></span></header>
+                    <div class="oc-agent-tool-card-body oc-agent-diff" role="region" aria-label="Changes to styles/components.css" tabindex="0"><div class="oc-agent-diff-line"><span>108</span><span aria-hidden="true"> </span><code>.oc-agent-tool {</code></div><div class="oc-agent-diff-line" data-kind="removed"><span>109</span><span aria-hidden="true">−</span><code>  min-height: 3rem;</code></div><div class="oc-agent-diff-line" data-kind="added"><span>109</span><span aria-hidden="true">+</span><code>  min-height: 2.25rem;</code></div><div class="oc-agent-diff-line" data-kind="added"><span>110</span><span aria-hidden="true">+</span><code>  font-size: var(--oc-font-size-sm);</code></div><div class="oc-agent-diff-line" data-kind="added"><span>111</span><span aria-hidden="true">+</span><code>  border-radius: var(--oc-radius-control);</code></div><div class="oc-agent-diff-line"><span>112</span><span aria-hidden="true"> </span><code>}</code></div></div>
+                  </div>
                 </div>
               </li>
               <li class="home-component-cell">
@@ -234,7 +250,14 @@
               <li class="home-component-cell">
                 <a class="home-component-link" href="./interface/primitives/empty/">Empty</a>
                 <div class="home-component-demo home-component-demo-fill">
-                  <section class="oc-empty" aria-labelledby="home-empty-title"><div class="oc-empty-content"><span class="oc-empty-icon" aria-hidden="true">◇</span><h2 class="oc-empty-title" id="home-empty-title">No saved views</h2><div class="oc-empty-actions"><button class="oc-action oc-action-primary" type="button">Create view</button></div></div></section>
+                  <section class="oc-empty home-empty" aria-labelledby="home-empty-title" aria-describedby="home-empty-description">
+                    <div class="oc-empty-content">
+                      <span class="oc-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></span>
+                      <h2 class="oc-empty-title" id="home-empty-title">No saved views</h2>
+                      <p class="oc-empty-description" id="home-empty-description">Save the current filters so you can return to this component set.</p>
+                      <div class="oc-empty-actions"><button class="oc-action oc-action-primary" type="button">Create saved view</button></div>
+                    </div>
+                  </section>
                 </div>
               </li>
               <li class="home-component-cell">
@@ -260,15 +283,40 @@
                 </div>
               </li>
               <li class="home-component-cell">
-                <a class="home-component-link" href="./interface/primitives/loader/">Loader</a>
-                <div class="home-component-demo">
-                  <span class="oc-loader" role="status" aria-atomic="true"><span class="oc-loader-spinner" aria-hidden="true"></span><span>Syncing components…</span></span>
-                </div>
-              </li>
-              <li class="home-component-cell">
                 <a class="home-component-link" href="./interface/primitives/meter/">Meter</a>
                 <div class="home-component-demo home-component-demo-fill">
                   <div class="oc-meter home-meter"><label class="oc-meter-header" for="home-storage-meter"><strong>Storage used</strong><span aria-hidden="true">64%</span></label><meter class="oc-meter-value" id="home-storage-meter" min="0" max="100" low="50" high="80" optimum="0" value="64">64%</meter><p class="oc-meter-caption">6.4 GB of 10 GB</p></div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./agent-components/bash-tool/">Bash Tool</a>
+                <div class="home-component-demo home-component-demo-fill">
+                  <div class="oc-agent-tool-card oc-agent-bash-tool home-agent-bash" data-status="complete">
+                    <header class="oc-agent-tool-card-header"><span class="oc-agent-tool-card-title">Ran command: bun</span></header>
+                    <div class="oc-agent-tool-card-body oc-agent-bash-terminal"><div class="oc-agent-bash-command"><span aria-hidden="true">$ </span><code>bun run check</code></div><pre class="oc-agent-bash-output" role="region" aria-label="Command output" tabindex="0"><code>29 pass · 0 fail
+Finished in 312ms</code></pre></div>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/dialog/">Dialog</a>
+                <div class="home-component-demo">
+                  <div data-dialog><button class="oc-button oc-button-secondary" type="button" data-dialog-open>Open dialog</button><dialog class="oc-dialog" aria-labelledby="home-dialog-title" aria-describedby="home-dialog-description"><header class="oc-dialog-header"><div><h3 class="oc-dialog-title" id="home-dialog-title">Apply changes?</h3><p class="oc-dialog-summary" id="home-dialog-description">The updated settings will be applied to this workspace.</p></div><button class="oc-dialog-close" type="button" aria-label="Close dialog" data-dialog-close><i data-lucide="x"></i></button></header><footer class="oc-dialog-footer"><button class="oc-button oc-button-ghost" type="button" data-dialog-close>Cancel</button><button class="oc-button oc-button-primary" type="button" data-dialog-close>Apply</button></footer></dialog></div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./agent-components/thinking-tool/">Thinking Tool</a>
+                <div class="home-component-demo home-component-demo-fill">
+                  <details class="oc-agent-tool-row home-agent-thinking" open>
+                    <summary class="oc-agent-tool-row-summary"><span class="oc-agent-tool-row-label">Thought</span><span class="oc-agent-tool-row-chevron" aria-hidden="true"><i class="oc-agent-icon" data-lucide="chevron-right" aria-hidden="true"></i></span></summary>
+                    <div class="oc-agent-tool-row-panel"><p class="oc-agent-thinking-content">Reviewed component coverage and preview density before choosing the smallest sustainable change.</p></div>
+                  </details>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/clipboard-text/">Clipboard Text</a>
+                <div class="home-component-demo">
+                  <div class="oc-clipboard-text home-clipboard"><code class="oc-clipboard-value">@openclaw/carapace</code><button class="oc-clipboard-action oc-clipboard-action-icon" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace"><i data-lucide="copy" aria-hidden="true"></i></button><span class="sr-only" aria-live="polite" data-copy-status></span></div>
                 </div>
               </li>
             </ul>

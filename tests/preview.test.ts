@@ -136,17 +136,203 @@ describe("preview contracts", () => {
     );
   });
 
+  test("models Grid column variants and item counts through the workbench schema", () => {
+    const definition = getWorkbenchDefinition("primitive-grid");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "columns",
+        label: "Columns",
+        type: "choice",
+        options: [
+          { label: "Auto", value: "auto" },
+          { label: "2", value: "2" },
+          { label: "3", value: "3" },
+          { label: "4", value: "4" },
+        ],
+      },
+      {
+        id: "items",
+        label: "Items",
+        type: "choice",
+        options: [
+          { label: "2", value: "2" },
+          { label: "3", value: "3" },
+          { label: "4", value: "4" },
+          { label: "6", value: "6" },
+        ],
+      },
+    ]);
+    expect(normalizeWorkbenchState(definition, { columns: "auto", items: "6" })).toEqual({
+      columns: "auto",
+      items: "6",
+    });
+    expect(normalizeWorkbenchState(definition, { columns: "5", items: "9" })).toEqual({
+      columns: "3",
+      items: "3",
+    });
+    expect(definition?.markup({ columns: "2", items: "4" })).toContain('class="oc-grid oc-grid-2"');
+    expect(definition?.markup({ columns: "2", items: "4" })).toContain("Tokens");
+    expect(definition?.markup({ columns: "auto", items: "2" })).toContain(
+      'class="oc-grid oc-grid-auto"',
+    );
+  });
+
+  test("models App Surface toolbar and nested card without inventing modifiers", () => {
+    const definition = getWorkbenchDefinition("primitive-app-surface");
+
+    expect(definition?.controls).toMatchObject([
+      { id: "toolbar", label: "Toolbar", type: "toggle" },
+      { id: "card", label: "Card", type: "toggle" },
+    ]);
+    expect(normalizeWorkbenchState(definition, { toolbar: false, card: false })).toEqual({
+      toolbar: false,
+      card: false,
+    });
+    expect(normalizeWorkbenchState(definition, { toolbar: "yes", card: "yes" })).toEqual({
+      toolbar: true,
+      card: true,
+    });
+    expect(definition?.markup({ toolbar: true, card: true })).toContain('class="oc-app-surface"');
+    expect(definition?.markup({ toolbar: true, card: true })).toContain(
+      'class="primitive-app-surface-toolbar"',
+    );
+    expect(definition?.markup({ toolbar: true, card: true })).toContain(
+      'class="oc-card primitive-app-surface-card"',
+    );
+    expect(definition?.markup({ toolbar: false, card: false })).toContain("OpenClaw application");
+    expect(definition?.markup({ toolbar: false, card: false })).not.toContain(
+      "primitive-app-surface-toolbar",
+    );
+    expect(definition?.markup({ toolbar: false, card: false })).not.toContain("oc-card");
+    expect(getReferenceContent("primitive-app-surface")).toContain(
+      'class="specimen-frame oc-app-surface"',
+    );
+    expect(getReferenceContent("primitive-app-surface")).toContain(
+      'class="primitive-app-surface-toolbar"',
+    );
+    expect(getReferenceContent("primitive-app-surface")).toContain(
+      'class="oc-card primitive-app-surface-card"',
+    );
+  });
+
+  test("models Hero lede and consumer-owned actions without inventing modifiers", () => {
+    const definition = getWorkbenchDefinition("primitive-hero");
+
+    expect(definition?.controls).toMatchObject([
+      { id: "lede", label: "Lede", type: "toggle" },
+      { id: "actions", label: "Actions", type: "toggle" },
+    ]);
+    expect(normalizeWorkbenchState(definition, { lede: false, actions: true })).toEqual({
+      lede: false,
+      actions: true,
+    });
+    expect(normalizeWorkbenchState(definition, { lede: "yes", actions: "yes" })).toEqual({
+      lede: true,
+      actions: false,
+    });
+    expect(definition?.markup({ lede: true, actions: false })).toContain('class="oc-hero-lede"');
+    expect(definition?.markup({ lede: true, actions: false })).not.toContain("<button");
+    expect(definition?.markup({ lede: false, actions: true })).not.toContain("oc-hero-lede");
+    expect(definition?.markup({ lede: false, actions: true })).toContain(
+      'class="oc-action oc-action-primary"',
+    );
+  });
+
+  test("models Section eyebrow, copy, and adjacent action without inventing modifiers", () => {
+    const definition = getWorkbenchDefinition("primitive-section");
+
+    expect(definition?.controls).toMatchObject([
+      { id: "eyebrow", label: "Eyebrow", type: "toggle" },
+      { id: "copy", label: "Copy", type: "toggle" },
+      { id: "actions", label: "Actions", type: "toggle" },
+    ]);
+    expect(
+      normalizeWorkbenchState(definition, { eyebrow: false, copy: false, actions: false }),
+    ).toEqual({
+      eyebrow: false,
+      copy: false,
+      actions: false,
+    });
+    expect(
+      normalizeWorkbenchState(definition, { eyebrow: "yes", copy: "yes", actions: "yes" }),
+    ).toEqual({
+      eyebrow: true,
+      copy: true,
+      actions: true,
+    });
+    expect(definition?.markup({ eyebrow: true, copy: true, actions: true })).toContain(
+      'class="oc-eyebrow"',
+    );
+    expect(definition?.markup({ eyebrow: true, copy: true, actions: true })).toContain(
+      'class="oc-section-copy"',
+    );
+    expect(definition?.markup({ eyebrow: true, copy: true, actions: true })).toContain(
+      'class="oc-action oc-action-secondary"',
+    );
+    expect(definition?.markup({ eyebrow: false, copy: false, actions: false })).not.toContain(
+      "oc-eyebrow",
+    );
+    expect(definition?.markup({ eyebrow: false, copy: false, actions: false })).not.toContain(
+      "oc-section-copy",
+    );
+    expect(definition?.markup({ eyebrow: false, copy: false, actions: false })).not.toContain(
+      "oc-action",
+    );
+    expect(definition?.markup({ eyebrow: true, copy: true, actions: true })).toContain(
+      "Build with OpenClaw",
+    );
+  });
+
+  test("keeps workbench Flow connectors between markers instead of through titles", async () => {
+    const css = await readFile("preview/preview.css", "utf8");
+    const labCss = await readFile("preview/lab.css", "utf8");
+
+    // Lab list steps reserve space with margin-right for card connectors.
+    expect(labCss).toContain(
+      ".oc-flow-list .oc-flow-step:not(:last-child) {\n  margin-right: 3rem;\n}",
+    );
+
+    // Workbench must clear that margin and draw marker-to-marker rules in the gap.
+    expect(css).toContain(
+      ".component-workbench-frame .oc-flow-step:not(:last-child) {\n  margin-right: 0;\n}",
+    );
+    expect(css).toContain("left: var(--oc-flow-marker-size);");
+    expect(css).toContain("right: calc(-1 * var(--oc-flow-connector-gap));");
+    expect(css).toContain("top: calc(var(--oc-flow-marker-size) / 2);");
+    expect(css).not.toMatch(
+      /\.component-workbench-frame \.oc-flow-step:not\(:last-child\)::after\s*\{[^}]*\bleft:\s*38px;/,
+    );
+    expect(css).not.toMatch(
+      /\.component-workbench-frame \.oc-flow-step:not\(:last-child\)::after\s*\{[^}]*\btop:\s*26px;/,
+    );
+
+    // Mobile workbench frame stacks vertically along the marker axis.
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .component-workbench-frame .oc-flow-list {\n  grid-template-columns: minmax(0, 1fr);\n  column-gap: 0;\n  row-gap: var(--oc-flow-connector-gap);\n}',
+    );
+    expect(css).toContain(
+      "left: calc(var(--oc-flow-marker-size) / 2);\n  width: 1px;\n  height: auto;",
+    );
+  });
+
   test("adapts the Grid specimen to workbench viewport controls", async () => {
     const css = await readFile("preview/preview.css", "utf8");
 
     expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="desktop"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-2 {\n  grid-template-columns: repeat(2, minmax(0, 1fr));',
+    );
+    expect(css).toContain(
       '.component-workbench-canvas[data-viewport="desktop"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-3 {\n  grid-template-columns: repeat(3, minmax(0, 1fr));',
     );
     expect(css).toContain(
-      '.component-workbench-canvas[data-viewport="tablet"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-3 {\n  grid-template-columns: repeat(2, minmax(0, 1fr));',
+      '.component-workbench-canvas[data-viewport="desktop"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-4 {\n  grid-template-columns: repeat(4, minmax(0, 1fr));',
     );
     expect(css).toContain(
-      '.component-workbench-canvas[data-viewport="mobile"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-3 {\n  grid-template-columns: minmax(0, 1fr);',
+      '.component-workbench-canvas[data-viewport="tablet"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-2,\n.component-workbench-canvas[data-viewport="tablet"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-3,\n.component-workbench-canvas[data-viewport="tablet"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-4 {\n  grid-template-columns: repeat(2, minmax(0, 1fr));',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-2,\n.component-workbench-canvas[data-viewport="mobile"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-3,\n.component-workbench-canvas[data-viewport="mobile"]\n  .component-workbench-frame\n  > .specimen-frame\n  > .oc-grid-4 {\n  grid-template-columns: minmax(0, 1fr);',
     );
   });
 
@@ -154,6 +340,37 @@ describe("preview contracts", () => {
     expect(getReferenceContent("primitive-layer-card")).toContain(
       'class="specimen-frame oc-app-surface"',
     );
+  });
+
+  test("builds Layer Card depth from an elevated band and solid primary", async () => {
+    const css = await readFile("preview/lab.css", "utf8");
+    const previewCss = await readFile("preview/preview.css", "utf8");
+    const specimen = getReferenceContent("primitive-layer-card");
+
+    expect(css).not.toContain(".oc-layer-card::before");
+    expect(css).not.toContain(".oc-layer-card::after");
+    expect(css).toContain(".oc-layer-card:has(> .oc-layer-card-secondary)");
+    expect(css).toContain("background: var(--oc-bg-elevated);");
+    expect(css).toContain("background: var(--oc-bg-surface);");
+    expect(css).toContain(
+      "border-radius: var(--oc-radius-surface) var(--oc-radius-surface) 0 0;",
+    );
+    expect(css).toContain(
+      ".oc-layer-card-primary:has(> .oc-layer-card-icon) {\n  display: grid;\n  grid-template-columns: 2.5rem minmax(0, 1fr);\n  gap: var(--oc-space-4);\n  align-items: start;\n}",
+    );
+    expect(css).toContain(
+      "margin-bottom: calc(var(--oc-space-2) * -1);",
+    );
+    expect(previewCss).not.toContain(
+      ".component-workbench-frame .oc-layer-card-secondary,\n.component-workbench-frame .oc-layer-card-primary",
+    );
+    expect(previewCss).not.toContain(
+      "box-shadow: 0 8px 24px color-mix(in srgb, var(--oc-palette-ink-950) 8%, transparent);",
+    );
+    expect(specimen).toContain('class="oc-layer-card"');
+    expect(specimen).toContain('class="oc-layer-card-secondary"');
+    expect(specimen).toContain('class="oc-layer-card-primary"');
+    expect(specimen).toContain("layered card for navigation");
   });
 
   test("uses the shared chevron for Autocomplete disclosure", async () => {
@@ -234,6 +451,9 @@ describe("preview contracts", () => {
       textContent: "Copy code",
       classList: { add() {}, remove() {} },
       hasAttribute: (name: string) => name === "data-copy-code",
+      querySelector() {
+        return null;
+      },
       closest(selector: string) {
         if (selector.startsWith("[data-copy-token]")) return button;
         if (selector === ".code-block") return codeBlock;
@@ -278,6 +498,70 @@ describe("preview contracts", () => {
     expect(timers.size).toBe(0);
   });
 
+  test("preserves icon-only clipboard actions while announcing copy status", async () => {
+    let nextTimer = 1;
+    const timers = new Map<number, () => void>();
+    const view = {
+      navigator: { clipboard: { writeText: async () => undefined } },
+      setTimeout(callback: () => void) {
+        const id = nextTimer++;
+        timers.set(id, callback);
+        return id;
+      },
+      clearTimeout(id: number) {
+        timers.delete(id);
+      },
+    };
+    const status = { textContent: "" };
+    const icon = { tagName: "I" };
+    const textContainer = {
+      querySelector(selector: string) {
+        if (selector === "[data-copy-status]") return status;
+        return null;
+      },
+    };
+    const button = {
+      dataset: { copyText: "@openclaw/carapace" },
+      textContent: "",
+      classList: { add() {}, remove() {} },
+      hasAttribute: () => false,
+      querySelector(selector: string) {
+        if (selector === "svg, [data-lucide]") return icon;
+        return null;
+      },
+      closest(selector: string) {
+        if (selector.startsWith("[data-copy-token]")) return button;
+        if (selector.startsWith("[data-copy-code]")) return null;
+        if (selector.startsWith("[data-copy-text]")) return button;
+        if (selector === ".oc-clipboard-text") return textContainer;
+        return null;
+      },
+    };
+    let click: ((event: { target: typeof button }) => Promise<void>) | undefined;
+    const root = {
+      ownerDocument: { defaultView: view },
+      contains: () => true,
+      addEventListener(_type: string, listener: typeof click) {
+        click = listener;
+      },
+      removeEventListener() {},
+    };
+    const stop = bindCopyActions(root, () => undefined);
+
+    await click?.({ target: button });
+    expect(button.textContent).toBe("");
+    expect(button.querySelector("svg, [data-lucide]")).toBe(icon);
+    expect(status.textContent).toBe("Copied to clipboard.");
+    expect(timers.size).toBe(1);
+
+    const reset = timers.get([...timers.keys()][0]!);
+    timers.delete([...timers.keys()][0]!);
+    reset?.();
+    expect(status.textContent).toBe("");
+    expect(button.querySelector("svg, [data-lucide]")).toBe(icon);
+    stop();
+  });
+
   test("keeps preview-only hover boundaries neutral", async () => {
     const lab = await readFile("preview/lab.css", "utf8");
     const shell = await readFile("preview/preview.css", "utf8");
@@ -306,6 +590,46 @@ describe("preview contracts", () => {
     }
   });
 
+  test("keeps light-mode specimen shells on elevated white", async () => {
+    const lab = await readFile("preview/lab.css", "utf8");
+    const shell = await readFile("preview/preview.css", "utf8");
+
+    const secondary =
+      lab.match(/\.oc-button-secondary\s*\{([^}]*)\}/)?.[1] ?? "";
+    expect(secondary).toContain("background: var(--oc-bg-elevated);");
+    expect(secondary).not.toContain("background: var(--oc-surface-interactive);");
+
+    const toolbar = lab.match(/\.oc-toolbar\s*\{([^}]*)\}/)?.[1] ?? "";
+    expect(toolbar).toContain("background: var(--oc-bg-elevated);");
+
+    const clipboard = lab.match(/\.oc-clipboard-text\s*\{([^}]*)\}/)?.[1] ?? "";
+    expect(clipboard).toContain("background: var(--oc-bg-elevated);");
+
+    for (const selector of [
+      ".text-hierarchy-demo",
+      ".toolbar-demo",
+      ".toast-stage-content",
+      ".segmented-demo > p",
+      ".menubar-app-canvas-surface",
+      ".reference-card.foundations-card-featured",
+    ]) {
+      const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const declarations =
+        shell.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+      expect(declarations).toContain("background: var(--oc-bg-elevated);");
+      expect(declarations).not.toContain("var(--oc-surface-secondary-soft)");
+      expect(declarations).not.toContain("var(--oc-bg-surface)");
+    }
+
+    const lightCanvas =
+      shell.match(
+        /\.component-workbench-canvas\[data-workbench-theme="light"\]\s*\{([^}]*)\}/,
+      )?.[1] ?? "";
+    expect(lightCanvas).toContain("--oc-bg-page: oklch(0.985 0 0);");
+    expect(lightCanvas).toContain("--oc-bg-elevated: oklch(1 0 0);");
+    expect(lightCanvas).not.toContain("--oc-bg-page: var(--oc-palette-paper-100);");
+  });
+
   test("publishes only real action variants through the workbench schema", () => {
     const definition = getWorkbenchDefinition("primitive-action");
 
@@ -323,7 +647,34 @@ describe("preview contracts", () => {
       variant: "secondary",
     });
     expect(normalizeWorkbenchState(definition, { variant: "loading" })).toEqual({
-      variant: "primary",
+      variant: WORKBENCH_ALL_VALUE,
+    });
+  });
+
+  test("publishes ClipboardText action variants through the workbench schema", () => {
+    const definition = getWorkbenchDefinition("primitive-clipboard-text");
+
+    expect(definition?.controls[0]).toMatchObject({
+      id: "variant",
+      type: "choice",
+      compare: "rows",
+      options: [
+        { label: "Label", value: "label" },
+        { label: "Icon", value: "icon" },
+      ],
+    });
+    expect(normalizeWorkbenchState(definition, { variant: "label" })).toEqual({
+      variant: "label",
+    });
+    expect(normalizeWorkbenchState(definition, { variant: "ghost" })).toEqual({
+      variant: WORKBENCH_ALL_VALUE,
+    });
+    expect(getWorkbenchComparison(definition, { variant: WORKBENCH_ALL_VALUE })).toMatchObject({
+      layout: "rows",
+      items: [
+        { label: "Label", state: { variant: "label" } },
+        { label: "Icon", state: { variant: "icon" } },
+      ],
     });
   });
 
@@ -382,8 +733,48 @@ describe("preview contracts", () => {
       action: false,
     });
     expect(normalizeWorkbenchState(definition, { tone: "unknown", action: "yes" })).toEqual({
-      tone: "warning",
+      tone: WORKBENCH_ALL_VALUE,
       action: true,
+    });
+  });
+
+  test("publishes only real Link variants through the workbench schema", () => {
+    const definition = getWorkbenchDefinition("primitive-link");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "variant",
+        type: "choice",
+        compare: "rows",
+        options: [
+          { label: "Inline", value: "inline" },
+          { label: "Muted", value: "muted" },
+          { label: "Standalone", value: "standalone" },
+        ],
+      },
+      { id: "disabled", type: "toggle" },
+    ]);
+    expect(getWorkbenchControlOptions(definition?.controls[0]).map(({ label }) => label)).toEqual([
+      "All",
+      "Inline",
+      "Muted",
+      "Standalone",
+    ]);
+    expect(normalizeWorkbenchState(definition, { variant: "muted", disabled: true })).toEqual({
+      variant: "muted",
+      disabled: true,
+    });
+    expect(normalizeWorkbenchState(definition, { variant: "underline", disabled: "yes" })).toEqual({
+      variant: WORKBENCH_ALL_VALUE,
+      disabled: false,
+    });
+    expect(getWorkbenchComparison(definition, { variant: WORKBENCH_ALL_VALUE, disabled: false })).toMatchObject({
+      layout: "rows",
+      items: [
+        { label: "Inline", state: { variant: "inline", disabled: false } },
+        { label: "Muted", state: { variant: "muted", disabled: false } },
+        { label: "Standalone", state: { variant: "standalone", disabled: false } },
+      ],
     });
   });
 
@@ -423,6 +814,115 @@ describe("preview contracts", () => {
     expect(normalizeWorkbenchState(definition, { value: "unknown", disabled: "yes" })).toEqual({
       value: "balanced",
       disabled: false,
+    });
+  });
+
+  test("models Input Area states from the shared field contract", () => {
+    const definition = getWorkbenchDefinition("primitive-input-area");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "state",
+        type: "choice",
+        compare: "stack",
+        options: [
+          { label: "Default", value: "default" },
+          { label: "Invalid", value: "invalid" },
+          { label: "Disabled", value: "disabled" },
+        ],
+      },
+      { id: "message", type: "toggle" },
+    ]);
+    expect(normalizeWorkbenchState(definition, {})).toEqual({
+      state: WORKBENCH_ALL_VALUE,
+      message: true,
+    });
+    expect(normalizeWorkbenchState(definition, { state: "invalid", message: false })).toEqual({
+      state: "invalid",
+      message: false,
+    });
+    expect(normalizeWorkbenchState(definition, { state: "readonly", message: "yes" })).toEqual({
+      state: WORKBENCH_ALL_VALUE,
+      message: true,
+    });
+    expect(getWorkbenchComparison(definition, normalizeWorkbenchState(definition, {}))).toMatchObject({
+      layout: "stack",
+      items: [
+        { label: "Default", state: { state: "default", message: true } },
+        { label: "Invalid", state: { state: "invalid", message: true } },
+        { label: "Disabled", state: { state: "disabled", message: true } },
+      ],
+    });
+  });
+
+  test("models Input Group addon positions and field states without inventing readonly", () => {
+    const definition = getWorkbenchDefinition("primitive-input-group");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "addon",
+        type: "choice",
+        compare: "stack",
+        options: [
+          { label: "Prefix", value: "prefix" },
+          { label: "Suffix", value: "suffix" },
+          { label: "Both", value: "both" },
+        ],
+      },
+      {
+        id: "state",
+        type: "choice",
+        options: [
+          { label: "Default", value: "default" },
+          { label: "Invalid", value: "invalid" },
+          { label: "Disabled", value: "disabled" },
+        ],
+      },
+      { id: "message", type: "toggle" },
+    ]);
+    expect(normalizeWorkbenchState(definition, {})).toEqual({
+      addon: WORKBENCH_ALL_VALUE,
+      state: "default",
+      message: true,
+    });
+    expect(
+      normalizeWorkbenchState(definition, {
+        addon: "suffix",
+        state: "invalid",
+        message: false,
+      }),
+    ).toEqual({
+      addon: "suffix",
+      state: "invalid",
+      message: false,
+    });
+    expect(
+      normalizeWorkbenchState(definition, {
+        addon: "leading",
+        state: "readonly",
+        message: "yes",
+      }),
+    ).toEqual({
+      addon: WORKBENCH_ALL_VALUE,
+      state: "default",
+      message: true,
+    });
+    expect(getWorkbenchComparison(definition, normalizeWorkbenchState(definition, {}))).toMatchObject({
+      layout: "stack",
+      items: [
+        {
+          label: "Prefix",
+          state: { addon: "prefix", state: "default", message: true },
+        },
+        {
+          label: "Suffix",
+          state: { addon: "suffix", state: "default", message: true },
+        },
+        {
+          label: "Both",
+          state: { addon: "both", state: "default", message: true },
+        },
+      ],
     });
   });
 
@@ -530,16 +1030,16 @@ describe("preview contracts", () => {
     expect(getWorkbenchDefinition("mode-selector")?.controls[0].id).toBe("value");
   });
 
-  test("models recoverable Error Message states", () => {
+  test("models documented Error Message examples", () => {
     const definition = getWorkbenchDefinition("error-message");
 
     expect(definition?.controls).toMatchObject([
       {
-        id: "state",
+        id: "example",
         type: "choice",
         options: [
-          { label: "Failed", value: "failed" },
-          { label: "Retrying", value: "retrying" },
+          { label: "Interrupted", value: "interrupted" },
+          { label: "Rate limit", value: "rate-limit" },
         ],
       },
     ]);
@@ -557,6 +1057,178 @@ describe("preview contracts", () => {
         { label: "Streaming update", value: "streaming" },
       ],
     });
+  });
+
+  test("models documented Loader sizes and label visibility", () => {
+    const definition = getWorkbenchDefinition("primitive-loader");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "size",
+        type: "choice",
+        compare: "rows",
+        options: [
+          { label: "Small", value: "sm" },
+          { label: "Medium", value: "md" },
+          { label: "Large", value: "lg" },
+        ],
+      },
+      { id: "label", type: "toggle" },
+    ]);
+    expect(getWorkbenchControlOptions(definition?.controls[0]).map(({ label }) => label)).toEqual([
+      "All",
+      "Small",
+      "Medium",
+      "Large",
+    ]);
+    expect(normalizeWorkbenchState(definition, { size: "sm", label: false })).toEqual({
+      size: "sm",
+      label: false,
+    });
+    expect(normalizeWorkbenchState(definition, { size: "xl", label: "yes" })).toEqual({
+      size: WORKBENCH_ALL_VALUE,
+      label: true,
+    });
+    expect(
+      getWorkbenchComparison(definition, normalizeWorkbenchState(definition, { size: WORKBENCH_ALL_VALUE })),
+    ).toMatchObject({
+      layout: "rows",
+      items: [
+        { label: "Small", state: { size: "sm", label: true } },
+        { label: "Medium", state: { size: "md", label: true } },
+        { label: "Large", state: { size: "lg", label: true } },
+      ],
+    });
+  });
+
+  test("models documented Skeleton Line count and width variants", () => {
+    const definition = getWorkbenchDefinition("primitive-skeleton-line");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "count",
+        type: "choice",
+        compare: "stack",
+        options: [
+          { label: "One", value: "1" },
+          { label: "Three", value: "3" },
+          { label: "Five", value: "5" },
+        ],
+      },
+      {
+        id: "width",
+        type: "choice",
+        options: [
+          { label: "Full", value: "full" },
+          { label: "Mixed", value: "mixed" },
+          { label: "Short", value: "short" },
+        ],
+      },
+    ]);
+    expect(getWorkbenchControlOptions(definition?.controls[0]).map(({ label }) => label)).toEqual([
+      "All",
+      "One",
+      "Three",
+      "Five",
+    ]);
+    expect(normalizeWorkbenchState(definition, { count: "1", width: "short" })).toEqual({
+      count: "1",
+      width: "short",
+    });
+    expect(normalizeWorkbenchState(definition, { count: "9", width: "wide" })).toEqual({
+      count: WORKBENCH_ALL_VALUE,
+      width: "mixed",
+    });
+    expect(
+      getWorkbenchComparison(
+        definition,
+        normalizeWorkbenchState(definition, { count: WORKBENCH_ALL_VALUE, width: "full" }),
+      ),
+    ).toMatchObject({
+      layout: "stack",
+      items: [
+        { label: "One", state: { count: "1", width: "full" } },
+        { label: "Three", state: { count: "3", width: "full" } },
+        { label: "Five", state: { count: "5", width: "full" } },
+      ],
+    });
+  });
+
+  test("models Provider Logo size, label, state, and layout controls", () => {
+    const definition = getWorkbenchDefinition("primitive-provider-logo");
+
+    expect(definition?.controls).toMatchObject([
+      {
+        id: "size",
+        type: "choice",
+        compare: "rows",
+        options: [
+          { label: "Small", value: "sm" },
+          { label: "Medium", value: "md" },
+          { label: "Large", value: "lg" },
+        ],
+      },
+      { id: "label", type: "toggle" },
+      {
+        id: "state",
+        type: "choice",
+        options: [
+          { label: "Default", value: "default" },
+          { label: "Selected", value: "selected" },
+          { label: "Muted", value: "muted" },
+        ],
+      },
+      {
+        id: "layout",
+        type: "choice",
+        options: [
+          { label: "Wrap", value: "wrap" },
+          { label: "Row", value: "row" },
+          { label: "Stack", value: "stack" },
+        ],
+      },
+    ]);
+    expect(normalizeWorkbenchState(definition, {})).toEqual({
+      size: WORKBENCH_ALL_VALUE,
+      label: true,
+      state: "default",
+      layout: "wrap",
+    });
+    expect(
+      normalizeWorkbenchState(definition, {
+        size: "lg",
+        label: false,
+        state: "selected",
+        layout: "stack",
+      }),
+    ).toEqual({
+      size: "lg",
+      label: false,
+      state: "selected",
+      layout: "stack",
+    });
+    expect(
+      normalizeWorkbenchState(definition, {
+        size: "xl",
+        label: "yes",
+        state: "unknown",
+        layout: "grid",
+      }),
+    ).toEqual({
+      size: WORKBENCH_ALL_VALUE,
+      label: true,
+      state: "default",
+      layout: "wrap",
+    });
+    expect(definition?.markup({ size: "sm", label: true, state: "default", layout: "wrap" })).toContain(
+      "oc-provider-logo-sm",
+    );
+    expect(definition?.markup({ size: "md", label: false, state: "selected", layout: "row" })).toContain(
+      'data-selected="true"',
+    );
+    expect(definition?.markup({ size: "lg", label: true, state: "muted", layout: "stack" })).toContain(
+      "oc-provider-logo-muted",
+    );
   });
 
   test("models documented Spiral Loader sizes", () => {
@@ -589,7 +1261,7 @@ describe("preview contracts", () => {
       example: "fast",
     });
     expect(normalizeWorkbenchState(definition, { example: "unknown" })).toEqual({
-      example: "inline",
+      example: WORKBENCH_ALL_VALUE,
     });
   });
 
@@ -609,15 +1281,29 @@ describe("preview contracts", () => {
       content: "file",
     });
     expect(normalizeWorkbenchState(definition, { content: "unknown" })).toEqual({
-      content: "text",
+      content: WORKBENCH_ALL_VALUE,
     });
   });
 
   test("models Agent tool lifecycle without synthetic states", () => {
+    for (const pageId of ["bash-tool", "edit-tool", "generic-tool"]) {
+      const definition = getWorkbenchDefinition(pageId);
+      expect(definition?.controls).toMatchObject([
+        {
+          id: "state",
+          type: "choice",
+          options: [
+            { label: "Running", value: "animating" },
+            { label: "Complete", value: "complete" },
+          ],
+        },
+      ]);
+      expect(normalizeWorkbenchState(definition, { state: "pending" })).toEqual({
+        state: "complete",
+      });
+    }
+
     for (const pageId of [
-      "bash-tool",
-      "edit-tool",
-      "generic-tool",
       "mcp-tool",
       "search-tool",
       "thinking-tool",
@@ -737,6 +1423,16 @@ describe("preview contracts", () => {
       expect(fragment).not.toContain(legacyDisplayName);
     }
 
+    const foundations = await readFile("preview/static-routes/foundations.html", "utf8");
+    expect(foundations).toContain('class="intro intro-compact foundations-overview"');
+    expect(foundations).toContain('class="foundations-card-grid"');
+    expect(foundations).toContain('class="reference-card foundations-card-featured"');
+    expect(foundations).toContain('class="foundations-card-cluster"');
+    expect(foundations).toContain('href="./tokens/"');
+    expect(foundations).toContain('href="./typography/"');
+    expect(foundations).toContain('href="./base/"');
+    expect(foundations.match(/class="reference-card[^"]*"/g)).toHaveLength(7);
+
     const contentPageIds = referencePages
       .map(({ id }) => id)
       .filter((id) => !areaOverviewIds.has(id))
@@ -748,6 +1444,52 @@ describe("preview contracts", () => {
       expect(content).toContain('class="reference-intro"');
       expect(content).toContain("<h1>");
     }
+  });
+
+  test("organizes Typography around roles, scale, and licensed assets", async () => {
+    const content = getReferenceContent("foundation-typography");
+    const css = await readFile("preview/preview.css", "utf8");
+
+    expect(content).toContain('id="type-roles"');
+    expect(content).toContain('class="type-role-grid"');
+    expect(content).toContain("--oc-font-display");
+    expect(content).toContain("--oc-font-body");
+    expect(content).toContain("--oc-font-serif");
+    expect(content).toContain("--oc-font-mono");
+    expect(content).toContain('id="type-scale"');
+    expect(content).toContain('class="type-scale-list"');
+    expect(content).toContain("--oc-font-size-3xl");
+    expect(content).toContain("--oc-font-size-xs");
+    expect(content).toContain("Licensed fonts stay with the consumer");
+    expect(content).toContain(
+      "Use Switzer and Sentient only where the consumer holds the appropriate license.",
+    );
+    expect(content).toContain("fallback stacks, not font binaries");
+    expect(content).not.toContain('class="type-specimens"');
+    expect(css).toContain(".type-role-grid");
+    expect(css).toContain(".type-scale-row");
+    const typeRoleCard =
+      css.match(/\.type-role-card\s*\{([^}]*)\}/)?.[1] ?? "";
+    expect(typeRoleCard).toContain("border-radius: var(--oc-radius-surface)");
+    const typeScaleList =
+      css.match(/\.type-scale-list\s*\{([^}]*)\}/)?.[1] ?? "";
+    expect(typeScaleList).toContain("border-radius: var(--oc-radius-surface)");
+  });
+
+  test("applies surface radius to Foundations reference cards", async () => {
+    const css = await readFile("preview/preview.css", "utf8");
+    const shapeIntro = getReferenceContent("foundation-shape-depth");
+    const referenceCard =
+      css.match(/(?:^|\n)\.reference-card\s*\{([^}]*)\}/)?.[1] ?? "";
+    const colorStatusCard =
+      css.match(/(?:^|\n)\.color-status-card\s*\{([^}]*)\}/)?.[1] ?? "";
+
+    expect(referenceCard).toContain("border-radius: var(--oc-radius-surface)");
+    expect(colorStatusCard).toContain("border-radius: var(--oc-radius-surface)");
+    expect(shapeIntro).toContain(
+      "Semantic geometry uses surface, control, and inset roles",
+    );
+    expect(shapeIntro).not.toContain("keeps product UI square");
   });
 
   test("publishes the introduction as a live primitive grid", async () => {
@@ -771,13 +1513,29 @@ describe("preview contracts", () => {
     expect(home).toContain('data-preview-route="overview"');
     expect(home).toContain('class="home-component-grid"');
     expect(home).toContain('class="home-component-cell home-brand-cell"');
+    expect(home).toMatch(
+      /<div class="home-brand-intro">\s*<code class="home-brand-package">@openclaw\/carapace<\/code>/,
+    );
     expect(home).toContain('<h1 id="preview-title">Carapace</h1>');
     expect(home).toContain("A carapace is a protective outer shell.");
     expect(home).not.toContain('class="home-hero"');
-    expect(home.match(/home-component-cell/g)).toHaveLength(35);
-    expect(home.match(/class="home-component-cell"/g)).toHaveLength(34);
-    expect(new Set(componentLabels).size).toBe(34);
-    expect(new Set(componentPaths).size).toBe(34);
+    expect(home).toContain('class="oc-clipboard-action oc-clipboard-action-icon"');
+    expect(home).toContain('data-lucide="copy"');
+    expect(home.match(/home-component-cell/g)).toHaveLength(39);
+    expect(home.match(/class="home-component-cell"/g)).toHaveLength(38);
+    expect(new Set(componentLabels).size).toBe(38);
+    expect(new Set(componentPaths).size).toBe(38);
+    expect(componentLabels).toContain("Suggestions");
+    expect(componentLabels).toContain("Bash Tool");
+    expect(componentLabels).toContain("Thinking Tool");
+    expect(componentLabels).toContain("Dialog");
+    expect(componentLabels).toContain("Clipboard Text");
+    expect(componentLabels).not.toContain("Plan Tool");
+    expect(home).toContain('href="./agent-components/suggestions/"');
+    expect(home).toContain('href="./agent-components/bash-tool/"');
+    expect(home).toContain('href="./agent-components/thinking-tool/"');
+    expect(home).toContain('href="./interface/primitives/dialog/"');
+    expect(home).toContain('href="./interface/primitives/clipboard-text/"');
     expect(componentPaths.every((path) => referencePages.some((page) => page.path === path))).toBe(
       true,
     );
@@ -788,6 +1546,9 @@ describe("preview contracts", () => {
     expect(previewStyles).toContain("grid-auto-rows: var(--home-grid-row-height)");
     expect(previewStyles).toContain(".home-agent-input-bar");
     expect(previewStyles).toContain(".home-agent-tool-group");
+    expect(previewStyles).toContain("margin: auto 0 8px");
+    const labStyles = await readFile("preview/lab.css", "utf8");
+    expect(labStyles).toContain(".oc-clipboard-action-icon");
     expect(home).not.toContain('class="oc-pagination-link" href="#"');
     expect(home).toContain(
       'class="oc-autocomplete home-input-demo" data-combobox data-combobox-free-entry="true"><label class="oc-field-label"',
@@ -1215,6 +1976,7 @@ describe("preview contracts", () => {
     expect(source).toContain("formatWorkbenchMarkup");
     expect(source).toContain("renderWorkbenchCode(code, definition.markup(state))");
     expect(source).toContain('classList.add("component-workbench-code-readable")');
+    expect(source).toContain('data-lucide="sliders-horizontal"');
     expect(formatted).toContain("\n  <summary>");
     expect(formatted).toContain("\n    <span>Ran command</span>");
     expect(formatted).toContain("\n    <span data-status=\"success\">Exit 0</span>");
@@ -1232,6 +1994,8 @@ describe("preview contracts", () => {
     expect(css).toContain(".component-workbench-code-token.is-tag");
     expect(css).toContain(".component-workbench-code-token.is-string");
     expect(css).toContain(".component-workbench-code-readable code");
+    expect(css).toContain("line-height: 1.8;");
+    expect(css).toContain("--oc-accent-secondary");
     expect(css).not.toContain(".component-workbench-code-complete");
     expect(css).not.toContain("component-workbench-code-example-field");
   });

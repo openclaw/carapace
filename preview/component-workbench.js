@@ -244,10 +244,19 @@ function createCanvasThemeSwitcher(theme) {
 }
 
 function createCanvasTools(theme, pageId) {
-  const tools = createElement("div", "component-workbench-canvas-tools");
-  tools.append(createCanvasThemeSwitcher(theme));
+  const tools = [];
+  const themeTools = createElement(
+    "div",
+    "component-workbench-canvas-tools component-workbench-canvas-tools-theme",
+  );
+  themeTools.append(createCanvasThemeSwitcher(theme));
+  tools.push(themeTools);
   const viewportModes = getWorkbenchViewportModes(pageId);
-  if (viewportModes.length > 0) tools.append(createViewportSwitcher(viewportModes));
+  if (viewportModes.length > 0) {
+    const viewportTools = createElement("div", "component-workbench-canvas-tools");
+    viewportTools.append(createViewportSwitcher(viewportModes));
+    tools.push(viewportTools);
+  }
   return tools;
 }
 
@@ -589,7 +598,7 @@ export function renderComponentWorkbench(mount, pageId) {
   const frame = createElement("div", "component-workbench-frame");
   frame.append(specimen);
   canvas.append(frame);
-  stage.append(stageTitle, canvas, createCanvasTools(canvasTheme, pageId));
+  stage.append(stageTitle, canvas, ...createCanvasTools(canvasTheme, pageId));
 
   workbench.append(header, stage);
   if (hasControls) {
@@ -606,11 +615,8 @@ export function renderComponentWorkbench(mount, pageId) {
     inspectorToggle.setAttribute("aria-expanded", "true");
     inspectorToggle.setAttribute("aria-controls", `${pageId}-workbench-controls-panel`);
     inspectorToggle.setAttribute("aria-label", "Collapse controls");
-    inspectorToggle.innerHTML = `
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M4 7h10M18 7h2M10 17h10M4 17h2M14 4v6M10 14v6" />
-      </svg>
-    `;
+    inspectorToggle.innerHTML =
+      '<i data-lucide="sliders-horizontal" aria-hidden="true"></i>';
     inspectorHeader.append(inspectorTitle, inspectorToggle);
     const controls = createElement("div", "component-workbench-controls");
     controls.id = `${pageId}-workbench-controls-panel`;

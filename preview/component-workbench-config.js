@@ -27,6 +27,24 @@ const selectOptions = [
   { label: "Deep", value: "deep" },
 ];
 
+const inputAreaStates = [
+  { label: "Default", value: "default" },
+  { label: "Invalid", value: "invalid" },
+  { label: "Disabled", value: "disabled" },
+];
+
+const inputGroupAddons = [
+  { label: "Prefix", value: "prefix" },
+  { label: "Suffix", value: "suffix" },
+  { label: "Both", value: "both" },
+];
+
+const inputGroupStates = [
+  { label: "Default", value: "default" },
+  { label: "Invalid", value: "invalid" },
+  { label: "Disabled", value: "disabled" },
+];
+
 const autocompleteOptions = [
   { label: "Empty", value: "" },
   { label: "Action", value: "Action" },
@@ -62,15 +80,15 @@ const attachmentDisplays = [
   { label: "Image only", value: "image-only" },
 ];
 
-const errorMessageStates = [
-  { label: "Failed", value: "failed" },
-  { label: "Retrying", value: "retrying" },
+const errorMessageExamples = [
+  { label: "Interrupted", value: "interrupted" },
+  { label: "Rate limit", value: "rate-limit" },
 ];
 
 const agentModels = [
-  { label: "Fast · 2.1", value: "fast" },
-  { label: "Balanced · 4.6", value: "balanced" },
-  { label: "Deep · 4.6", value: "deep" },
+  { label: "GPT-5.6 Fast · 5.6", value: "gpt-5-6-fast" },
+  { label: "Extra High · 5.6 Sol", value: "extra-high" },
+  { label: "GPT-5.6 · 5.6", value: "gpt-5-6" },
 ];
 
 const agentModes = [
@@ -114,6 +132,48 @@ const markdownExamples = [
   { label: "Streaming update", value: "streaming" },
 ];
 
+const loaderSizes = [
+  { label: "Small", value: "sm" },
+  { label: "Medium", value: "md" },
+  { label: "Large", value: "lg" },
+];
+
+const skeletonLineCounts = [
+  { label: "One", value: "1" },
+  { label: "Three", value: "3" },
+  { label: "Five", value: "5" },
+];
+
+const skeletonLineWidths = [
+  { label: "Full", value: "full" },
+  { label: "Mixed", value: "mixed" },
+  { label: "Short", value: "short" },
+];
+
+const providerLogoSizes = [
+  { label: "Small", value: "sm" },
+  { label: "Medium", value: "md" },
+  { label: "Large", value: "lg" },
+];
+
+const providerLogoLayouts = [
+  { label: "Wrap", value: "wrap" },
+  { label: "Row", value: "row" },
+  { label: "Stack", value: "stack" },
+];
+
+const providerLogoStates = [
+  { label: "Default", value: "default" },
+  { label: "Selected", value: "selected" },
+  { label: "Muted", value: "muted" },
+];
+
+const providerLogoProviders = [
+  { id: "openai", name: "OpenAI" },
+  { id: "gemini", name: "Gemini" },
+  { id: "xai", name: "xAI" },
+];
+
 const spiralLoaderSizes = [
   { label: "Small", value: "16" },
   { label: "Medium", value: "24" },
@@ -132,6 +192,35 @@ const userMessageContent = [
   { label: "With file", value: "file" },
 ];
 
+const gridColumns = [
+  { label: "Auto", value: "auto" },
+  { label: "2", value: "2" },
+  { label: "3", value: "3" },
+  { label: "4", value: "4" },
+];
+
+const gridItemCounts = [
+  { label: "2", value: "2" },
+  { label: "3", value: "3" },
+  { label: "4", value: "4" },
+  { label: "6", value: "6" },
+];
+
+const gridItemLabels = [
+  "Foundations",
+  "Components",
+  "Resources",
+  "Tokens",
+  "Themes",
+  "Patterns",
+];
+
+const linkVariants = [
+  { label: "Inline", value: "inline" },
+  { label: "Muted", value: "muted" },
+  { label: "Standalone", value: "standalone" },
+];
+
 function escapeHtml(value = "") {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -142,7 +231,7 @@ function escapeHtml(value = "") {
 
 function compactIconMarkup(markup) {
   return markup.replace(
-    /<svg class="oc-agent-icon"[\s\S]*?<\/svg>/g,
+    /<i class="oc-agent-icon" data-lucide="[^"]*" aria-hidden="true"><\/i>/g,
     '<svg aria-hidden="true">…</svg>',
   );
 }
@@ -162,6 +251,22 @@ export function buttonWorkbenchMarkup({ variant = "primary" } = {}) {
   const example = buttonWorkbenchExamples.find(({ id }) => id === variant)
     ?? buttonWorkbenchExamples[0];
   return example.markup;
+}
+
+const clipboardActionVariants = [
+  { label: "Label", value: "label" },
+  { label: "Icon", value: "icon" },
+];
+
+export function clipboardTextWorkbenchMarkup({ variant = "icon" } = {}) {
+  const action = variant === "label"
+    ? `<button class="oc-clipboard-action" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace">Copy</button>`
+    : `<button class="oc-clipboard-action oc-clipboard-action-icon" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace"><i data-lucide="copy" aria-hidden="true"></i></button>`;
+  return `<div class="oc-clipboard-text">
+  <code class="oc-clipboard-value">@openclaw/carapace</code>
+  ${action}
+  <span class="sr-only" aria-live="polite" data-copy-status></span>
+</div>`;
 }
 
 export function bannerWorkbenchMarkup({ tone = "warning", action = true } = {}) {
@@ -234,6 +339,109 @@ export function tableWorkbenchMarkup({ interactive = false } = {}) {
 </div>`;
 }
 
+export function gridWorkbenchMarkup({ columns = "3", items = "3" } = {}) {
+  const column = gridColumns.some(({ value }) => value === columns) ? columns : "3";
+  const count = gridItemCounts.some(({ value }) => value === items) ? Number(items) : 3;
+  const children = gridItemLabels
+    .slice(0, count)
+    .map((label) => `  <article class="oc-card oc-grid-item"><strong>${label}</strong></article>`)
+    .join("\n");
+
+  return `<div class="oc-grid oc-grid-${column}">\n${children}\n</div>`;
+}
+
+export function linkWorkbenchMarkup({ variant = "inline", disabled = false } = {}) {
+  const examples = {
+    inline: {
+      label: "Inline link",
+      href: "/foundations/",
+      className: "oc-link",
+    },
+    muted: {
+      label: "Muted link",
+      href: "/resources/",
+      className: "oc-link oc-link-muted",
+    },
+    standalone: {
+      label: "Browse components",
+      href: "/components/",
+      className: "oc-link oc-link-standalone",
+    },
+  };
+  const selected = examples[variant] ?? examples.inline;
+
+  if (disabled) {
+    return `<a class="${selected.className}" role="link" aria-disabled="true" tabindex="-1">${selected.label}</a>`;
+  }
+
+  return `<a class="${selected.className}" href="${selected.href}" data-workbench-inert-link>${selected.label}</a>`;
+}
+
+export function appSurfaceWorkbenchMarkup({ toolbar = true, card = true } = {}) {
+  const toolbarMarkup = toolbar
+    ? `
+  <header class="primitive-app-surface-toolbar">
+    <span class="oc-pill">Workspace</span>
+    <div class="primitive-row">
+      <button class="oc-action oc-action-ghost" type="button">Settings</button>
+      <button class="oc-action oc-action-secondary" type="button">New</button>
+    </div>
+  </header>`
+    : "";
+  const cardMarkup = card
+    ? `
+    <article class="oc-card primitive-app-surface-card">
+      <strong>Nested card</strong>
+      <p>Reads the component surface aliases published by the app surface root.</p>
+    </article>`
+    : "";
+
+  return `<div class="primitive-app-surface-demo">${toolbarMarkup}
+  <div class="primitive-app-surface-body">
+    <strong>OpenClaw application</strong>
+    <p>Children inherit the canonical interface foundation.</p>${cardMarkup}
+  </div>
+</div>`;
+}
+
+export function heroWorkbenchMarkup({ lede = true, actions = false } = {}) {
+  const ledeMarkup = lede
+    ? '\n  <p class="oc-hero-lede">A shared visual introduction with consumer-owned content and actions.</p>'
+    : "";
+  const actionsMarkup = actions
+    ? `\n  <div class="primitive-row">
+    <button class="oc-action oc-action-primary" type="button">Get started</button>
+    <button class="oc-action oc-action-secondary" type="button">Browse components</button>
+  </div>`
+    : "";
+
+  return `<div class="oc-hero">
+  <h3 class="oc-hero-title">Build the thing that builds things.</h3>${ledeMarkup}${actionsMarkup}
+</div>`;
+}
+
+export function sectionWorkbenchMarkup({
+  eyebrow = true,
+  copy = true,
+  actions = true,
+} = {}) {
+  const eyebrowMarkup = eyebrow ? '\n      <p class="oc-eyebrow">Featured</p>' : "";
+  const copyMarkup = copy
+    ? '\n      <p class="oc-section-copy">Shared hierarchy for product sections, without owning the surrounding page.</p>'
+    : "";
+  const actionsMarkup = actions
+    ? `\n    <a class="oc-action oc-action-secondary" href="#browse" data-workbench-inert-link>Browse <i data-lucide="arrow-right" aria-hidden="true"></i></a>`
+    : "";
+
+  return `<section class="oc-section">
+  <header class="oc-section-header">
+    <div class="oc-section-heading">${eyebrowMarkup}
+      <h3 class="oc-section-title">Build with OpenClaw</h3>${copyMarkup}
+    </div>${actionsMarkup}
+  </header>
+</section>`;
+}
+
 export function selectWorkbenchMarkup({ value = "balanced", disabled = false } = {}) {
   const disabledAttribute = disabled ? " disabled" : "";
   const options = selectOptions
@@ -250,6 +458,134 @@ export function selectWorkbenchMarkup({ value = "balanced", disabled = false } =
 ${options}
     </select>
   </span>
+</div>`;
+}
+
+export function inputAreaWorkbenchMarkup({ state = "default", message = true } = {}) {
+  const selected = inputAreaStates.some(({ value }) => value === state) ? state : "default";
+  const examples = {
+    default: {
+      label: "Instructions",
+      id: "workbench-input-area-default",
+      name: "instructions",
+      placeholder: ' placeholder="e.g. Summarize the changes and list any risks…"',
+      value: "",
+      help: "Markdown is supported.",
+      invalid: false,
+      disabled: false,
+    },
+    invalid: {
+      label: "Project summary",
+      id: "workbench-input-area-invalid",
+      name: "summary",
+      placeholder: "",
+      value: "Short note",
+      help: "Enter at least 20 characters.",
+      invalid: true,
+      disabled: false,
+    },
+    disabled: {
+      label: "Archived note",
+      id: "workbench-input-area-disabled",
+      name: "archivedNote",
+      placeholder: "",
+      value: "Read-only after archival.",
+      help: "",
+      invalid: false,
+      disabled: true,
+    },
+  };
+  const example = examples[selected];
+  const showMessage = Boolean(message && example.help);
+  const disabledAttribute = example.disabled ? " disabled" : "";
+  const invalidAttribute = example.invalid ? ' aria-invalid="true"' : "";
+  const describedBy = showMessage ? ` aria-describedby="${example.id}-message"` : "";
+  const messageMarkup = showMessage
+    ? `\n  <span class="oc-field-message" id="${example.id}-message">${example.help}</span>`
+    : "";
+
+  return `<div class="oc-field">
+  <label class="oc-field-label" for="${example.id}">${example.label}</label>
+  <textarea class="oc-textarea" id="${example.id}" name="${example.name}"${example.placeholder} autocomplete="off"${invalidAttribute}${describedBy}${disabledAttribute}>${escapeHtml(example.value)}</textarea>${messageMarkup}
+</div>`;
+}
+
+export function inputGroupWorkbenchMarkup({
+  addon = "prefix",
+  state = "default",
+  message = true,
+} = {}) {
+  const selectedAddon = inputGroupAddons.some(({ value }) => value === addon) ? addon : "prefix";
+  const selectedState = inputGroupStates.some(({ value }) => value === state) ? state : "default";
+  const examples = {
+    prefix: {
+      label: "Repository",
+      id: "workbench-input-group",
+      name: "repository",
+      type: "text",
+      value: "openclaw/design-system",
+      attrs: ' autocomplete="off" autocapitalize="none" spellcheck="false"',
+      prefix: "github.com/",
+      suffix: "",
+      help: "Owner and repository path.",
+      error: "Enter an owner/repository path.",
+    },
+    suffix: {
+      label: "Timeout",
+      id: "workbench-input-group",
+      name: "timeout",
+      type: "number",
+      value: selectedState === "invalid" ? "0" : "30",
+      attrs: ' min="1" autocomplete="off"',
+      prefix: "",
+      suffix: "seconds",
+      help: "How long to wait before failing.",
+      error: "Enter at least 1 second.",
+    },
+    both: {
+      label: "Endpoint",
+      id: "workbench-input-group",
+      name: "endpoint",
+      type: "text",
+      value: "api.openclaw.ai",
+      attrs: ' autocomplete="off" autocapitalize="none" spellcheck="false"',
+      prefix: "https://",
+      suffix: "/v1",
+      help: "Host without protocol or path.",
+      error: "Enter a valid host.",
+    },
+  };
+  const example = examples[selectedAddon];
+  const invalid = selectedState === "invalid";
+  const disabled = selectedState === "disabled";
+  const helpText = invalid ? example.error : example.help;
+  const showMessage = Boolean(message && !disabled && helpText);
+  const prefixId = `${example.id}-prefix`;
+  const suffixId = `${example.id}-suffix`;
+  const messageId = `${example.id}-message`;
+  const describedBy = [
+    example.prefix ? prefixId : "",
+    example.suffix ? suffixId : "",
+    showMessage ? messageId : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const describedByAttribute = describedBy ? ` aria-describedby="${describedBy}"` : "";
+  const invalidAttribute = invalid ? ' aria-invalid="true"' : "";
+  const disabledAttribute = disabled ? " disabled" : "";
+  const prefixMarkup = example.prefix
+    ? `<span class="oc-input-group-addon" id="${prefixId}">${example.prefix}</span>`
+    : "";
+  const suffixMarkup = example.suffix
+    ? `<span class="oc-input-group-addon" id="${suffixId}">${example.suffix}</span>`
+    : "";
+  const messageMarkup = showMessage
+    ? `\n  <span class="oc-field-message" id="${messageId}">${helpText}</span>`
+    : "";
+
+  return `<div class="oc-field">
+  <label class="oc-field-label" for="${example.id}">${example.label}</label>
+  <span class="oc-input-group">${prefixMarkup}<input class="oc-input" id="${example.id}" name="${example.name}" type="${example.type}" value="${escapeHtml(example.value)}"${example.attrs}${invalidAttribute}${describedByAttribute}${disabledAttribute} />${suffixMarkup}</span>${messageMarkup}
 </div>`;
 }
 
@@ -348,14 +684,29 @@ export function sendButtonWorkbenchMarkup({ state = "idle" } = {}) {
   }
 
   const disabled = state === "idle" ? " disabled" : "";
-  return `<button class="oc-agent-send-button" type="submit" aria-label="Send message"${disabled}>${agentIcon("send")}</button>`;
+  return `<button class="oc-agent-send-button" type="submit" data-state="${state}" aria-label="Send message"${disabled}>${agentIcon("arrow-up")}</button>`;
 }
 
 export function attachmentButtonWorkbenchMarkup({ icon = "plus" } = {}) {
-  const glyph = icon === "paperclip"
-    ? '<i data-lucide="paperclip" aria-hidden="true"></i>'
-    : '<i data-lucide="plus" aria-hidden="true"></i>';
-  return `<button class="oc-agent-attachment-button" type="button" aria-label="Attach">${glyph}</button>`;
+  return `<button class="oc-agent-attachment-button" type="button" aria-label="Attach">${agentIcon(icon === "paperclip" ? "paperclip" : "plus")}</button>`;
+}
+
+function agentSpinner() {
+  return `<span class="oc-agent-spinner" aria-hidden="true">${agentIcon("spinner")}</span>`;
+}
+
+function agentToolRow({ icon = "", label, shimmer = false, detail = "", meta = "", panel = "", open = true } = {}) {
+  const labelMarkup = shimmer
+    ? `<span class="oc-agent-tool-row-label"><span class="oc-agent-text-shimmer">${label}</span></span>`
+    : `<span class="oc-agent-tool-row-label">${label}</span>`;
+  const iconMarkup = icon ? `<span class="oc-agent-tool-row-icon" aria-hidden="true">${icon}</span>` : "";
+  const detailMarkup = detail ? `<span class="oc-agent-tool-row-detail">${detail}</span>` : "";
+  const metaMarkup = meta ? `<span class="oc-agent-tool-row-meta">${meta}</span>` : "";
+  if (!panel) {
+    return `<div class="oc-agent-tool-row">${iconMarkup}${labelMarkup}${detailMarkup}${metaMarkup}</div>`;
+  }
+  const chevron = `<span class="oc-agent-tool-row-chevron" aria-hidden="true">${agentIcon("chevron-right")}</span>`;
+  return `<details class="oc-agent-tool-row"${open ? " open" : ""}><summary class="oc-agent-tool-row-summary">${iconMarkup}${labelMarkup}${detailMarkup}${metaMarkup}${chevron}</summary><div class="oc-agent-tool-row-panel">${panel}</div></details>`;
 }
 
 const emptyStates = [
@@ -430,23 +781,29 @@ export function suggestionsWorkbenchMarkup({ disabled = false } = {}) {
 </div>`;
 }
 
-export function modelPickerWorkbenchMarkup({ value = "balanced" } = {}) {
+export function modelPickerWorkbenchMarkup({ value = "extra-high" } = {}) {
+  const active = agentModels.find((model) => model.value === value) ?? agentModels[1];
+  const [activeName, activeVersion] = active.label.split(" · ");
   const options = agentModels.map(({ label, value: optionValue }) => {
-    const selected = optionValue === value ? " selected" : "";
-    return `<option value="${optionValue}"${selected}>${label}</option>`;
+    const [name, version] = label.split(" · ");
+    const checked = optionValue === value ? " checked" : "";
+    return `<label class="oc-agent-model-option"><input class="sr-only" type="radio" name="workbench-agent-model" value="${optionValue}"${checked}><span class="oc-agent-model-option-copy">${name} <small>${version}</small></span><span class="oc-agent-mode-check" aria-hidden="true">${agentIcon("check")}</span></label>`;
   }).join("");
-  return `<label class="oc-agent-model-field"><span class="sr-only">Model</span>${agentIcon("model")}<select class="oc-agent-model-picker">${options}</select>${agentIcon("chevron")}</label>`;
+  return `<details class="oc-agent-model-picker" data-workbench-model-picker>
+  <summary aria-label="Select model"><strong>${activeName}</strong><span>${activeVersion}</span>${agentIcon("chevron")}</summary>
+  <fieldset class="oc-agent-model-menu"><legend class="sr-only">Model</legend>${options}</fieldset>
+</details>`;
 }
 
 export function modeSelectorWorkbenchMarkup({ value = "agent" } = {}) {
   const active = agentModes.find((mode) => mode.value === value) ?? agentModes[0];
   const options = agentModes.map((mode) => {
     const checked = mode.value === active.value ? " checked" : "";
-    return `<label class="oc-agent-mode-option"><input type="radio" name="workbench-agent-mode" value="${mode.value}"${checked}><span><strong>${mode.label}</strong><small>${mode.value === "agent" ? "Complete tasks directly" : "Plan before making changes"}</small></span></label>`;
+    return `<label class="oc-agent-mode-option"><input class="sr-only" type="radio" name="workbench-agent-mode" value="${mode.value}"${checked}><span class="oc-agent-mode-option-copy"><strong>${mode.label}</strong><small>${mode.value === "agent" ? "Complete tasks directly" : "Plan before making changes"}</small></span><span class="oc-agent-mode-check" aria-hidden="true">${agentIcon("check")}</span></label>`;
   }).join("");
   return `<details class="oc-agent-mode-selector" data-workbench-mode-selector>
-  <summary>${agentIcon("mode")}<span data-agent-mode-label>${active.label}</span>${agentIcon("chevron")}</summary>
-  <div class="oc-agent-mode-menu">${options}</div>
+  <summary aria-label="Select mode">${agentIcon("mode")}<span data-agent-mode-label>${active.label}</span>${agentIcon("chevron")}</summary>
+  <fieldset class="oc-agent-mode-menu"><legend class="sr-only">Execution mode</legend>${options}</fieldset>
 </details>`;
 }
 
@@ -458,7 +815,7 @@ export function fileAttachmentWorkbenchMarkup({
   const isImage = kind === "image";
   const effectiveDisplay = isImage && display === "image-only" ? "image-only" : "chip";
   const filename = isImage ? "interface.png" : "component-spec.md";
-  const detail = isImage ? "PNG · 842 KB" : "Markdown · 3.1 KB";
+  const detail = isImage ? "842 KB" : "3.1 KB";
   const remove = removable
     ? `<button class="oc-agent-file-remove" type="button" aria-label="Remove ${filename}" data-workbench-attachment-remove>${agentIcon("close")}</button>`
     : "";
@@ -469,27 +826,23 @@ export function fileAttachmentWorkbenchMarkup({
   return `<li class="oc-agent-file-attachment" data-display="${effectiveDisplay}" data-kind="${kind}">${content}${remove}</li>`;
 }
 
-export function errorMessageWorkbenchMarkup({ state = "failed" } = {}) {
-  const retrying = state === "retrying";
-  const stateAttributes = retrying ? ' data-state="retrying" aria-busy="true"' : "";
-  const retryLabel = retrying ? "Retrying…" : "Try again";
-  const retryDisabled = retrying ? " disabled" : "";
+export function errorMessageWorkbenchMarkup({ example = "interrupted" } = {}) {
+  const examples = {
+    interrupted: {
+      title: "Something went wrong",
+      message: "The connection ended before the response completed. Your draft is still available.",
+    },
+    "rate-limit": {
+      title: "Rate limit reached",
+      message: "Too many requests in a short window. Wait a moment before sending again.",
+    },
+  };
+  const selected = examples[example] ?? examples.interrupted;
 
-  return `<div class="oc-agent-error-message" role="alert" data-agent-error-message${stateAttributes}>
-  <span class="oc-agent-error-icon" aria-hidden="true">${agentIcon("alert")}</span>
-  <div class="oc-agent-error-copy"><strong>Response interrupted</strong><p>The connection ended before the response completed. Your draft is still available.</p><div class="oc-agent-error-actions"><button class="oc-agent-error-action" type="button" data-workbench-error-retry${retryDisabled}>${retryLabel}</button><button class="oc-agent-error-action" type="button" data-copy-text="Response interrupted: The connection ended before the response completed. Your draft is still available.">Copy details</button></div></div>
+  return `<div class="oc-agent-error-message" role="alert">
+  <strong>${selected.title}</strong>
+  <p>${selected.message}</p>
 </div>`;
-}
-
-function toolDisclosureAttributes(state, open) {
-  const status = state === "animating" ? "running" : "success";
-  return `data-status="${status}" data-state="${state}"${open ? " open" : ""}`;
-}
-
-function toolStateLabel(state, running, complete) {
-  return state === "animating"
-    ? `<span class="oc-agent-text-shimmer" role="status">${running}</span>`
-    : complete;
 }
 
 export function toolWorkbenchMarkup({
@@ -497,67 +850,94 @@ export function toolWorkbenchMarkup({
   state = "complete",
   open = true,
 } = {}) {
-  const attributes = toolDisclosureAttributes(state, open);
   const complete = state === "complete";
 
   if (kind === "bash") {
-    const content = complete
-      ? `<pre role="region" aria-label="Command output" tabindex="0"><code>29 pass · 0 fail\nFinished in 312ms</code></pre>`
+    const header = complete
+      ? `<span class="oc-agent-tool-card-title">Ran command: bun</span>`
+      : `<span class="oc-agent-tool-card-title"><span class="oc-agent-text-shimmer">Running command: bun</span></span>${agentSpinner()}`;
+    const output = complete
+      ? `<pre class="oc-agent-bash-output" role="region" aria-label="Command output" tabindex="0"><code>29 pass · 0 fail\nFinished in 312ms</code></pre>`
       : "";
-    return `<details class="oc-agent-tool oc-agent-bash-tool" ${attributes}><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">${agentIcon("terminal")}</span><span>${toolStateLabel(state, "Running command", "Ran command")}</span><span class="oc-agent-tool-status">${complete ? "Exit 0" : "Running"}</span></summary><div class="oc-agent-tool-content"><div class="oc-agent-bash-command"><span aria-hidden="true">$</span><code>bun run check</code></div>${content}</div></details>`;
+    return `<div class="oc-agent-tool-card oc-agent-bash-tool" data-state="${state}"><header class="oc-agent-tool-card-header">${header}</header><div class="oc-agent-tool-card-body oc-agent-bash-terminal"><div class="oc-agent-bash-command"><span aria-hidden="true">$ </span><code>bun run check</code></div>${output}</div></div>`;
   }
 
   if (kind === "edit") {
-    const content = complete
-      ? `<div class="oc-agent-diff" role="region" aria-label="Changes to styles/components.css" tabindex="0"><div class="oc-agent-diff-line" data-kind="removed"><span>109</span><span aria-hidden="true">−</span><code>min-height: 3rem;</code></div><div class="oc-agent-diff-line" data-kind="added"><span>109</span><span aria-hidden="true">+</span><code>min-height: 2.25rem;</code></div></div>`
-      : `<p>Preparing the patch…</p>`;
-    return `<details class="oc-agent-tool oc-agent-edit-tool" ${attributes}><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">${agentIcon("write")}</span><span>${toolStateLabel(state, "Updating styles/components.css", "styles/components.css")}</span><span class="oc-agent-tool-status">${complete ? "+3 −1" : "Running"}</span></summary><div class="oc-agent-tool-content">${content}</div></details>`;
+    const icon = `<span class="oc-agent-tool-card-icon" aria-hidden="true">${agentIcon("file-code")}</span>`;
+    const header = complete
+      ? `${icon}<span class="oc-agent-tool-card-title">Edited components.css</span><span class="oc-agent-diff-stats"><span class="oc-agent-diff-add">+3</span> <span class="oc-agent-diff-remove">−1</span></span>`
+      : `${icon}<span class="oc-agent-tool-card-title"><span class="oc-agent-text-shimmer">Editing components.css</span></span>${agentSpinner()}`;
+    const body = complete
+      ? `<div class="oc-agent-tool-card-body oc-agent-diff" role="region" aria-label="Changes to styles/components.css" tabindex="0"><div class="oc-agent-diff-line"><span>108</span><span aria-hidden="true"> </span><code>.oc-agent-tool {</code></div><div class="oc-agent-diff-line" data-kind="removed"><span>109</span><span aria-hidden="true">−</span><code>  min-height: 3rem;</code></div><div class="oc-agent-diff-line" data-kind="added"><span>109</span><span aria-hidden="true">+</span><code>  min-height: 2.25rem;</code></div><div class="oc-agent-diff-line" data-kind="added"><span>110</span><span aria-hidden="true">+</span><code>  font-size: var(--oc-font-size-sm);</code></div><div class="oc-agent-diff-line" data-kind="added"><span>111</span><span aria-hidden="true">+</span><code>  border-radius: var(--oc-radius-control);</code></div><div class="oc-agent-diff-line"><span>112</span><span aria-hidden="true"> </span><code>}</code></div></div>`
+      : "";
+    return `<div class="oc-agent-tool-card oc-agent-edit-tool" data-state="${state}"><header class="oc-agent-tool-card-header">${header}</header>${body}</div>`;
   }
 
   if (kind === "search") {
-    const content = complete
-      ? `<p class="oc-agent-search-query">Searched for “semantic token adapter”</p><ol class="oc-agent-search-results"><li><a href="../../foundations/tokens/" data-workbench-inert-link><span class="oc-agent-search-result-icon" aria-hidden="true">${agentIcon("file")}</span><span><strong>Design tokens</strong><small>/foundations/tokens/</small></span></a></li></ol>`
-      : `<p class="oc-agent-search-query">Searching for “semantic token adapter”…</p>`;
-    return `<details class="oc-agent-tool oc-agent-search-tool" ${attributes}><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">${agentIcon("search")}</span><span>${toolStateLabel(state, "Searching", "Found 3 results")}</span><span class="oc-agent-tool-status">Reference</span></summary><div class="oc-agent-tool-content">${content}</div></details>`;
+    if (!complete) {
+      return `<div class="oc-agent-search-tool">${agentToolRow({ label: "Searching...", shimmer: true })}</div>`;
+    }
+    const card = `<div class="oc-agent-tool-card oc-agent-search-card"><header class="oc-agent-tool-card-header"><strong>Searched for</strong><span class="oc-agent-search-query">“semantic token adapter”</span></header><div class="oc-agent-search-results"><div class="oc-agent-search-result"><span class="oc-agent-search-result-icon" aria-hidden="true">${agentIcon("file")}</span><span class="oc-agent-search-result-title">Tailwind adapter</span><span class="oc-agent-search-result-meta">/resources/tailwind/</span></div><div class="oc-agent-search-result"><span class="oc-agent-search-result-icon" aria-hidden="true">${agentIcon("file")}</span><span class="oc-agent-search-result-title">Design tokens</span><span class="oc-agent-search-result-meta">/foundations/tokens/</span></div><div class="oc-agent-search-result"><span class="oc-agent-search-result-icon" aria-hidden="true">${agentIcon("file")}</span><span class="oc-agent-search-result-title">Consumer adapters</span><span class="oc-agent-search-result-meta">/resources/consumer-adapters/</span></div></div></div>`;
+    return `<div class="oc-agent-search-tool">${agentToolRow({ label: "Found 3 results", open, panel: card })}</div>`;
   }
 
   if (kind === "mcp") {
-    const output = complete
-      ? `<pre class="oc-agent-mcp-output" role="region" aria-label="MCP tool result" tabindex="0"><code>{ "resources": 2 }</code></pre>`
-      : "";
-    return `<details class="oc-agent-tool oc-agent-mcp-tool" ${attributes}><summary class="oc-agent-tool-summary"><span class="oc-agent-mcp-mark" aria-hidden="true">M</span><span>${toolStateLabel(state, "Listing resources", "Listed resources")}</span><span class="oc-agent-tool-status">${complete ? "Completed" : "Running"}</span></summary><div class="oc-agent-tool-content"><dl class="oc-agent-mcp-meta"><div><dt>Server</dt><dd>workspace</dd></div><div><dt>Capability</dt><dd>read_resource</dd></div></dl>${output}</div></details>`;
+    if (!complete) {
+      return `<div class="oc-agent-mcp-tool">${agentToolRow({ label: "Listing resources", shimmer: true, detail: "server: workspace" })}</div>`;
+    }
+    const panel = `<div class="oc-agent-tool-card"><pre class="oc-agent-code-block" role="region" aria-label="MCP tool result" tabindex="0"><code>{\n  "resources": [\n    { "name": "Design tokens", "uri": "design-system://tokens" },\n    { "name": "Components", "uri": "design-system://components" }\n  ]\n}</code></pre></div>`;
+    return `<div class="oc-agent-mcp-tool">${agentToolRow({ label: "Listed resources", detail: "server: workspace", open, panel })}</div>`;
   }
 
   if (kind === "thinking") {
-    const content = complete
-      ? `<div class="oc-agent-tool-content"><p>Reviewed component coverage and compatibility constraints before choosing the smallest sustainable change.</p></div>`
-      : "";
-    return `<details class="oc-agent-tool oc-agent-thinking-tool" ${attributes}><summary class="oc-agent-tool-summary"><span class="oc-agent-thinking-mark" aria-hidden="true">✦</span><span>${toolStateLabel(state, "Thinking", "Thought")}</span></summary>${content}</details>`;
+    if (!complete) {
+      return `<div class="oc-agent-thinking-tool">${agentToolRow({ label: "Thinking", shimmer: true })}</div>`;
+    }
+    const panel = `<p class="oc-agent-thinking-content">Reviewed component coverage and compatibility constraints before choosing the smallest sustainable change.</p>`;
+    return `<div class="oc-agent-thinking-tool">${agentToolRow({ label: "Thought", open, panel })}</div>`;
   }
 
   if (kind === "subagent") {
-    const content = complete
-      ? `<div class="oc-agent-subagent-content"><dl class="oc-agent-subagent-meta"><div><dt>Worker</dt><dd>Accessibility reviewer</dd></div><div><dt>Result</dt><dd>No blocking issues</dd></div></dl></div>`
-      : "";
-    return `<details class="oc-agent-subagent-tool" ${attributes}><summary class="oc-agent-subagent-summary"><span class="oc-agent-tool-avatar" aria-hidden="true">A</span><strong>${toolStateLabel(state, "Running subagent", "Completed subagent")}</strong><span>Audit component accessibility</span><time datetime="PT6S">${complete ? "6s" : "Now"}</time></summary>${content}</details>`;
+    const nested = `<div class="oc-agent-tool-row-list">${agentToolRow({ icon: agentIcon("file"), label: "Read file", detail: "styles/components.css" })}${agentToolRow({ icon: agentIcon("search"), label: complete ? "Grep" : "Grepping", shimmer: !complete, detail: "aria-label" })}</div>`;
+    return `<div class="oc-agent-subagent-tool">${agentToolRow({
+      label: complete ? "Completed Subagent" : "Running Subagent",
+      shimmer: !complete,
+      detail: "Audit component accessibility",
+      meta: complete ? "6s" : "",
+      open,
+      panel: nested,
+    })}</div>`;
   }
 
   if (kind === "tool-group") {
-    const label = toolStateLabel(state, "Running task", "Task completed");
-    return `<details class="oc-agent-tool-group" ${attributes}><summary class="oc-agent-tool-group-summary"><strong>${label}</strong><span>1 file, 1 search, and 1 command</span><time datetime="PT6S">${complete ? "6s" : "Now"}</time></summary><ul class="oc-agent-tool-group-list"><li><span aria-hidden="true">${agentIcon("terminal")}</span><strong>${complete ? "Ran command" : "Running command"}</strong><code>bun run check</code></li><li><span aria-hidden="true">${agentIcon("search")}</span><strong>${complete ? "Found 3 results" : "Searching"}</strong><code>semantic tokens</code></li><li><span aria-hidden="true">${agentIcon("file")}</span><strong>Read</strong><code>styles/components.css</code></li></ul></details>`;
+    const nested = `<div class="oc-agent-tool-row-list">${agentToolRow({ icon: agentIcon("terminal"), label: complete ? "Ran command" : "Running command", shimmer: !complete, detail: "bun run check" })}${agentToolRow({ icon: agentIcon("search"), label: complete ? "Found 3 results" : "Searching", detail: "semantic tokens" })}${agentToolRow({ icon: agentIcon("file"), label: "Read file", detail: "styles/components.css" })}</div>`;
+    return `<div class="oc-agent-tool-group">${agentToolRow({
+      label: complete ? "Task completed" : "Running task",
+      shimmer: !complete,
+      detail: "1 file, 1 search, and 1 command",
+      meta: complete ? "6s" : "",
+      open,
+      panel: nested,
+    })}</div>`;
   }
 
-  const content = complete
-    ? `<div class="oc-agent-tool-content"><p>Found three changed component files with no package-contract changes.</p></div>`
-    : "";
-  return `<details class="oc-agent-tool oc-agent-generic-tool" ${attributes}><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">${agentIcon("code")}</span><span>${toolStateLabel(state, "Inspecting workspace", "Inspect workspace")}</span><span class="oc-agent-tool-status">${complete ? "Completed" : "Running"}</span></summary>${content}</details>`;
+  return `<div class="oc-agent-tool-row-list">${agentToolRow({
+    icon: agentIcon("file"),
+    label: complete ? "Read file" : "Reading file",
+    shimmer: !complete,
+    detail: "styles/components.css",
+  })}</div>`;
 }
 
 export function todoToolWorkbenchMarkup({ status = "in_progress" } = {}) {
   const itemState = status === "in_progress" ? "active" : status === "completed" ? "complete" : "pending";
-  const itemPrefix = status === "in_progress" ? "In progress: " : status === "completed" ? "Completed: " : "Pending: ";
-  const count = status === "completed" ? 3 : 2;
-  return `<section class="oc-agent-todo-tool" aria-labelledby="workbench-todo-title"><header><strong id="workbench-todo-title">Update component reference</strong><span>${count} of 3 complete</span></header><ul class="oc-agent-todo-list"><li data-state="complete"><span class="sr-only">Completed: </span>Inspect contract</li><li data-state="complete"><span class="sr-only">Completed: </span>Implement component</li><li data-state="${itemState}"><span class="sr-only">${itemPrefix}</span>Run visual check</li></ul></section>`;
+  const itemPrefix = status === "in_progress" ? "In progress: " : status === "completed" ? "Completed: " : "Not started: ";
+  const marker = itemState === "complete" ? agentIcon("check") : itemState === "active" ? agentIcon("arrow-right") : "";
+  return `<ul class="oc-agent-todo-list">
+  <li data-state="complete"><span class="oc-agent-todo-marker" aria-hidden="true">${agentIcon("check")}</span><span class="sr-only">Completed: </span><span class="oc-agent-todo-text">Inspect contract</span></li>
+  <li data-state="complete"><span class="oc-agent-todo-marker" aria-hidden="true">${agentIcon("check")}</span><span class="sr-only">Completed: </span><span class="oc-agent-todo-text">Implement component</span></li>
+  <li data-state="${itemState}"><span class="oc-agent-todo-marker" aria-hidden="true">${marker}</span><span class="sr-only">${itemPrefix}</span><span class="oc-agent-todo-text">Run visual check</span></li>
+</ul>`;
 }
 
 export function planToolWorkbenchMarkup({
@@ -566,11 +946,21 @@ export function planToolWorkbenchMarkup({
   approved = false,
 } = {}) {
   const complete = state === "complete";
-  const status = approved ? "Approved" : complete ? "Ready" : "Running";
-  const action = approved
-    ? `<button class="oc-agent-plan-action" type="button" data-variant="primary" disabled>Approved</button>`
-    : `<button class="oc-agent-plan-action" type="button" data-variant="primary" data-workbench-plan-approve>Approve</button>`;
-  return `<details class="oc-agent-tool oc-agent-plan-tool" data-state="${approved ? "approved" : state}"${open ? " open" : ""}><summary class="oc-agent-tool-summary"><span class="oc-agent-tool-icon" aria-hidden="true">${agentIcon("file")}</span><span>${toolStateLabel(state, "Preparing implementation-plan.md", "implementation-plan.md")}</span><span class="oc-agent-tool-status">${status}</span></summary><div class="oc-agent-tool-content"><div class="oc-agent-plan-body"><h4>Refine agent component previews</h4><p>Align structure, interaction, and accessibility while preserving the component contract.</p><ol class="oc-agent-plan-list"><li data-state="complete"><span class="sr-only">Completed: </span>Inspect existing contract</li><li data-state="active"><span class="sr-only">In progress: </span>Implement the component</li><li><span class="sr-only">Not started: </span>Validate the preview</li></ol></div><footer class="oc-agent-plan-actions">${action}</footer></div></details>`;
+  const title = complete
+    ? `<span class="oc-agent-tool-card-title">plan-working.md</span>`
+    : `<span class="oc-agent-tool-card-title"><span class="oc-agent-text-shimmer">Writing plan-working.md</span></span>${agentSpinner()}`;
+  const expand = `<button class="oc-agent-plan-expand" type="button" aria-label="${open ? "Collapse plan" : "Expand plan"}" aria-expanded="${open}">${agentIcon("chevrons-down")}</button>`;
+  const summary = open
+    ? `<div class="oc-agent-plan-summary" data-expanded="true"><p>Align structure, interaction, and accessibility with the reference while preserving the existing component contract.</p><p>Start from the shared tool row, then port the card tools and composer states before validating both themes.</p></div>`
+    : `<div class="oc-agent-plan-summary"><p>Align structure, interaction, and accessibility with the reference while preserving the existing component contract.</p></div>`;
+  const approve = approved
+    ? `<button class="oc-agent-plan-approve" type="button" disabled>Approved</button>`
+    : `<button class="oc-agent-plan-approve" type="button" data-workbench-plan-approve${complete ? "" : " disabled"}>Approve</button>`;
+  return `<div class="oc-agent-tool-card oc-agent-plan-tool" data-state="${approved ? "approved" : state}">
+  <header class="oc-agent-tool-card-header"><span class="oc-agent-tool-card-icon" aria-hidden="true">${agentIcon("file")}</span>${title}${expand}</header>
+  <div class="oc-agent-plan-body"><p class="oc-agent-plan-title">Refine agent component previews</p>${summary}</div>
+  <footer class="oc-agent-plan-footer"><button class="oc-agent-plan-read" type="button">Read detailed plan</button>${approve}</footer>
+</div>`;
 }
 
 export function questionToolWorkbenchMarkup({
@@ -578,14 +968,28 @@ export function questionToolWorkbenchMarkup({
   allowSkip = true,
 } = {}) {
   const answered = state === "answered";
-  const skip = allowSkip && !answered
-    ? `<button class="oc-agent-question-action" type="button" data-agent-question-skip>Skip</button>`
+  if (answered) {
+    return `<form class="oc-agent-question-tool" data-workbench-question-form data-state="answered">
+  <header class="oc-agent-question-header"><span class="oc-agent-question-header-label">${agentIcon("question")}Question</span><span class="oc-agent-question-nav">1 of 1</span></header>
+  <div class="oc-agent-question-body"><p class="oc-agent-question-answered" role="status">Answered · Small scoped patch</p></div>
+</form>`;
+  }
+  const skip = allowSkip
+    ? `<button class="oc-agent-question-skip" type="button" data-agent-question-skip>Skip</button>`
     : "";
-  const disabled = answered ? " disabled" : "";
-  const action = answered
-    ? `<span class="oc-agent-tool-status" role="status">Answered · Small scoped patch</span>`
-    : `${skip}<button class="oc-agent-question-action" type="submit" data-variant="primary">Answer</button>`;
-  return `<form class="oc-agent-tool oc-agent-question-tool" data-workbench-question-form><header class="oc-agent-question-header"><span>${agentIcon("learn")} Question</span><span>1 of 1</span></header><fieldset${disabled}><legend><span aria-hidden="true">1</span> How should we apply this change?</legend><label class="oc-agent-question-option"><input type="radio" name="workbench-scope" value="small" checked${disabled}><span aria-hidden="true">A</span><span>Small scoped patch</span></label><label class="oc-agent-question-option"><input type="radio" name="workbench-scope" value="refactor"${disabled}><span aria-hidden="true">B</span><span>Full refactor</span></label></fieldset><div class="oc-agent-question-actions">${action}</div><span class="sr-only" data-workbench-question-status aria-live="polite"></span></form>`;
+  return `<form class="oc-agent-question-tool" data-workbench-question-form>
+  <header class="oc-agent-question-header"><span class="oc-agent-question-header-label">${agentIcon("question")}Question</span><span class="oc-agent-question-nav">1 of 1</span></header>
+  <div class="oc-agent-question-body">
+    <fieldset>
+      <legend class="oc-agent-question-title"><span class="oc-agent-question-badge" aria-hidden="true">1</span>How should we apply this change?</legend>
+      <label class="oc-agent-question-option"><input class="sr-only" type="radio" name="workbench-scope" value="small" checked><span class="oc-agent-question-badge" aria-hidden="true">A</span><span class="oc-agent-question-option-label">Small scoped patch</span></label>
+      <label class="oc-agent-question-option"><input class="sr-only" type="radio" name="workbench-scope" value="refactor"><span class="oc-agent-question-badge" aria-hidden="true">B</span><span class="oc-agent-question-option-label">Full refactor</span></label>
+      <label class="oc-agent-question-option oc-agent-question-option-custom"><input class="sr-only" type="radio" name="workbench-scope" value="custom"><span class="oc-agent-question-badge" aria-hidden="true">C</span><span class="oc-agent-question-custom-field"><span class="sr-only">Custom answer</span><input id="workbench-question-custom" type="text" name="custom-answer" placeholder="Type your answer"></span></label>
+    </fieldset>
+    <div class="oc-agent-question-actions">${skip}<button class="oc-agent-question-submit" type="submit">Send</button></div>
+  </div>
+  <span class="sr-only" data-workbench-question-status aria-live="polite"></span>
+</form>`;
 }
 
 export function composerWorkbenchMarkup({
@@ -598,12 +1002,14 @@ export function composerWorkbenchMarkup({
   const disabledAttribute = disabled ? " disabled" : "";
   const action = sendButtonWorkbenchMarkup({ state: sendState });
 
-  return `<form class="oc-agent-input-bar oc-agent-input-bar-standalone" data-agent-compose-form>
-  <label class="sr-only" for="workbench-composer-message">Message</label>
-  <textarea id="workbench-composer-message" class="oc-agent-input" rows="3" placeholder="Send a message…"${disabledAttribute}>${escapeHtml(draft)}</textarea>
-  <div class="oc-agent-input-toolbar">
-    <div class="oc-agent-input-tools">…</div>
-    ${action}
+  return `<form class="oc-agent-input-bar" data-agent-compose-form>
+  <div class="oc-agent-input-container">
+    <label class="sr-only" for="workbench-composer-message">Message</label>
+    <textarea id="workbench-composer-message" class="oc-agent-input" rows="1" placeholder="Send a message..."${disabledAttribute}>${escapeHtml(draft)}</textarea>
+    <div class="oc-agent-input-toolbar">
+      <div class="oc-agent-input-tools">…</div>
+      <div class="oc-agent-input-actions">${action}</div>
+    </div>
   </div>
   <span class="sr-only" data-agent-compose-status aria-live="polite"></span>
 </form>`;
@@ -611,34 +1017,32 @@ export function composerWorkbenchMarkup({
 
 function chatResponseMarkup(status, copyToolbar) {
   if (status === "error") {
-    return `<li class="oc-agent-error-message" role="alert">
-  <span class="oc-agent-error-icon" aria-hidden="true">${agentIcon("alert")}</span>
-  <div class="oc-agent-error-copy"><strong>Request failed</strong><p>The response could not be completed.</p><div class="oc-agent-error-actions"><button class="oc-agent-error-action" type="button" data-workbench-chat-retry>Try again</button></div></div>
-</li>`;
+    return `<div class="oc-agent-assistant-turn"><div class="oc-agent-error-message" role="alert"><strong>Request failed</strong><p>The response could not be completed. Your draft is still available.</p></div></div>`;
   }
 
-  const statusAttribute = status === "streaming" ? ' data-status="streaming"' : "";
-  const role = status === "submitted" ? "OpenClaw · waiting" : status === "streaming" ? "OpenClaw · responding" : "OpenClaw";
-  const content = status === "submitted"
-    ? '<span class="oc-agent-text-shimmer" role="status">Preparing a response…</span>'
-    : status === "streaming"
-      ? 'Reviewing the component contract and current validation output<span class="oc-agent-streaming-cursor" aria-hidden="true"></span>'
-      : "The component contract is intact. The preview changes are local, the focused tests pass, and no exported token or component contract changed.";
-  const actions = copyToolbar && status === "ready"
-    ? '<div class="oc-agent-message-actions"><button type="button" aria-label="Copy response" data-copy-text="The component contract is intact and ready for review."><i data-lucide="copy"></i><span>Copy</span></button><button type="button" aria-label="Mark response helpful"><i data-lucide="thumbs-up"></i></button><button type="button" aria-label="Mark response unhelpful"><i data-lucide="thumbs-down"></i></button></div>'
-    : "";
+  if (status === "submitted") {
+    return `<div class="oc-agent-tool-row oc-agent-planning">${agentSpinner()}<span class="oc-agent-text-shimmer" role="status">Processing...</span></div>`;
+  }
 
-  return `<li class="oc-agent-message"${statusAttribute}>
-  <header class="oc-agent-message-header"><span class="oc-agent-avatar" aria-hidden="true">${agentIcon("sparkle")}</span><span class="oc-agent-message-role">${role}</span></header>
-  <div class="oc-agent-message-body"><p>${content}</p></div>${actions}
-</li>`;
+  if (status === "streaming") {
+    return `<div class="oc-agent-assistant-turn" data-status="streaming">${agentToolRow({ icon: agentIcon("search"), label: "Searching", shimmer: true, detail: "semantic tokens" })}<div class="oc-agent-markdown"><p>Reviewing the component contract and current validation output<span class="oc-agent-streaming-cursor" aria-hidden="true"></span></p></div></div>`;
+  }
+
+  const toolbar = copyToolbar
+    ? `<div class="oc-agent-message-toolbar"><button class="oc-agent-copy-button" type="button" aria-label="Copy response" data-copy-text="The component contract is intact and ready for review.">${agentIcon("copy")}</button></div>`
+    : "";
+  return `<div class="oc-agent-assistant-turn">${agentToolRow({ icon: agentIcon("terminal"), label: "Ran command", detail: "bun run check" })}<div class="oc-agent-markdown"><p>The component contract is intact. The preview changes are local, the focused tests pass, and no exported token or component contract changed.</p></div>${toolbar}</div>`;
 }
 
 export function messageListWorkbenchMarkup({ status = "ready", copyToolbar = true } = {}) {
-  return `<ol class="oc-agent-message-list" aria-label="Conversation history">
-  <li class="oc-user-message"><p>Is the component contract ready for review?</p><footer class="oc-agent-message-meta">You · now</footer></li>
-  ${chatResponseMarkup(status, copyToolbar)}
-</ol>`;
+  return `<div class="oc-agent-message-list" role="log" aria-label="Conversation history">
+  <div class="oc-agent-message-list-content">
+    <div class="oc-agent-turn">
+      <div class="oc-agent-user-message-stack"><div class="oc-agent-user-message"><p>Is the component contract ready for review?</p></div><span class="oc-agent-message-meta">2:14 PM</span></div>
+      ${chatResponseMarkup(status, copyToolbar)}
+    </div>
+  </div>
+</div>`;
 }
 
 export function markdownWorkbenchMarkup({ example = "release" } = {}) {
@@ -667,9 +1071,82 @@ export function markdownWorkbenchMarkup({ example = "release" } = {}) {
 </article>`;
 }
 
+export function loaderWorkbenchMarkup({ size = "md", label = true } = {}) {
+  const selected = loaderSizes.some(({ value }) => value === size) ? size : "md";
+  const sizeClass =
+    selected === "sm" ? " oc-loader-sm" : selected === "lg" ? " oc-loader-lg" : "";
+  const labelText = selected === "md" ? "Syncing components…" : "Loading…";
+  const labelMarkup = label
+    ? `<span>${labelText}</span>`
+    : `<span class="sr-only">Loading…</span>`;
+
+  return `<span class="oc-loader${sizeClass}" role="status" aria-atomic="true">
+  <span class="oc-loader-spinner" aria-hidden="true"></span>
+  ${labelMarkup}
+</span>`;
+}
+
+export function skeletonLineWorkbenchMarkup({ count = "3", width = "mixed" } = {}) {
+  const selectedCount = skeletonLineCounts.some(({ value }) => value === count) ? count : "3";
+  const selectedWidth = skeletonLineWidths.some(({ value }) => value === width)
+    ? width
+    : "mixed";
+  const total = Number(selectedCount);
+  const lines = Array.from({ length: total }, (_, index) => {
+    const short =
+      selectedWidth === "short" || (selectedWidth === "mixed" && index === total - 1);
+    return `<span class="oc-skeleton-line${short ? " oc-skeleton-line-short" : ""}"></span>`;
+  }).join("\n    ");
+
+  return `<div class="workbench-skeleton-demo" aria-busy="true">
+  <div class="primitive-input-grid" aria-hidden="true">
+    ${lines}
+  </div>
+  <span class="sr-only" role="status">Content is loading…</span>
+</div>`;
+}
+
+function providerLogoMark(provider) {
+  const marks = {
+    openai: `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.181a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.096 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.984 5.984 0 0 0 13.26 24a6.055 6.055 0 0 0 5.771-4.205 5.989 5.989 0 0 0 3.997-2.9 6.055 6.055 0 0 0-.747-7.072zM13.26 22.43a4.475 4.475 0 0 1-2.876-1.04l.141-.08 4.778-2.758a.794.794 0 0 0 .392-.681v-6.736l2.02 1.168a.071.071 0 0 1 .038.052v5.582a4.504 4.504 0 0 1-4.493 4.493zm-9.661-4.126a4.47 4.47 0 0 1-.534-3.013l.141.084 4.783 2.758a.771.771 0 0 0 .78 0l5.842-3.372v2.332a.08.08 0 0 1-.033.061L9.74 19.95a4.5 4.5 0 0 1-6.141-1.646zM2.34 7.762a4.485 4.485 0 0 1 2.365-1.972V11.6a.766.766 0 0 0 .388.676l5.814 3.354-2.02 1.168a.075.075 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.762zm16.596 3.855-5.833-3.387L15.119 7.06a.075.075 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.104v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023-.141-.085-4.783-2.741a.775.775 0 0 0-.785 0L9.409 9.14V6.808a.066.066 0 0 1 .028-.061l4.83-2.786a4.499 4.499 0 0 1 6.68 4.66zm-12.64 4.135-2.02-1.163a.08.08 0 0 1-.038-.056V6.074a4.499 4.499 0 0 1 7.375-3.453l-.141.08-4.778 2.758a.794.794 0 0 0-.393.68zm1.097-2.365 2.602-1.499 2.606 1.499v2.999l-2.597 1.499-2.606-1.499z"/></svg>`,
+    gemini: `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg>`,
+    xai: `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.469 8.776 16.512 23h-4.464L2.005 8.776H6.47zm-.004 7.9 2.233 3.164L6.467 23H2l4.465-6.324zM22 2.582V23h-3.659V7.764L22 2.582zM22 1l-9.952 14.095-2.233-3.163L17.533 1H22z"/></svg>`,
+  };
+  return marks[provider] ?? "";
+}
+
+export function providerLogoWorkbenchMarkup({
+  size = "md",
+  label = true,
+  state = "default",
+  layout = "wrap",
+} = {}) {
+  const selectedSize = providerLogoSizes.some(({ value }) => value === size) ? size : "md";
+  const selectedState = providerLogoStates.some(({ value }) => value === state) ? state : "default";
+  const selectedLayout = providerLogoLayouts.some(({ value }) => value === layout)
+    ? layout
+    : "wrap";
+  const sizeClass =
+    selectedSize === "sm" ? " oc-provider-logo-sm" : selectedSize === "lg" ? " oc-provider-logo-lg" : "";
+  const mutedClass = selectedState === "muted" ? " oc-provider-logo-muted" : "";
+  const disabledAttribute = selectedState === "muted" ? ' aria-disabled="true"' : "";
+
+  const items = providerLogoProviders
+    .map(({ id, name }, index) => {
+      const selectedAttribute =
+        selectedState === "selected" && index === 0 ? ' data-selected="true"' : "";
+      const labelMarkup = label ? `<span>${name}</span>` : "";
+      const nameAttribute = label ? "" : ` aria-label="${name}"`;
+      return `<span class="oc-provider-logo${sizeClass}${mutedClass}"${nameAttribute}${selectedAttribute}${disabledAttribute}><span class="oc-provider-logo-mark" data-provider="${id}" aria-hidden="true">${providerLogoMark(id)}</span>${labelMarkup}</span>`;
+    })
+    .join("");
+
+  return `<div class="provider-logo-gallery" data-layout="${selectedLayout}" aria-label="Provider logo examples">${items}</div>`;
+}
+
 export function spiralLoaderWorkbenchMarkup({ size = "24" } = {}) {
   return `<span class="oc-agent-spiral-loader" role="status" style="width: ${size}px; height: ${size}px">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="oc-agent-spiral-track" cx="12" cy="12" r="9"></circle><path class="oc-agent-spiral-path" d="M12 12c0-1.1.9-2 2-2 1.7 0 3 1.3 3 3 0 2.8-2.2 5-5 5-3.9 0-7-3.1-7-7 0-5 4-9 9-9"></path></svg>
+  <span class="oc-agent-spiral-ring" aria-hidden="true"></span>
   <span class="sr-only">Working</span>
 </span>`;
 }
@@ -694,19 +1171,19 @@ export function userMessageWorkbenchMarkup({ content = "text" } = {}) {
     },
     image: {
       message: "Here is the screenshot.",
-      attachment: `<div class="oc-agent-user-attachment">${agentIcon("image")}<span><strong>mobile-reference.png</strong><small>PNG · 428 KB</small></span></div>`,
+      attachment: `<div class="oc-agent-file-attachment" data-kind="image"><span class="oc-agent-file-type" aria-hidden="true">${agentIcon("image")}</span><span class="oc-agent-file-details"><strong>mobile-reference.png</strong><span>428 KB</span></span></div>`,
     },
     file: {
       message: "Review the attached component specification.",
-      attachment: `<div class="oc-agent-user-attachment">${agentIcon("file")}<span><strong>component-spec.md</strong><small>Markdown · 3.1 KB</small></span></div>`,
+      attachment: `<div class="oc-agent-file-attachment" data-kind="file"><span class="oc-agent-file-type" aria-hidden="true">${agentIcon("file")}</span><span class="oc-agent-file-details"><strong>component-spec.md</strong><span>3.1 KB</span></span></div>`,
     },
   };
   const selected = examples[content] ?? examples.text;
 
   return `<div class="oc-agent-user-message-stack">
   ${selected.attachment}
-  <article class="oc-agent-user-message"><p>${selected.message}</p></article>
-  <span class="oc-agent-message-meta">You · now</span>
+  <div class="oc-agent-user-message"><p>${selected.message}</p></div>
+  <span class="oc-agent-message-meta">2:14 PM</span>
 </div>`;
 }
 
@@ -717,42 +1194,47 @@ export function agentChatWorkbenchMarkup({
 } = {}) {
   const isEmpty = status !== "error" && (example === "empty" || example === "suggestions");
   const messages = isEmpty ? "" : messageListWorkbenchMarkup({ status, copyToolbar });
-  const welcome = isEmpty
-    ? `<div class="oc-agent-chat-welcome"><span class="oc-agent-chat-welcome-icon" aria-hidden="true">${agentIcon("sparkle")}</span><h3>How can I help?</h3><p>Ask about the component contract, implementation details, or validation results.</p></div>`
-    : "";
   const suggestions = example === "suggestions"
-    ? `<div class="oc-agent-chat-suggestions" aria-label="Suggested prompts">
-  <button class="oc-agent-suggestion" type="button" data-agent-suggestion-value="Review the pending changes">Review changes</button>
-  <button class="oc-agent-suggestion" type="button" data-agent-suggestion-value="Run the validation checks">Run checks</button>
-</div>`
+    ? `<div class="oc-agent-suggestions oc-agent-chat-suggestions" aria-label="Suggested prompts">
+    <button class="oc-agent-suggestion" type="button" data-agent-suggestion-value="Review the pending changes">Review changes</button>
+    <button class="oc-agent-suggestion" type="button" data-agent-suggestion-value="Run the validation checks">Run checks</button>
+  </div>`
     : "";
   const attachments = example === "attachments"
-    ? `<ul class="oc-agent-attachment-list" aria-label="Attached files">
-  <li class="oc-agent-file-attachment"><span class="oc-agent-file-type" aria-hidden="true">${agentIcon("file")}</span><span class="oc-agent-file-details"><strong>component-spec.md</strong><span>Markdown · 3.1 KB</span></span></li>
-</ul>`
+    ? `<ul class="oc-agent-attachment-list" aria-label="Attached files"><li class="oc-agent-file-attachment" data-kind="file"><span class="oc-agent-file-type" aria-hidden="true">${agentIcon("file")}</span><span class="oc-agent-file-details"><strong>component-spec.md</strong><span>3.1 KB</span></span><button class="oc-agent-file-remove" type="button" aria-label="Remove component-spec.md" data-workbench-attachment-remove>${agentIcon("close")}</button></li></ul>`
     : "";
-  const action = status === "streaming"
+  const isBusy = status === "streaming" || status === "submitted";
+  const action = isBusy
     ? `<button class="oc-agent-send-button" type="button" data-state="stop" aria-label="Stop response">${agentIcon("stop")}</button>`
-    : `<button class="oc-agent-send-button" type="submit" aria-label="Send message"${status === "submitted" ? " disabled" : ""}>${agentIcon("send")}</button>`;
-
-  return `<section class="oc-agent-chat${isEmpty ? " oc-agent-chat-empty" : ""}" aria-label="Agent conversation">
-  <div class="oc-agent-chat-transcript">${welcome}${messages}</div>
-  <div class="oc-agent-chat-composer">
-    ${suggestions}
-    ${attachments}
-    <form class="oc-agent-input-bar" data-workbench-chat-form>
-      <label class="sr-only" for="workbench-chat-message">Message</label>
-      <textarea id="workbench-chat-message" class="oc-agent-input" rows="2" placeholder="Send a message…"></textarea>
-      <div class="oc-agent-input-toolbar"><button class="oc-agent-input-action" type="button" aria-label="Attach files">${agentIcon("paperclip")}</button>${action}</div>
-    </form>
+    : `<button class="oc-agent-send-button" type="submit" data-state="idle" aria-label="Send message">${agentIcon("arrow-up")}</button>`;
+  const composer = `<form class="oc-agent-input-bar" data-workbench-chat-form>
+    <div class="oc-agent-input-container">
+      ${attachments}<label class="sr-only" for="workbench-chat-message">Message</label>
+      <textarea id="workbench-chat-message" class="oc-agent-input" rows="1" placeholder="Send a message..."></textarea>
+      <div class="oc-agent-input-toolbar">
+        <div class="oc-agent-input-tools"><button class="oc-agent-attachment-button" type="button" aria-label="Attach">${agentIcon("plus")}</button></div>
+        <div class="oc-agent-input-actions">${action}</div>
+      </div>
+    </div>
     <span class="sr-only" data-workbench-chat-status aria-live="polite"></span>
-  </div>
+  </form>`;
+
+  if (isEmpty) {
+    return `<section class="oc-agent-chat oc-agent-chat-empty" aria-label="Agent conversation">
+  <div class="oc-agent-chat-center">${composer}${suggestions}</div>
+</section>`;
+  }
+
+  return `<section class="oc-agent-chat" aria-label="Agent conversation">
+  ${messages}
+  <div class="oc-agent-chat-composer">${composer}</div>
 </section>`;
 }
 
 function createToolWorkbenchDefinition(kind) {
+  const expandable = !["bash", "edit", "generic"].includes(kind);
   return {
-    defaults: { state: "complete", open: true },
+    defaults: expandable ? { state: "complete", open: true } : { state: "complete" },
     controls: [
       {
         id: "state",
@@ -760,11 +1242,15 @@ function createToolWorkbenchDefinition(kind) {
         type: "choice",
         options: toolLifecycleStates,
       },
-      {
-        id: "open",
-        label: "Open",
-        type: "toggle",
-      },
+      ...(expandable
+        ? [
+            {
+              id: "open",
+              label: "Open",
+              type: "toggle",
+            },
+          ]
+        : []),
     ],
     markup(state) {
       return compactIconMarkup(toolWorkbenchMarkup({ kind, ...state }));
@@ -822,8 +1308,8 @@ const definitions = {
       specimen.querySelector('[aria-label="Stop response"]')?.addEventListener("click", () => {
         update("status", "ready");
       });
-      specimen.querySelector("[data-workbench-chat-retry]")?.addEventListener("click", () => {
-        update("status", "submitted");
+      specimen.querySelector("[data-workbench-attachment-remove]")?.addEventListener("click", (event) => {
+        event.currentTarget.closest(".oc-agent-file-attachment")?.remove();
       });
     },
   },
@@ -847,11 +1333,6 @@ const definitions = {
     },
     render(specimen, state) {
       specimen.innerHTML = messageListWorkbenchMarkup(state);
-    },
-    bind(specimen, _state, update) {
-      specimen.querySelector("[data-workbench-chat-retry]")?.addEventListener("click", () => {
-        update("status", "submitted");
-      });
     },
   },
   markdown: {
@@ -1004,6 +1485,39 @@ const definitions = {
       specimen.querySelector("[data-agent-question-skip]")?.addEventListener("click", () => {
         update("state", "answered");
       });
+      for (const custom of specimen.querySelectorAll(".oc-agent-question-option-custom")) {
+        const radio = custom.querySelector('input[type="radio"]');
+        const field = custom.querySelector('input[type="text"]');
+        if (!radio || !field) continue;
+        const selectCustom = () => {
+          if (!radio.checked) radio.checked = true;
+        };
+        field.addEventListener("focus", selectCustom);
+        field.addEventListener("input", selectCustom);
+      }
+    },
+  },
+  "primitive-app-surface": {
+    defaults: { toolbar: true, card: true },
+    controls: [
+      {
+        id: "toolbar",
+        label: "Toolbar",
+        type: "toggle",
+      },
+      {
+        id: "card",
+        label: "Card",
+        type: "toggle",
+      },
+    ],
+    markup(state) {
+      return `<main class="oc-app-surface">
+${appSurfaceWorkbenchMarkup(state)}
+</main>`;
+    },
+    render(specimen, state) {
+      specimen.innerHTML = appSurfaceWorkbenchMarkup(state);
     },
   },
   "primitive-action": {
@@ -1036,6 +1550,22 @@ const definitions = {
     markup: buttonWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = `<div class="primitive-variant-list primitive-button-list">${buttonWorkbenchMarkup(state)}</div>`;
+    },
+  },
+  "primitive-clipboard-text": {
+    defaults: { variant: WORKBENCH_ALL_VALUE },
+    controls: [
+      {
+        id: "variant",
+        label: "Action",
+        type: "choice",
+        compare: "rows",
+        options: clipboardActionVariants,
+      },
+    ],
+    markup: clipboardTextWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = clipboardTextWorkbenchMarkup(state);
     },
   },
   "primitive-empty": {
@@ -1119,6 +1649,167 @@ const definitions = {
       });
     },
   },
+  "primitive-grid": {
+    defaults: { columns: "3", items: "3" },
+    controls: [
+      {
+        id: "columns",
+        label: "Columns",
+        type: "choice",
+        options: gridColumns,
+      },
+      {
+        id: "items",
+        label: "Items",
+        type: "choice",
+        options: gridItemCounts,
+      },
+    ],
+    markup: gridWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = gridWorkbenchMarkup(state);
+    },
+  },
+  "primitive-hero": {
+    defaults: { lede: true, actions: false },
+    controls: [
+      {
+        id: "lede",
+        label: "Lede",
+        type: "toggle",
+      },
+      {
+        id: "actions",
+        label: "Actions",
+        type: "toggle",
+      },
+    ],
+    markup: heroWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = heroWorkbenchMarkup(state);
+    },
+  },
+  "primitive-section": {
+    defaults: { eyebrow: true, copy: true, actions: true },
+    controls: [
+      {
+        id: "eyebrow",
+        label: "Eyebrow",
+        type: "toggle",
+      },
+      {
+        id: "copy",
+        label: "Copy",
+        type: "toggle",
+      },
+      {
+        id: "actions",
+        label: "Actions",
+        type: "toggle",
+      },
+    ],
+    markup: sectionWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = sectionWorkbenchMarkup(state);
+    },
+  },
+  "primitive-link": {
+    defaults: { variant: WORKBENCH_ALL_VALUE, disabled: false },
+    controls: [
+      {
+        id: "variant",
+        label: "Variant",
+        type: "choice",
+        compare: "rows",
+        options: linkVariants,
+      },
+      {
+        id: "disabled",
+        label: "Disabled",
+        type: "toggle",
+      },
+    ],
+    markup: linkWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = linkWorkbenchMarkup(state);
+    },
+  },
+  "primitive-loader": {
+    defaults: { size: "md", label: true },
+    controls: [
+      {
+        id: "size",
+        label: "Size",
+        type: "choice",
+        compare: "rows",
+        options: loaderSizes,
+      },
+      {
+        id: "label",
+        label: "Label",
+        type: "toggle",
+      },
+    ],
+    markup: loaderWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = loaderWorkbenchMarkup(state);
+    },
+  },
+  "primitive-skeleton-line": {
+    defaults: { count: "3", width: "mixed" },
+    controls: [
+      {
+        id: "count",
+        label: "Lines",
+        type: "choice",
+        compare: "stack",
+        options: skeletonLineCounts,
+      },
+      {
+        id: "width",
+        label: "Width",
+        type: "choice",
+        options: skeletonLineWidths,
+      },
+    ],
+    markup: skeletonLineWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = skeletonLineWorkbenchMarkup(state);
+    },
+  },
+  "primitive-provider-logo": {
+    defaults: { size: "md", label: true, state: "default", layout: "wrap" },
+    controls: [
+      {
+        id: "size",
+        label: "Size",
+        type: "choice",
+        compare: "rows",
+        options: providerLogoSizes,
+      },
+      {
+        id: "label",
+        label: "Label",
+        type: "toggle",
+      },
+      {
+        id: "state",
+        label: "State",
+        type: "choice",
+        options: providerLogoStates,
+      },
+      {
+        id: "layout",
+        label: "Layout",
+        type: "choice",
+        options: providerLogoLayouts,
+      },
+    ],
+    markup: providerLogoWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = providerLogoWorkbenchMarkup(state);
+    },
+  },
   "primitive-select": {
     defaults: { value: "balanced", disabled: false },
     controls: [
@@ -1142,6 +1833,54 @@ const definitions = {
       specimen.querySelector("select")?.addEventListener("change", (event) => {
         update("value", event.currentTarget.value);
       });
+    },
+  },
+  "primitive-input-area": {
+    defaults: { state: "default", message: true },
+    controls: [
+      {
+        id: "state",
+        label: "State",
+        type: "choice",
+        compare: "stack",
+        options: inputAreaStates,
+      },
+      {
+        id: "message",
+        label: "Message",
+        type: "toggle",
+      },
+    ],
+    markup: inputAreaWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = `<div class="primitive-input-grid">${inputAreaWorkbenchMarkup(state)}</div>`;
+    },
+  },
+  "primitive-input-group": {
+    defaults: { addon: "prefix", state: "default", message: true },
+    controls: [
+      {
+        id: "addon",
+        label: "Addon",
+        type: "choice",
+        compare: "stack",
+        options: inputGroupAddons,
+      },
+      {
+        id: "state",
+        label: "State",
+        type: "choice",
+        options: inputGroupStates,
+      },
+      {
+        id: "message",
+        label: "Message",
+        type: "toggle",
+      },
+    ],
+    markup: inputGroupWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = `<div class="primitive-input-grid">${inputGroupWorkbenchMarkup(state)}</div>`;
     },
   },
   "primitive-autocomplete": {
@@ -1229,10 +1968,10 @@ const definitions = {
       specimen.innerHTML = composerWorkbenchMarkup(state).replace(
         '<div class="oc-agent-input-tools">…</div>',
         `<div class="oc-agent-input-tools">
-      <button class="oc-agent-input-action" type="button" aria-label="Attach file">${agentIcon("paperclip")}</button>
-      <button class="oc-agent-input-meta" type="button">${agentIcon("mode")}<span>Agent</span>${agentIcon("chevron")}</button>
-      <button class="oc-agent-input-meta" type="button">${agentIcon("model")}<span>Balanced</span>${agentIcon("chevron")}</button>
-    </div>`,
+        <button class="oc-agent-attachment-button" type="button" aria-label="Attach">${agentIcon("plus")}</button>
+        <button class="oc-agent-input-meta" type="button">${agentIcon("mode")}<span>Agent</span>${agentIcon("chevron")}</button>
+        <span class="oc-agent-model-badge"><strong>Extra High</strong><span>5.6 Sol</span></span>
+      </div>`,
       );
     },
     bind(specimen, state, update) {
@@ -1330,23 +2069,19 @@ const definitions = {
     },
   },
   "error-message": {
-    defaults: { state: "failed" },
+    defaults: { example: "interrupted" },
     controls: [
       {
-        id: "state",
-        label: "State",
+        id: "example",
+        label: "Example",
         type: "choice",
-        options: errorMessageStates,
+        compare: "stack",
+        options: errorMessageExamples,
       },
     ],
     markup: errorMessageWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = errorMessageWorkbenchMarkup(state);
-    },
-    bind(specimen, _state, update) {
-      specimen.querySelector("[data-workbench-error-retry]")?.addEventListener("click", () => {
-        update("state", "retrying");
-      });
     },
   },
   suggestions: {
@@ -1372,7 +2107,7 @@ const definitions = {
     },
   },
   "model-picker": {
-    defaults: { value: "balanced" },
+    defaults: { value: "extra-high" },
     controls: [
       {
         id: "value",
@@ -1388,8 +2123,10 @@ const definitions = {
       specimen.innerHTML = `<div class="oc-agent-model-demo">${modelPickerWorkbenchMarkup(state)}</div>`;
     },
     bind(specimen, _state, update) {
-      specimen.querySelector("select")?.addEventListener("change", (event) => {
-        update("value", event.currentTarget.value);
+      specimen.querySelectorAll('input[name="workbench-agent-model"]').forEach((input) => {
+        input.addEventListener("change", () => {
+          if (input.checked) update("value", input.value);
+        });
       });
     },
   },
@@ -1418,6 +2155,14 @@ const definitions = {
     },
   },
 };
+
+for (const definition of Object.values(definitions)) {
+  for (const control of definition.controls ?? []) {
+    if (control.type === "choice" && control.compare) {
+      definition.defaults[control.id] = WORKBENCH_ALL_VALUE;
+    }
+  }
+}
 
 export function getWorkbenchDefinition(pageId) {
   return definitions[pageId];

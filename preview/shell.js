@@ -527,11 +527,14 @@ function bindCopyActions() {
       if (await copyText(value)) {
         showShellFeedback("Text copied.");
         if (status) status.textContent = "Copied to clipboard.";
-        const label = textButton.textContent;
-        textButton.textContent = "Copied";
-        window.setTimeout(() => {
-          textButton.textContent = label;
-        }, 800);
+        const hasIcon = Boolean(textButton.querySelector("svg, [data-lucide]"));
+        if (!hasIcon) {
+          const label = textButton.textContent;
+          textButton.textContent = "Copied";
+          window.setTimeout(() => {
+            textButton.textContent = label;
+          }, 800);
+        }
       } else {
         showShellFeedback("Clipboard access unavailable.");
         if (status) status.textContent = "Clipboard access unavailable.";

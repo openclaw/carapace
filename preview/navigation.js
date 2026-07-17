@@ -188,7 +188,7 @@ export const referenceAreas = [
         id: "primitive-layer-card",
         label: "Layer Card",
         path: "interface/primitives/layer-card/",
-        keywords: "oc-layer-card stacked depth surface hierarchy",
+        keywords: "oc-layer-card tray nested surface hierarchy navigation feature",
       },
       {
         id: "primitive-link",

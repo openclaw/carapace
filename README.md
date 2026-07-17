@@ -75,10 +75,12 @@ Candidate entry points are additive and opt-in. They are excluded from both
 behavior have been validated in multiple consumers. Preview-only Lab work is
 not included in package exports.
 
-OpenClaw surfaces and controls use square corners by default. Use the semantic
-`--oc-radius-surface`, `--oc-radius-control`, and `--oc-radius-inset` roles
-instead of choosing from the raw radius scale. Reserve `--oc-radius-round` for
-genuinely circular avatars, status dots, and similar indicators.
+OpenClaw surfaces and controls default to a Kumo-aligned radius profile
+(`surface`/`control` = `--oc-radius-md` / 8px, `inset` = `--oc-radius-sm` / 4px).
+Use the semantic `--oc-radius-surface`, `--oc-radius-control`, and
+`--oc-radius-inset` roles instead of choosing from the raw radius scale.
+Reserve `--oc-radius-round` for genuinely circular avatars, status dots, and
+similar indicators.
 
 ## Skills
 

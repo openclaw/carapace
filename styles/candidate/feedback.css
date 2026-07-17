@@ -66,20 +66,21 @@
   display: grid;
   box-sizing: border-box;
   grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
+  align-items: start;
   gap: var(--oc-space-3);
-  padding: var(--oc-space-3);
+  padding: var(--oc-space-4);
   border: 1px solid var(--oc-border-subtle);
   border-radius: var(--oc-radius-surface);
   background: var(--oc-surface-card-strong);
   color: var(--oc-text-secondary);
   font-size: var(--oc-font-size-sm);
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .oc-banner-indicator {
   width: 0.375rem;
   height: 0.375rem;
+  margin-top: 0.45em;
   border-radius: var(--oc-radius-round);
   background: var(--oc-text-muted);
 }
@@ -87,7 +88,7 @@
 .oc-banner-content {
   display: grid;
   min-width: 0;
-  gap: 0;
+  gap: var(--oc-space-1);
 }
 
 .oc-banner-title {
@@ -136,12 +137,21 @@
 
 .oc-empty-icon {
   display: grid;
-  width: 2rem;
-  height: 2rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: var(--oc-space-1);
   place-items: center;
-  color: var(--oc-text-muted);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-secondary);
   font-family: var(--oc-font-mono);
   font-size: var(--oc-font-size-lg);
+}
+
+.oc-empty-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 1.75;
 }
 
 .oc-empty-title {
