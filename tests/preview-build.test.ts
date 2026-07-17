@@ -39,6 +39,21 @@ describe("preview route build", () => {
     expect(source.slice(bodyStart)).not.toContain("<script");
   });
 
+  test("publishes complete social preview metadata", async () => {
+    const source = await readFile("preview/index.html", "utf8");
+
+    expect(source).toContain('<link rel="canonical" href="https://carapace.design/"');
+    expect(source).toContain(
+      '<meta property="og:image" content="https://carapace.design/carapace-og.png"',
+    );
+    expect(source).toContain('<meta property="og:image:width" content="1200"');
+    expect(source).toContain('<meta property="og:image:height" content="630"');
+    expect(source).toContain('<meta name="twitter:card" content="summary_large_image"');
+    expect(source).toContain(
+      '<meta name="twitter:image" content="https://carapace.design/carapace-og.png"',
+    );
+  });
+
   test("derives route roots from manifest depth", () => {
     expect(getRouteRoot("")).toBe("./");
     expect(getRouteRoot("foundations/")).toBe("../");
@@ -47,7 +62,7 @@ describe("preview route build", () => {
 
   test("rewrites a neutral bootstrap document for a deep link", async () => {
     const html = await createRouteHtml(
-      '<title>Carapace</title><link href="./assets/app.css"><script type="module" src="./assets/app.js"></script><body data-preview-route="overview" data-preview-page="overview" data-preview-root="./"><main class="home-component-grid">Home</main></body>',
+      '<title>Carapace</title><link rel="canonical" href="https://carapace.design/"><meta property="og:url" content="https://carapace.design/"><link href="./assets/app.css"><script type="module" src="./assets/app.js"></script><body data-preview-route="overview" data-preview-page="overview" data-preview-root="./"><main class="home-component-grid">Home</main></body>',
       {
         id: "primitive-button",
         label: "Button",
@@ -57,6 +72,12 @@ describe("preview route build", () => {
     );
 
     expect(html).toContain("<title>Button · Carapace</title>");
+    expect(html).toContain(
+      '<link rel="canonical" href="https://carapace.design/interface/primitives/button/"',
+    );
+    expect(html).toContain(
+      '<meta property="og:url" content="https://carapace.design/interface/primitives/button/"',
+    );
     expect(html).toContain('data-preview-route="interface"');
     expect(html).toContain('data-preview-page="primitive-button"');
     expect(html).toContain('data-preview-root="../../../"');
@@ -154,7 +175,7 @@ describe("preview route build", () => {
         expect(deepRouteHtml).toContain("<title>Button · Carapace</title>");
         expect(deepRouteHtml).toContain('<div id="preview-app"></div>');
         expect(deepRouteHtml).not.toContain("home-component-grid");
-        expect(deepRouteHtml.length).toBeLessThan(2_000);
+        expect(deepRouteHtml.length).toBeLessThan(2_500);
 
         const assetUrls = [...deepRouteHtml.matchAll(/(?:href|src)="([^"]+)"/g)]
           .map(([, value]) => value)
@@ -167,6 +188,9 @@ describe("preview route build", () => {
         expect((await readFile(join(outputDirectory, "CNAME"), "utf8")).trim()).toBe(
           "carapace.design",
         );
+        await expect(stat(join(outputDirectory, "carapace-og.png"))).resolves.toMatchObject({
+          size: expect.any(Number),
+        });
       } finally {
         await rm(outputDirectory, { recursive: true, force: true });
       }

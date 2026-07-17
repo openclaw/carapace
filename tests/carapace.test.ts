@@ -336,6 +336,7 @@ describe("CSS contract", () => {
           path !== "preview/assets/openclaw-mark.png" &&
           path !== "preview/assets/openclaw-mark-hover.png" &&
           path !== "preview/assets/carapace-home-artwork.avif" &&
+          path !== "preview/public/carapace-og.png" &&
           forbiddenExtensions.test(path),
       ),
     ).toEqual([]);

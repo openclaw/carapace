@@ -20,6 +20,7 @@ export async function createRouteHtml(indexHtml, route) {
   const routeId = route.areaId || route.id;
   const label = getRouteLabel(route);
   const title = label === "Home" ? "Carapace" : `${label} · Carapace`;
+  const canonicalUrl = new URL(route.path, "https://carapace.design/").href;
 
   const bodyPattern = /<body\b([^>]*)>[\s\S]*?<\/body>/i;
   if (!bodyPattern.test(indexHtml)) {
@@ -33,6 +34,14 @@ export async function createRouteHtml(indexHtml, route) {
 
   return indexHtml
     .replace(/<title\b[^>]*>[\s\S]*?<\/title>/i, `<title>${title}</title>`)
+    .replace(
+      /(<link\s+rel=["']canonical["']\s+href=)(["']).*?\2/i,
+      `$1"${canonicalUrl}"`,
+    )
+    .replace(
+      /(<meta\s+property=["']og:url["']\s+content=)(["']).*?\2/i,
+      `$1"${canonicalUrl}"`,
+    )
     .replace(/\b(href|src)=(["'])(.*?)\2/gi, rewriteAsset)
     .replace(bodyPattern, (_match, attributes) => {
       const routeAttributes = attributes

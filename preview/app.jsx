@@ -22,9 +22,13 @@ function routeLabel(pageId) {
   return page?.id === area?.id ? area.label : page?.label || "Carapace";
 }
 
-function updateDocumentMetadata(pageId) {
+function updateDocumentMetadata(pageId, path) {
   const label = routeLabel(pageId);
+  const canonicalUrl = new URL(path, "https://carapace.design/");
+
   document.title = label === "Carapace" ? label : `${label} · Carapace`;
+  document.querySelector('link[rel="canonical"]')?.setAttribute("href", canonicalUrl.href);
+  document.querySelector('meta[property="og:url"]')?.setAttribute("content", canonicalUrl.href);
   document.body.dataset.previewPage = pageId;
   document.body.dataset.previewRoute = getReferenceArea(pageId)?.id || pageId;
 }
@@ -51,7 +55,7 @@ function RouteView({ route, siteRoot, navigation }) {
   );
 
   useLayoutEffect(() => {
-    updateDocumentMetadata(route.pageId);
+    updateDocumentMetadata(route.pageId, route.path);
     const root = routeRootRef.current;
     if (!root) return undefined;
     const lifecycle = mountPage(root, { pageId: route.pageId });
@@ -61,7 +65,7 @@ function RouteView({ route, siteRoot, navigation }) {
       window.removeEventListener("previewthemechange", refreshTheme);
       lifecycle.cleanup();
     };
-  }, [route.pageId, siteRoot, staticContent]);
+  }, [route.pageId, route.path, siteRoot, staticContent]);
 
   useLayoutEffect(() => {
     const frame = window.requestAnimationFrame(() => {

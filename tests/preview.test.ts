@@ -1749,6 +1749,15 @@ describe("preview contracts", () => {
     );
   });
 
+  test("keeps canonical metadata aligned with client-side routes", async () => {
+    const app = await readFile("preview/app.jsx", "utf8");
+
+    expect(app).toContain('document.querySelector(\'link[rel="canonical"]\')');
+    expect(app).toContain('document.querySelector(\'meta[property="og:url"]\')');
+    expect(app).toContain('new URL(path, "https://carapace.design/")');
+    expect(app).toContain("updateDocumentMetadata(route.pageId, route.path)");
+  });
+
   test("renders the header search as a complete command field", async () => {
     const shell = await readFile("preview/shell.js", "utf8");
     const previewStyles = await readFile("preview/preview.css", "utf8");
