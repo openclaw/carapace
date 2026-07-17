@@ -46,6 +46,7 @@
     "release:check": "bun scripts/check-release-version.ts"
   },
   "devDependencies": {
+    "glimm": "0.1.4",
     "lightningcss": "1.32.0",
     "react": "19.2.7",
     "react-dom": "19.2.7",

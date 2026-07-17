@@ -1,4 +1,4 @@
-import { getReferencePage } from "./navigation.js";
+import { getAdjacentReferencePages, getReferencePage } from "./navigation.js";
 import {
   getWorkbenchComparison,
   getWorkbenchControlOptions,
@@ -53,6 +53,66 @@ export const workbenchCanvasThemes = [
   },
 ];
 
+const inlineWorkbenchPages = new Set([
+  "primitive-action",
+  "primitive-badge",
+  "primitive-button",
+  "primitive-link",
+  "primitive-loader",
+  "primitive-pill",
+  "primitive-provider-logo",
+  "primitive-skeleton-line",
+  "primitive-tooltip",
+  "spiral-loader",
+  "text-shimmer",
+]);
+
+const formWorkbenchPages = new Set([
+  "primitive-autocomplete",
+  "primitive-checkbox",
+  "primitive-combobox",
+  "primitive-date-picker",
+  "primitive-input",
+  "primitive-input-area",
+  "primitive-input-group",
+  "primitive-label",
+  "primitive-radio",
+  "primitive-select",
+  "primitive-sensitive-input",
+  "primitive-switch",
+]);
+
+const dataWorkbenchPages = new Set([
+  "primitive-flow",
+  "primitive-grid",
+  "primitive-table",
+]);
+
+const viewportWorkbenchPages = new Set([
+  "agent-chat",
+  "input-bar",
+  "message-list",
+  "primitive-app-surface",
+  "primitive-sidebar",
+  "user-message",
+]);
+
+export function getWorkbenchShellProfile(pageId) {
+  if (inlineWorkbenchPages.has(pageId)) {
+    return { canvasPreset: "inline", supportsViewport: false };
+  }
+  if (formWorkbenchPages.has(pageId)) {
+    return { canvasPreset: "form", supportsViewport: false };
+  }
+  if (dataWorkbenchPages.has(pageId)) {
+    return { canvasPreset: "data", supportsViewport: true };
+  }
+  if (viewportWorkbenchPages.has(pageId)) {
+    return { canvasPreset: "viewport", supportsViewport: true };
+  }
+  return { canvasPreset: "panel", supportsViewport: false };
+}
+
 export function isComponentWorkbenchPage(pageId) {
   const page = getReferencePage(pageId);
   if (!page) return false;
@@ -94,6 +154,38 @@ function createElement(tagName, className) {
   const element = document.createElement(tagName);
   if (className) element.className = className;
   return element;
+}
+
+export function resolveWorkbenchPageHref(pagePath, siteRootHref) {
+  return new URL(pagePath, siteRootHref).href;
+}
+
+function createWorkbenchNavigation(pageId) {
+  const { previous, next } = getAdjacentReferencePages(pageId);
+  if (!previous && !next) return null;
+
+  const navigation = createElement("nav", "component-workbench-navigation");
+  navigation.setAttribute("aria-label", "Adjacent reference pages");
+  const siteRoot =
+    document.querySelector("a.brand")?.href ?? new URL("/", window.location.origin).href;
+
+  for (const [direction, page, iconName] of [
+    ["Previous", previous, "arrow-left"],
+    ["Next", next, "arrow-right"],
+  ]) {
+    if (!page) continue;
+    const link = createElement("a");
+    link.href = resolveWorkbenchPageHref(page.path, siteRoot);
+    link.setAttribute("aria-label", `${direction}: ${page.label}`);
+    link.title = `${direction}: ${page.label}`;
+    const icon = createElement("i");
+    icon.dataset.lucide = iconName;
+    icon.setAttribute("aria-hidden", "true");
+    link.append(icon);
+    navigation.append(link);
+  }
+
+  return navigation;
 }
 
 export function preserveWorkbenchScrollPosition(scroller, update) {
@@ -235,7 +327,7 @@ function mountWorkbenchDefinition(workbench, pageId) {
   const specimen = workbench.querySelector(".specimen-frame");
   const controls = workbench.querySelector("[data-workbench-controls]");
   const code = workbench.querySelector(".component-workbench-dock-panel code");
-  if (!specimen || !controls || !code) return false;
+  if (!specimen || !code) return false;
 
   const state = normalizeWorkbenchState(definition);
   const apply = () => {
@@ -253,7 +345,13 @@ function mountWorkbenchDefinition(workbench, pageId) {
       renderWorkbenchCode(code, definition.markup(state));
       definition.bind?.(specimen, state, update);
     }
-    syncControlInputs(controls, state);
+    if (controls) syncControlInputs(controls, state);
+    window.lucide?.createIcons({
+      attrs: {
+        "aria-hidden": "true",
+        "stroke-width": "1.75",
+      },
+    });
   };
   const update = (id, value) => {
     preserveWorkbenchScrollPosition(document.scrollingElement, () => {
@@ -262,11 +360,13 @@ function mountWorkbenchDefinition(workbench, pageId) {
     });
   };
 
-  for (const control of definition.controls) {
-    if (control.type === "choice") {
-      controls.append(createChoiceControl(pageId, control, state, update));
-    } else if (control.type === "toggle") {
-      controls.append(createToggleControl(control, state, update));
+  if (controls) {
+    for (const control of definition.controls) {
+      if (control.type === "choice") {
+        controls.append(createChoiceControl(pageId, control, state, update));
+      } else if (control.type === "toggle") {
+        controls.append(createToggleControl(control, state, update));
+      }
     }
   }
   apply();
@@ -456,23 +556,24 @@ export function renderComponentWorkbench(mount, pageId) {
     return false;
   }
 
-  const description = [...intro.children].find(
-    (child) => child.tagName === "P" && !child.classList.contains("eyebrow"),
-  );
   const badge = intro.querySelector(".maturity-badge");
-  const className = previewSection.querySelector(".section-heading > .oc-pill");
   const previewTitle = previewSection.querySelector(".section-heading h2")?.textContent;
+  const definition = getWorkbenchDefinition(pageId);
+  const hasControls = Boolean(definition?.controls?.length);
+  const shellProfile = getWorkbenchShellProfile(pageId);
 
   const workbench = createElement("div", "component-workbench");
   workbench.dataset.componentWorkbench = "";
+  workbench.dataset.canvasPreset = shellProfile.canvasPreset;
+  workbench.dataset.hasInspector = String(hasControls);
 
   const header = createElement("header", "component-workbench-header");
   const titleGroup = createElement("div", "component-workbench-title");
   titleGroup.append(title);
   if (badge) titleGroup.append(badge);
-  const navigation = createElement("div", "component-workbench-navigation-slot");
-  navigation.dataset.workbenchNavigation = "";
-  header.append(titleGroup, navigation);
+  const navigation = createWorkbenchNavigation(pageId);
+  header.append(titleGroup);
+  if (navigation) header.append(navigation);
 
   const stage = createElement("section", "component-workbench-stage");
   const stageTitle = createElement("h2", "sr-only");
@@ -490,39 +591,45 @@ export function renderComponentWorkbench(mount, pageId) {
   canvas.append(frame);
   stage.append(stageTitle, canvas, createCanvasTools(canvasTheme, pageId));
 
-  const inspector = createElement("aside", "component-workbench-inspector");
-  inspector.setAttribute("aria-labelledby", `${pageId}-workbench-controls`);
-  const inspectorHeader = createElement("header", "component-workbench-inspector-header");
-  const inspectorTitle = createElement("h2");
-  inspectorTitle.id = `${pageId}-workbench-controls`;
-  inspectorTitle.textContent = "Controls";
-  inspectorHeader.append(inspectorTitle);
-  inspector.append(inspectorHeader);
-
-  const inspectorIntro = createElement("div", "component-workbench-inspector-intro");
-  if (description) inspectorIntro.append(description);
-  if (className) inspectorIntro.append(className);
-  inspector.append(inspectorIntro);
-
-  if (previewTitle) {
-    const example = createElement("div", "component-workbench-inspector-section");
-    const exampleLabel = createElement("p", "component-workbench-inspector-label");
-    exampleLabel.textContent = "Example";
-    const exampleName = createElement("p", "component-workbench-example-name");
-    exampleName.textContent = previewTitle;
-    example.append(exampleLabel, exampleName);
-    inspector.append(example);
+  workbench.append(header, stage);
+  if (hasControls) {
+    const inspector = createElement("aside", "component-workbench-inspector");
+    inspector.dataset.expanded = "true";
+    inspector.setAttribute("aria-labelledby", `${pageId}-workbench-controls`);
+    const inspectorHeader = createElement("header", "component-workbench-inspector-header");
+    const inspectorTitle = createElement("h2");
+    inspectorTitle.id = `${pageId}-workbench-controls`;
+    inspectorTitle.textContent = "Controls";
+    const inspectorToggle = createElement("button", "component-workbench-inspector-toggle");
+    inspectorToggle.type = "button";
+    inspectorToggle.dataset.workbenchControlsToggle = "";
+    inspectorToggle.setAttribute("aria-expanded", "true");
+    inspectorToggle.setAttribute("aria-controls", `${pageId}-workbench-controls-panel`);
+    inspectorToggle.setAttribute("aria-label", "Collapse controls");
+    inspectorToggle.innerHTML = `
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 7h10M18 7h2M10 17h10M4 17h2M14 4v6M10 14v6" />
+      </svg>
+    `;
+    inspectorHeader.append(inspectorTitle, inspectorToggle);
+    const controls = createElement("div", "component-workbench-controls");
+    controls.id = `${pageId}-workbench-controls-panel`;
+    controls.dataset.workbenchControls = "";
+    inspector.append(inspectorHeader, controls);
+    stage.append(inspector);
   }
-
-  const controls = createElement("div", "component-workbench-controls");
-  controls.dataset.workbenchControls = "";
-  inspector.append(controls);
-
-  workbench.append(header, stage, inspector, createDock(markupSection, guidanceSection, pageId));
+  workbench.append(createDock(markupSection, guidanceSection, pageId));
   mountWorkbenchDefinition(workbench, pageId);
   mount.replaceChildren(workbench);
+  window.lucide?.createIcons({
+    attrs: {
+      "aria-hidden": "true",
+      "stroke-width": "1.75",
+    },
+  });
   mount.dataset.componentWorkbenchRoot = "";
   document.body.dataset.referenceLayout = "workbench";
+  document.body.dataset.shellMode = "workbench";
   return true;
 }
 
@@ -538,6 +645,50 @@ export function bindComponentWorkbenches(root = document) {
     for (const button of workbench.querySelectorAll("[data-workbench-theme]")) {
       button.addEventListener("click", () => {
         setWorkbenchCanvasTheme(workbench, button.dataset.workbenchTheme);
+      });
+    }
+    for (const button of workbench.querySelectorAll("[data-workbench-controls-toggle]")) {
+      button.addEventListener("click", () => {
+        const inspector = button.closest(".component-workbench-inspector");
+        const expanded = inspector?.dataset.expanded !== "false";
+        if (!inspector) return;
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const currentBounds = inspector.getBoundingClientRect();
+        for (const animation of inspector.getAnimations()) animation.cancel();
+        delete inspector.dataset.transitioning;
+
+        inspector.dataset.expanded = String(!expanded);
+        button.setAttribute("aria-expanded", String(!expanded));
+        button.setAttribute("aria-label", expanded ? "Expand controls" : "Collapse controls");
+
+        if (reduceMotion) return;
+
+        const targetBounds = inspector.getBoundingClientRect();
+        inspector.dataset.transitioning = "true";
+        const animation = inspector.animate(
+          [
+            {
+              width: `${currentBounds.width}px`,
+              height: `${currentBounds.height}px`,
+            },
+            {
+              width: `${targetBounds.width}px`,
+              height: `${targetBounds.height}px`,
+            },
+          ],
+          {
+            duration: expanded ? 160 : 200,
+            easing: "cubic-bezier(0.23, 1, 0.32, 1)",
+          },
+        );
+        animation.addEventListener(
+          "finish",
+          () => {
+            delete inspector.dataset.transitioning;
+          },
+          { once: true },
+        );
       });
     }
   }

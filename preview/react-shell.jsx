@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { createPortal, flushSync } from "react-dom";
+import { useGlimm } from "glimm/react";
 
 import { icon } from "./icons.js";
 import {
@@ -16,7 +17,6 @@ const brandMarkUrl = new URL("./assets/openclaw-mark.png", import.meta.url).href
 const brandMarkHoverUrl = new URL("./assets/openclaw-mark-hover.png", import.meta.url).href;
 const sidebarStorageKey = "openclaw.preview.sidebar.openAreas.v2";
 const mobileNavigationQuery = "(max-width: 900px)";
-
 const pageKinds = {
   overview: "home",
   foundations: "index",
@@ -671,6 +671,7 @@ export function ReactShell({
   const closeNavigationRef = useRef(null);
   const mobile = useMobileNavigation();
   const [navigationOpen, setNavigationOpen] = useState(false);
+  const { sweep } = useGlimm();
 
   useEffect(() => {
     document.body.dataset.pageKind = pageKinds[currentPageId] || "reference";
@@ -713,6 +714,21 @@ export function ReactShell({
     onNavigate(href, { pageId });
   };
 
+  const navigateHome = (event) => {
+    if (!onNavigate || !shouldHandleNavigation(event)) return;
+    event.preventDefault();
+
+    const homeHref = hrefFor(siteRoot);
+    if (currentPageId === introductionPage.id) {
+      onNavigate(homeHref, { pageId: introductionPage.id });
+      return;
+    }
+
+    sweep(() => {
+      flushSync(() => onNavigate(homeHref, { pageId: introductionPage.id }));
+    });
+  };
+
   return (
     <>
       <a
@@ -740,7 +756,7 @@ export function ReactShell({
           href={hrefFor(siteRoot)}
           aria-label="Carapace overview"
           translate="no"
-          onClick={(event) => navigate(event, hrefFor(siteRoot), introductionPage.id)}
+          onClick={navigateHome}
         >
           <span className="brand-primary">
             <span className="brand-mark-stack" aria-hidden="true">

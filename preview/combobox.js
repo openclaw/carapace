@@ -26,6 +26,20 @@ export function bindCombobox(root = document) {
       listbox.hidden = !open;
       input.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-expanded", String(open));
+      if (open) {
+        const reduced = listbox.ownerDocument?.defaultView
+          ?.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        listbox.animate?.(
+          [
+            { opacity: 0, transform: reduced ? "none" : "translateY(-8px) scale(0.95)" },
+            { opacity: 1, transform: "translateY(0) scale(1)" },
+          ],
+          {
+            duration: reduced ? 100 : 150,
+            easing: "cubic-bezier(0.2, 0, 0, 1)",
+          },
+        );
+      }
       if (!open) clearActive();
     };
     const setActive = (index) => {

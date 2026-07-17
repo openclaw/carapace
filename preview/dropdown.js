@@ -11,9 +11,35 @@ export function bindDropdowns(root = document) {
 
     const menuItems = () => [...menu.querySelectorAll("[role='menuitem']")]
       .filter((item) => !item.hidden && !item.disabled && item.getAttribute?.("aria-disabled") !== "true");
-    const close = ({ focus = false } = {}) => {
-      menu.hidden = true;
+    let closing = false;
+    const animate = (opening) => {
+      if (typeof menu.animate !== "function") return null;
+      const reduced = menu.ownerDocument?.defaultView
+        ?.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      return menu.animate(
+        opening
+          ? [
+              { opacity: 0, transform: reduced ? "none" : "translateY(-8px) scale(0.95)" },
+              { opacity: 1, transform: "translateY(0) scale(1)" },
+            ]
+          : [
+              { opacity: 1, transform: "translateY(0) scale(1)" },
+              { opacity: 0, transform: reduced ? "none" : "translateY(-4px) scale(0.98)" },
+            ],
+        {
+          duration: reduced ? 100 : 150,
+          easing: "cubic-bezier(0.2, 0, 0, 1)",
+        },
+      );
+    };
+    const close = async ({ focus = false } = {}) => {
+      if (menu.hidden || closing) return;
+      closing = true;
       trigger.setAttribute("aria-expanded", "false");
+      const animation = animate(false);
+      if (animation) await animation.finished;
+      menu.hidden = true;
+      closing = false;
       if (focus) trigger.focus();
     };
     const focusItem = (index) => {
@@ -24,8 +50,10 @@ export function bindDropdowns(root = document) {
       return item;
     };
     const open = (index = 0) => {
+      closing = false;
       menu.hidden = false;
       trigger.setAttribute("aria-expanded", "true");
+      animate(true);
       focusItem(index);
     };
     const handleItemKeydown = (event, item) => {

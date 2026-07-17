@@ -328,8 +328,10 @@ describe("preview behavior", () => {
     expect(sendButtonWorkbenchMarkup({ state: "idle" })).toContain("disabled");
     expect(sendButtonWorkbenchMarkup({ state: "typing" })).toContain('aria-label="Send message"');
     expect(sendButtonWorkbenchMarkup({ state: "streaming" })).toContain('data-state="stop"');
-    expect(attachmentButtonWorkbenchMarkup({ icon: "plus" })).toContain(">+<");
-    expect(attachmentButtonWorkbenchMarkup({ icon: "paperclip" })).toContain("<svg");
+    expect(attachmentButtonWorkbenchMarkup({ icon: "plus" })).toContain('data-lucide="plus"');
+    expect(attachmentButtonWorkbenchMarkup({ icon: "paperclip" })).toContain(
+      'data-lucide="paperclip"',
+    );
     expect(suggestionsWorkbenchMarkup({ disabled: true })).toContain(" disabled");
     expect(modelPickerWorkbenchMarkup({ value: "deep" })).toContain(
       '<option value="deep" selected>Deep · 4.6</option>',

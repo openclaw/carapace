@@ -278,19 +278,68 @@ ${options}
 </div>`;
 }
 
-export function toastWorkbenchMarkup({ dismissible = true } = {}) {
-  const close = dismissible
-    ? '\n    <button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-workbench-toast-dismiss>×</button>'
-    : "";
-
-  return `<div class="oc-toast-region" aria-label="Notifications" aria-live="polite" aria-relevant="additions removals">
-  <div class="oc-toast">
+export function toastWorkbenchMarkup({ dismissible = true, stack = "single" } = {}) {
+  const messages = stack === "multiple"
+    ? [
+        ["Changes saved", "The component reference is up to date."],
+        ["Build complete", "All preview routes compiled successfully."],
+        ["Connection restored", "Live updates are available again."],
+      ]
+    : [["Changes saved", "The component reference is up to date."]];
+  const toasts = messages.map(([title, message], index) => {
+    const close = dismissible
+      ? '\n    <button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-workbench-toast-dismiss><i data-lucide="x"></i></button>'
+      : "";
+    return `<div class="oc-toast" data-toast-index="${index}">
     <div class="oc-toast-content">
-      <p class="oc-toast-title">Changes saved</p>
-      <p class="oc-toast-message">The component reference is up to date.</p>
+      <p class="oc-toast-title">${title}</p>
+      <p class="oc-toast-message">${message}</p>
     </div>${close}
-  </div>
+  </div>`;
+  }).join("\n");
+
+  return `<div class="oc-toast-region" data-toast-stack="${stack}" aria-label="Notifications" aria-live="polite" aria-relevant="additions removals">
+  ${toasts}
 </div>`;
+}
+
+const workbenchToastMessages = [
+  ["Toast created", "This is a toast notification."],
+  ["Changes saved", "The component reference is up to date."],
+  ["Build complete", "All preview routes compiled successfully."],
+];
+
+function createWorkbenchToast(document, dismissible, sequence) {
+  const template = document.createElement("template");
+  template.innerHTML = toastWorkbenchMarkup({ dismissible });
+  const toast = template.content.querySelector(".oc-toast");
+  const [title, message] = workbenchToastMessages[sequence % workbenchToastMessages.length];
+  toast.querySelector(".oc-toast-title").textContent = title;
+  toast.querySelector(".oc-toast-message").textContent = message;
+  return toast;
+}
+
+function animateWorkbenchToast(toast, opening) {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return toast.animate(
+    reduced
+      ? opening
+        ? [{ opacity: 0 }, { opacity: 1 }]
+        : [{ opacity: 1 }, { opacity: 0 }]
+      : opening
+        ? [
+            { opacity: 0, transform: "translateY(150%)" },
+            { opacity: 1, transform: "translateY(0)" },
+          ]
+        : [
+            { opacity: 1, transform: "translateY(0)" },
+            { opacity: 0, transform: "translateY(150%)" },
+          ],
+    {
+      duration: reduced ? 100 : 500,
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+    },
+  );
 }
 
 export function sendButtonWorkbenchMarkup({ state = "idle" } = {}) {
@@ -303,8 +352,73 @@ export function sendButtonWorkbenchMarkup({ state = "idle" } = {}) {
 }
 
 export function attachmentButtonWorkbenchMarkup({ icon = "plus" } = {}) {
-  const glyph = icon === "paperclip" ? agentIcon("paperclip") : '<span aria-hidden="true">+</span>';
+  const glyph = icon === "paperclip"
+    ? '<i data-lucide="paperclip" aria-hidden="true"></i>'
+    : '<i data-lucide="plus" aria-hidden="true"></i>';
   return `<button class="oc-agent-attachment-button" type="button" aria-label="Attach">${glyph}</button>`;
+}
+
+const emptyStates = [
+  { label: "First use", value: "first-use" },
+  { label: "No results", value: "no-results" },
+  { label: "Recovery", value: "recovery" },
+];
+
+function emptyWorkbenchMarkup({ state = "first-use", bordered = false } = {}) {
+  const variants = {
+    "first-use": {
+      icon: "bookmark",
+      title: "No saved views",
+      description: "Save the current filters so you can return to this component set.",
+      action: "Create saved view",
+    },
+    "no-results": {
+      icon: "search-x",
+      title: "No matching components",
+      description: "Try removing a filter or using a broader search term.",
+      action: "Clear filters",
+    },
+    recovery: {
+      icon: "rotate-ccw",
+      title: "Couldn’t load saved views",
+      description: "Your filters are safe. Check the connection and try again.",
+      action: "Try again",
+    },
+  };
+  const selected = variants[state] ?? variants["first-use"];
+  return `<section class="oc-empty${bordered ? " oc-empty-bordered" : ""}" aria-labelledby="workbench-empty-title" aria-describedby="workbench-empty-description">
+  <div class="oc-empty-content"><span class="oc-empty-icon" aria-hidden="true"><i data-lucide="${selected.icon}"></i></span><h3 class="oc-empty-title" id="workbench-empty-title">${selected.title}</h3><p class="oc-empty-description" id="workbench-empty-description">${selected.description}</p><div class="oc-empty-actions"><button class="oc-action ${state === "recovery" ? "oc-action-secondary" : "oc-action-primary"}" type="button">${selected.action}</button></div></div>
+</section>`;
+}
+
+const segmentedTypes = [
+  { label: "Toggle", value: "toggle" },
+  { label: "Tabs", value: "tabs" },
+  { label: "Icons", value: "icons" },
+];
+
+function segmentedWorkbenchMarkup({ type = "toggle", selected = "preview" } = {}) {
+  const options = type === "icons"
+    ? [
+        { value: "preview", label: "Preview", icon: "eye" },
+        { value: "code", label: "Code", icon: "code-2" },
+        { value: "tokens", label: "Tokens", icon: "palette" },
+      ]
+    : [
+        { value: "preview", label: "Preview" },
+        { value: "code", label: "Code" },
+        { value: "tokens", label: "Tokens" },
+      ];
+  const role = type === "tabs" ? ' role="tablist"' : "";
+  const items = options.map((option) => {
+    const active = option.value === selected;
+    const state = type === "tabs"
+      ? `role="tab" aria-selected="${active}"`
+      : `aria-pressed="${active}"`;
+    const icon = option.icon ? `<i data-lucide="${option.icon}" aria-hidden="true"></i>` : "";
+    return `<button class="oc-segmented-item" type="button" ${state} data-workbench-segmented-value="${option.value}">${icon}<span>${option.label}</span></button>`;
+  }).join("");
+  return `<div class="segmented-demo"><div class="oc-segmented" aria-label="Reference view"${role}>${items}</div><p><strong>${options.find((option) => option.value === selected)?.label ?? "Preview"}</strong><span>Selected reference view</span></p></div>`;
 }
 
 export function suggestionsWorkbenchMarkup({ disabled = false } = {}) {
@@ -506,12 +620,12 @@ function chatResponseMarkup(status, copyToolbar) {
   const statusAttribute = status === "streaming" ? ' data-status="streaming"' : "";
   const role = status === "submitted" ? "OpenClaw · waiting" : status === "streaming" ? "OpenClaw · responding" : "OpenClaw";
   const content = status === "submitted"
-    ? "Preparing a response…"
+    ? '<span class="oc-agent-text-shimmer" role="status">Preparing a response…</span>'
     : status === "streaming"
-      ? "Reviewing the component contract and current validation output…"
-      : "The component contract is intact and ready for review.";
+      ? 'Reviewing the component contract and current validation output<span class="oc-agent-streaming-cursor" aria-hidden="true"></span>'
+      : "The component contract is intact. The preview changes are local, the focused tests pass, and no exported token or component contract changed.";
   const actions = copyToolbar && status === "ready"
-    ? '<div class="oc-agent-message-actions"><button type="button" data-copy-text="The component contract is intact and ready for review.">Copy response</button></div>'
+    ? '<div class="oc-agent-message-actions"><button type="button" aria-label="Copy response" data-copy-text="The component contract is intact and ready for review."><i data-lucide="copy"></i><span>Copy</span></button><button type="button" aria-label="Mark response helpful"><i data-lucide="thumbs-up"></i></button><button type="button" aria-label="Mark response unhelpful"><i data-lucide="thumbs-down"></i></button></div>'
     : "";
 
   return `<li class="oc-agent-message"${statusAttribute}>
@@ -603,6 +717,9 @@ export function agentChatWorkbenchMarkup({
 } = {}) {
   const isEmpty = status !== "error" && (example === "empty" || example === "suggestions");
   const messages = isEmpty ? "" : messageListWorkbenchMarkup({ status, copyToolbar });
+  const welcome = isEmpty
+    ? `<div class="oc-agent-chat-welcome"><span class="oc-agent-chat-welcome-icon" aria-hidden="true">${agentIcon("sparkle")}</span><h3>How can I help?</h3><p>Ask about the component contract, implementation details, or validation results.</p></div>`
+    : "";
   const suggestions = example === "suggestions"
     ? `<div class="oc-agent-chat-suggestions" aria-label="Suggested prompts">
   <button class="oc-agent-suggestion" type="button" data-agent-suggestion-value="Review the pending changes">Review changes</button>
@@ -619,7 +736,7 @@ export function agentChatWorkbenchMarkup({
     : `<button class="oc-agent-send-button" type="submit" aria-label="Send message"${status === "submitted" ? " disabled" : ""}>${agentIcon("send")}</button>`;
 
   return `<section class="oc-agent-chat${isEmpty ? " oc-agent-chat-empty" : ""}" aria-label="Agent conversation">
-  ${messages}
+  <div class="oc-agent-chat-transcript">${welcome}${messages}</div>
   <div class="oc-agent-chat-composer">
     ${suggestions}
     ${attachments}
@@ -921,6 +1038,42 @@ const definitions = {
       specimen.innerHTML = `<div class="primitive-variant-list primitive-button-list">${buttonWorkbenchMarkup(state)}</div>`;
     },
   },
+  "primitive-empty": {
+    defaults: { state: "first-use", bordered: false },
+    controls: [
+      { id: "state", label: "State", type: "choice", options: emptyStates },
+      { id: "bordered", label: "Border", type: "toggle" },
+    ],
+    markup: emptyWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = emptyWorkbenchMarkup(state);
+    },
+  },
+  "primitive-segmented": {
+    defaults: { type: "toggle", selected: "preview" },
+    controls: [
+      { id: "type", label: "Type", type: "choice", options: segmentedTypes },
+      {
+        id: "selected",
+        label: "Selected",
+        type: "choice",
+        options: [
+          { label: "Preview", value: "preview" },
+          { label: "Code", value: "code" },
+          { label: "Tokens", value: "tokens" },
+        ],
+      },
+    ],
+    markup: segmentedWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = segmentedWorkbenchMarkup(state);
+    },
+    bind(specimen, _state, update) {
+      specimen.querySelectorAll("[data-workbench-segmented-value]").forEach((button) => {
+        button.addEventListener("click", () => update("selected", button.dataset.workbenchSegmentedValue));
+      });
+    },
+  },
   "primitive-banner": {
     defaults: { tone: "warning", action: true },
     controls: [
@@ -954,6 +1107,16 @@ const definitions = {
     markup: tableWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = tableWorkbenchMarkup(state);
+    },
+    bind(specimen) {
+      specimen.querySelectorAll(".oc-table-interactive button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const row = button.closest("tr");
+          row?.setAttribute("data-selected", "true");
+          button.textContent = "Opened";
+          button.disabled = true;
+        });
+      });
     },
   },
   "primitive-select": {
@@ -1024,24 +1187,24 @@ const definitions = {
     ],
     markup: toastWorkbenchMarkup,
     render(specimen, state) {
-      const toast = state.visible
-        ? toastWorkbenchMarkup(state).replace(
-            'class="oc-toast-region"',
-            'class="oc-toast-region component-workbench-toast-region"',
-          )
-        : "";
+      const workbench = specimen.closest(".component-workbench");
+      workbench?.querySelector(":scope > [data-workbench-toast-portal]")?.remove();
       specimen.innerHTML = `<div class="component-workbench-toast-demo">
-  <button class="oc-button oc-button-secondary" type="button" data-workbench-toast-trigger>Show toast</button>
-  ${toast}
+  <button class="oc-button oc-button-secondary" type="button" data-workbench-toast-trigger data-toast-dismissible="${String(state.dismissible)}">Show toast</button>
 </div>`;
-    },
-    bind(specimen, _state, update) {
-      specimen.querySelector("[data-workbench-toast-trigger]")?.addEventListener("click", () => {
-        update("visible", true);
-      });
-      specimen.querySelector("[data-workbench-toast-dismiss]")?.addEventListener("click", () => {
-        update("visible", false);
-      });
+      if (state.visible && workbench) {
+        const region = document.createElement("div");
+        region.className = "oc-toast-region component-workbench-toast-region";
+        region.dataset.workbenchToastPortal = "";
+        region.dataset.toastStack = "single";
+        region.setAttribute("aria-label", "Notifications");
+        region.setAttribute("aria-live", "polite");
+        region.setAttribute("aria-relevant", "additions removals");
+        const toast = createWorkbenchToast(document, state.dismissible, 0);
+        region.append(toast);
+        workbench.append(region);
+        animateWorkbenchToast(toast, true);
+      }
     },
   },
   "input-bar": {

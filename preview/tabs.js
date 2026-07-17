@@ -11,6 +11,18 @@ export function bindTabs(root = document) {
     const tabs = [...tabset.querySelectorAll('[role="tab"]')];
     const panels = [...tabset.querySelectorAll('[role="tabpanel"]')];
     if (!tabs.length || !panels.length) continue;
+    const list = typeof tabset.querySelector === "function"
+      ? tabset.querySelector('[role="tablist"]')
+      : null;
+    const document = list?.ownerDocument;
+    const indicator = document?.createElement && list?.appendChild
+      ? document.createElement("span")
+      : null;
+    if (indicator) {
+      indicator.className = "oc-tabs-indicator";
+      indicator.setAttribute("aria-hidden", "true");
+      list.appendChild(indicator);
+    }
 
     const key = tabset.dataset?.tabsKey;
     const activate = (tab, focus = false) => {
@@ -23,6 +35,11 @@ export function bindTabs(root = document) {
         item.tabIndex = selected ? 0 : -1;
       }
       for (const panel of panels) panel.hidden = panel.id !== tab.getAttribute("aria-controls");
+      if (list && indicator) {
+        list.style?.setProperty("--oc-active-tab-left", `${tab.offsetLeft || 0}px`);
+        list.style?.setProperty("--oc-active-tab-width", `${tab.offsetWidth || 0}px`);
+        indicator.dataset.rendered = "true";
+      }
       if (key) tabSelection.set(key, getTabValue(tab));
       if (focus) tab.focus();
       if (scroller) {

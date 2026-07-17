@@ -2,9 +2,11 @@ import { readFile } from "node:fs/promises";
 import { describe, expect, test } from "bun:test";
 import { transform } from "lightningcss";
 import {
+  getWorkbenchShellProfile,
   getWorkbenchViewportModes,
   isComponentWorkbenchPage,
   preserveWorkbenchScrollPosition,
+  resolveWorkbenchPageHref,
   workbenchCanvasThemes,
   workbenchViewportModes,
 } from "../preview/component-workbench.js";
@@ -51,6 +53,21 @@ const legacyDisplayName = ["OpenClaw", "Design System"].join(" ");
 const legacyPackageName = ["@openclaw", "design-system"].join("/");
 
 describe("preview contracts", () => {
+  test("resolves adjacent workbench pages from the site root", () => {
+    expect(
+      resolveWorkbenchPageHref(
+        "interface/primitives/autocomplete/",
+        "http://127.0.0.1:4173/",
+      ),
+    ).toBe("http://127.0.0.1:4173/interface/primitives/autocomplete/");
+    expect(
+      resolveWorkbenchPageHref(
+        "interface/primitives/autocomplete/",
+        "https://openclaw.github.io/design-system/",
+      ),
+    ).toBe("https://openclaw.github.io/design-system/interface/primitives/autocomplete/");
+  });
+
   test("limits the component workbench to component reference pages", () => {
     expect(workbenchViewportModes.map(({ id }) => id)).toEqual(["desktop", "tablet", "mobile"]);
     expect(workbenchViewportModes.map(({ label }) => label)).toEqual([
@@ -76,6 +93,29 @@ describe("preview contracts", () => {
     expect(isComponentWorkbenchPage("foundation-colors")).toBe(false);
     expect(isComponentWorkbenchPage("chart-base")).toBe(false);
     expect(isComponentWorkbenchPage("interface")).toBe(false);
+  });
+
+  test("adapts shared workbench chrome to the kind of component being demonstrated", () => {
+    expect(getWorkbenchShellProfile("primitive-badge")).toEqual({
+      canvasPreset: "inline",
+      supportsViewport: false,
+    });
+    expect(getWorkbenchShellProfile("primitive-input")).toEqual({
+      canvasPreset: "form",
+      supportsViewport: false,
+    });
+    expect(getWorkbenchShellProfile("primitive-card")).toEqual({
+      canvasPreset: "panel",
+      supportsViewport: false,
+    });
+    expect(getWorkbenchShellProfile("primitive-grid")).toEqual({
+      canvasPreset: "data",
+      supportsViewport: true,
+    });
+    expect(getWorkbenchShellProfile("agent-chat")).toEqual({
+      canvasPreset: "viewport",
+      supportsViewport: true,
+    });
   });
 
   test("preserves page position while choice controls update the specimen", () => {

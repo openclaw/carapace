@@ -29,6 +29,20 @@ export function bindAgentComponentDemos(root = document) {
       message.textContent = draft;
       item.append(message);
       transcript.append(item);
+      const reduced = form.ownerDocument?.defaultView
+        ?.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      item.animate?.(
+        reduced
+          ? [{ opacity: 0 }, { opacity: 1 }]
+          : [
+              { opacity: 0, transform: "translateY(6px)" },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+        {
+          duration: reduced ? 100 : 200,
+          easing: "cubic-bezier(0.23, 1, 0.32, 1)",
+        },
+      );
       input.value = "";
       transcript.scrollTop = transcript.scrollHeight;
       if (status) status.textContent = "Message sent";
@@ -90,8 +104,25 @@ export function bindAgentComponentDemos(root = document) {
 
   const attachmentRemoveButtons = [...root.querySelectorAll("[data-agent-attachment-remove]")];
   for (const button of attachmentRemoveButtons) {
-    button.addEventListener("click", () => {
-      button.closest("[data-agent-attachment]")?.remove();
+    button.addEventListener("click", async () => {
+      const attachment = button.closest("[data-agent-attachment]");
+      if (!attachment) return;
+      const reduced = attachment.ownerDocument?.defaultView
+        ?.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const animation = attachment.animate?.(
+        reduced
+          ? [{ opacity: 1 }, { opacity: 0 }]
+          : [
+              { opacity: 1, transform: "translateX(0)" },
+              { opacity: 0, transform: "translateX(8px)" },
+            ],
+        {
+          duration: reduced ? 100 : 160,
+          easing: "cubic-bezier(0.23, 1, 0.32, 1)",
+        },
+      );
+      if (animation) await animation.finished;
+      attachment.remove();
     });
   }
 

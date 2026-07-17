@@ -521,6 +521,7 @@ export function mountPage(
   const document = root.ownerDocument;
   const view = document.defaultView;
   delete document.body.dataset.referenceLayout;
+  delete document.body.dataset.shellMode;
   renderReferenceContent(root, pageId);
   addHomeMaturityBadges(root);
   root.querySelectorAll("[data-preview-indeterminate]").forEach((input) => {

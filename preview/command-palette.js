@@ -11,6 +11,34 @@ export function bindCommandPalettes(root = document) {
     if (!dialog || !trigger || !input) continue;
 
     let activeIndex = -1;
+    const animateDialog = (opening) => {
+      if (typeof dialog.animate !== "function") return null;
+      const reduced = dialog.ownerDocument?.defaultView
+        ?.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      return dialog.animate(
+        opening
+          ? [
+              { opacity: 0, transform: reduced ? "none" : "scale(0.9)" },
+              { opacity: 1, transform: "scale(1)" },
+            ]
+          : [
+              { opacity: 1, transform: "scale(1)" },
+              { opacity: 0, transform: reduced ? "none" : "scale(0.9)" },
+            ],
+        {
+          duration: reduced ? 100 : 150,
+          easing: "cubic-bezier(0.2, 0, 0, 1)",
+        },
+      );
+    };
+    const close = async () => {
+      if (!dialog.open || dialog.dataset.closing === "true") return;
+      dialog.dataset.closing = "true";
+      const animation = animateDialog(false);
+      if (animation) await animation.finished;
+      delete dialog.dataset.closing;
+      dialog.close();
+    };
     const visibleItems = () => items.filter((item) => !item.hidden);
     const clearActive = () => {
       activeIndex = -1;
@@ -63,6 +91,7 @@ export function bindCommandPalettes(root = document) {
 
     trigger.addEventListener("click", () => {
       dialog.showModal();
+      animateDialog(true);
       filter();
       input.focus();
     });
@@ -83,15 +112,22 @@ export function bindCommandPalettes(root = document) {
       item.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
           event.preventDefault();
-          dialog.close();
+          close();
           return;
         }
         handleNavigation(event, item);
       });
     }
     dialog.addEventListener("click", (event) => {
-      if (event.target === dialog || event.target.closest("[data-command-palette-close]")) dialog.close();
-      if (event.target.closest("[data-command-palette-item]")) dialog.close();
+      if (event.target.closest("[data-command-palette-item]")) {
+        dialog.close();
+        return;
+      }
+      if (event.target === dialog || event.target.closest("[data-command-palette-close]")) close();
+    });
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      close();
     });
     dialog.addEventListener("close", () => {
       input.value = "";

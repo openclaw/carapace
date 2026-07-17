@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { GlimmProvider } from "glimm/react";
 
 import { getReferenceArea, getReferencePage, introductionPage } from "./navigation.js";
 import { mountPage } from "./page-lifecycle.js";
@@ -209,7 +210,6 @@ function PreviewApp({ initialRoute, siteRoot }) {
       onNavigate={navigate}
     >
       <RouteView
-        key={entry.route.pageId}
         route={entry.route}
         siteRoot={siteRoot}
         navigation={entry.navigation}
@@ -227,6 +227,20 @@ export function mountPreviewApp() {
   mount.id = "preview-app";
   document.body.replaceChildren(mount);
   createRoot(mount).render(
-    <PreviewApp initialRoute={initialRoute} siteRoot={siteRoot} />,
+    <GlimmProvider
+      palette="azure"
+      easing="easeOutQuart"
+      sweepMs={560}
+      outroMs={260}
+      midpoint={0.48}
+      peakAlpha={0.72}
+      brightness={0.82}
+      bandTight={16}
+      waveAmount={0}
+      rippleAmount={0.2}
+      swellAmount={0.25}
+    >
+      <PreviewApp initialRoute={initialRoute} siteRoot={siteRoot} />
+    </GlimmProvider>,
   );
 }
