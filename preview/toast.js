@@ -29,6 +29,13 @@ function createWorkbenchToast(document, dismissible, sequence) {
   return toast;
 }
 
+function syncToastStack(region) {
+  const count = region.querySelectorAll("[data-toast], .oc-toast").length;
+  if (region.dataset) {
+    region.dataset.toastStack = count > 1 ? "multiple" : "single";
+  }
+}
+
 function bindWorkbenchToastEvents(root) {
   const document = root.ownerDocument || root;
   if (!document.documentElement?.dataset || typeof document.addEventListener !== "function") return;
@@ -92,7 +99,7 @@ function bindWorkbenchToastEvents(root) {
     );
     if (animation) await animation.finished;
     toast.remove();
-    region.dataset.toastStack = region.children.length > 1 ? "multiple" : "single";
+    syncToastStack(region);
     if (!region.children.length) region.remove();
   });
 }
@@ -129,6 +136,7 @@ function bindToast(region, toast, returnFocus) {
     );
     if (animation) await animation.finished;
     toast.remove();
+    syncToastStack(region);
     if (focusTarget) {
       focusTarget.focus({ preventScroll: true });
     } else if (returnFocus) {
@@ -161,8 +169,13 @@ export function bindToasts(root = document) {
     trigger.setAttribute("data-toast-bound", "true");
     trigger.addEventListener("click", () => {
       const toast = template.content.firstElementChild.cloneNode(true);
-      region.append(toast);
+      region.prepend(toast);
       bindToast(region, toast, trigger);
+      while (region.children.length > 3) region.lastElementChild?.remove();
+      syncToastStack(region);
+      region.ownerDocument?.defaultView?.lucide?.createIcons({
+        attrs: { "aria-hidden": "true", "stroke-width": "1.75" },
+      });
     });
   }
 

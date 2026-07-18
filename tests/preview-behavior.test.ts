@@ -1175,6 +1175,7 @@ describe("preview behavior", () => {
     class Element extends EventTarget {
       attributes = new Map();
       children = [];
+      dataset = {};
       focused = false;
       removed = false;
       id = "";
@@ -1182,8 +1183,15 @@ describe("preview behavior", () => {
       setAttribute(name, value) { this.attributes.set(name, value); }
       getAttribute(name) { return this.attributes.get(name); }
       removeAttribute(name) { this.attributes.delete(name); }
-      append(child) { this.children.push(child); }
-      remove() { this.removed = true; }
+      append(child) { child.parentElement = this; this.children.push(child); }
+      prepend(child) { child.parentElement = this; this.children.unshift(child); }
+      get lastElementChild() { return this.children.at(-1); }
+      remove() {
+        this.removed = true;
+        if (this.parentElement?.children) {
+          this.parentElement.children = this.parentElement.children.filter((child) => child !== this);
+        }
+      }
       focus() { this.focused = true; }
     }
 
@@ -1207,12 +1215,17 @@ describe("preview behavior", () => {
     };
 
     expect(bindToasts(root)).toBe(1);
-    trigger.dispatchEvent(new Event("click"));
-    expect(region.children).toHaveLength(1);
+    for (let index = 0; index < 4; index += 1) {
+      trigger.dispatchEvent(new Event("click"));
+    }
+    expect(region.children).toHaveLength(3);
+    expect(region.dataset.toastStack).toBe("multiple");
     expect(region.children[0].getAttribute("data-toast-bound")).toBe("true");
-    region.children[0].dismiss.dispatchEvent(new Event("click"));
-    expect(region.children[0].removed).toBe(true);
-    expect(trigger.focused).toBe(true);
+    const dismissedToast = region.children[0];
+    dismissedToast.dismiss.dispatchEvent(new Event("click"));
+    expect(dismissedToast.removed).toBe(true);
+    expect(region.children).toHaveLength(2);
+    expect(region.children[0].dismiss.focused).toBe(true);
   });
 
   test("opens, dismisses, and collision-aligns tooltips", () => {

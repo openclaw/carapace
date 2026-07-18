@@ -166,7 +166,7 @@
                 <a class="home-component-link" href="./interface/primitives/toast/">Toast</a>
                 <div class="home-component-demo">
                   <button class="oc-button oc-button-secondary" type="button" aria-controls="home-toast-region" data-toast-trigger>Show toast</button>
-                  <template data-toast-template><div class="oc-toast" data-toast><div class="oc-toast-content"><p class="oc-toast-title">Changes saved</p><p class="oc-toast-message">The component reference is up to date.</p></div><button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-toast-dismiss>×</button></div></template>
+                  <template data-toast-template><div class="oc-toast" data-toast><div class="oc-toast-content"><p class="oc-toast-title">Changes saved</p><p class="oc-toast-message">The component reference is up to date.</p></div><button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-toast-dismiss><i data-lucide="x"></i></button></div></template>
                 </div>
               </li>
               <li class="home-component-cell">
@@ -351,7 +351,7 @@ Finished in 312ms</code></pre></div>
                 </div>
               </li>
             </ul>
-            <div class="oc-toast-region home-toast-region" id="home-toast-region" aria-label="Notifications" data-toast-region></div>
+            <div class="oc-toast-region home-toast-region" id="home-toast-region" aria-label="Notifications" aria-live="polite" aria-relevant="additions removals" data-toast-region data-toast-stack="single"></div>
           </div>
         </div>
       </main>
