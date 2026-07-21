@@ -44,6 +44,7 @@ Consumers can instead import focused entry points:
 @import "@openclaw/carapace/candidate/controls.css";
 @import "@openclaw/carapace/candidate/feedback.css";
 @import "@openclaw/carapace/candidate/data.css";
+@import "@openclaw/carapace/candidate/application.css";
 @import "@openclaw/carapace/compat/clawhub.css";
 @import "@openclaw/carapace/tailwind.css";
 ```
@@ -74,6 +75,11 @@ Candidate entry points are additive and opt-in. They are excluded from both
 `components.css` and the complete default import until their selectors and
 behavior have been validated in multiple consumers. Preview-only Lab work is
 not included in package exports.
+
+The candidate application entry point supplies shared shell, page-header, pane,
+settings, and status anatomy. It composes existing Carapace controls while
+leaving routes, data, persistence, native window behavior, and framework state
+inside each consumer.
 
 OpenClaw surfaces and controls default to a Kumo-aligned radius profile
 (`surface`/`control` = `--oc-radius-md` / 8px, `inset` = `--oc-radius-sm` / 4px).
@@ -146,3 +152,5 @@ bun run preview:build
 ```
 
 The Pages workflow publishes the preview at `https://carapace.design/`.
+The Applications area contains interactive settings, operations, and workspace
+screens with theme and viewport controls.

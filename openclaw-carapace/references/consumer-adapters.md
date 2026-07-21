@@ -13,6 +13,18 @@ For a controlled migration, import `tokens.css`, `themes.css`, and
 Theme switching remains application-owned. The canonical public-site selector is
 `html[data-theme="light"|"dark"]`.
 
+Product applications may additionally import the opt-in candidate layers:
+
+```css
+@import "@openclaw/carapace/themes/product.css";
+@import "@openclaw/carapace/candidate/controls.css";
+@import "@openclaw/carapace/candidate/feedback.css";
+@import "@openclaw/carapace/candidate/application.css";
+```
+
+Use the application layer for shell, pane, and settings anatomy. Keep routes,
+data, persistence, and framework behavior local.
+
 ## Tailwind 4
 
 Import in this order:
@@ -30,6 +42,14 @@ Import in this order:
 The Tailwind adapter exposes theme utilities. `components.css` provides
 framework-neutral classes; keep Radix, React, route, and product behavior in the
 consumer.
+
+## Native macOS
+
+Map the shared application anatomy to SwiftUI and AppKit instead of importing
+the CSS. Preserve native title bars, materials, window sizing, sheets, keyboard
+commands, focus behavior, and accessibility semantics. Align hierarchy,
+spacing roles, control intent, and status meaning rather than web-specific
+markup.
 
 The ClawHub compatibility adapter understands:
 
