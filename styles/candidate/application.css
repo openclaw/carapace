@@ -704,6 +704,7 @@
     padding: var(--oc-space-3);
   }
 
+  .oc-pane.oc-pane-split,
   .oc-pane-split,
   .oc-pane-split[data-split="balanced"],
   .oc-pane-split[data-split="inspector"] {

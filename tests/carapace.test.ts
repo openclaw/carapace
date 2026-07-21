@@ -333,6 +333,9 @@ describe("CSS contract", () => {
       /@media \(max-width: 48rem\)[\s\S]*?\.oc-pane-split > \.oc-pane \{[\s\S]*?min-height: 0/,
     );
     expect(application).toMatch(
+      /@media \(max-width: 48rem\)[\s\S]*?\.oc-pane\.oc-pane-split,[\s\S]*?grid-template-rows: auto minmax\(18rem, 1fr\)/,
+    );
+    expect(application).toMatch(
       /@media \(max-width: 48rem\)[\s\S]*?grid-template-columns: 1\.25rem minmax\(0, 1fr\) auto/,
     );
     expect(application).toMatch(
