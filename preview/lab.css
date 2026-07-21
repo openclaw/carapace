@@ -4301,6 +4301,68 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
   color: var(--oc-text-secondary);
 }
 
+/* Application composition specimens */
+
+.application-specimen {
+  width: 100%;
+}
+
+.application-specimen > .oc-app-frame,
+.component-workbench-frame > .application-specimen > .oc-app-frame {
+  width: 100%;
+  min-height: 38rem;
+}
+
+.application-workspace-transcript {
+  display: grid;
+  align-content: start;
+  gap: var(--oc-space-4);
+}
+
+.application-workspace-message {
+  display: grid;
+  max-width: min(100%, 42rem);
+  gap: var(--oc-space-3);
+}
+
+.application-workspace-message p {
+  margin: 0;
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-sm);
+  line-height: 1.6;
+}
+
+.application-workspace-message-user {
+  justify-self: end;
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-surface-accent-soft);
+}
+
+.application-workspace-message-user p {
+  color: var(--oc-text-primary);
+}
+
+.application-workspace-composer {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--oc-space-2);
+}
+
+.application-workspace[data-dock="bottom"] .oc-pane-split {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(22rem, 1fr) minmax(18rem, 0.7fr);
+  overflow: auto;
+}
+
+.application-workspace[data-dock="bottom"] .oc-pane-split > .oc-pane + .oc-pane {
+  border-top-width: 1px;
+  border-left-width: 0;
+}
+
 /* Shared focus treatment */
 
 .oc-agent-suggestion:focus-visible,

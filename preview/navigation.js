@@ -653,6 +653,32 @@ export const referenceAreas = [
     ],
   },
   {
+    id: "applications",
+    label: "Applications",
+    description: "Shared app shells, settings, operations, and workspaces",
+    path: "applications/settings/",
+    pages: [
+      {
+        id: "application-settings",
+        label: "Settings",
+        path: "applications/settings/",
+        keywords: "application settings preferences toggle switch form pane",
+      },
+      {
+        id: "application-operations",
+        label: "Operations",
+        path: "applications/operations/",
+        keywords: "application channels automation master detail status pane",
+      },
+      {
+        id: "application-workspace",
+        label: "Workspace",
+        path: "applications/workspace/",
+        keywords: "application agent workspace inspector dock split pane session",
+      },
+    ],
+  },
+  {
     id: "resources",
     label: "Resources",
     description: "Adoption, adapters, skills, and release guidance",
@@ -767,9 +793,12 @@ const candidateReferenceIds = new Set([
   "primitive-skeleton-line",
   "primitive-switch",
   "primitive-table",
+  "application-settings",
+  "application-operations",
+  "application-workspace",
 ]);
 
-const labAreaIds = new Set(["interface", "agent-components", "charts", "blocks"]);
+const labAreaIds = new Set(["interface", "agent-components", "charts", "blocks", "applications"]);
 
 export function getReferenceMaturity(id) {
   if (stableReferenceIds.has(id)) return "Stable";
@@ -783,6 +812,7 @@ const sequencedAreaIds = new Set([
   "agent-components",
   "charts",
   "blocks",
+  "applications",
 ]);
 
 const adjacentReferenceSequences = referenceAreas

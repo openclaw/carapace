@@ -31,6 +31,9 @@ export const workbenchViewportModes = [
 ];
 
 const workbenchViewportPageModes = new Map([
+  ["application-settings", ["desktop", "tablet", "mobile"]],
+  ["application-operations", ["desktop", "tablet", "mobile"]],
+  ["application-workspace", ["desktop", "tablet", "mobile"]],
   ["primitive-grid", ["desktop", "tablet", "mobile"]],
   ["primitive-table", ["desktop", "mobile"]],
 ]);
@@ -89,6 +92,9 @@ const dataWorkbenchPages = new Set([
 ]);
 
 const viewportWorkbenchPages = new Set([
+  "application-settings",
+  "application-operations",
+  "application-workspace",
   "agent-chat",
   "input-bar",
   "message-list",
@@ -123,7 +129,8 @@ export function isComponentWorkbenchPage(pageId) {
     page.id !== "interface-primitives";
   const isAgentComponent =
     page.areaId === "agent-components" && page.id !== "agent-components";
-  return isPrimitive || isAgentComponent;
+  const isApplication = page.areaId === "applications";
+  return isPrimitive || isAgentComponent || isApplication;
 }
 
 export function setWorkbenchViewport(workbench, viewport) {

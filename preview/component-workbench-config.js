@@ -1,4 +1,9 @@
 import { agentIcon } from "./agent-components.js";
+import {
+  operationsApplicationMarkup,
+  settingsApplicationMarkup,
+  workspaceApplicationMarkup,
+} from "./application-screens.js";
 import { bindCombobox } from "./combobox.js";
 import { buttonWorkbenchExamples } from "./component-reference.js";
 
@@ -219,6 +224,44 @@ const linkVariants = [
   { label: "Inline", value: "inline" },
   { label: "Muted", value: "muted" },
   { label: "Standalone", value: "standalone" },
+];
+
+const applicationNavigationModes = [
+  { label: "Expanded", value: "expanded" },
+  { label: "Compact", value: "compact" },
+];
+
+const applicationDensities = [
+  { label: "Comfortable", value: "comfortable" },
+  { label: "Compact", value: "compact" },
+];
+
+const applicationConnectionStates = [
+  { label: "Ready", value: "ready" },
+  { label: "Offline", value: "offline" },
+];
+
+const applicationOperationViews = [
+  { label: "Channels", value: "channels" },
+  { label: "Automation", value: "automation" },
+];
+
+const applicationOperationStates = [
+  { label: "Ready", value: "ready" },
+  { label: "Loading", value: "loading" },
+  { label: "Error", value: "error" },
+];
+
+const applicationDockModes = [
+  { label: "Right", value: "right" },
+  { label: "Bottom", value: "bottom" },
+  { label: "Hidden", value: "hidden" },
+];
+
+const applicationSessionStates = [
+  { label: "Active", value: "active" },
+  { label: "Idle", value: "idle" },
+  { label: "Error", value: "error" },
 ];
 
 function escapeHtml(value = "") {
@@ -1262,6 +1305,120 @@ function createToolWorkbenchDefinition(kind) {
 }
 
 const definitions = {
+  "application-settings": {
+    defaults: {
+      navigation: "expanded",
+      density: "comfortable",
+      state: "ready",
+    },
+    controls: [
+      {
+        id: "navigation",
+        label: "Navigation",
+        type: "choice",
+        options: applicationNavigationModes,
+      },
+      {
+        id: "density",
+        label: "Density",
+        type: "choice",
+        options: applicationDensities,
+      },
+      {
+        id: "state",
+        label: "Connection",
+        type: "choice",
+        options: applicationConnectionStates,
+      },
+    ],
+    markup: settingsApplicationMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = settingsApplicationMarkup(state);
+    },
+    bind(specimen, _state, update) {
+      const densityButtons = specimen.querySelectorAll(
+        '.oc-segmented[aria-label="Interface density"] .oc-segmented-item',
+      );
+      densityButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          update(
+            "density",
+            button.textContent?.trim().toLowerCase() === "compact"
+              ? "compact"
+              : "comfortable",
+          );
+        });
+      });
+    },
+  },
+  "application-operations": {
+    defaults: {
+      view: "channels",
+      state: "ready",
+      navigation: "expanded",
+    },
+    controls: [
+      {
+        id: "view",
+        label: "View",
+        type: "choice",
+        options: applicationOperationViews,
+      },
+      {
+        id: "state",
+        label: "State",
+        type: "choice",
+        options: applicationOperationStates,
+      },
+      {
+        id: "navigation",
+        label: "Navigation",
+        type: "choice",
+        options: applicationNavigationModes,
+      },
+    ],
+    markup: operationsApplicationMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = operationsApplicationMarkup(state);
+    },
+  },
+  "application-workspace": {
+    defaults: {
+      dock: "right",
+      inspector: true,
+      status: "active",
+      navigation: "compact",
+    },
+    controls: [
+      {
+        id: "dock",
+        label: "Inspector dock",
+        type: "choice",
+        options: applicationDockModes,
+      },
+      {
+        id: "inspector",
+        label: "Inspector",
+        type: "toggle",
+      },
+      {
+        id: "status",
+        label: "Session",
+        type: "choice",
+        options: applicationSessionStates,
+      },
+      {
+        id: "navigation",
+        label: "Navigation",
+        type: "choice",
+        options: applicationNavigationModes,
+      },
+    ],
+    markup: workspaceApplicationMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = workspaceApplicationMarkup(state);
+    },
+  },
   "agent-chat": {
     defaults: { example: "basic", status: "ready", copyToolbar: false },
     controls: [

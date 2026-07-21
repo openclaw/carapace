@@ -1,6 +1,11 @@
 import { exampleDialogAttribute } from "./interaction.js";
 import { agentReferenceContentIds, getAgentReferenceContent } from "./agent-components.js";
 import {
+  operationsApplicationMarkup,
+  settingsApplicationMarkup,
+  workspaceApplicationMarkup,
+} from "./application-screens.js";
+import {
   avatarWorkbenchExamples,
   buttonWorkbenchExamples,
   formatComponentWorkbenchCode,
@@ -949,6 +954,64 @@ const contents = {
     </section>
     <section aria-labelledby="public-rules"><div class="section-heading"><div><p class="eyebrow">Structure</p><h2 id="public-rules">Composition rules</h2></div></div>${guidanceList(["Show the literal product, project, place, person, or offer immediately.", "Use cards only for repeated comparable items.", "Keep one primary action per decision area."])}</section>`,
 
+  "application-settings": () =>
+    `${pageIntro("Application", "Settings", "A dense preference surface that aligns native and web hierarchy without sharing runtime behavior.")}
+    <section data-section-kind="preview" aria-labelledby="application-settings-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-settings-preview">Application preferences</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${settingsApplicationMarkup()}</div></section>
+    <section data-section-kind="markup" aria-labelledby="application-settings-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-settings-markup">Compose established controls inside shared anatomy</h2></div></div>${codeBlock(`<div class="oc-app-frame">
+  <nav class="oc-app-navigation">…</nav>
+  <main class="oc-app-main">
+    <header class="oc-page-header">…</header>
+    <div class="oc-pane-layout">
+      <div class="oc-settings-page">
+        <section class="oc-settings-section">
+          <div class="oc-settings-group">
+            <div class="oc-settings-row">
+              <div class="oc-settings-row-content">…</div>
+              <div class="oc-settings-row-control">
+                <input class="oc-switch" type="checkbox" role="switch" />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="application-settings-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-settings-guidance">Share hierarchy, keep platform behavior</h2></div></div>${guidanceList(["Group related settings into bounded sections rather than nested cards.", "Use existing Carapace controls and preserve immediate switch semantics.", "Let SwiftUI and AppKit keep native materials, window behavior, and accessibility.", "Let the Control UI keep routing, persistence, and gateway state.", "Check comfortable and compact density at every supported width."])}</section>`,
+
+  "application-operations": () =>
+    `${pageIntro("Application", "Operations", "A master-detail surface for channels, automation, and other recurring operational workflows.")}
+    <section data-section-kind="preview" aria-labelledby="application-operations-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-operations-preview">Channels and automation</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${operationsApplicationMarkup()}</div></section>
+    <section data-section-kind="markup" aria-labelledby="application-operations-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-operations-markup">Keep selection and detail in one bounded pane</h2></div></div>${codeBlock(`<section class="oc-pane">
+  <div class="oc-pane-split">
+    <section class="oc-pane" aria-label="Channels">
+      <header class="oc-pane-header">…</header>
+      <div class="oc-pane-body">…</div>
+    </section>
+    <section class="oc-pane" aria-label="Selected channel">
+      <header class="oc-pane-header">…</header>
+      <div class="oc-pane-body">…</div>
+    </section>
+  </div>
+</section>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="application-operations-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-operations-guidance">Optimize repeated inspection</h2></div></div>${guidanceList(["Keep list status visible before selection.", "Use a stable detail header for identity, state, and primary actions.", "Preserve loading, error, empty, and connected states in the same anatomy.", "Collapse master and detail vertically on narrow screens.", "Keep transport and scheduler behavior inside their owning consumer."])}</section>`,
+
+  "application-workspace": () =>
+    `${pageIntro("Application", "Workspace", "A multi-pane agent surface with a focused conversation and an optional state inspector.")}
+    <section data-section-kind="preview" aria-labelledby="application-workspace-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-workspace-preview">Agent session with inspector</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${workspaceApplicationMarkup()}</div></section>
+    <section data-section-kind="markup" aria-labelledby="application-workspace-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-workspace-markup">Dock optional context beside the primary task</h2></div></div>${codeBlock(`<div class="oc-pane oc-pane-split" data-split="inspector">
+  <section class="oc-pane" aria-label="Agent workspace">
+    <header class="oc-pane-header">…</header>
+    <div class="oc-pane-body">…</div>
+    <footer class="oc-pane-footer">…</footer>
+  </section>
+  <section class="oc-pane" aria-label="Inspector">
+    <header class="oc-pane-header">…</header>
+    <div class="oc-pane-body">…</div>
+  </section>
+</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="application-workspace-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-workspace-guidance">Primary work stays primary</h2></div></div>${guidanceList(["Keep the conversation or document as the dominant pane.", "Treat inspector, terminal, browser, and activity surfaces as optional context.", "Support right, bottom, and hidden inspector modes without changing source meaning.", "Carry session status into both the header and detailed inspector.", "Keep panel lifecycle, drag behavior, and persistence in the consumer."])}</section>`,
+
   "resource-getting-started": () =>
     `${pageIntro("Resources", "Getting started", "Install an immutable release, choose the right import boundary, and keep application behavior in the consumer.")}
     <section aria-labelledby="install-package"><div class="section-heading"><div><p class="eyebrow">Install</p><h2 id="install-package">Git-tagged package</h2></div><p>Bun 1.3 or newer</p></div>${codeBlock(`bun add "git+https://github.com/openclaw/carapace.git#v0.1.0"`, "shell")}<p class="section-copy">The package is public and distributed through immutable Git tags. Its private package flag prevents accidental npm publication.</p></section>
@@ -957,8 +1020,8 @@ const contents = {
 
   "resource-package-exports": () =>
     `${pageIntro("Resources", "Package exports", "Every public entry point is versioned with the same runtime and guidance contract.")}
-    <section aria-labelledby="package-entry-points"><div class="section-heading"><div><p class="eyebrow">Entry points</p><h2 id="package-entry-points">Import only what the consumer needs</h2></div></div>${referenceTable(["Specifier", "Purpose"], [[".", "Stable contract: tokens, themes, typography, base, and components."], ["./styles.css", "Explicit alias for the stable contract."], ["./tokens.css", "Palette, spacing, type scale, geometry, shadows, motion, and content widths."], ["./themes.css", "Dark and light semantic color roles."], ["./themes/product.css", "Opt-in status, input, and diff roles."], ["./typography.css", "Display, body, editorial, and monospace font stacks."], ["./base.css", "Optional global baseline and accessibility behavior."], ["./components.css", "Stable framework-neutral primitives."], ["./candidate/controls.css", "Opt-in form controls under compatibility validation."], ["./candidate/feedback.css", "Opt-in feedback components under compatibility validation."], ["./candidate/data.css", "Opt-in data components under compatibility validation."], ["./tailwind.css", "Tailwind 4 theme mappings and dark variant."], ["./compat/clawhub.css", "Migration aliases and ClawHub theme compatibility."], ["./package.json", "Package metadata for tooling."]])}</section>
-    <section aria-labelledby="package-order"><div class="section-heading"><div><p class="eyebrow">Order</p><h2 id="package-order">Foundations precede opt-in components</h2></div></div>${codeBlock(`@import "@openclaw/carapace/tokens.css";\n@import "@openclaw/carapace/themes.css";\n@import "@openclaw/carapace/typography.css";\n@import "@openclaw/carapace/components.css";\n@import "@openclaw/carapace/themes/product.css";\n@import "@openclaw/carapace/candidate/controls.css";\n@import "@openclaw/carapace/candidate/feedback.css";\n@import "@openclaw/carapace/candidate/data.css";\n@import "@openclaw/carapace/compat/clawhub.css";\n@import "@openclaw/carapace/tailwind.css";`)}</section>`,
+    <section aria-labelledby="package-entry-points"><div class="section-heading"><div><p class="eyebrow">Entry points</p><h2 id="package-entry-points">Import only what the consumer needs</h2></div></div>${referenceTable(["Specifier", "Purpose"], [[".", "Stable contract: tokens, themes, typography, base, and components."], ["./styles.css", "Explicit alias for the stable contract."], ["./tokens.css", "Palette, spacing, type scale, geometry, shadows, motion, and content widths."], ["./themes.css", "Dark and light semantic color roles."], ["./themes/product.css", "Opt-in status, input, and diff roles."], ["./typography.css", "Display, body, editorial, and monospace font stacks."], ["./base.css", "Optional global baseline and accessibility behavior."], ["./components.css", "Stable framework-neutral primitives."], ["./candidate/controls.css", "Opt-in form controls under compatibility validation."], ["./candidate/feedback.css", "Opt-in feedback components under compatibility validation."], ["./candidate/data.css", "Opt-in data components under compatibility validation."], ["./candidate/application.css", "Opt-in app shell, pane, settings, and status anatomy."], ["./tailwind.css", "Tailwind 4 theme mappings and dark variant."], ["./compat/clawhub.css", "Migration aliases and ClawHub theme compatibility."], ["./package.json", "Package metadata for tooling."]])}</section>
+    <section aria-labelledby="package-order"><div class="section-heading"><div><p class="eyebrow">Order</p><h2 id="package-order">Foundations precede opt-in components</h2></div></div>${codeBlock(`@import "@openclaw/carapace/tokens.css";\n@import "@openclaw/carapace/themes.css";\n@import "@openclaw/carapace/typography.css";\n@import "@openclaw/carapace/components.css";\n@import "@openclaw/carapace/themes/product.css";\n@import "@openclaw/carapace/candidate/controls.css";\n@import "@openclaw/carapace/candidate/feedback.css";\n@import "@openclaw/carapace/candidate/data.css";\n@import "@openclaw/carapace/candidate/application.css";\n@import "@openclaw/carapace/compat/clawhub.css";\n@import "@openclaw/carapace/tailwind.css";`)}</section>`,
 
   "resource-theming": () =>
     `${pageIntro("Resources", "Theming", "Light and dark appearances resolve the same semantic roles while theme selection remains application-owned.")}
