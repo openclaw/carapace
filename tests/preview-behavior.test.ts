@@ -299,6 +299,8 @@ describe("preview behavior", () => {
     expect(channels).toContain('class="oc-pane oc-pane-split"');
     expect(channels).toContain("Connected channels");
     expect(channels).toContain("Discord");
+    expect(channels).toContain('aria-pressed="true"');
+    expect(channels).not.toContain("aria-selected");
     expect(loading).toContain("Loading Discord configuration");
     expect(automationError).toContain("Scheduled work");
     expect(automationError).toContain("Last run failed");

@@ -181,10 +181,22 @@
 
 .oc-app-frame[data-navigation="compact"] .oc-app-navigation-title,
 .oc-app-frame[data-navigation="compact"] .oc-app-navigation-label,
-.oc-app-frame[data-navigation="compact"] .oc-app-navigation-item-label,
 .oc-app-frame[data-navigation="compact"] .oc-app-navigation-meta,
 .oc-app-frame[data-navigation="compact"] .oc-app-navigation-footer > :not(.oc-app-navigation-mark) {
   display: none;
+}
+
+.oc-app-frame[data-navigation="compact"] .oc-app-navigation-item-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  margin: -1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .oc-app-frame[data-navigation="compact"] .oc-app-navigation-header,
@@ -490,6 +502,11 @@
   background: var(--oc-surface-interactive-hover);
 }
 
+.oc-settings-row-interactive[aria-pressed="true"] {
+  background: var(--oc-surface-accent-soft);
+  box-shadow: inset 3px 0 0 var(--oc-accent-primary);
+}
+
 .oc-settings-row-interactive:focus-visible {
   position: relative;
   outline: 2px solid var(--oc-focus-ring);
@@ -631,8 +648,10 @@
   }
 
   .oc-app-navigation-body {
+    display: flex;
     overflow-x: auto;
     overflow-y: hidden;
+    gap: var(--oc-space-1);
     padding: 0 var(--oc-space-3) var(--oc-space-3);
   }
 
@@ -640,8 +659,6 @@
     display: contents;
   }
 
-  .oc-app-navigation-section + .oc-app-navigation-section,
-  .oc-app-navigation-section:not(:first-child),
   .oc-app-navigation-label,
   .oc-app-navigation-footer {
     display: none;
@@ -650,7 +667,7 @@
   .oc-app-navigation-list {
     display: flex;
     width: max-content;
-    min-width: 100%;
+    min-width: max-content;
   }
 
   .oc-app-navigation-item,
@@ -662,6 +679,14 @@
 
   .oc-app-frame[data-navigation="compact"] .oc-app-navigation-item-label {
     display: block;
+    position: static;
+    width: auto;
+    height: auto;
+    padding: initial;
+    margin: 0;
+    clip: auto;
+    clip-path: none;
+    overflow: hidden;
   }
 
   .oc-page-header {

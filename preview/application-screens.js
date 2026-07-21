@@ -166,7 +166,7 @@ export function settingsApplicationMarkup({
 }
 
 function operationListItem({ title, description, status, selected = false } = {}) {
-  return `<button class="oc-settings-row oc-settings-row-interactive" type="button" aria-selected="${selected}">
+  return `<button class="oc-settings-row oc-settings-row-interactive" type="button" aria-pressed="${selected}">
   <span class="oc-settings-row-content">
     <span class="oc-settings-row-title">${title}</span>
     <span class="oc-settings-row-description">${description}</span>

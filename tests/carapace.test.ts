@@ -320,6 +320,15 @@ describe("CSS contract", () => {
     expect(application).toMatch(
       /@media \(max-width: 48rem\)[\s\S]*?grid-template-columns: minmax\(0, 1fr\)/,
     );
+    expect(application).not.toMatch(
+      /\.oc-app-navigation-section:not\(:first-child\)[\s\S]*?display: none/,
+    );
+    expect(application).toMatch(
+      /data-navigation="compact"[\s\S]*?\.oc-app-navigation-item-label[\s\S]*?clip-path: inset\(50%\)/,
+    );
+    expect(application).toMatch(
+      /\.oc-settings-row-interactive\[aria-pressed="true"\][\s\S]*?--oc-surface-accent-soft/,
+    );
     expect(application).toMatch(
       /@media \(forced-colors: active\)[\s\S]*?Highlight/,
     );
