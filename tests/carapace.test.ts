@@ -386,6 +386,10 @@ describe("CSS contract", () => {
     expect(data).toMatch(/\.oc-resource-list-link:focus-visible[\s\S]*?--oc-focus-ring/);
     expect(application).toMatch(/\.oc-app-navigation-item:focus-visible[\s\S]*?--oc-focus-ring/);
     expect(application).toMatch(
+      /\.oc-app-resource-search:focus-within[\s\S]*?--oc-input-focus-ring/,
+    );
+    expect(application).toMatch(/\.oc-settings-search:focus-within[\s\S]*?--oc-input-focus-ring/);
+    expect(application).toMatch(
       /\.oc-settings-row-interactive:focus-visible[\s\S]*?--oc-focus-ring/,
     );
     expect(application).toMatch(
