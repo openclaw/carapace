@@ -21,17 +21,52 @@ Compose the contract from these roles:
 
 - `.oc-app-frame` separates primary navigation from the active application
   surface.
-- `.oc-page-header` names the current route and holds route-level actions.
+- `.oc-app-toolbar` carries current context, command search, connection state,
+  notifications, and account access without competing with page content.
+- `.oc-app-content` contains the route-owned surface below global chrome.
+- `.oc-page-header` names the current route and holds route-level actions when
+  the route needs an introduction.
 - `.oc-pane` provides bounded header, body, and footer regions.
-- `.oc-pane-split` creates master-detail and inspector layouts.
+- `.oc-pane-split` creates generic two-pane layouts.
+- `.oc-master-detail`, `.oc-master-pane`, `.oc-detail-pane`,
+  `.oc-resource-list`, and `.oc-activity-list` support repeated operational
+  inspection without turning every datum into a card.
+- `.oc-summary-strip` exposes a small set of comparable health metrics above an
+  operational workspace.
+- `.oc-settings-shell`, `.oc-settings-navigation`, `.oc-settings-detail`, and
+  `.oc-detail-header` create a settings takeover with local navigation and a
+  focused detail canvas.
 - `.oc-settings-page`, `.oc-settings-section`, `.oc-settings-group`, and
   `.oc-settings-row` create dense, scan-friendly preference screens.
+- `.oc-workspace-grid`, `.oc-workspace-sessions`,
+  `.oc-workspace-conversation`, and `.oc-workspace-inspector` create a
+  session-oriented working surface with optional context.
 - `.oc-status` presents compact operational state with text and a semantic
   indicator.
 
 Use existing controls such as `.oc-switch`, `.oc-input`, `.oc-select`,
 `.oc-segmented`, `.oc-action`, and `.oc-badge` inside these compositions. Do not
 create application-specific replacements for controls already in Carapace.
+
+## Composition Rules
+
+- Global navigation answers where the user is; local rails answer what is
+  selected inside that route. Do not merge both jobs into one undifferentiated
+  sidebar.
+- Keep command search and global status in the application toolbar. Keep
+  route-specific filters and actions near the route title or pane they affect.
+- Use summary strips only for a small set of comparable, current metrics. Put
+  history and explanations in the detail surface.
+- Give master lists identity, status, and one useful comparison value. Keep
+  editing controls in the selected detail pane.
+- Let the primary task own most of a workspace. Session history and inspectors
+  should stay narrower, hide on constrained widths, and never squeeze the
+  primary content below a usable measure.
+- Use bounded groups for related settings, not a card around every row or
+  section. Keep settings navigation visually quieter than the selected detail.
+- Use coral for primary action and selection, sea for connected identity and
+  secondary context, and status roles for outcomes. Do not recolor neutral
+  structure for decoration.
 
 ## Consumer Boundary
 
@@ -62,6 +97,9 @@ selectors remain useful without consumer-specific exceptions.
 
 - Verify desktop, tablet, and narrow layouts.
 - Verify light and dark themes.
+- Verify expanded and compact global navigation.
+- Verify settings navigation, master-detail, inspector-right,
+  inspector-bottom, and inspector-hidden layouts.
 - Check keyboard focus and accessible names for every interactive control.
 - Keep status understandable without color alone.
 - Confirm that long labels and descriptions wrap without resizing fixed UI.

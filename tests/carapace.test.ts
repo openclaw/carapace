@@ -21,9 +21,7 @@ function customProperties(source: string, pattern: RegExp) {
 }
 
 function componentClasses(source: string) {
-  return new Set(
-    [...source.matchAll(/\.(oc-[a-z0-9-]+)/g)].map((match) => `.${match[1]}`),
-  );
+  return new Set([...source.matchAll(/\.(oc-[a-z0-9-]+)/g)].map((match) => `.${match[1]}`));
 }
 
 function expectClasses(source: string, expected: string[]) {
@@ -219,11 +217,25 @@ describe("CSS contract", () => {
       ".oc-resource-list-arrow",
     ]);
     expectClasses(application, [
+      ".oc-action",
+      ".oc-activity-copy",
+      ".oc-activity-item",
+      ".oc-activity-list",
+      ".oc-activity-marker",
+      ".oc-app-command",
+      ".oc-app-content",
       ".oc-app-frame",
       ".oc-app-main",
       ".oc-app-navigation",
       ".oc-app-navigation-body",
+      ".oc-app-navigation-brand",
+      ".oc-app-navigation-collapse",
+      ".oc-app-navigation-context",
+      ".oc-app-navigation-context-chevron",
+      ".oc-app-navigation-context-copy",
+      ".oc-app-navigation-context-icon",
       ".oc-app-navigation-footer",
+      ".oc-app-navigation-footer-copy",
       ".oc-app-navigation-header",
       ".oc-app-navigation-icon",
       ".oc-app-navigation-item",
@@ -232,11 +244,39 @@ describe("CSS contract", () => {
       ".oc-app-navigation-list",
       ".oc-app-navigation-mark",
       ".oc-app-navigation-meta",
+      ".oc-app-navigation-presence",
       ".oc-app-navigation-section",
       ".oc-app-navigation-title",
+      ".oc-app-profile",
+      ".oc-app-toolbar",
+      ".oc-app-toolbar-actions",
+      ".oc-app-toolbar-context",
+      ".oc-app-toolbar-detail",
+      ".oc-app-toolbar-divider",
+      ".oc-app-toolbar-label",
+      ".oc-detail-grid",
+      ".oc-detail-grid-span",
+      ".oc-detail-header",
+      ".oc-detail-kicker",
+      ".oc-detail-section",
+      ".oc-detail-section-icon",
       ".oc-field",
+      ".oc-identity-copy",
+      ".oc-identity-kicker",
+      ".oc-identity-mark",
+      ".oc-identity-meta",
+      ".oc-identity-panel",
+      ".oc-inspector-activity",
+      ".oc-inspector-facts",
+      ".oc-inspector-files",
+      ".oc-inspector-meter",
+      ".oc-inspector-scroll",
+      ".oc-inspector-section",
+      ".oc-master-detail",
+      ".oc-master-pane",
       ".oc-page-header",
       ".oc-page-header-actions",
+      ".oc-page-header-compact",
       ".oc-page-header-content",
       ".oc-page-header-description",
       ".oc-page-header-kicker",
@@ -248,13 +288,37 @@ describe("CSS contract", () => {
       ".oc-pane-description",
       ".oc-pane-footer",
       ".oc-pane-header",
+      ".oc-pane-header-identity",
       ".oc-pane-heading",
+      ".oc-pane-identity-icon",
       ".oc-pane-layout",
+      ".oc-pane-layout-tight",
       ".oc-pane-split",
+      ".oc-pane-state",
       ".oc-pane-title",
+      ".oc-pane-title-row",
+      ".oc-resource-list",
+      ".oc-resource-list-copy",
+      ".oc-resource-list-icon",
+      ".oc-resource-list-item",
+      ".oc-resource-list-meta",
+      ".oc-resource-search",
       ".oc-segmented",
       ".oc-select-wrap",
+      ".oc-session-list",
+      ".oc-session-list-avatar",
+      ".oc-session-list-copy",
+      ".oc-session-list-item",
+      ".oc-settings-detail",
+      ".oc-settings-detail-scroll",
       ".oc-settings-group",
+      ".oc-settings-navigation",
+      ".oc-settings-navigation-footer",
+      ".oc-settings-navigation-header",
+      ".oc-settings-navigation-icon",
+      ".oc-settings-navigation-item",
+      ".oc-settings-navigation-kicker",
+      ".oc-settings-navigation-list",
       ".oc-settings-page",
       ".oc-settings-row",
       ".oc-settings-row-content",
@@ -263,12 +327,14 @@ describe("CSS contract", () => {
       ".oc-settings-row-interactive",
       ".oc-settings-row-stacked",
       ".oc-settings-row-title",
+      ".oc-settings-search",
       ".oc-settings-section",
       ".oc-settings-section-actions",
       ".oc-settings-section-description",
       ".oc-settings-section-header",
       ".oc-settings-section-heading",
       ".oc-settings-section-title",
+      ".oc-settings-shell",
       ".oc-status",
       ".oc-status-error",
       ".oc-status-indicator",
@@ -276,6 +342,15 @@ describe("CSS contract", () => {
       ".oc-status-label",
       ".oc-status-success",
       ".oc-status-warning",
+      ".oc-summary-metric",
+      ".oc-summary-metric-copy",
+      ".oc-summary-metric-icon",
+      ".oc-summary-strip",
+      ".oc-workspace-conversation",
+      ".oc-workspace-grid",
+      ".oc-workspace-inspector",
+      ".oc-workspace-sessions",
+      ".oc-workspace-sessions-footer",
     ]);
 
     for (const candidate of [controls, feedback, data, application]) {
@@ -294,26 +369,14 @@ describe("CSS contract", () => {
     const data = await readFile("styles/candidate/data.css", "utf8");
     const application = await readFile("styles/candidate/application.css", "utf8");
 
-    expect(controls).toMatch(
-      /\.oc-input\[aria-invalid="true"\][\s\S]*?--oc-status-error-fg/,
-    );
-    expect(controls).toMatch(
-      /\.oc-checkbox:indeterminate[\s\S]*?--oc-accent-primary/,
-    );
-    expect(controls).toMatch(
-      /@media \(forced-colors: active\)[\s\S]*?appearance: auto/,
-    );
-    expect(controls).toMatch(
-      /\.oc-switch:checked[\s\S]*?--oc-accent-primary/,
-    );
-    expect(feedback).toMatch(
-      /@media \(prefers-reduced-motion: reduce\)[\s\S]*?animation: none/,
-    );
+    expect(controls).toMatch(/\.oc-input\[aria-invalid="true"\][\s\S]*?--oc-status-error-fg/);
+    expect(controls).toMatch(/\.oc-checkbox:indeterminate[\s\S]*?--oc-accent-primary/);
+    expect(controls).toMatch(/@media \(forced-colors: active\)[\s\S]*?appearance: auto/);
+    expect(controls).toMatch(/\.oc-switch:checked[\s\S]*?--oc-accent-primary/);
+    expect(feedback).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?animation: none/);
     expect(data).toMatch(/\.oc-table-wrap[\s\S]*?overflow-x: auto/);
     expect(data).toMatch(/\.oc-resource-list-link:focus-visible[\s\S]*?--oc-focus-ring/);
-    expect(application).toMatch(
-      /\.oc-app-navigation-item:focus-visible[\s\S]*?--oc-focus-ring/,
-    );
+    expect(application).toMatch(/\.oc-app-navigation-item:focus-visible[\s\S]*?--oc-focus-ring/);
     expect(application).toMatch(
       /\.oc-settings-row-interactive:focus-visible[\s\S]*?--oc-focus-ring/,
     );
@@ -330,7 +393,14 @@ describe("CSS contract", () => {
       /\.oc-settings-row-interactive\[aria-pressed="true"\][\s\S]*?--oc-surface-accent-soft/,
     );
     expect(application).toMatch(
-      /@media \(max-width: 48rem\)[\s\S]*?\.oc-pane-split > \.oc-pane \{[\s\S]*?min-height: 0/,
+      /\.oc-app-content > :is\(\.oc-settings-shell, \.oc-workspace-grid\)[\s\S]*?grid-row: 1 \/ -1/,
+    );
+    expect(application).toMatch(
+      /\.oc-master-detail \{[\s\S]*?grid-template-rows: minmax\(0, 1fr\)/,
+    );
+    expect(application).toMatch(/\.oc-master-detail > \.oc-pane \{[\s\S]*?border-width: 0/);
+    expect(application).toMatch(
+      /@media \(max-width: 48rem\)[\s\S]*?\.oc-pane-split > \.oc-pane,[\s\S]*?\.oc-master-detail > \.oc-pane \{[\s\S]*?min-height: 0/,
     );
     expect(application).toMatch(
       /@media \(max-width: 48rem\)[\s\S]*?\.oc-pane\.oc-pane-split,[\s\S]*?grid-template-rows: auto minmax\(18rem, 1fr\)/,
@@ -338,9 +408,7 @@ describe("CSS contract", () => {
     expect(application).toMatch(
       /@media \(max-width: 48rem\)[\s\S]*?grid-template-columns: 1\.25rem minmax\(0, 1fr\) auto/,
     );
-    expect(application).toMatch(
-      /@media \(forced-colors: active\)[\s\S]*?Highlight/,
-    );
+    expect(application).toMatch(/@media \(forced-colors: active\)[\s\S]*?Highlight/);
 
     for (const selector of [
       ".oc-input",
@@ -357,9 +425,7 @@ describe("CSS contract", () => {
       expect(ruleDeclarations(feedback, selector)).toContain("box-sizing: border-box");
     }
 
-    expect(ruleDeclarations(feedback, ".oc-empty-description")).toContain(
-      "text-wrap: pretty",
-    );
+    expect(ruleDeclarations(feedback, ".oc-empty-description")).toContain("text-wrap: pretty");
 
     for (const selector of [".oc-table-wrap", ".oc-table", ".oc-resource-list"]) {
       expect(ruleDeclarations(data, selector)).toContain("box-sizing: border-box");
@@ -369,9 +435,7 @@ describe("CSS contract", () => {
       expect(ruleDeclarations(application, selector)).toContain("box-sizing: border-box");
     }
 
-    expect(data).toMatch(
-      /\.oc-table-interactive tbody tr:is\(:hover, :focus-within\)/,
-    );
+    expect(data).toMatch(/\.oc-table-interactive tbody tr:is\(:hover, :focus-within\)/);
   });
 
   test("the default import graph cannot load candidates or lab styles", async () => {
@@ -401,12 +465,8 @@ describe("CSS contract", () => {
 
   test("ClawHub compatibility covers explicit and system light modes", async () => {
     const compatibility = await readFile("styles/compat/clawhub.css", "utf8");
-    expect(compatibility).toContain(
-      '[data-theme-family="claw"][data-theme-resolved="light"]',
-    );
-    expect(compatibility).toContain(
-      '[data-theme-family="claw"][data-theme-mode="system"]',
-    );
+    expect(compatibility).toContain('[data-theme-family="claw"][data-theme-resolved="light"]');
+    expect(compatibility).toContain('[data-theme-family="claw"][data-theme-mode="system"]');
     expect(compatibility).toContain("--ink-muted:");
   });
 
