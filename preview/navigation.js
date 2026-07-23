@@ -1,9 +1,12 @@
-export const introductionPage = {
+export const homePage = {
   id: "overview",
   label: "Home",
   path: "",
   keywords: "home overview carapace visual contract",
 };
+
+// Kept for the preview shell while consumers migrate to the literal Home name.
+export const introductionPage = homePage;
 
 export const referenceAreas = [
   {
@@ -13,10 +16,11 @@ export const referenceAreas = [
     path: "introduction/",
     pages: [
       {
-        id: "foundations",
+        id: "introduction",
         label: "Introduction",
         path: "introduction/",
-        keywords: "introduction project purpose visual contract adoption architecture",
+        keywords:
+          "introduction project purpose visual contract adoption architecture maturity consumers accessibility",
       },
       {
         id: "foundation-tokens",

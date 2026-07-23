@@ -2676,35 +2676,48 @@ dialog .button-row {
 }
 
 .introduction-page {
-  width: min(100%, 1120px);
+  width: min(100%, 1200px);
   margin: 0 auto;
-  padding: clamp(48px, 7vw, 88px) 0 96px;
+  padding: 54px 0 96px;
+}
+
+.introduction-reader {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) 220px;
+  justify-content: center;
+  gap: 72px;
+}
+
+.introduction-article {
+  min-width: 0;
 }
 
 .introduction-hero {
-  max-width: 860px;
+  max-width: 720px;
 }
 
 .introduction-hero h1 {
-  max-width: 14ch;
-  margin: 10px 0 20px;
+  max-width: 18ch;
+  margin: 10px 0 18px;
   font-family: var(--oc-font-display);
-  font-size: clamp(2.5rem, 5vw, 4.8rem);
-  line-height: 0.98;
+  font-size: clamp(2.1rem, 4.2vw, 3rem);
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.08;
 }
 
 .introduction-lede {
   max-width: 720px;
   margin: 0;
   color: var(--oc-text-secondary);
-  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
-  line-height: 1.7;
+  font-size: 1.14rem;
+  line-height: 1.68;
 }
 
 .introduction-summary {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: 42px;
+  margin-top: 34px;
   border-block: 1px solid var(--oc-border-subtle);
 }
 
@@ -2726,72 +2739,87 @@ dialog .button-row {
   font-size: var(--oc-font-size-sm);
 }
 
-.introduction-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 720px) 200px;
-  gap: clamp(48px, 7vw, 88px);
-  align-items: start;
-  margin-top: 76px;
-}
-
 .introduction-content {
   display: grid;
-  gap: 64px;
+  gap: 0;
+  margin-top: 68px;
 }
 
 .introduction-content section,
-.introduction-page > .foundations-overview {
+.introduction-article > .foundations-overview {
+  scroll-margin-top: 88px;
+}
+
+.introduction-content :is(h2, h3)[id],
+.introduction-article > .foundations-overview h2[id] {
   scroll-margin-top: 88px;
 }
 
 .introduction-content section + section {
-  padding-top: 52px;
+  margin-top: 56px;
+  padding-top: 48px;
   border-top: 1px solid var(--oc-border-subtle);
 }
 
 .introduction-content h2,
-.introduction-page > .foundations-overview h2 {
-  max-width: 22ch;
-  margin: 8px 0 20px;
+.introduction-article > .foundations-overview h2 {
+  max-width: 26ch;
+  margin: 8px 0 18px;
   font-family: var(--oc-font-display);
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
-  line-height: 1.08;
+  font-size: clamp(1.55rem, 2.5vw, 2rem);
+  font-weight: 650;
+  line-height: 1.16;
+}
+
+.introduction-content h3 {
+  margin: 34px 0 12px;
+  color: var(--oc-text-primary);
+  font-family: var(--oc-font-display);
+  font-size: 1.1rem;
+  font-weight: 650;
+  line-height: 1.35;
 }
 
 .introduction-content > section > p:not(.eyebrow),
-.introduction-page > .foundations-overview > p:not(.eyebrow) {
-  margin: 0 0 18px;
+.introduction-article > .foundations-overview > p:not(.eyebrow) {
+  margin: 0 0 1.25em;
   color: var(--oc-text-secondary);
-  font-size: 1rem;
-  line-height: 1.78;
+  font-size: 1.01rem;
+  line-height: 1.76;
 }
 
-.introduction-principles {
+.introduction-content > section > p:first-of-type:not(.eyebrow) {
+  color: var(--oc-text-primary);
+  font-size: 1.08rem;
+  line-height: 1.72;
+}
+
+.introduction-content p strong {
+  color: var(--oc-text-primary);
+}
+
+.introduction-definition-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 30px;
   border-top: 1px solid var(--oc-border-subtle);
 }
 
-.introduction-principles article {
-  min-width: 0;
-  padding: 22px 20px 22px 0;
+.introduction-definition-list article {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.34fr) minmax(0, 1fr);
+  gap: 24px;
+  padding: 18px 0;
   border-bottom: 1px solid var(--oc-border-subtle);
 }
 
-.introduction-principles article:nth-child(even) {
-  padding-left: 20px;
-  border-left: 1px solid var(--oc-border-subtle);
-}
-
-.introduction-principles strong {
+.introduction-definition-list strong {
   color: var(--oc-text-primary);
   font-size: var(--oc-font-size-sm);
 }
 
-.introduction-principles p {
-  margin: 8px 0 0;
-  color: var(--oc-text-muted);
+.introduction-definition-list p {
+  margin: 0;
+  color: var(--oc-text-secondary);
   font-size: var(--oc-font-size-sm);
   line-height: 1.6;
 }
@@ -2842,30 +2870,82 @@ dialog .button-row {
   line-height: 1.65;
 }
 
-.introduction-toc {
-  position: sticky;
-  top: 92px;
+.introduction-steps {
   display: grid;
-  gap: 3px;
-  padding-left: 18px;
-  border-left: 1px solid var(--oc-border-subtle);
+  margin: 28px 0 30px;
+  padding: 0;
+  list-style: none;
+  counter-reset: introduction-step;
 }
 
-.introduction-toc p {
-  margin: 0 0 8px;
+.introduction-steps li {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.42fr) minmax(0, 1fr);
+  gap: 24px;
+  padding: 16px 0;
+  border-top: 1px solid var(--oc-border-subtle);
+  counter-increment: introduction-step;
+}
+
+.introduction-steps strong {
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+}
+
+.introduction-steps strong::before {
+  content: counter(introduction-step, decimal-leading-zero) " ";
+  margin-right: 8px;
   color: var(--oc-text-muted);
   font-family: var(--oc-font-mono);
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+}
+
+.introduction-steps span {
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-sm);
+  line-height: 1.6;
+}
+
+.introduction-toc {
+  position: sticky;
+  top: 92px;
+  align-self: start;
+  display: grid;
+  max-height: calc(100vh - 120px);
+  gap: 28px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.introduction-toc h2 {
+  margin: 0 0 10px;
+  color: var(--oc-accent-primary);
+  font-family: var(--oc-font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
+.introduction-toc-links {
+  display: grid;
+}
+
 .introduction-toc a {
+  display: block;
   padding: 6px 0;
   color: var(--oc-text-muted);
-  font-size: var(--oc-font-size-xs);
+  font-family: var(--oc-font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.42;
   text-decoration: none;
+  transition: color var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.introduction-toc .introduction-toc-level-3 {
+  padding-left: 14px;
+  font-size: 0.74rem;
 }
 
 .introduction-toc a:hover,
@@ -2875,14 +2955,19 @@ dialog .button-row {
 }
 
 .introduction-toc a[aria-current="location"] {
-  box-shadow: -19px 0 0 -17px var(--oc-accent-primary);
-  font-weight: 650;
+  color: var(--oc-accent-primary);
 }
 
-.introduction-page > .foundations-overview {
-  margin-top: 84px;
-  padding-top: 64px;
+.introduction-toc-related {
+  padding-top: 22px;
   border-top: 1px solid var(--oc-border-subtle);
+}
+
+.introduction-article > .foundations-overview {
+  margin-top: 56px;
+  padding-top: 48px;
+  border-top: 1px solid var(--oc-border-subtle);
+  scroll-margin-top: 88px;
 }
 
 .effects-overview-grid {
@@ -6160,27 +6245,19 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
 
 }
 
-@media (max-width: 900px) {
-  :root {
-    --preview-topbar-height: 60px;
-  }
-
-  .introduction-layout {
-    grid-template-columns: minmax(0, 1fr);
+@media (max-width: 1100px) {
+  .introduction-reader {
+    grid-template-columns: minmax(0, 720px);
   }
 
   .introduction-toc {
-    position: static;
-    grid-row: 1;
-    grid-template-columns: repeat(5, auto);
-    overflow-x: auto;
-    padding: 0 0 12px;
-    border-left: 0;
-    border-bottom: 1px solid var(--oc-border-subtle);
-  }
-
-  .introduction-toc p {
     display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --preview-topbar-height: 60px;
   }
 
   .topbar {
@@ -6509,11 +6586,10 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   }
 
   .introduction-hero h1 {
-    font-size: 2.7rem;
+    font-size: 2.35rem;
   }
 
   .introduction-summary,
-  .introduction-principles,
   .effects-overview-grid {
     grid-template-columns: 1fr;
   }
@@ -6523,10 +6599,10 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
     border-left: 0;
   }
 
-  .introduction-principles article,
-  .introduction-principles article:nth-child(even) {
-    padding-inline: 0;
-    border-left: 0;
+  .introduction-definition-list article,
+  .introduction-steps li {
+    grid-template-columns: 1fr;
+    gap: 7px;
   }
 
   .section-heading,

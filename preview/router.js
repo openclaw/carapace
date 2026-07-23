@@ -1,11 +1,12 @@
-import { introductionPage, referencePages } from "./navigation.js";
+import { homePage, referencePages } from "./navigation.js";
 
 export const previewHistoryKey = "carapacePreview";
 
-const previewPages = [introductionPage, ...referencePages];
+const previewPages = [homePage, ...referencePages];
 const previewPagesById = new Map(previewPages.map((page) => [page.id, page]));
 const previewPagesByPath = new Map(previewPages.map((page) => [page.path, page]));
 const previewAliasesByPath = new Map([
+  ["foundations/", "introduction"],
   ["agent-components/bash-tool/", "interactive-tool"],
 ]);
 const previewPathsByLength = [

@@ -1,16 +1,24 @@
 import homeHtml from "./index.html?raw";
 import compositionsHtml from "./static-routes/compositions.html?raw";
-import introductionHtml from "./static-routes/introduction.html?raw";
 import interfaceHtml from "./static-routes/interface.html?raw";
 import resourcesHtml from "./static-routes/resources.html?raw";
 import homeArtworkUrl from "./assets/carapace-home-artwork.avif?url";
 
 const staticRoutes = new Map([
   ["overview", { html: homeHtml, path: "", document: true }],
-  ["foundations", { html: introductionHtml, path: "introduction/", document: false }],
   ["interface", { html: interfaceHtml, path: "interface/", document: false }],
   ["compositions", { html: compositionsHtml, path: "compositions/", document: false }],
   ["resources", { html: resourcesHtml, path: "resources/", document: false }],
+]);
+
+const lazyStaticRoutes = new Map([
+  [
+    "introduction",
+    {
+      path: "introduction/",
+      load: () => import("./static-routes/introduction.html?raw").then(({ default: html }) => html),
+    },
+  ],
 ]);
 
 function rewriteUrl(value, pageUrl) {
@@ -18,10 +26,7 @@ function rewriteUrl(value, pageUrl) {
   return new URL(value, pageUrl).href;
 }
 
-export function getStaticRouteContent(pageId, siteRoot) {
-  const route = staticRoutes.get(pageId);
-  if (!route) return null;
-
+function renderStaticRouteContent(route, siteRoot) {
   const pageUrl = new URL(route.path, siteRoot);
   const source = route.document
     ? route.html
@@ -49,6 +54,19 @@ export function getStaticRouteContent(pageId, siteRoot) {
   return main.innerHTML;
 }
 
+export function getStaticRouteContent(pageId, siteRoot) {
+  const route = staticRoutes.get(pageId);
+  return route ? renderStaticRouteContent(route, siteRoot) : null;
+}
+
+export async function loadStaticRouteContent(pageId, siteRoot) {
+  const route = lazyStaticRoutes.get(pageId);
+  if (!route) return getStaticRouteContent(pageId, siteRoot);
+
+  const html = await route.load();
+  return renderStaticRouteContent({ ...route, html, document: false }, siteRoot);
+}
+
 export function hasStaticRouteContent(pageId) {
-  return staticRoutes.has(pageId);
+  return staticRoutes.has(pageId) || lazyStaticRoutes.has(pageId);
 }

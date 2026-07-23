@@ -11,7 +11,11 @@ import {
   shouldInterceptPreviewLink,
   updatePreviewHistoryScroll,
 } from "./router.js";
-import { getStaticRouteContent } from "./static-route-content.js";
+import {
+  getStaticRouteContent,
+  hasStaticRouteContent,
+  loadStaticRouteContent,
+} from "./static-route-content.js";
 
 let referenceRuntimePromise;
 const previewHistoryEntryKey = "carapacePreviewEntry";
@@ -91,14 +95,35 @@ function scrollToHash(hash) {
   return true;
 }
 
+function restoreRouteScroll(navigation, hash) {
+  if (navigation.kind === "restore") {
+    window.scrollTo(navigation.scrollX, navigation.scrollY);
+    return;
+  }
+  if (!scrollToHash(hash)) window.scrollTo(0, 0);
+}
+
 function RouteView({ route, siteRoot, navigation }) {
   const routeRootRef = useRef(null);
+  const lazyStaticContentRef = useRef(null);
+  const routeHashRef = useRef(route.hash);
+  const routeNavigationRef = useRef(navigation);
   const [referenceLoadError, setReferenceLoadError] = useState(null);
   const [referenceLoadAttempt, setReferenceLoadAttempt] = useState(0);
-  const staticContent = useMemo(
+  const [loadedStaticContent, setLoadedStaticContent] = useState(null);
+  const immediateStaticContent = useMemo(
     () => getStaticRouteContent(route.pageId, siteRoot),
     [route.pageId, siteRoot],
   );
+  const staticRoute = hasStaticRouteContent(route.pageId);
+  const staticContent =
+    immediateStaticContent
+    ?? (loadedStaticContent?.pageId === route.pageId
+      && loadedStaticContent.siteRoot === siteRoot
+      ? loadedStaticContent.content
+      : null);
+  routeHashRef.current = route.hash;
+  routeNavigationRef.current = navigation;
 
   useEffect(() => {
     updateDocumentMetadata(route.pageId, route.path);
@@ -109,37 +134,61 @@ function RouteView({ route, siteRoot, navigation }) {
     const refreshTheme = (event) => lifecycle?.refreshTheme(event.detail?.theme);
     window.addEventListener("previewthemechange", refreshTheme);
     setReferenceLoadError(null);
-    const finishMount = () => {
+    const finishMount = (mountRoot = root) => {
       if (disposed) return;
-      lifecycle = mountPage(root, { pageId: route.pageId });
+      lifecycle = mountPage(mountRoot, { pageId: route.pageId });
     };
-    if (staticContent === null) {
+    if (staticRoute && staticContent === null) {
+      void loadStaticRouteContent(route.pageId, siteRoot)
+        .then((content) => {
+          if (disposed) return;
+          setLoadedStaticContent({ pageId: route.pageId, siteRoot, content });
+        })
+        .catch((error) => {
+          if (disposed) return;
+          setReferenceLoadError(error);
+        });
+    } else if (staticContent === null) {
       void loadReferenceRuntime().then(({ mountReferenceRuntime }) => {
         if (disposed) return;
         mountReferenceRuntime(root, route.pageId);
         finishMount();
-        scrollToHash(route.hash);
+        restoreRouteScroll(routeNavigationRef.current, routeHashRef.current);
       }).catch((error) => {
         if (disposed) return;
         setReferenceLoadError(error);
       });
     } else {
-      finishMount();
+      const mountRoot =
+        staticRoute && immediateStaticContent === null
+          ? lazyStaticContentRef.current
+          : root;
+      if (mountRoot) {
+        if (mountRoot !== root) mountRoot.innerHTML = staticContent;
+        finishMount(mountRoot);
+        if (mountRoot !== root) {
+          restoreRouteScroll(routeNavigationRef.current, routeHashRef.current);
+        }
+      }
     }
     return () => {
       disposed = true;
       window.removeEventListener("previewthemechange", refreshTheme);
       lifecycle?.cleanup();
     };
-  }, [referenceLoadAttempt, route.pageId, route.path, staticContent]);
+  }, [
+    referenceLoadAttempt,
+    route.pageId,
+    route.path,
+    siteRoot,
+    immediateStaticContent,
+    staticContent,
+    staticRoute,
+  ]);
 
   useLayoutEffect(() => {
     const frame = window.requestAnimationFrame(() => {
-      if (navigation.kind === "restore") {
-        window.scrollTo(navigation.scrollX, navigation.scrollY);
-        return;
-      }
-      if (!scrollToHash(route.hash)) window.scrollTo(0, 0);
+      restoreRouteScroll(navigation, route.hash);
       if (navigation.kind === "push") {
         document.getElementById("main-content")?.focus({ preventScroll: true });
       }
@@ -147,28 +196,39 @@ function RouteView({ route, siteRoot, navigation }) {
     return () => window.cancelAnimationFrame(frame);
   }, [navigation, route.hash]);
 
-  return staticContent === null ? (
+  if (immediateStaticContent !== null) {
+    return (
+      <div
+        className="preview-route-content"
+        ref={routeRootRef}
+        dangerouslySetInnerHTML={{ __html: immediateStaticContent }}
+      />
+    );
+  }
+
+  return (
     <div className="preview-route-content" ref={routeRootRef}>
       {referenceLoadError ? (
         <section className="reference-runtime-error" role="alert">
-          <strong>Reference preview failed to load.</strong>
-          <span>The component runtime may be temporarily unavailable.</span>
+          <strong>Preview failed to load.</strong>
+          <span>The route content may be temporarily unavailable.</span>
           <button type="button" onClick={() => setReferenceLoadAttempt((attempt) => attempt + 1)}>
             Retry
           </button>
         </section>
+      ) : staticRoute ? (
+        <div
+          key={`lazy-static:${route.pageId}`}
+          className="preview-route-loading"
+          ref={lazyStaticContentRef}
+          aria-busy={staticContent === null ? "true" : undefined}
+        />
       ) : (
-        <div className="page-layout">
+        <div className="page-layout" key={`reference:${route.pageId}`}>
           <article className="preview-stage reference-page" data-reference-content />
         </div>
       )}
     </div>
-  ) : (
-    <div
-      className="preview-route-content"
-      ref={routeRootRef}
-      dangerouslySetInnerHTML={{ __html: staticContent }}
-    />
   );
 }
 

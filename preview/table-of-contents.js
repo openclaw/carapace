@@ -1,5 +1,38 @@
 const activeObservers = new WeakMap();
 
+export function getTableOfContentsEntries(source) {
+  if (!source?.querySelectorAll) return [];
+
+  return [...source.querySelectorAll("h2[id], h3[id]")].map((heading) => ({
+    id: heading.id,
+    label: heading.textContent?.trim() || heading.id,
+    level: heading.tagName === "H3" ? 3 : 2,
+  }));
+}
+
+export function populateGeneratedTablesOfContents(root = document) {
+  const document = root.ownerDocument ?? root;
+  const navs = [...root.querySelectorAll("[data-generated-toc]")];
+
+  for (const nav of navs) {
+    const sourceSelector = nav.getAttribute("data-toc-source");
+    const source = sourceSelector ? document.querySelector(sourceSelector) : null;
+    const links = nav.querySelector("[data-toc-links]");
+    if (!source || !links) continue;
+
+    const anchors = getTableOfContentsEntries(source).map((entry) => {
+      const anchor = document.createElement("a");
+      anchor.className = `introduction-toc-link introduction-toc-level-${entry.level}`;
+      anchor.href = `#${entry.id}`;
+      anchor.textContent = entry.label;
+      return anchor;
+    });
+    links.replaceChildren(...anchors);
+  }
+
+  return navs.length;
+}
+
 export function disconnectTablesOfContents(root = document) {
   const document = root.ownerDocument ?? root;
   activeObservers.get(document)?.disconnect();
@@ -18,6 +51,7 @@ export function setCurrentTableOfContentsLink(nav, current) {
 }
 
 export function bindTablesOfContents(root = document) {
+  populateGeneratedTablesOfContents(root);
   const navs = [...root.querySelectorAll(".oc-table-of-contents, .introduction-toc")];
 
   for (const nav of navs) {
@@ -25,6 +59,8 @@ export function bindTablesOfContents(root = document) {
       const link = event.target.closest?.('.oc-table-of-contents-link, a[href^="#"]');
       if (link && nav.contains(link)) setCurrentTableOfContentsLink(nav, link);
     });
+    const first = nav.querySelector('a[href^="#"]');
+    if (first) setCurrentTableOfContentsLink(nav, first);
   }
 
   const view = root.ownerDocument?.defaultView ?? root.defaultView;

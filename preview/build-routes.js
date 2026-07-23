@@ -1,6 +1,13 @@
-import { introductionPage, referencePages } from "./navigation.js";
+import { homePage, referencePages } from "./navigation.js";
 
 const previewRouteAliases = [
+  {
+    id: "introduction",
+    label: "Introduction",
+    path: "foundations/",
+    canonicalPath: "introduction/",
+    areaId: "foundations",
+  },
   {
     id: "interactive-tool",
     label: "Interactive Tool",
@@ -11,7 +18,7 @@ const previewRouteAliases = [
 ];
 
 export const previewRoutes = Object.freeze([
-  introductionPage,
+  homePage,
   ...referencePages,
   ...previewRouteAliases,
 ]);

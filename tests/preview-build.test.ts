@@ -108,7 +108,7 @@ describe("preview route build", () => {
     const source = '<title>Carapace</title><script type="module" src="./app.js"></script><body data-preview-route="overview" data-preview-page="overview" data-preview-root="./"></body>';
 
     for (const [id, title] of [
-      ["foundations", "Introduction · Carapace"],
+      ["introduction", "Introduction · Carapace"],
       ["interface", "Components · Carapace"],
       ["effects", "Effects · Carapace"],
       ["compositions", "Compositions · Carapace"],
@@ -154,6 +154,14 @@ describe("preview route build", () => {
       "interface/primitives/button/index.html",
     );
     expect(emitted.map(({ fileName }) => fileName)).toContain("introduction/index.html");
+    expect(emitted.map(({ fileName }) => fileName)).toContain("foundations/index.html");
+    const foundationsAlias = emitted.find(
+      ({ fileName }) => fileName === "foundations/index.html",
+    );
+    expect(foundationsAlias?.source).toContain('data-preview-page="introduction"');
+    expect(foundationsAlias?.source).toContain(
+      'rel="canonical" href="https://carapace.design/introduction/"',
+    );
     expect(emitted.map(({ fileName }) => fileName)).toContain(
       "agent-components/bash-tool/index.html",
     );
@@ -209,8 +217,25 @@ describe("preview route build", () => {
         );
         const entryScript = scripts.find((value) => value.includes("/assets/index-"));
         expect(entryScript).toBeDefined();
-        const entryStats = await stat(resolve(dirname(deepRoutePath), entryScript));
+        const entryPath = resolve(dirname(deepRoutePath), entryScript);
+        const entryStats = await stat(entryPath);
         expect(entryStats.size).toBeLessThan(150_000);
+        expect(await readFile(entryPath, "utf8")).not.toContain(
+          "One visual contract for the OpenClaw product family",
+        );
+        const builtScripts = (await readdir(join(outputDirectory, "assets")))
+          .filter((fileName) => fileName.endsWith(".js"));
+        const lazyIntroductionChunks = await Promise.all(
+          builtScripts.map(async (fileName) => ({
+            fileName,
+            source: await readFile(join(outputDirectory, "assets", fileName), "utf8"),
+          })),
+        );
+        expect(
+          lazyIntroductionChunks.some(({ source }) =>
+            source.includes("One visual contract for the OpenClaw product family"),
+          ),
+        ).toBe(true);
         expect(deepRouteHtml).not.toContain("preview-reference");
         expect(deepRouteHtml).not.toContain("preview-components");
 

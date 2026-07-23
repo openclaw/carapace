@@ -7,7 +7,7 @@ import {
   shouldInterceptPreviewLink,
   updatePreviewHistoryScroll,
 } from "../preview/router.js";
-import { introductionPage, referencePages } from "../preview/navigation.js";
+import { homePage, referencePages } from "../preview/navigation.js";
 
 function click(overrides = {}) {
   return {
@@ -61,9 +61,14 @@ describe("preview router", () => {
     const siteRoot = "https://openclaw.github.io/design-system/";
 
     expect(resolvePreviewRoute(`${siteRoot}introduction`, siteRoot)).toMatchObject({
-      pageId: "foundations",
+      pageId: "introduction",
       path: "introduction/",
       hash: "",
+    });
+    expect(resolvePreviewRoute(`${siteRoot}foundations/`, siteRoot)).toMatchObject({
+      pageId: "introduction",
+      path: "introduction/",
+      href: `${siteRoot}introduction/`,
     });
     expect(resolvePreviewRoute(`${siteRoot}foundations/colors`, siteRoot)).toMatchObject({
       pageId: "foundation-colors",
@@ -89,7 +94,6 @@ describe("preview router", () => {
     });
 
     expect(resolvePreviewRoute("https://openclaw.github.io/foundations/colors/", siteRoot)).toBeNull();
-    expect(resolvePreviewRoute(`${siteRoot}foundations/`, siteRoot)).toBeNull();
     expect(resolvePreviewRoute(`${siteRoot}assets/openclaw-mark.png`, siteRoot)).toBeNull();
     expect(resolvePreviewRoute(`${siteRoot}missing/`, siteRoot)).toBeNull();
 
@@ -104,7 +108,7 @@ describe("preview router", () => {
   test("resolves every page published by the navigation manifest", () => {
     const siteRoot = "https://openclaw.github.io/design-system/";
 
-    for (const page of [introductionPage, ...referencePages]) {
+    for (const page of [homePage, ...referencePages]) {
       expect(resolvePreviewRoute(new URL(page.path, siteRoot), siteRoot)?.pageId).toBe(page.id);
     }
   });

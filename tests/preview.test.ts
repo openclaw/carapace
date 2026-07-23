@@ -30,7 +30,7 @@ import {
   getAdjacentReferencePages,
   getReferenceMaturity,
   getReferencePage,
-  introductionPage,
+  homePage,
   referenceAreas,
   referencePages,
 } from "../preview/navigation.js";
@@ -115,16 +115,28 @@ describe("preview contracts", () => {
     expect(isComponentWorkbenchPage("interface")).toBe(false);
   });
 
-  test("retries a failed lazy reference runtime instead of caching a blank route", async () => {
+  test("retries lazy route content without caching a blank route", async () => {
     const app = await readFile("preview/app.jsx", "utf8");
+    const staticRoutes = await readFile("preview/static-route-content.js", "utf8");
     const vite = await readFile("preview/vite.config.ts", "utf8");
     const packageJson = await readFile("package.json", "utf8");
 
     expect(app).toContain("referenceRuntimePromise = undefined");
+    expect(app).toContain("loadStaticRouteContent(route.pageId, siteRoot)");
     expect(app).toContain('className="reference-runtime-error" role="alert"');
     expect(app).toContain("setReferenceLoadAttempt((attempt) => attempt + 1)");
     expect(app).toContain("mountReferenceRuntime(root, route.pageId);");
-    expect(app).toContain("finishMount();\n        scrollToHash(route.hash);");
+    expect(app).toContain(
+      "finishMount();\n        restoreRouteScroll(routeNavigationRef.current, routeHashRef.current);",
+    );
+    expect(app).toContain("ref={lazyStaticContentRef}");
+    expect(app).toContain('key={`lazy-static:${route.pageId}`}');
+    expect(app).toContain('key={`reference:${route.pageId}`}');
+    expect(app).toContain("restoreRouteScroll(navigation, route.hash);");
+    expect(staticRoutes).toContain('import("./static-routes/introduction.html?raw")');
+    expect(staticRoutes).not.toContain(
+      'import introductionHtml from "./static-routes/introduction.html?raw"',
+    );
     expect(vite).not.toContain("glimm");
     expect(packageJson).not.toContain('"glimm"');
   });
@@ -1947,7 +1959,15 @@ describe("preview contracts", () => {
     const introduction = await readFile("preview/static-routes/introduction.html", "utf8");
     expect(introduction).toContain('class="intro introduction-page"');
     expect(introduction).toContain('class="introduction-toc"');
-    expect(introduction).toContain('class="introduction-principles"');
+    expect(introduction).toContain('class="introduction-reader"');
+    expect(introduction).toContain('data-generated-toc');
+    expect(introduction).toContain('data-toc-links');
+    expect(introduction).toContain('class="introduction-toc-related"');
+    expect(introduction).toContain('id="application-parity"');
+    expect(introduction).toContain('id="preview-workflow"');
+    expect(introduction).toContain('id="accessibility"');
+    expect(introduction).toContain('id="contributing"');
+    expect(introduction).toContain("Related resources");
     expect(introduction).toContain('class="foundations-card-grid"');
     expect(introduction).toContain('class="reference-card foundations-card-featured"');
     expect(introduction).toContain('class="foundations-card-cluster"');
@@ -1955,10 +1975,13 @@ describe("preview contracts", () => {
     expect(introduction).toContain('href="../foundations/typography/"');
     expect(introduction).toContain('href="../foundations/base/"');
     expect(introduction.match(/class="reference-card[^"]*"/g)).toHaveLength(7);
+    expect(introduction.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length).toBeGreaterThanOrEqual(
+      1200,
+    );
 
     const contentPageIds = referencePages
       .map(({ id }) => id)
-      .filter((id) => !areaOverviewIds.has(id))
+      .filter((id) => id !== "introduction" && !areaOverviewIds.has(id))
       .sort();
     expect([...referenceContentIds].sort()).toEqual(contentPageIds);
 
@@ -2009,7 +2032,7 @@ describe("preview contracts", () => {
     expect(shapeIntro).not.toContain("keeps product UI square");
   });
 
-  test("publishes the introduction as a live primitive grid", async () => {
+  test("publishes Home as a live primitive grid", async () => {
     const home = await readFile("preview/index.html", "utf8");
     const previewStyles = await readFile("preview/preview.css", "utf8");
     const pageLifecycle = await readFile("preview/page-lifecycle.js", "utf8");
@@ -2021,7 +2044,7 @@ describe("preview contracts", () => {
       ...home.matchAll(/class="home-component-link" href="\.\/([^"]+)"/g),
     ].map(([, path]) => path);
 
-    expect(introductionPage).toEqual({
+    expect(homePage).toEqual({
       id: "overview",
       label: "Home",
       path: "",
@@ -2372,9 +2395,9 @@ describe("preview contracts", () => {
       "foundations",
     ]);
 
-    expect(getAdjacentReferencePages("foundations")).toEqual({
+    expect(getAdjacentReferencePages("introduction")).toEqual({
       previous: undefined,
-      next: undefined,
+      next: expect.objectContaining({ id: "foundation-tokens" }),
     });
     expect(getAdjacentReferencePages("foundation-tokens").next?.id).toBe("foundation-colors");
     expect(getAdjacentReferencePages("primitive-card")).toMatchObject({

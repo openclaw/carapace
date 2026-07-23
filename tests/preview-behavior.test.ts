@@ -42,7 +42,10 @@ import {
   setSidebarDisclosure,
   setSidebarWorkspace,
 } from "../preview/sidebar.js";
-import { setCurrentTableOfContentsLink } from "../preview/table-of-contents.js";
+import {
+  getTableOfContentsEntries,
+  setCurrentTableOfContentsLink,
+} from "../preview/table-of-contents.js";
 import { bindSensitiveInputs } from "../preview/sensitive-input.js";
 import {
   preventWorkbenchDemoLinkNavigation,
@@ -1101,6 +1104,23 @@ describe("preview behavior", () => {
     expect(setCurrentTableOfContentsLink(nav, guidance)).toBe(true);
     expect(overview.getAttribute("aria-current")).toBeUndefined();
     expect(guidance.getAttribute("aria-current")).toBe("location");
+  });
+
+  test("derives a nested introduction outline from titled sections", () => {
+    const source = {
+      querySelectorAll: () => [
+        { id: "purpose", tagName: "H2", textContent: " Purpose " },
+        { id: "origin", tagName: "H3", textContent: "Origin" },
+        { id: "adoption", tagName: "H2", textContent: "Adoption" },
+      ],
+    };
+
+    expect(getTableOfContentsEntries(source)).toEqual([
+      { id: "purpose", label: "Purpose", level: 2 },
+      { id: "origin", label: "Origin", level: 3 },
+      { id: "adoption", label: "Adoption", level: 2 },
+    ]);
+    expect(getTableOfContentsEntries(null)).toEqual([]);
   });
 
   test("moves sidebar current-page state to the selected destination", () => {
