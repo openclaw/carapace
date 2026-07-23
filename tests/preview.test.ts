@@ -259,6 +259,85 @@ describe("preview contracts", () => {
     expect(workspace?.markup({ ...workspace.defaults, dock: "bottom" })).toContain(
       'data-dock="bottom"',
     );
+
+    const createButton = (dataset = {}) => Object.assign(new EventTarget(), { dataset });
+    const settingsNavigation = createButton();
+    const settingsUpdates = [];
+    settings?.bind?.(
+      {
+        querySelector: (selector) =>
+          selector === "[data-workbench-application-navigation]" ? settingsNavigation : null,
+        querySelectorAll: () => [],
+      },
+      settings.defaults,
+      (id, value) => settingsUpdates.push([id, value]),
+    );
+    settingsNavigation.dispatchEvent(new Event("click"));
+    expect(settingsUpdates).toEqual([["navigation", "compact"]]);
+
+    const operationsNavigation = createButton();
+    const automationView = createButton({ workbenchApplicationView: "automation" });
+    const operationsUpdates = [];
+    operations?.bind?.(
+      {
+        querySelector: (selector) =>
+          selector === "[data-workbench-application-navigation]" ? operationsNavigation : null,
+        querySelectorAll: (selector) =>
+          selector === "[data-workbench-application-view]" ? [automationView] : [],
+      },
+      operations.defaults,
+      (id, value) => operationsUpdates.push([id, value]),
+    );
+    operationsNavigation.dispatchEvent(new Event("click"));
+    automationView.dispatchEvent(new Event("click"));
+    expect(operationsUpdates).toEqual([
+      ["navigation", "compact"],
+      ["view", "automation"],
+    ]);
+
+    const workspaceNavigation = createButton();
+    const workspaceDock = createButton();
+    const workspaceInspectorHide = createButton();
+    const workspaceUpdates = [];
+    workspace?.bind?.(
+      {
+        querySelector: (selector) =>
+          ({
+            "[data-workbench-application-navigation]": workspaceNavigation,
+            "[data-workbench-application-dock]": workspaceDock,
+            "[data-workbench-application-inspector-hide]": workspaceInspectorHide,
+          })[selector] ?? null,
+        querySelectorAll: () => [],
+      },
+      workspace.defaults,
+      (id, value) => workspaceUpdates.push([id, value]),
+    );
+    workspaceNavigation.dispatchEvent(new Event("click"));
+    workspaceDock.dispatchEvent(new Event("click"));
+    workspaceInspectorHide.dispatchEvent(new Event("click"));
+    expect(workspaceUpdates).toEqual([
+      ["navigation", "expanded"],
+      ["dock", "bottom"],
+      ["inspector", false],
+    ]);
+
+    const hiddenWorkspaceDock = createButton();
+    const hiddenWorkspaceUpdates = [];
+    workspace?.bind?.(
+      {
+        querySelector: (selector) =>
+          selector === "[data-workbench-application-dock]" ? hiddenWorkspaceDock : null,
+        querySelectorAll: () => [],
+      },
+      { ...workspace.defaults, dock: "hidden", inspector: false },
+      (id, value) => hiddenWorkspaceUpdates.push([id, value]),
+    );
+    hiddenWorkspaceDock.dispatchEvent(new Event("click"));
+    expect(hiddenWorkspaceUpdates).toEqual([
+      ["dock", "right"],
+      ["inspector", true],
+    ]);
+
     expect(getReferenceContent("application-operations")).toContain(
       '&lt;section class="oc-pane oc-master-detail"&gt;',
     );

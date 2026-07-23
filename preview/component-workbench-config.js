@@ -211,14 +211,7 @@ const gridItemCounts = [
   { label: "6", value: "6" },
 ];
 
-const gridItemLabels = [
-  "Foundations",
-  "Components",
-  "Resources",
-  "Tokens",
-  "Themes",
-  "Patterns",
-];
+const gridItemLabels = ["Foundations", "Components", "Resources", "Tokens", "Themes", "Patterns"];
 
 const linkVariants = [
   { label: "Inline", value: "inline" },
@@ -284,15 +277,16 @@ export function actionWorkbenchMarkup({ variant = "primary" } = {}) {
     return '<button class="oc-action oc-action-icon" type="button" aria-label="Add item">\n  +\n</button>';
   }
 
-  const label = variant === "primary"
-    ? "Primary action"
-    : `${variant.slice(0, 1).toUpperCase()}${variant.slice(1)}`;
+  const label =
+    variant === "primary"
+      ? "Primary action"
+      : `${variant.slice(0, 1).toUpperCase()}${variant.slice(1)}`;
   return `<button class="oc-action oc-action-${variant}" type="button">\n  ${label}\n</button>`;
 }
 
 export function buttonWorkbenchMarkup({ variant = "primary" } = {}) {
-  const example = buttonWorkbenchExamples.find(({ id }) => id === variant)
-    ?? buttonWorkbenchExamples[0];
+  const example =
+    buttonWorkbenchExamples.find(({ id }) => id === variant) ?? buttonWorkbenchExamples[0];
   return example.markup;
 }
 
@@ -302,9 +296,10 @@ const clipboardActionVariants = [
 ];
 
 export function clipboardTextWorkbenchMarkup({ variant = "icon" } = {}) {
-  const action = variant === "label"
-    ? `<button class="oc-clipboard-action" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace">Copy</button>`
-    : `<button class="oc-clipboard-action oc-clipboard-action-icon" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace"><i data-lucide="copy" aria-hidden="true"></i></button>`;
+  const action =
+    variant === "label"
+      ? `<button class="oc-clipboard-action" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace">Copy</button>`
+      : `<button class="oc-clipboard-action oc-clipboard-action-icon" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace"><i data-lucide="copy" aria-hidden="true"></i></button>`;
   return `<div class="oc-clipboard-text">
   <code class="oc-clipboard-value">@openclaw/carapace</code>
   ${action}
@@ -463,11 +458,7 @@ export function heroWorkbenchMarkup({ lede = true, actions = false } = {}) {
 </div>`;
 }
 
-export function sectionWorkbenchMarkup({
-  eyebrow = true,
-  copy = true,
-  actions = true,
-} = {}) {
+export function sectionWorkbenchMarkup({ eyebrow = true, copy = true, actions = true } = {}) {
   const eyebrowMarkup = eyebrow ? '\n      <p class="oc-eyebrow">Featured</p>' : "";
   const copyMarkup = copy
     ? '\n      <p class="oc-section-copy">Shared hierarchy for product sections, without owning the surrounding page.</p>'
@@ -658,24 +649,27 @@ ${options}
 }
 
 export function toastWorkbenchMarkup({ dismissible = true, stack = "single" } = {}) {
-  const messages = stack === "multiple"
-    ? [
-        ["Changes saved", "The component reference is up to date."],
-        ["Build complete", "All preview routes compiled successfully."],
-        ["Connection restored", "Live updates are available again."],
-      ]
-    : [["Changes saved", "The component reference is up to date."]];
-  const toasts = messages.map(([title, message], index) => {
-    const close = dismissible
-      ? '\n    <button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-workbench-toast-dismiss><i data-lucide="x"></i></button>'
-      : "";
-    return `<div class="oc-toast" data-toast-index="${index}">
+  const messages =
+    stack === "multiple"
+      ? [
+          ["Changes saved", "The component reference is up to date."],
+          ["Build complete", "All preview routes compiled successfully."],
+          ["Connection restored", "Live updates are available again."],
+        ]
+      : [["Changes saved", "The component reference is up to date."]];
+  const toasts = messages
+    .map(([title, message], index) => {
+      const close = dismissible
+        ? '\n    <button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-workbench-toast-dismiss><i data-lucide="x"></i></button>'
+        : "";
+      return `<div class="oc-toast" data-toast-index="${index}">
     <div class="oc-toast-content">
       <p class="oc-toast-title">${title}</p>
       <p class="oc-toast-message">${message}</p>
     </div>${close}
   </div>`;
-  }).join("\n");
+    })
+    .join("\n");
 
   return `<div class="oc-toast-region" data-toast-stack="${stack}" aria-label="Notifications" aria-live="polite" aria-relevant="additions removals">
   ${toasts}
@@ -738,11 +732,21 @@ function agentSpinner() {
   return `<span class="oc-agent-spinner" aria-hidden="true">${agentIcon("spinner")}</span>`;
 }
 
-function agentToolRow({ icon = "", label, shimmer = false, detail = "", meta = "", panel = "", open = true } = {}) {
+function agentToolRow({
+  icon = "",
+  label,
+  shimmer = false,
+  detail = "",
+  meta = "",
+  panel = "",
+  open = true,
+} = {}) {
   const labelMarkup = shimmer
     ? `<span class="oc-agent-tool-row-label"><span class="oc-agent-text-shimmer">${label}</span></span>`
     : `<span class="oc-agent-tool-row-label">${label}</span>`;
-  const iconMarkup = icon ? `<span class="oc-agent-tool-row-icon" aria-hidden="true">${icon}</span>` : "";
+  const iconMarkup = icon
+    ? `<span class="oc-agent-tool-row-icon" aria-hidden="true">${icon}</span>`
+    : "";
   const detailMarkup = detail ? `<span class="oc-agent-tool-row-detail">${detail}</span>` : "";
   const metaMarkup = meta ? `<span class="oc-agent-tool-row-meta">${meta}</span>` : "";
   if (!panel) {
@@ -792,26 +796,28 @@ const segmentedTypes = [
 ];
 
 function segmentedWorkbenchMarkup({ type = "toggle", selected = "preview" } = {}) {
-  const options = type === "icons"
-    ? [
-        { value: "preview", label: "Preview", icon: "eye" },
-        { value: "code", label: "Code", icon: "code-2" },
-        { value: "tokens", label: "Tokens", icon: "palette" },
-      ]
-    : [
-        { value: "preview", label: "Preview" },
-        { value: "code", label: "Code" },
-        { value: "tokens", label: "Tokens" },
-      ];
+  const options =
+    type === "icons"
+      ? [
+          { value: "preview", label: "Preview", icon: "eye" },
+          { value: "code", label: "Code", icon: "code-2" },
+          { value: "tokens", label: "Tokens", icon: "palette" },
+        ]
+      : [
+          { value: "preview", label: "Preview" },
+          { value: "code", label: "Code" },
+          { value: "tokens", label: "Tokens" },
+        ];
   const role = type === "tabs" ? ' role="tablist"' : "";
-  const items = options.map((option) => {
-    const active = option.value === selected;
-    const state = type === "tabs"
-      ? `role="tab" aria-selected="${active}"`
-      : `aria-pressed="${active}"`;
-    const icon = option.icon ? `<i data-lucide="${option.icon}" aria-hidden="true"></i>` : "";
-    return `<button class="oc-segmented-item" type="button" ${state} data-workbench-segmented-value="${option.value}">${icon}<span>${option.label}</span></button>`;
-  }).join("");
+  const items = options
+    .map((option) => {
+      const active = option.value === selected;
+      const state =
+        type === "tabs" ? `role="tab" aria-selected="${active}"` : `aria-pressed="${active}"`;
+      const icon = option.icon ? `<i data-lucide="${option.icon}" aria-hidden="true"></i>` : "";
+      return `<button class="oc-segmented-item" type="button" ${state} data-workbench-segmented-value="${option.value}">${icon}<span>${option.label}</span></button>`;
+    })
+    .join("");
   return `<div class="segmented-demo"><div class="oc-segmented" aria-label="Reference view"${role}>${items}</div><p><strong>${options.find((option) => option.value === selected)?.label ?? "Preview"}</strong><span>Selected reference view</span></p></div>`;
 }
 
@@ -827,11 +833,13 @@ export function suggestionsWorkbenchMarkup({ disabled = false } = {}) {
 export function modelPickerWorkbenchMarkup({ value = "extra-high" } = {}) {
   const active = agentModels.find((model) => model.value === value) ?? agentModels[1];
   const [activeName, activeVersion] = active.label.split(" · ");
-  const options = agentModels.map(({ label, value: optionValue }) => {
-    const [name, version] = label.split(" · ");
-    const checked = optionValue === value ? " checked" : "";
-    return `<label class="oc-agent-model-option"><input class="sr-only" type="radio" name="workbench-agent-model" value="${optionValue}"${checked}><span class="oc-agent-model-option-copy">${name} <small>${version}</small></span><span class="oc-agent-mode-check" aria-hidden="true">${agentIcon("check")}</span></label>`;
-  }).join("");
+  const options = agentModels
+    .map(({ label, value: optionValue }) => {
+      const [name, version] = label.split(" · ");
+      const checked = optionValue === value ? " checked" : "";
+      return `<label class="oc-agent-model-option"><input class="sr-only" type="radio" name="workbench-agent-model" value="${optionValue}"${checked}><span class="oc-agent-model-option-copy">${name} <small>${version}</small></span><span class="oc-agent-mode-check" aria-hidden="true">${agentIcon("check")}</span></label>`;
+    })
+    .join("");
   return `<details class="oc-agent-model-picker" data-workbench-model-picker>
   <summary aria-label="Select model"><strong>${activeName}</strong><span>${activeVersion}</span>${agentIcon("chevron")}</summary>
   <fieldset class="oc-agent-model-menu"><legend class="sr-only">Model</legend>${options}</fieldset>
@@ -840,10 +848,12 @@ export function modelPickerWorkbenchMarkup({ value = "extra-high" } = {}) {
 
 export function modeSelectorWorkbenchMarkup({ value = "agent" } = {}) {
   const active = agentModes.find((mode) => mode.value === value) ?? agentModes[0];
-  const options = agentModes.map((mode) => {
-    const checked = mode.value === active.value ? " checked" : "";
-    return `<label class="oc-agent-mode-option"><input class="sr-only" type="radio" name="workbench-agent-mode" value="${mode.value}"${checked}><span class="oc-agent-mode-option-copy"><strong>${mode.label}</strong><small>${mode.value === "agent" ? "Complete tasks directly" : "Plan before making changes"}</small></span><span class="oc-agent-mode-check" aria-hidden="true">${agentIcon("check")}</span></label>`;
-  }).join("");
+  const options = agentModes
+    .map((mode) => {
+      const checked = mode.value === active.value ? " checked" : "";
+      return `<label class="oc-agent-mode-option"><input class="sr-only" type="radio" name="workbench-agent-mode" value="${mode.value}"${checked}><span class="oc-agent-mode-option-copy"><strong>${mode.label}</strong><small>${mode.value === "agent" ? "Complete tasks directly" : "Plan before making changes"}</small></span><span class="oc-agent-mode-check" aria-hidden="true">${agentIcon("check")}</span></label>`;
+    })
+    .join("");
   return `<details class="oc-agent-mode-selector" data-workbench-mode-selector>
   <summary aria-label="Select mode">${agentIcon("mode")}<span data-agent-mode-label>${active.label}</span>${agentIcon("chevron")}</summary>
   <fieldset class="oc-agent-mode-menu"><legend class="sr-only">Execution mode</legend>${options}</fieldset>
@@ -862,9 +872,10 @@ export function fileAttachmentWorkbenchMarkup({
   const remove = removable
     ? `<button class="oc-agent-file-remove" type="button" aria-label="Remove ${filename}" data-workbench-attachment-remove>${agentIcon("close")}</button>`
     : "";
-  const content = effectiveDisplay === "image-only"
-    ? `<span class="oc-agent-file-preview" role="img" aria-label="${filename}">${agentIcon("image")}</span>`
-    : `<span class="oc-agent-file-type" aria-hidden="true">${agentIcon(isImage ? "image" : "file")}</span><span class="oc-agent-file-details"><strong>${filename}</strong><span>${detail}</span></span>`;
+  const content =
+    effectiveDisplay === "image-only"
+      ? `<span class="oc-agent-file-preview" role="img" aria-label="${filename}">${agentIcon("image")}</span>`
+      : `<span class="oc-agent-file-type" aria-hidden="true">${agentIcon(isImage ? "image" : "file")}</span><span class="oc-agent-file-details"><strong>${filename}</strong><span>${detail}</span></span>`;
 
   return `<li class="oc-agent-file-attachment" data-display="${effectiveDisplay}" data-kind="${kind}">${content}${remove}</li>`;
 }
@@ -888,11 +899,7 @@ export function errorMessageWorkbenchMarkup({ example = "interrupted" } = {}) {
 </div>`;
 }
 
-export function toolWorkbenchMarkup({
-  kind = "generic",
-  state = "complete",
-  open = true,
-} = {}) {
+export function toolWorkbenchMarkup({ kind = "generic", state = "complete", open = true } = {}) {
   const complete = state === "complete";
 
   if (kind === "bash") {
@@ -973,9 +980,20 @@ export function toolWorkbenchMarkup({
 }
 
 export function todoToolWorkbenchMarkup({ status = "in_progress" } = {}) {
-  const itemState = status === "in_progress" ? "active" : status === "completed" ? "complete" : "pending";
-  const itemPrefix = status === "in_progress" ? "In progress: " : status === "completed" ? "Completed: " : "Not started: ";
-  const marker = itemState === "complete" ? agentIcon("check") : itemState === "active" ? agentIcon("arrow-right") : "";
+  const itemState =
+    status === "in_progress" ? "active" : status === "completed" ? "complete" : "pending";
+  const itemPrefix =
+    status === "in_progress"
+      ? "In progress: "
+      : status === "completed"
+        ? "Completed: "
+        : "Not started: ";
+  const marker =
+    itemState === "complete"
+      ? agentIcon("check")
+      : itemState === "active"
+        ? agentIcon("arrow-right")
+        : "";
   return `<ul class="oc-agent-todo-list">
   <li data-state="complete"><span class="oc-agent-todo-marker" aria-hidden="true">${agentIcon("check")}</span><span class="sr-only">Completed: </span><span class="oc-agent-todo-text">Inspect contract</span></li>
   <li data-state="complete"><span class="oc-agent-todo-marker" aria-hidden="true">${agentIcon("check")}</span><span class="sr-only">Completed: </span><span class="oc-agent-todo-text">Implement component</span></li>
@@ -1006,10 +1024,7 @@ export function planToolWorkbenchMarkup({
 </div>`;
 }
 
-export function questionToolWorkbenchMarkup({
-  state = "open",
-  allowSkip = true,
-} = {}) {
+export function questionToolWorkbenchMarkup({ state = "open", allowSkip = true } = {}) {
   const answered = state === "answered";
   if (answered) {
     return `<form class="oc-agent-question-tool" data-workbench-question-form data-state="answered">
@@ -1035,11 +1050,7 @@ export function questionToolWorkbenchMarkup({
 </form>`;
 }
 
-export function composerWorkbenchMarkup({
-  status = "ready",
-  disabled = false,
-  draft = "",
-} = {}) {
+export function composerWorkbenchMarkup({ status = "ready", disabled = false, draft = "" } = {}) {
   const isBusy = status === "streaming" || status === "submitted";
   const sendState = isBusy ? "streaming" : draft.trim() && !disabled ? "typing" : "idle";
   const disabledAttribute = disabled ? " disabled" : "";
@@ -1116,12 +1127,9 @@ export function markdownWorkbenchMarkup({ example = "release" } = {}) {
 
 export function loaderWorkbenchMarkup({ size = "md", label = true } = {}) {
   const selected = loaderSizes.some(({ value }) => value === size) ? size : "md";
-  const sizeClass =
-    selected === "sm" ? " oc-loader-sm" : selected === "lg" ? " oc-loader-lg" : "";
+  const sizeClass = selected === "sm" ? " oc-loader-sm" : selected === "lg" ? " oc-loader-lg" : "";
   const labelText = selected === "md" ? "Syncing components…" : "Loading…";
-  const labelMarkup = label
-    ? `<span>${labelText}</span>`
-    : `<span class="sr-only">Loading…</span>`;
+  const labelMarkup = label ? `<span>${labelText}</span>` : `<span class="sr-only">Loading…</span>`;
 
   return `<span class="oc-loader${sizeClass}" role="status" aria-atomic="true">
   <span class="oc-loader-spinner" aria-hidden="true"></span>
@@ -1131,13 +1139,10 @@ export function loaderWorkbenchMarkup({ size = "md", label = true } = {}) {
 
 export function skeletonLineWorkbenchMarkup({ count = "3", width = "mixed" } = {}) {
   const selectedCount = skeletonLineCounts.some(({ value }) => value === count) ? count : "3";
-  const selectedWidth = skeletonLineWidths.some(({ value }) => value === width)
-    ? width
-    : "mixed";
+  const selectedWidth = skeletonLineWidths.some(({ value }) => value === width) ? width : "mixed";
   const total = Number(selectedCount);
   const lines = Array.from({ length: total }, (_, index) => {
-    const short =
-      selectedWidth === "short" || (selectedWidth === "mixed" && index === total - 1);
+    const short = selectedWidth === "short" || (selectedWidth === "mixed" && index === total - 1);
     return `<span class="oc-skeleton-line${short ? " oc-skeleton-line-short" : ""}"></span>`;
   }).join("\n    ");
 
@@ -1170,7 +1175,11 @@ export function providerLogoWorkbenchMarkup({
     ? layout
     : "wrap";
   const sizeClass =
-    selectedSize === "sm" ? " oc-provider-logo-sm" : selectedSize === "lg" ? " oc-provider-logo-lg" : "";
+    selectedSize === "sm"
+      ? " oc-provider-logo-sm"
+      : selectedSize === "lg"
+        ? " oc-provider-logo-lg"
+        : "";
   const mutedClass = selectedState === "muted" ? " oc-provider-logo-muted" : "";
   const disabledAttribute = selectedState === "muted" ? ' aria-disabled="true"' : "";
 
@@ -1237,15 +1246,17 @@ export function agentChatWorkbenchMarkup({
 } = {}) {
   const isEmpty = status !== "error" && (example === "empty" || example === "suggestions");
   const messages = isEmpty ? "" : messageListWorkbenchMarkup({ status, copyToolbar });
-  const suggestions = example === "suggestions"
-    ? `<div class="oc-agent-suggestions oc-agent-chat-suggestions" aria-label="Suggested prompts">
+  const suggestions =
+    example === "suggestions"
+      ? `<div class="oc-agent-suggestions oc-agent-chat-suggestions" aria-label="Suggested prompts">
     <button class="oc-agent-suggestion" type="button" data-agent-suggestion-value="Review the pending changes">Review changes</button>
     <button class="oc-agent-suggestion" type="button" data-agent-suggestion-value="Run the validation checks">Run checks</button>
   </div>`
-    : "";
-  const attachments = example === "attachments"
-    ? `<ul class="oc-agent-attachment-list" aria-label="Attached files"><li class="oc-agent-file-attachment" data-kind="file"><span class="oc-agent-file-type" aria-hidden="true">${agentIcon("file")}</span><span class="oc-agent-file-details"><strong>component-spec.md</strong><span>3.1 KB</span></span><button class="oc-agent-file-remove" type="button" aria-label="Remove component-spec.md" data-workbench-attachment-remove>${agentIcon("close")}</button></li></ul>`
-    : "";
+      : "";
+  const attachments =
+    example === "attachments"
+      ? `<ul class="oc-agent-attachment-list" aria-label="Attached files"><li class="oc-agent-file-attachment" data-kind="file"><span class="oc-agent-file-type" aria-hidden="true">${agentIcon("file")}</span><span class="oc-agent-file-details"><strong>component-spec.md</strong><span>3.1 KB</span></span><button class="oc-agent-file-remove" type="button" aria-label="Remove component-spec.md" data-workbench-attachment-remove>${agentIcon("close")}</button></li></ul>`
+      : "";
   const isBusy = status === "streaming" || status === "submitted";
   const action = isBusy
     ? `<button class="oc-agent-send-button" type="button" data-state="stop" aria-label="Stop response">${agentIcon("stop")}</button>`
@@ -1304,6 +1315,14 @@ function createToolWorkbenchDefinition(kind) {
   };
 }
 
+function bindApplicationNavigation(specimen, state, update) {
+  specimen
+    .querySelector("[data-workbench-application-navigation]")
+    ?.addEventListener("click", () => {
+      update("navigation", state.navigation === "compact" ? "expanded" : "compact");
+    });
+}
+
 const definitions = {
   "application-settings": {
     defaults: {
@@ -1335,7 +1354,8 @@ const definitions = {
     render(specimen, state) {
       specimen.innerHTML = settingsApplicationMarkup(state);
     },
-    bind(specimen, _state, update) {
+    bind(specimen, state, update) {
+      bindApplicationNavigation(specimen, state, update);
       const densityButtons = specimen.querySelectorAll(
         '.oc-segmented[aria-label="Interface density"] .oc-segmented-item',
       );
@@ -1343,9 +1363,7 @@ const definitions = {
         button.addEventListener("click", () => {
           update(
             "density",
-            button.textContent?.trim().toLowerCase() === "compact"
-              ? "compact"
-              : "comfortable",
+            button.textContent?.trim().toLowerCase() === "compact" ? "compact" : "comfortable",
           );
         });
       });
@@ -1380,6 +1398,14 @@ const definitions = {
     markup: operationsApplicationMarkup,
     render(specimen, state) {
       specimen.innerHTML = operationsApplicationMarkup(state);
+    },
+    bind(specimen, state, update) {
+      bindApplicationNavigation(specimen, state, update);
+      specimen.querySelectorAll("[data-workbench-application-view]").forEach((button) => {
+        button.addEventListener("click", () => {
+          update("view", button.dataset.workbenchApplicationView);
+        });
+      });
     },
   },
   "application-workspace": {
@@ -1417,6 +1443,20 @@ const definitions = {
     markup: workspaceApplicationMarkup,
     render(specimen, state) {
       specimen.innerHTML = workspaceApplicationMarkup(state);
+    },
+    bind(specimen, state, update) {
+      bindApplicationNavigation(specimen, state, update);
+      specimen
+        .querySelector("[data-workbench-application-inspector-hide]")
+        ?.addEventListener("click", () => update("inspector", false));
+      specimen.querySelector("[data-workbench-application-dock]")?.addEventListener("click", () => {
+        if (!state.inspector) {
+          if (state.dock === "hidden") update("dock", "right");
+          update("inspector", true);
+          return;
+        }
+        update("dock", state.dock === "right" ? "bottom" : "right");
+      });
     },
   },
   "agent-chat": {
@@ -1465,9 +1505,11 @@ const definitions = {
       specimen.querySelector('[aria-label="Stop response"]')?.addEventListener("click", () => {
         update("status", "ready");
       });
-      specimen.querySelector("[data-workbench-attachment-remove]")?.addEventListener("click", (event) => {
-        event.currentTarget.closest(".oc-agent-file-attachment")?.remove();
-      });
+      specimen
+        .querySelector("[data-workbench-attachment-remove]")
+        ?.addEventListener("click", (event) => {
+          event.currentTarget.closest(".oc-agent-file-attachment")?.remove();
+        });
     },
   },
   "message-list": {
@@ -1635,10 +1677,12 @@ const definitions = {
       specimen.innerHTML = questionToolWorkbenchMarkup(state);
     },
     bind(specimen, _state, update) {
-      specimen.querySelector("[data-workbench-question-form]")?.addEventListener("submit", (event) => {
-        event.preventDefault();
-        update("state", "answered");
-      });
+      specimen
+        .querySelector("[data-workbench-question-form]")
+        ?.addEventListener("submit", (event) => {
+          event.preventDefault();
+          update("state", "answered");
+        });
       specimen.querySelector("[data-agent-question-skip]")?.addEventListener("click", () => {
         update("state", "answered");
       });
@@ -1757,7 +1801,9 @@ ${appSurfaceWorkbenchMarkup(state)}
     },
     bind(specimen, _state, update) {
       specimen.querySelectorAll("[data-workbench-segmented-value]").forEach((button) => {
-        button.addEventListener("click", () => update("selected", button.dataset.workbenchSegmentedValue));
+        button.addEventListener("click", () =>
+          update("selected", button.dataset.workbenchSegmentedValue),
+        );
       });
     },
   },
@@ -2220,9 +2266,11 @@ ${appSurfaceWorkbenchMarkup(state)}
       specimen.innerHTML = `<ul class="oc-agent-attachment-list" aria-label="Attached files">${fileAttachmentWorkbenchMarkup(state)}</ul>`;
     },
     bind(specimen, _state, update) {
-      specimen.querySelector("[data-workbench-attachment-remove]")?.addEventListener("click", () => {
-        update("removable", false);
-      });
+      specimen
+        .querySelector("[data-workbench-attachment-remove]")
+        ?.addEventListener("click", () => {
+          update("removable", false);
+        });
     },
   },
   "error-message": {

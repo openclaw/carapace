@@ -296,6 +296,8 @@ describe("preview behavior", () => {
     expect(ready).toContain('class="oc-switch" type="checkbox" role="switch"');
     expect(ready).toContain('class="oc-segmented" role="group" aria-label="Theme"');
     expect(ready).toContain('class="oc-segmented" role="group" aria-label="Interface density"');
+    expect(ready).toContain("data-workbench-application-navigation");
+    expect(ready).not.toMatch(/class="oc-status[^"]*" role="status"/);
     expect(compactOffline).toContain('data-navigation="compact"');
     expect(compactOffline).toContain('data-density="compact"');
     expect(compactOffline).toContain("Gateway unavailable");
@@ -323,6 +325,8 @@ describe("preview behavior", () => {
     expect(channels).toContain('class="oc-app-resource-list"');
     expect(channels).toContain("Recent delivery");
     expect(channels).toContain("Discord");
+    expect(channels).toContain('data-workbench-application-view="channels"');
+    expect(channels).toContain('data-workbench-application-view="automation"');
     expect(channels).toContain("4 / 5");
     expect(channels).toContain("5 configured");
     expect(channels).not.toContain("5 / 6");
@@ -333,6 +337,7 @@ describe("preview behavior", () => {
     expect(channels).toContain('aria-pressed="true"');
     expect(channels).not.toContain("aria-selected");
     expect(loading).toContain("Loading Discord configuration");
+    expect(loading).toContain('class="oc-loader" role="status"');
     expect(automationLoading).toContain("Loading automation configuration");
     expect(automationError).toContain("Scheduled work");
     expect(automationError).toContain("Last run failed");
@@ -350,6 +355,8 @@ describe("preview behavior", () => {
     expect(right).toContain('data-dock="right"');
     expect(right).toContain('class="oc-workspace-grid"');
     expect(right).toContain('data-inspector="true"');
+    expect(right).toContain("data-workbench-application-dock");
+    expect(right).toContain("data-workbench-application-inspector-hide");
     expect(right).not.toContain("application-workspace");
     expect(right).toContain('aria-label="Sessions"');
     expect(right).toContain('aria-label="Inspector"');

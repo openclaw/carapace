@@ -20,7 +20,7 @@ function applicationNavigation({
   <header class="oc-app-navigation-header">
     <img class="oc-app-navigation-brand" src="${openClawMarkUrl}" alt="" width="32" height="32" />
     <span class="oc-app-navigation-title">OpenClaw</span>
-    <button class="oc-app-navigation-collapse" type="button" aria-label="${navigation === "compact" ? "Expand navigation" : "Collapse navigation"}">${agentIcon(navigation === "compact" ? "panel-left-open" : "panel-left-close")}</button>
+    <button class="oc-app-navigation-collapse" type="button" aria-label="${navigation === "compact" ? "Expand navigation" : "Collapse navigation"}" data-workbench-application-navigation>${agentIcon(navigation === "compact" ? "panel-left-open" : "panel-left-close")}</button>
   </header>
   <div class="oc-app-navigation-context">
     <span class="oc-app-navigation-context-icon">${agentIcon("folder-git-2")}</span>
@@ -74,7 +74,7 @@ function statusMarkup(state, labels = {}) {
       loading: "info",
       idle: "warning",
     }[state] ?? "info";
-  return `<span class="oc-status oc-status-${tone}" role="status">
+  return `<span class="oc-status oc-status-${tone}">
     <span class="oc-status-indicator" aria-hidden="true"></span>
     <span class="oc-status-label">${label}</span>
   </span>`;
@@ -409,8 +409,8 @@ export function operationsApplicationMarkup({
         </div>
         <div class="oc-page-header-actions">
           <div class="oc-segmented" role="group" aria-label="Operations view">
-            <button class="oc-segmented-item" type="button" aria-pressed="${channels}">Channels</button>
-            <button class="oc-segmented-item" type="button" aria-pressed="${!channels}">Automation</button>
+            <button class="oc-segmented-item" type="button" aria-pressed="${channels}" data-workbench-application-view="channels">Channels</button>
+            <button class="oc-segmented-item" type="button" aria-pressed="${!channels}" data-workbench-application-view="automation">Automation</button>
           </div>
           <button class="oc-action oc-action-primary" type="button">${agentIcon("plus")} ${channels ? "Add channel" : "New automation"}</button>
         </div>
@@ -611,7 +611,13 @@ function workspaceSessions(status) {
 </aside>`;
 }
 
-function workspaceConversation(status) {
+function workspaceConversation(status, { dock = "right", inspector = true } = {}) {
+  const inspectorVisible = inspector && dock !== "hidden";
+  const dockAction = !inspectorVisible
+    ? "Show inspector"
+    : dock === "bottom"
+      ? "Dock inspector right"
+      : "Dock inspector below";
   return `<section class="oc-workspace-conversation" aria-label="Agent workspace">
   <header class="oc-pane-header oc-workspace-conversation-header">
     <div class="oc-pane-heading">
@@ -620,7 +626,7 @@ function workspaceConversation(status) {
     </div>
     <div class="oc-pane-actions">
       <button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="Open terminal">${agentIcon("terminal")}</button>
-      <button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="Split workspace">${agentIcon("panels-top-left")}</button>
+      <button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="${dockAction}" data-workbench-application-dock>${agentIcon("panels-top-left")}</button>
       <button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="More actions">${agentIcon("ellipsis")}</button>
     </div>
   </header>
@@ -670,7 +676,7 @@ function workspaceInspector(status) {
   return `<aside class="oc-workspace-inspector" aria-label="Inspector">
   <header class="oc-pane-header">
     <div class="oc-pane-heading"><h2 class="oc-pane-title">Inspector</h2><p class="oc-pane-description">Live session context</p></div>
-    <button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="Hide inspector">${agentIcon("panel-right-close")}</button>
+    <button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="Hide inspector" data-workbench-application-inspector-hide>${agentIcon("panel-right-close")}</button>
   </header>
   <div class="oc-inspector-scroll">
     <section class="oc-inspector-section">
@@ -721,7 +727,7 @@ export function workspaceApplicationMarkup({
     <div class="oc-app-content">
       <div class="oc-workspace-grid">
         ${workspaceSessions(status)}
-        ${workspaceConversation(status)}
+        ${workspaceConversation(status, { dock, inspector })}
         ${showInspector ? workspaceInspector(status) : ""}
       </div>
     </div>
