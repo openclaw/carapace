@@ -533,6 +533,7 @@ export function mountPage(
   bindHomeSegmentedControls(root);
   bindPageInteractions(root);
   view.lucide?.createIcons({
+    root,
     attrs: {
       "aria-hidden": "true",
       "stroke-width": "1.75",

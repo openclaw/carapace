@@ -211,6 +211,20 @@
   color: var(--oc-text-primary);
 }
 
+html[data-theme="light"] .oc-action-secondary,
+html[data-theme-resolved="light"] .oc-action-secondary {
+  border-color: var(--oc-border-strong);
+  background: var(--oc-bg-elevated);
+  color: var(--oc-text-primary);
+}
+
+html[data-theme="light"] .oc-action-secondary:hover,
+html[data-theme-resolved="light"] .oc-action-secondary:hover {
+  border-color: var(--oc-border-strong);
+  background: var(--oc-surface-interactive-hover);
+  color: var(--oc-text-primary);
+}
+
 .oc-action-ghost {
   border-color: transparent;
   background: transparent;

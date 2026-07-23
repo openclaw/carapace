@@ -1,5 +1,39 @@
-const avatarPreviewUrl =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23f5654a'/%3E%3Ccircle cx='20' cy='15' r='7' fill='%23101012'/%3E%3Cpath d='M7 40c1-9 6-14 13-14s12 5 13 14' fill='%23101012'/%3E%3C/svg%3E";
+const avatarPalettes = [
+  ["#1b1b20", "#ff5c46", "#ffd166", "#8be28b"],
+  ["#15161a", "#6d7cff", "#ff7ac6", "#a8f0e0"],
+  ["#1a1715", "#ff8f3d", "#f9dc5c", "#5ed0c7"],
+  ["#17151d", "#a978ff", "#ff6b8a", "#7ee787"],
+];
+
+function hashAvatarSeed(seed) {
+  let hash = 2166136261;
+  for (const character of seed) {
+    hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
+  }
+  return hash >>> 0;
+}
+
+function avatarPreviewUrl(seed) {
+  const hash = hashAvatarSeed(seed);
+  const palette = avatarPalettes[hash % avatarPalettes.length];
+  const pixels = [];
+
+  for (let row = 0; row < 5; row += 1) {
+    for (let column = 0; column < 3; column += 1) {
+      const bit = (hash >>> ((row * 3 + column) % 24)) & 1;
+      if (!bit && row !== 2) continue;
+      const color = palette[1 + ((hash >>> ((row + column) % 16)) % 3)];
+      for (const mirroredColumn of new Set([column, 4 - column])) {
+        pixels.push(
+          `<rect x="${mirroredColumn * 8}" y="${row * 8}" width="8" height="8" fill="${color}"/>`,
+        );
+      }
+    }
+  }
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" shape-rendering="crispEdges"><rect width="40" height="40" fill="${palette[0]}"/>${pixels.join("")}</svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
 
 function avatarExample(id, label, purpose, markup) {
   return {
@@ -7,7 +41,7 @@ function avatarExample(id, label, purpose, markup) {
     label,
     purpose,
     markup,
-    previewMarkup: markup.replaceAll('src="avatar.jpg"', `src="${avatarPreviewUrl}"`),
+    previewMarkup: markup.replaceAll('src="avatar.jpg"', `src="${avatarPreviewUrl(label)}"`),
   };
 }
 
@@ -28,7 +62,7 @@ export const avatarWorkbenchExamples = [
     "default",
     "Default",
     "Image-backed identity at the standard interface size.",
-    `<span class="oc-avatar">
+    `<span class="oc-avatar oc-avatar-pixel">
   <img
     class="oc-avatar-image"
     src="avatar.jpg"
@@ -51,7 +85,7 @@ export const avatarWorkbenchExamples = [
     "Presence",
     "Status-enhanced identity paired with an explicit text state.",
     `<span class="primitive-avatar-presence">
-  <span class="oc-avatar">
+  <span class="oc-avatar oc-avatar-pixel">
     <img
       class="oc-avatar-image"
       src="avatar.jpg"

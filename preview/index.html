@@ -40,7 +40,6 @@
       document.documentElement.dataset.theme =
         localStorage.getItem("openclaw-preview-theme") || "dark";
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@1.25.0/dist/umd/lucide.min.js"></script>
     <link rel="stylesheet" href="./preview.css" />
     <script type="module" src="./preview.js"></script>
   </head>
@@ -65,12 +64,17 @@
                 </div>
                 <div class="home-brand-intro">
                   <code class="home-brand-package">@openclaw/carapace</code>
-                  <p class="eyebrow">OpenClaw visual foundation</p>
+                  <p class="eyebrow">OpenClaw design system</p>
                   <h1 id="preview-title">Carapace</h1>
                   <p>
-                    A carapace is a protective outer shell. For OpenClaw, it’s the
-                    shared visual layer that keeps products coherent while letting
-                    each one work in its own way.
+                    Shared tokens, components, agent patterns, and application anatomy
+                    for OpenClaw web surfaces. Consumers keep their own routes, data,
+                    and behavior.
+                  </p>
+                  <p class="home-brand-detail">
+                    Carapace is the durable visual contract between products: compact
+                    controls, legible states, predictable motion, and pane layouts that
+                    hold up from a desktop workspace to a narrow utility window.
                   </p>
                 </div>
               </li>
@@ -220,7 +224,7 @@
               <li class="home-component-cell">
                 <a class="home-component-link" href="./interface/primitives/date-picker/">Date Picker</a>
                 <div class="home-component-demo">
-                  <label class="oc-date-picker home-input-demo"><span class="oc-field-label">Review date</span><span class="oc-date-control"><input class="oc-date-input" type="date" value="2026-07-12" /><i class="oc-date-icon" data-lucide="calendar" aria-hidden="true"></i></span></label>
+                  <label class="oc-date-picker home-input-demo"><span class="oc-field-label">Review date</span><span class="oc-date-control"><input class="oc-date-input" type="date" value="2026-07-12" /></span></label>
                 </div>
               </li>
               <li class="home-component-cell">
@@ -348,6 +352,52 @@ Finished in 312ms</code></pre></div>
                 <a class="home-component-link" href="./interface/primitives/clipboard-text/">Clipboard Text</a>
                 <div class="home-component-demo">
                   <div class="oc-clipboard-text home-clipboard"><code class="oc-clipboard-value">@openclaw/carapace</code><button class="oc-clipboard-action oc-clipboard-action-icon" type="button" aria-label="Copy package specifier" data-copy-text="@openclaw/carapace"><i data-lucide="copy" aria-hidden="true"></i></button><span class="sr-only" aria-live="polite" data-copy-status></span></div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./agent-components/model-picker/">Model Picker</a>
+                <div class="home-component-demo">
+                  <details class="oc-agent-model-picker home-model-picker">
+                    <summary aria-label="Select model"><strong>GPT-5.6 Sol</strong><span>OpenAI</span><i class="oc-agent-icon" data-lucide="chevron-down" aria-hidden="true"></i></summary>
+                  </details>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./interface/primitives/provider-logo/">Provider Logo</a>
+                <div class="home-component-demo">
+                  <div class="home-provider-row">
+                    <button class="oc-provider-logo" type="button" aria-label="OpenAI"><span class="oc-provider-logo-mark" aria-hidden="true">OA</span></button>
+                    <button class="oc-provider-logo oc-provider-logo-framed" type="button" aria-label="Gemini"><span class="oc-provider-logo-mark" aria-hidden="true">G</span></button>
+                    <button class="oc-provider-logo" type="button" aria-label="xAI"><span class="oc-provider-logo-mark" aria-hidden="true">x</span></button>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./agent-components/question-tool/">Question Tool</a>
+                <div class="home-component-demo home-component-demo-fill">
+                  <div class="home-question">
+                    <strong>Choose a proof lane</strong>
+                    <button type="button"><kbd>A</kbd> Focused checks</button>
+                    <button type="button"><kbd>B</kbd> Full validation</button>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./agent-components/agent-chat/">Agent Chat</a>
+                <div class="home-component-demo home-component-demo-fill">
+                  <div class="home-chat-preview">
+                    <div class="home-chat-person"><span class="oc-avatar oc-avatar-sm" role="img" aria-label="Vincent"><span class="oc-avatar-fallback" aria-hidden="true">VK</span></span><p>Make the application surface denser.</p></div>
+                    <div class="home-chat-person"><span class="oc-avatar oc-avatar-sm" role="img" aria-label="Carapace"><span class="oc-avatar-fallback" aria-hidden="true">CA</span></span><p>Resetting the pane contract now.</p></div>
+                  </div>
+                </div>
+              </li>
+              <li class="home-component-cell">
+                <a class="home-component-link" href="./applications/sessions/">Application Surface</a>
+                <div class="home-component-demo home-component-demo-fill">
+                  <div class="home-app-preview">
+                    <aside><span></span><span></span><span></span></aside>
+                    <main><header></header><div></div><div></div><div></div></main>
+                  </div>
                 </div>
               </li>
             </ul>

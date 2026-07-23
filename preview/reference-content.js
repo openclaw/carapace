@@ -2,6 +2,8 @@ import { exampleDialogAttribute } from "./interaction.js";
 import { agentReferenceContentIds, getAgentReferenceContent } from "./agent-components.js";
 import {
   operationsApplicationMarkup,
+  quickChatApplicationMarkup,
+  sessionsApplicationMarkup,
   settingsApplicationMarkup,
   workspaceApplicationMarkup,
 } from "./application-screens.js";
@@ -343,7 +345,7 @@ const contents = {
       <div class="specimen-frame"><div class="primitive-avatar-row primitive-avatar-variants">${avatarPreview()}</div></div>
     </section>
     <section data-section-kind="markup" aria-labelledby="avatar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="avatar-markup">Name fallback identity explicitly</h2></div></div>${codeBlock(formatComponentWorkbenchCode(avatarWorkbenchExamples), "html")}</section>
-    <section data-section-kind="guidance" aria-labelledby="avatar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="avatar-guidance">Identity remains understandable without the image</h2></div></div>${guidanceList(["Use an empty image alt when adjacent text names the same person or agent.", "When the avatar stands alone, give the wrapper an image role and accessible name; hide fallback initials from assistive technology.", "Never rely on the status indicator alone; pair it with visible text or an equivalent accessible state.", "Use Provider Logo for integration marks and brand lockups rather than people or agents."])}</section>`,
+    <section data-section-kind="guidance" aria-labelledby="avatar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="avatar-guidance">Identity remains understandable without the image</h2></div></div>${guidanceList(["Use an empty image alt when adjacent text names the same person or agent.", "When the avatar stands alone, give the wrapper an image role and accessible name; hide fallback initials from assistive technology.", "Never rely on the status indicator alone; pair it with visible text or an equivalent accessible state.", "Preview fixtures use lightweight deterministic pixel avatars. Consumers may use another generator without changing the .oc-avatar contract.", "Wrap interactive avatars in .oc-avatar-button so hover and focus belong to the control, not a passive image."])}</section>`,
 
   "primitive-badge": () =>
     `${pageIntro("Component", "Badge", "A compact label for status or short metadata that remains readable without relying on color alone.")}
@@ -420,9 +422,9 @@ const contents = {
   "primitive-date-picker": () =>
     `${pageIntro("Component", "Date Picker", "A labeled native calendar field that preserves locale, keyboard, validation, and mobile picker behavior.")}
     <section data-section-kind="preview" aria-labelledby="date-picker-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="date-picker-preview">Choose a calendar date</h2></div><span class="oc-pill">.oc-date-picker</span></div>
-      <div class="specimen-frame"><div class="oc-date-picker"><label class="oc-field-label" for="review-date">Review date</label><span class="oc-date-control"><input class="oc-date-input" id="review-date" name="review-date" type="date" value="2026-07-12" min="2026-07-01" aria-describedby="review-date-help" /><i class="oc-date-icon" data-lucide="calendar" aria-hidden="true"></i></span><span class="oc-field-message" id="review-date-help">Dates use the locale configured by the browser.</span></div></div>
+      <div class="specimen-frame"><div class="oc-date-picker"><label class="oc-field-label" for="review-date">Review date</label><span class="oc-date-control"><input class="oc-date-input" id="review-date" name="review-date" type="date" value="2026-07-12" min="2026-07-01" aria-describedby="review-date-help" /></span><span class="oc-field-message" id="review-date-help">Dates use the locale configured by the browser.</span></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="date-picker-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="date-picker-markup">Use the native date input</h2></div></div>${codeBlock(`<div class="oc-date-picker">\n  <label class="oc-field-label" for="review-date">Review date</label>\n  <span class="oc-date-control">\n    <input class="oc-date-input" id="review-date" name="review-date" type="date" aria-describedby="review-date-help" />\n    <i class="oc-date-icon" data-lucide="calendar" aria-hidden="true"></i>\n  </span>\n  <span class="oc-field-message" id="review-date-help">Choose a calendar date.</span>\n</div>`, "html")}</section>
+    <section data-section-kind="markup" aria-labelledby="date-picker-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="date-picker-markup">Use the native date input</h2></div></div>${codeBlock(`<div class="oc-date-picker">\n  <label class="oc-field-label" for="review-date">Review date</label>\n  <span class="oc-date-control">\n    <input class="oc-date-input" id="review-date" name="review-date" type="date" aria-describedby="review-date-help" />\n  </span>\n  <span class="oc-field-message" id="review-date-help">Choose a calendar date.</span>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="date-picker-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="date-picker-guidance">Ask only for precision you need</h2></div></div>${guidanceList(["Use a plain text field when the value is not a calendar date.", "Expose minimum and maximum dates through native attributes.", "Show validation next to the field without replacing the browser picker."])}</section>`,
 
   "primitive-dialog": () =>
@@ -476,9 +478,9 @@ const contents = {
   "primitive-link": () =>
     `${pageIntro("Component", "Link", "A navigation primitive for inline references, muted secondary destinations, and standalone directional links.")}
     <section data-section-kind="preview" aria-labelledby="link-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="link-preview">Navigation roles</h2></div><span class="oc-pill">.oc-link</span></div>
-      <div class="specimen-frame"><div class="primitive-variant-list"><a class="oc-link" href="../../../foundations/" data-workbench-inert-link>Inline link</a><a class="oc-link oc-link-muted" href="../../../resources/" data-workbench-inert-link>Muted link</a><a class="oc-link oc-link-standalone" href="../" data-workbench-inert-link>Browse components</a></div></div>
+      <div class="specimen-frame"><div class="primitive-variant-list"><a class="oc-link" href="../../../foundations/" data-workbench-inert-link>Inline link</a><a class="oc-link oc-link-muted" href="../../../resources/" data-workbench-inert-link>Muted link</a><a class="oc-link oc-link-standalone" href="../" data-workbench-inert-link>Browse components <i data-lucide="arrow-right" aria-hidden="true"></i></a></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="link-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="link-markup">Use anchors for destinations</h2></div></div>${codeBlock(`<a class="oc-link" href="/foundations/">Foundations</a>\n<a class="oc-link oc-link-standalone" href="/components/">Browse components</a>`, "html")}</section>
+    <section data-section-kind="markup" aria-labelledby="link-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="link-markup">Use anchors for destinations</h2></div></div>${codeBlock(`<a class="oc-link" href="/foundations/">Foundations</a>\n<a class="oc-link oc-link-standalone" href="/components/">Browse components <svg aria-hidden="true">…</svg></a>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="link-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="link-guidance">Navigation remains recognizable</h2></div></div>${guidanceList(["Use Button for actions that do not navigate.", "Keep inline links underlined in prose.", "When an unavailable destination must remain visible, remove href, retain role=link, set aria-disabled, and remove it from the tab order."])}</section>`,
 
   "primitive-loader": () =>
@@ -526,8 +528,8 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="provider-logo-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="provider-logo-preview">Integration identity</h2></div><span class="oc-pill">.oc-provider-logo</span></div>
       <div class="specimen-frame">${providerLogoWorkbenchMarkup()}</div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="provider-logo-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="provider-logo-markup">Bring the asset from the consumer</h2></div></div>${codeBlock(`<span class="oc-provider-logo">\n  <span class="oc-provider-logo-mark" aria-hidden="true">\n    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">…</svg>\n  </span>\n  <span>Provider</span>\n</span>`, "html")}</section>
-    <section data-section-kind="guidance" aria-labelledby="provider-logo-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="provider-logo-guidance">Preserve source brand rules</h2></div></div>${guidanceList(["Keep trademarked artwork in the consumer repository; preview marks are demo-only.", "Use an empty image alt when the adjacent name repeats the identity.", "Do not recolor multicolor marks unless the provider explicitly permits it."])}</section>`,
+    <section data-section-kind="markup" aria-labelledby="provider-logo-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="provider-logo-markup">Bring the asset from the consumer</h2></div></div>${codeBlock(`<button class="oc-provider-logo" type="button">\n  <span class="oc-provider-logo-mark" aria-hidden="true">\n    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">…</svg>\n  </span>\n  <span>Provider</span>\n</button>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="provider-logo-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="provider-logo-guidance">Preserve source brand rules</h2></div></div>${guidanceList(["Keep trademarked artwork in the consumer repository; preview marks are demo-only.", "Keep the base mark boxless. Add .oc-provider-logo-framed only when a surrounding surface needs containment.", "Use interactive wrappers for hover, focus, and selected states; passive brand lockups should not imply a click.", "Do not recolor multicolor marks unless the provider explicitly permits it."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}
@@ -1055,30 +1057,24 @@ const contents = {
     `${pageIntro("Application", "Settings", "A dense preference surface that aligns native and web hierarchy without sharing runtime behavior.")}
     <section data-section-kind="preview" aria-labelledby="application-settings-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-settings-preview">Application preferences</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${settingsApplicationMarkup()}</div></section>
     <section data-section-kind="markup" aria-labelledby="application-settings-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-settings-markup">Compose established controls inside shared anatomy</h2></div></div>${codeBlock(
-      `<div class="oc-app-frame">
-  <nav class="oc-app-navigation">…</nav>
-  <main class="oc-app-main">
-    <header class="oc-app-toolbar">…</header>
-    <div class="oc-app-content">
-      <div class="oc-settings-shell">
-        <aside class="oc-settings-navigation">…</aside>
-        <section class="oc-settings-detail">
-          <header class="oc-detail-header">…</header>
-          <section class="oc-settings-section">
-            <div class="oc-settings-group">
-              <div class="oc-settings-row">
-                <div class="oc-settings-row-content">…</div>
-                <div class="oc-settings-row-control">
-                  <label class="oc-switch-label">
-                    <input class="oc-switch" type="checkbox" role="switch" />
-                    <span>Automatic updates</span>
-                  </label>
-                </div>
-              </div>
+      `<div class="oc-settings-shell" data-density="compact">
+  <aside class="oc-settings-navigation">…</aside>
+  <main class="oc-settings-detail">
+    <header class="oc-detail-header">…</header>
+    <div class="oc-settings-detail-scroll">
+      <section class="oc-settings-section">
+        <div class="oc-settings-group">
+          <div class="oc-settings-row">
+            <div class="oc-settings-row-content">…</div>
+            <div class="oc-settings-row-control">
+              <label class="oc-switch-label">
+                <input class="oc-switch" type="checkbox" role="switch" />
+                <span>Automatic updates</span>
+              </label>
             </div>
-          </section>
-        </section>
-      </div>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
 </div>`,
@@ -1105,29 +1101,66 @@ const contents = {
     <section data-section-kind="guidance" aria-labelledby="application-operations-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-operations-guidance">Optimize repeated inspection</h2></div></div>${guidanceList(["Keep list status visible before selection.", "Use a stable detail header for identity, state, and primary actions.", "Preserve loading, error, empty, and connected states in the same anatomy.", "Collapse master and detail vertically on narrow screens.", "Keep transport and scheduler behavior inside their owning consumer."])}</section>`,
 
   "application-workspace": () =>
-    `${pageIntro("Application", "Workspace", "A multi-pane agent surface with a focused conversation and an optional state inspector.")}
+    `${pageIntro("Application", "Workspace", "A compact agent surface with integrated model controls and an optional state inspector.")}
     <section data-section-kind="preview" aria-labelledby="application-workspace-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-workspace-preview">Agent session with inspector</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${workspaceApplicationMarkup()}</div></section>
     <section data-section-kind="markup" aria-labelledby="application-workspace-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-workspace-markup">Dock optional context beside the primary task</h2></div></div>${codeBlock(
-      `<div class="oc-app-frame" data-dock="right" data-inspector="true">
-  <nav class="oc-app-navigation" aria-label="Application">…</nav>
-  <main class="oc-app-main">
-    <header class="oc-app-toolbar">…</header>
-    <div class="oc-app-content">
-      <div class="oc-workspace-grid">
-        <aside class="oc-workspace-sessions" aria-label="Sessions">…</aside>
-        <section class="oc-workspace-conversation" aria-label="Agent workspace">
-          <header class="oc-pane-header">…</header>
-          <div class="oc-pane-body">…</div>
-          <footer class="oc-workspace-composer">…</footer>
-        </section>
-        <aside class="oc-workspace-inspector" aria-label="Inspector">…</aside>
-      </div>
-    </div>
-  </main>
+      `<div class="oc-chat-shell" data-dock="right" data-inspector="true">
+  <div class="oc-workspace-grid">
+    <aside class="oc-workspace-sessions" aria-label="Sessions">…</aside>
+    <section class="oc-workspace-conversation" aria-label="Agent workspace">
+      <header class="oc-pane-header">…</header>
+      <div class="oc-pane-body">…</div>
+      <footer class="oc-workspace-composer">
+        <div class="oc-model-controls">
+          <details class="oc-model-picker">…</details>
+          <button class="oc-model-control">Thinking · high</button>
+          <label class="oc-fast-mode">…</label>
+        </div>
+      </footer>
+    </section>
+    <aside class="oc-workspace-inspector" aria-label="Inspector">…</aside>
+  </div>
 </div>`,
       "html",
     )}</section>
-    <section data-section-kind="guidance" aria-labelledby="application-workspace-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-workspace-guidance">Primary work stays primary</h2></div></div>${guidanceList(["Keep the conversation or document as the dominant pane.", "Treat inspector, terminal, browser, and activity surfaces as optional context.", "Support right, bottom, and hidden inspector modes without changing source meaning.", "Carry session status into both the header and detailed inspector.", "Keep panel lifecycle, drag behavior, and persistence in the consumer."])}</section>`,
+    <section data-section-kind="guidance" aria-labelledby="application-workspace-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-workspace-guidance">Primary work stays primary</h2></div></div>${guidanceList(["Do not wrap chat in a second global application shell.", "Keep model, reasoning, and speed controls beside the composer.", "Treat inspector, terminal, browser, and activity surfaces as optional context.", "Support right, bottom, and hidden inspector modes without changing source meaning.", "Keep panel lifecycle, drag behavior, and persistence in the consumer."])}</section>`,
+
+  "application-sessions": () =>
+    `${pageIntro("Application", "Sessions", "A compact management screen for scanning, filtering, and reopening agent work.")}
+    <section data-section-kind="preview" aria-labelledby="application-sessions-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-sessions-preview">Session management</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${sessionsApplicationMarkup()}</div></section>
+    <section data-section-kind="markup" aria-labelledby="application-sessions-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-sessions-markup">Keep dense collections directly scannable</h2></div></div>${codeBlock(
+      `<main class="oc-app-main">
+  <header class="oc-page-header oc-page-header-compact">…</header>
+  <div class="oc-session-toolbar">
+    <label class="oc-search-field">…</label>
+    <div class="oc-segmented">…</div>
+  </div>
+  <div class="oc-session-table-wrap">
+    <table class="oc-table oc-session-table">…</table>
+  </div>
+</main>`,
+      "html",
+    )}</section>
+    <section data-section-kind="guidance" aria-labelledby="application-sessions-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-sessions-guidance">Scanning beats decoration</h2></div></div>${guidanceList(["Use rows for high-volume session collections.", "Keep model, state, owner, and recency visible without opening detail.", "Preserve ready, loading, empty, and failure states.", "Keep row actions compact and keyboard reachable."])}</section>`,
+
+  "application-quick-chat": () =>
+    `${pageIntro("Application", "Quick Chat", "A focused macOS-style capture surface with context, model selection, and restrained motion.")}
+    <section data-section-kind="preview" aria-labelledby="application-quick-chat-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-quick-chat-preview">Context-aware prompt window</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${quickChatApplicationMarkup()}</div></section>
+    <section data-section-kind="markup" aria-labelledby="application-quick-chat-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-quick-chat-markup">Compose around one immediate task</h2></div></div>${codeBlock(
+      `<section class="oc-quick-chat" data-state="idle">
+  <header class="oc-quick-chat-header">…</header>
+  <div class="oc-quick-chat-context">…</div>
+  <div class="oc-quick-chat-reply">…</div>
+  <div class="oc-quick-chat-composer" role="group" aria-label="Message composer">
+    <textarea placeholder="Ask OpenClaw"></textarea>
+    <div class="oc-quick-chat-toolbar">
+      <div class="oc-model-controls">…</div>
+    </div>
+  </div>
+</section>`,
+      "html",
+    )}</section>
+    <section data-section-kind="guidance" aria-labelledby="application-quick-chat-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-quick-chat-guidance">Fast, contextual, dismissible</h2></div></div>${guidanceList(["Keep capture context visible and removable before send.", "Use the same model controls as the full workspace.", "Limit motion to entry, menu disclosure, progress, and streaming state.", "Respect reduced-motion preferences and native window behavior."])}</section>`,
 
   "resource-getting-started": () =>
     `${pageIntro("Resources", "Getting started", "Install an immutable release, choose the right import boundary, and keep application behavior in the consumer.")}

@@ -36,6 +36,8 @@ describe("preview route build", () => {
     expect(source.slice(0, headEnd)).toContain(
       '<script type="module" src="./preview.js"></script>',
     );
+    expect(source).not.toContain("cdn.jsdelivr.net");
+    expect(source).not.toContain("unpkg.com");
     expect(source.slice(bodyStart)).not.toContain("<script");
   });
 

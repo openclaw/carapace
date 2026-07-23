@@ -34,6 +34,8 @@ const workbenchViewportPageModes = new Map([
   ["application-settings", ["desktop", "tablet", "mobile"]],
   ["application-operations", ["desktop", "tablet", "mobile"]],
   ["application-workspace", ["desktop", "tablet", "mobile"]],
+  ["application-sessions", ["desktop", "tablet", "mobile"]],
+  ["application-quick-chat", ["desktop", "tablet", "mobile"]],
   ["primitive-grid", ["desktop", "tablet", "mobile"]],
   ["primitive-table", ["desktop", "mobile"]],
 ]);
@@ -95,6 +97,8 @@ const viewportWorkbenchPages = new Set([
   "application-settings",
   "application-operations",
   "application-workspace",
+  "application-sessions",
+  "application-quick-chat",
   "agent-chat",
   "input-bar",
   "message-list",
@@ -363,16 +367,22 @@ function mountWorkbenchDefinition(workbench, pageId) {
     }
     if (controls) syncControlInputs(controls, state);
     window.lucide?.createIcons({
+      root: specimen,
       attrs: {
         "aria-hidden": "true",
         "stroke-width": "1.75",
       },
     });
   };
-  const update = (id, value) => {
+  const update = (id, value, { render = true } = {}) => {
     preserveWorkbenchScrollPosition(document.scrollingElement, () => {
       state[id] = value;
-      apply();
+      if (render) {
+        apply();
+        return;
+      }
+      if (controls) syncControlInputs(controls, state);
+      renderWorkbenchCode(code, definition.markup(state));
     });
   };
 
@@ -634,12 +644,6 @@ export function renderComponentWorkbench(mount, pageId) {
   workbench.append(createDock(markupSection, guidanceSection, pageId));
   mountWorkbenchDefinition(workbench, pageId);
   mount.replaceChildren(workbench);
-  window.lucide?.createIcons({
-    attrs: {
-      "aria-hidden": "true",
-      "stroke-width": "1.75",
-    },
-  });
   mount.dataset.componentWorkbenchRoot = "";
   document.body.dataset.referenceLayout = "workbench";
   document.body.dataset.shellMode = "workbench";
