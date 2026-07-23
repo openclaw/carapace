@@ -264,6 +264,8 @@
 
 .oc-avatar-image,
 .oc-avatar-fallback {
+  position: relative;
+  z-index: 1;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -287,6 +289,28 @@
   display: grid;
   place-items: center;
   text-transform: uppercase;
+}
+
+.oc-avatar-overflow {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--oc-border-subtle);
+  background: var(--oc-bg-elevated);
+  color: var(--oc-text-secondary);
+  font-family: var(--oc-font-body);
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+.oc-avatar[data-state="speaking"]::after {
+  position: absolute;
+  z-index: 2;
+  inset: -0.25rem;
+  border: 1px solid var(--oc-accent-secondary);
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
+  animation: oc-avatar-speaking 1.4s var(--oc-ease-out) infinite;
 }
 
 .oc-avatar-button {
@@ -363,9 +387,34 @@
   animation-delay: 180ms;
 }
 
+.oc-avatar-stack[data-state="thinking"] > .oc-avatar:nth-child(4) {
+  animation-delay: 270ms;
+}
+
 @keyframes oc-avatar-thinking {
-  50% {
-    transform: translateY(-2px) scale(1.04);
+  0%,
+  100% {
+    opacity: 0.86;
+    transform: translateY(0) scale(0.96);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.06);
+  }
+}
+
+@keyframes oc-avatar-speaking {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  45% {
+    opacity: 0.72;
+  }
+  80% {
+    opacity: 0;
+    transform: scale(1.18);
   }
 }
 
@@ -385,6 +434,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .oc-avatar-button,
+  .oc-avatar[data-state="speaking"]::after,
   .oc-avatar-stack[data-state="thinking"] > .oc-avatar {
     animation: none;
     transition: none;
@@ -3395,6 +3445,20 @@ a.oc-layer-card-primary:hover {
   color: var(--oc-text-primary);
 }
 
+.oc-agent-chat[data-layout="compact"] {
+  height: auto;
+  max-height: none;
+}
+
+.oc-agent-chat[data-layout="viewport"] {
+  height: 100%;
+  max-height: none;
+}
+
+.oc-agent-chat[data-layout="viewport"] .oc-agent-message-list {
+  flex: 1 1 auto;
+}
+
 .oc-agent-drop-overlay {
   position: absolute;
   z-index: 4;
@@ -3603,8 +3667,48 @@ a.oc-layer-card-primary:hover {
   font-size: var(--oc-font-size-xs);
 }
 
+.oc-agent-collaboration[data-variant="transcript"] {
+  width: min(100%, 44rem);
+  gap: var(--oc-space-3);
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.oc-agent-collaboration-presence {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--oc-space-2);
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-sm);
+}
+
+.oc-agent-collaboration-presence strong {
+  color: var(--oc-text-secondary);
+  font-weight: 600;
+}
+
+.oc-agent-collaboration-presence time {
+  font-variant-numeric: tabular-nums;
+}
+
+.oc-agent-collaboration-summary {
+  margin: 0;
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-lg);
+  line-height: 1.35;
+}
+
+.oc-agent-collaboration-stream {
+  display: grid;
+  gap: var(--oc-space-4);
+}
+
 .oc-agent-attributed-message {
   display: grid;
+  min-width: 0;
   grid-template-columns: 1.25rem minmax(0, 1fr);
   gap: var(--oc-space-2);
   align-items: start;
@@ -3616,10 +3720,10 @@ a.oc-layer-card-primary:hover {
 
 .oc-agent-message-author {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: var(--oc-space-2);
   margin-bottom: 0;
-  color: var(--oc-text-muted);
+  color: var(--oc-text-primary);
   font-size: var(--oc-font-size-xs);
   font-weight: 600;
 }
@@ -3634,6 +3738,26 @@ a.oc-layer-card-primary:hover {
   width: 1.25rem;
   height: 1.25rem;
   margin-top: 0.125rem;
+}
+
+.oc-agent-message-role {
+  color: var(--oc-text-muted);
+  font-weight: 500;
+}
+
+.oc-agent-message-bubble {
+  width: fit-content;
+  max-width: 100%;
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border-radius: var(--oc-radius-lg);
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+  line-height: 1.5;
+}
+
+.oc-agent-message-bubble p {
+  margin: 0;
 }
 
 .oc-agent-attributed-message .oc-agent-user-message {
@@ -3751,6 +3875,11 @@ a.oc-layer-card-primary:hover {
   width: min(100%, 42rem);
   margin: 0 auto;
   padding: var(--oc-space-5);
+}
+
+.oc-agent-chat[data-layout="compact"] .oc-agent-message-list-content {
+  gap: var(--oc-space-3);
+  padding: var(--oc-space-4);
 }
 
 .oc-agent-turn {

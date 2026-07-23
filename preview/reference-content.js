@@ -7,6 +7,7 @@ import {
   settingsApplicationMarkup,
   workspaceApplicationMarkup,
 } from "./application-screens.js";
+import { avatarFixturePeople } from "./avatar-fixtures.js";
 import {
   avatarFixtureUrl,
   avatarWorkbenchExamples,
@@ -54,6 +55,17 @@ function avatarPreview() {
       if (example.id === "presence") return example.previewMarkup;
       return `<span class="primitive-avatar-example">${example.previewMarkup}<span>${example.label}</span></span>`;
     })
+    .join("");
+}
+
+function avatarGeneratorGallery() {
+  return avatarFixturePeople
+    .map(
+      ({ name, role }) => `<figure class="avatar-generator-person">
+  <span class="oc-avatar oc-avatar-lg oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl(name)}" alt="" width="48" height="48" /></span>
+  <figcaption><strong>${name}</strong><span>${role}</span></figcaption>
+</figure>`,
+    )
     .join("");
 }
 
@@ -390,9 +402,13 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="avatar-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="avatar-preview">Identity, presence, and collaboration</h2></div><span class="oc-pill">.oc-avatar</span></div>
       <div class="specimen-frame"><div class="primitive-avatar-row primitive-avatar-variants">${avatarPreview()}</div></div>
     </section>
-    <section class="avatar-generator-note" aria-labelledby="avatar-generator-title"><div><p class="eyebrow">Preview fixture</p><h2 id="avatar-generator-title">Deterministic pixel identities</h2><p>Carapace creates the colorful examples locally from a stable text seed. No image request leaves the browser, and the same seed always produces the same preview character. The public <code>.oc-avatar</code> contract remains generator-agnostic: applications can provide uploaded images, initials, or another compatible service.</p></div><a class="oc-link oc-link-standalone" href="https://www.dicebear.com/styles/pixel-art/" target="_blank" rel="noreferrer">Explore DiceBear Pixel Art ${icon("arrow-right")}</a></section>
+    <section class="avatar-generator" aria-labelledby="avatar-generator-title">
+      <div class="avatar-generator-heading"><div><p class="eyebrow">Preview fixture generator</p><h2 id="avatar-generator-title">One stable seed, one colorful identity</h2><p>Carapace hashes a local text seed into skin, hair, expression, clothing, accessories, and background pixels. No image request leaves the browser. The generator exists for documentation fixtures; the public <code>.oc-avatar</code> contract accepts uploaded images, initials, or another compatible service.</p></div><div class="avatar-generator-links"><a class="oc-link oc-link-standalone" href="https://github.com/openclaw/carapace/blob/main/preview/avatar-fixtures.js" target="_blank" rel="noreferrer">View fixture source ${icon("arrow-right")}</a><a class="oc-link oc-link-standalone" href="https://www.dicebear.com/styles/pixel-art/" target="_blank" rel="noreferrer">Production alternative: DiceBear ${icon("arrow-right")}</a></div></div>
+      <div class="avatar-generator-gallery" aria-label="Generated pixel identities">${avatarGeneratorGallery()}</div>
+      <dl class="avatar-generator-facts"><div><dt>Input</dt><dd>Stable user or agent identifier</dd></div><div><dt>Output</dt><dd>Local SVG data URL</dd></div><div><dt>Privacy</dt><dd>No remote avatar request</dd></div><div><dt>Consumer contract</dt><dd>Generator agnostic</dd></div></dl>
+    </section>
     <section data-section-kind="markup" aria-labelledby="avatar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="avatar-markup">Name fallback identity explicitly</h2></div></div>${codeBlock(formatComponentWorkbenchCode(avatarWorkbenchExamples), "html")}</section>
-    <section data-section-kind="guidance" aria-labelledby="avatar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="avatar-guidance">Identity remains understandable without the image</h2></div></div>${guidanceList(["Use the extra-small inline size beside an author name; do not detach it into a separate transcript column.", "Use a stack for compact participant context and the thinking state only while collaboration is actively progressing.", "Use an empty image alt when adjacent text names the same person or agent.", "When the avatar stands alone, give the wrapper an image role and accessible name; hide fallback initials from assistive technology.", "Never rely on the status indicator or animation alone; pair it with visible text or an equivalent accessible state.", "Wrap interactive avatars in .oc-avatar-button so hover and focus belong to the control, not a passive image."])}</section>`,
+    <section data-section-kind="guidance" aria-labelledby="avatar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="avatar-guidance">Identity remains understandable without the image</h2></div></div>${guidanceList(["Use the extra-small inline size beside an author name so identity and message read as one unit.", "Use a stack for compact participant context and the thinking state only while collaboration is actively progressing.", "Use a bounded overflow avatar instead of making a facepile grow without limit.", "Use an empty image alt when adjacent text names the same person or agent.", "When the avatar stands alone, give the wrapper an image role and an accessible name; hide fallback initials from assistive technology.", "Never rely on the status indicator or animation alone; pair it with visible text or an equivalent accessible state.", "Wrap interactive avatars in .oc-avatar-button so hover and focus belong to the control, not a passive image."])}</section>`,
 
   "primitive-badge": () =>
     `${pageIntro("Component", "Badge", "A compact label for status or short metadata that remains readable without relying on color alone.")}

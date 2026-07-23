@@ -1,4 +1,9 @@
 import { agentIcon } from "./agent-components.js";
+import { appendAgentUserMessage } from "./agent-components-interactions.js";
+import {
+  attributedMessageMarkup,
+  collaborationTranscriptMarkup,
+} from "./agent-identity.js";
 import {
   applicationModelControlsMarkup,
   operationsApplicationMarkup,
@@ -236,6 +241,7 @@ const questionStates = [
 const chatExamples = [
   { label: "Basic", value: "basic" },
   { label: "Multi-user", value: "multi-user" },
+  { label: "Multi-agent", value: "multi-agent" },
   { label: "Media", value: "media" },
   { label: "Empty", value: "empty" },
   { label: "Suggestions", value: "suggestions" },
@@ -1505,12 +1511,31 @@ export function messageListWorkbenchMarkup({
   mode = "direct",
   media = false,
 } = {}) {
-  if (mode === "attributed") {
+  if (mode === "collaborative") {
+    const collaborationState =
+      status === "error" ? "error" : status === "ready" ? "ready" : "thinking";
     return `<div class="oc-agent-message-list" role="log" aria-label="Conversation history">
-  <div class="oc-agent-message-list-content">
-    <div class="oc-agent-attributed-message" data-author="user"><span class="oc-avatar oc-avatar-xs oc-avatar-pixel" role="img" aria-label="Mina"><img class="oc-avatar-image" src="${avatarFixtureUrl("Mina")}" alt="" /></span><div class="oc-agent-message-content"><span class="oc-agent-message-author">Mina</span><div class="oc-agent-user-message"><p>Can we make the application panes feel closer to the mac app?</p></div>${media ? mediaGalleryMarkup(status) : ""}</div></div>
-    <div class="oc-agent-attributed-message" data-author="agent"><span class="oc-avatar oc-avatar-xs oc-avatar-pixel" role="img" aria-label="OpenClaw"><img class="oc-avatar-image" src="${avatarFixtureUrl("OpenClaw")}" alt="" /></span><div class="oc-agent-message-content"><span class="oc-agent-message-author">OpenClaw</span>${chatResponseMarkup(status, copyToolbar)}${media ? mediaStatusMarkup(status) : ""}</div></div>
-  </div>
+  <div class="oc-agent-message-list-content">${collaborationTranscriptMarkup({
+    state: collaborationState,
+    elapsed: status === "ready" ? "8s" : "5s",
+  })}</div>
+</div>`;
+  }
+  if (mode === "attributed") {
+    const userMessage = `<div class="oc-agent-message-bubble"><p>Can we make the application panes feel closer to the mac app?</p></div>`;
+    const user = attributedMessageMarkup({
+      author: "user",
+      name: "Mina",
+      role: "You",
+      content: `${userMessage}${media ? mediaGalleryMarkup(status) : ""}`,
+    });
+    const agent = attributedMessageMarkup({
+      name: "OpenClaw",
+      role: "Assistant",
+      content: `${chatResponseMarkup(status, copyToolbar)}${media ? mediaStatusMarkup(status) : ""}`,
+    });
+    return `<div class="oc-agent-message-list" role="log" aria-label="Conversation history">
+  <div class="oc-agent-message-list-content">${user}${agent}</div>
 </div>`;
   }
   return `<div class="oc-agent-message-list" role="log" aria-label="Conversation history">
@@ -1752,12 +1777,18 @@ export function agentChatWorkbenchMarkup({
   fast = true,
 } = {}) {
   const isEmpty = status !== "error" && (example === "empty" || example === "suggestions");
+  const transcriptMode =
+    example === "multi-agent"
+      ? "collaborative"
+      : example === "multi-user" || example === "media"
+        ? "attributed"
+        : "direct";
   const messages = isEmpty
     ? ""
     : messageListWorkbenchMarkup({
         status,
         copyToolbar,
-        mode: example === "multi-user" || example === "media" ? "attributed" : "direct",
+        mode: transcriptMode,
         media: example === "media",
       });
   const suggestions =
@@ -1794,13 +1825,13 @@ export function agentChatWorkbenchMarkup({
   </form>`;
 
   if (isEmpty) {
-    return `<section class="oc-agent-chat oc-agent-chat-empty" aria-label="Agent conversation" data-agent-file-drop>
+    return `<section class="oc-agent-chat oc-agent-chat-empty" data-layout="compact" data-attribution="participants" data-user-name="Mina" aria-label="Agent conversation" data-agent-file-drop>
   <div class="oc-agent-drop-overlay" aria-hidden="true">${agentIcon("paperclip")}<strong>Drop files to attach</strong><span>Images, video, audio, documents, and code</span></div>
   <div class="oc-agent-chat-center">${composer}${suggestions}</div>
 </section>`;
   }
 
-  return `<section class="oc-agent-chat" aria-label="Agent conversation" data-agent-file-drop>
+  return `<section class="oc-agent-chat" data-layout="compact" data-attribution="${transcriptMode === "attributed" ? "participants" : "none"}" data-user-name="Mina" aria-label="Agent conversation" data-agent-file-drop>
   <div class="oc-agent-drop-overlay" aria-hidden="true">${agentIcon("paperclip")}<strong>Drop files to attach</strong><span>Images, video, documents, and code</span></div>
   ${messages}
   <div class="oc-agent-chat-composer">${composer}</div>
@@ -2221,8 +2252,17 @@ const definitions = {
       specimen.querySelector("[data-workbench-chat-form]")?.addEventListener("submit", (event) => {
         event.preventDefault();
         if (!input?.value.trim()) return;
-        input.value = "";
-        if (status) status.textContent = "Message sent";
+        const chat = specimen.querySelector(".oc-agent-chat");
+        const transcript = specimen.querySelector(".oc-agent-message-list-content");
+        const scroller = specimen.querySelector(".oc-agent-message-list");
+        appendAgentUserMessage({
+          form: event.currentTarget,
+          input,
+          chat,
+          transcript,
+          scroller,
+          status,
+        });
       });
       specimen.querySelector('[aria-label="Stop response"]')?.addEventListener("click", () => {
         update("status", "ready");

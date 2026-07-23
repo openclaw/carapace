@@ -1,4 +1,8 @@
-import { avatarFixtureUrl } from "./avatar-fixtures.js";
+import {
+  agentAvatarMarkup,
+  attributedMessageMarkup,
+  collaborationTranscriptMarkup,
+} from "./agent-identity.js";
 
 function escapeHtml(value) {
   return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -71,7 +75,7 @@ function sendButton(state = "idle") {
 }
 
 function collaborationAvatar(name) {
-  return `<span class="oc-avatar oc-avatar-xs oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl(name)}" alt="" width="20" height="20" /></span>`;
+  return agentAvatarMarkup(name);
 }
 
 function composerMarkup({ id, rows = 1, tools = "", suggestions = "", attachments = "", statusAttr = "data-agent-compose-status", formAttr = "data-agent-compose-form", send = sendButton("idle") } = {}) {
@@ -204,120 +208,54 @@ const components = {
     className: "oc-agent-chat",
     lede: "The complete conversation surface: a scrollable message list above a composer, sharing one bounded column.",
     previewTitle: "Conversation workspace",
-    preview: `<section class="oc-agent-chat" aria-label="Agent conversation">
+    preview: `<section class="oc-agent-chat" data-layout="compact" data-attribution="participants" data-user-name="Mina" aria-label="Agent conversation">
   <div class="oc-agent-message-list" role="log" aria-label="Conversation history">
     <div class="oc-agent-message-list-content">
-      <div class="oc-agent-turn">
-        <div class="oc-agent-user-message-stack"><div class="oc-agent-user-message"><p>Summarize the pending changes and flag anything risky.</p></div></div>
-        <div class="oc-agent-assistant-turn">
-          ${toolRow({ icon: agentIcon("search"), label: "Found 3 results", detail: "semantic tokens" })}
-          <div class="oc-agent-markdown"><p>Three component files changed. The exported package contract and every existing token remain intact.</p></div>
-        </div>
-      </div>
+      ${attributedMessageMarkup({ author: "user", name: "Mina", role: "You", message: "Summarize the pending changes and flag anything risky." })}
+      ${attributedMessageMarkup({
+        name: "OpenClaw",
+        role: "Assistant",
+        content: `<div class="oc-agent-assistant-turn">
+        ${toolRow({ icon: agentIcon("search"), label: "Found 3 results", detail: "semantic tokens" })}
+        <div class="oc-agent-markdown"><p>Three component files changed. The exported package contract and every existing token remain intact.</p></div>
+      </div>`,
+      })}
     </div>
   </div>
   <div class="oc-agent-chat-suggestions" aria-label="Suggested prompts"><button class="oc-agent-suggestion" type="button" data-agent-suggestion-value="Review the pending changes" data-agent-suggestion-target="agent-chat-message">Review changes</button><button class="oc-agent-suggestion" type="button" data-agent-suggestion-value="Run the validation checks" data-agent-suggestion-target="agent-chat-message">Run checks</button></div>
-  <form class="oc-agent-input-bar" data-agent-chat-form>
-    <div class="oc-agent-input-container">
-      <label class="sr-only" for="agent-chat-message">Message</label>
-      <textarea id="agent-chat-message" class="oc-agent-input" rows="1" placeholder="Send a message..."></textarea>
-      <div class="oc-agent-input-toolbar">
-        <div class="oc-agent-input-tools"><button class="oc-agent-attachment-button" type="button" aria-label="Attach">${agentIcon("plus")}</button></div>
-        <div class="oc-agent-input-actions">${sendButton("idle")}</div>
-      </div>
-    </div>
-    <span class="sr-only" data-agent-chat-status aria-live="polite"></span>
-  </form>
+  ${composerMarkup({
+    id: "agent-chat-message",
+    formAttr: "data-agent-chat-form",
+    statusAttr: "data-agent-chat-status",
+    tools: `<button class="oc-agent-attachment-button" type="button" aria-label="Capture screenshot">${agentIcon("camera")}</button><button class="oc-agent-attachment-button" type="button" aria-label="Dictate">${agentIcon("mic")}</button><button class="oc-agent-attachment-button" type="button" aria-label="Talk mode">${agentIcon("audio-lines")}</button>`,
+  })}
 </section>`,
-    markup: `<section class="oc-agent-chat" aria-label="Agent conversation">
+    markup: `<section class="oc-agent-chat" data-layout="compact" data-attribution="participants" aria-label="Agent conversation">
   <div class="oc-agent-message-list" role="log" aria-label="Conversation history">…</div>
   <div class="oc-agent-chat-suggestions">…</div>
   <form class="oc-agent-input-bar">…</form>
   <span class="sr-only" aria-live="polite">Message sent</span>
 </section>`,
-    guidance: ["Keep the message list as the primary flexible region above the composer.", "Expose streamed updates through a polite live region without repeatedly announcing the entire transcript.", "The consumer owns message data, submission, stopping, attachments, and tool execution."],
+    guidance: ["Use data-layout=\"compact\" in reference and embedded surfaces; use data-layout=\"viewport\" only when the chat owns a full application pane.", "Keep each 20px avatar beside its author and message content instead of in a detached transcript rail.", "Expose streamed updates through a polite live region without repeatedly announcing the entire transcript.", "The consumer owns message data, submission, stopping, attachments, media capture, and tool execution."],
   },
   "agent-collaboration": {
     slug: "agent-collaboration",
     title: "Agent Collaboration",
     className: "oc-agent-collaboration",
-    lede: "A compact multi-agent activity surface that keeps the leader, specialists, delegated tasks, and live synthesis state visible without becoming a second transcript.",
-    previewTitle: "Multi-agent activity",
-    preview: `<section class="oc-agent-collaboration" aria-labelledby="agent-collaboration-title" data-state="thinking">
-  <header class="oc-agent-collaboration-header">
-    <span class="oc-avatar-stack oc-agent-collaboration-facepile" data-state="thinking" role="img" aria-label="Mina, Atlas, Sora, and Quinn are collaborating">
-      ${collaborationAvatar("Mina")}
-      ${collaborationAvatar("Atlas")}
-      ${collaborationAvatar("Sora")}
-      ${collaborationAvatar("Quinn")}
-    </span>
-    <span class="oc-agent-collaboration-heading">
-      <span class="oc-agent-collaboration-kicker">Multi-agent activity</span>
-      <strong id="agent-collaboration-title">4 agents collaborating</strong>
-    </span>
-    <span class="oc-agent-collaboration-status" data-state="active">Working</span>
+    lede: "A transcript-native multi-agent surface that keeps the active facepile, shared objective, named specialists, and their contributions in one compact conversational flow.",
+    previewTitle: "Agents thinking and collaborating",
+    preview: collaborationTranscriptMarkup(),
+    markup: `<section class="oc-agent-collaboration" data-variant="transcript" data-state="thinking" aria-label="Multi-agent collaboration">
+  <header class="oc-agent-collaboration-presence" role="status">
+    <span class="oc-avatar-stack oc-agent-collaboration-facepile" data-state="thinking" aria-hidden="true">…</span>
+    <strong>Agents thinking</strong><span aria-hidden="true">·</span><time aria-hidden="true">5s</time>
   </header>
-  <div class="oc-agent-collaboration-lead" data-state="active">
-    <div class="oc-agent-collaboration-update">
-      <span class="oc-agent-collaboration-author">${collaborationAvatar("Mina")}<strong>Mina</strong></span>
-      <span class="oc-agent-collaboration-role">Lead</span>
-      <span class="oc-agent-collaboration-status" data-state="active">Synthesizing</span>
-    </div>
-    <p>Combining the interface audit into one parity plan while the specialist checks finish.</p>
+  <p class="oc-agent-collaboration-summary">Collaborating with the team on application parity</p>
+  <div class="oc-agent-collaboration-stream" role="list">
+    <article class="oc-agent-attributed-message" data-author="agent">…</article>
   </div>
-  <ol class="oc-agent-collaboration-tasks" aria-label="Delegated agent tasks">
-    <li data-state="complete">
-      <div class="oc-agent-collaboration-update">
-        <span class="oc-agent-collaboration-author">${collaborationAvatar("Atlas")}<strong>Atlas</strong></span>
-        <span class="oc-agent-collaboration-role">Research</span>
-        <span class="oc-agent-collaboration-status" data-state="complete">Complete</span>
-      </div>
-      <p>Mapped current Control UI patterns and shared component boundaries.</p>
-    </li>
-    <li data-state="active">
-      <div class="oc-agent-collaboration-update">
-        <span class="oc-agent-collaboration-author">${collaborationAvatar("Sora")}<strong>Sora</strong></span>
-        <span class="oc-agent-collaboration-role">Interface</span>
-        <span class="oc-agent-collaboration-status" data-state="active">Working</span>
-      </div>
-      <p>Auditing macOS pane behavior, controls, and compact window states.</p>
-    </li>
-    <li data-state="waiting">
-      <div class="oc-agent-collaboration-update">
-        <span class="oc-agent-collaboration-author">${collaborationAvatar("Quinn")}<strong>Quinn</strong></span>
-        <span class="oc-agent-collaboration-role">Systems</span>
-        <span class="oc-agent-collaboration-status" data-state="waiting">Waiting</span>
-      </div>
-      <p>Ready to validate the shared token and interaction contract.</p>
-    </li>
-  </ol>
-  <footer class="oc-agent-collaboration-footer"><span>2 of 4 tasks ready</span><span aria-live="polite">Leader is synthesizing</span></footer>
 </section>`,
-    markup: `<section class="oc-agent-collaboration" aria-labelledby="collaboration-title" data-state="thinking">
-  <header class="oc-agent-collaboration-header">
-    <span class="oc-avatar-stack oc-agent-collaboration-facepile" data-state="thinking" role="img" aria-label="Four named agents are collaborating">…</span>
-    <span class="oc-agent-collaboration-heading">
-      <span class="oc-agent-collaboration-kicker">Multi-agent activity</span>
-      <strong id="collaboration-title">4 agents collaborating</strong>
-    </span>
-    <span class="oc-agent-collaboration-status" data-state="active">Working</span>
-  </header>
-  <div class="oc-agent-collaboration-lead" data-state="active">
-    <div class="oc-agent-collaboration-update">
-      <span class="oc-agent-collaboration-author"><span class="oc-avatar oc-avatar-xs">…</span><strong>Mina</strong></span>
-      <span class="oc-agent-collaboration-role">Lead</span>
-      <span class="oc-agent-collaboration-status" data-state="active">Synthesizing</span>
-    </div>
-    <p>Combining specialist findings into one result.</p>
-  </div>
-  <ol class="oc-agent-collaboration-tasks" aria-label="Delegated agent tasks">
-    <li data-state="complete">…</li>
-    <li data-state="active">…</li>
-    <li data-state="waiting">…</li>
-  </ol>
-  <footer class="oc-agent-collaboration-footer"><span>2 of 4 tasks ready</span><span aria-live="polite">Leader is synthesizing</span></footer>
-</section>`,
-    guidance: ["Name every participant and mark exactly one coordinating leader.", "Keep author identity compact with a 20px avatar bubble, then describe one current task and one explicit status.", "Animate only the active facepile, honor reduced motion, and let the consumer own orchestration, permissions, cancellation, and result acceptance."],
+    guidance: ["Name every participant and mark exactly one coordinating leader.", "Keep the active facepile, shared objective, and named contributions in the transcript instead of a second task dashboard.", "Keep author identity compact with a 20px avatar bubble beside its message.", "Do not announce the elapsed timer every second; the visible status text carries the accessible state.", "Animate only active avatars with transform and opacity, honor reduced motion, and let the consumer own orchestration, permissions, cancellation, and result acceptance."],
   },
   "attachment-button": {
     slug: "attachment-button",

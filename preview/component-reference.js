@@ -1,4 +1,5 @@
 import { avatarFixtureUrl } from "./avatar-fixtures.js";
+import { agentAvatarMarkup } from "./agent-identity.js";
 
 export { avatarFixtureUrl } from "./avatar-fixtures.js";
 
@@ -97,6 +98,38 @@ export const avatarWorkbenchExamples = [
   <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Planner")}" alt="" /></span>
   <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Builder")}" alt="" /></span>
   <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Reviewer")}" alt="" /></span>
+</span>`,
+  },
+  {
+    id: "speaking",
+    label: "Speaking",
+    purpose: "Active speaker identity with a restrained motion ring and explicit text state.",
+    markup: `<span class="primitive-avatar-presence">
+  <span class="oc-avatar oc-avatar-sm" data-state="speaking">
+    <img class="oc-avatar-image" src="agent.jpg" alt="" />
+  </span>
+  <span>OpenClaw · Speaking</span>
+</span>`,
+    previewMarkup: `<span class="primitive-avatar-presence">
+  ${agentAvatarMarkup("OpenClaw", { size: "sm", activity: "speaking" })}
+  <span>OpenClaw · Speaking</span>
+</span>`,
+  },
+  {
+    id: "overflow",
+    label: "Overflow",
+    purpose: "Bounded participant context that summarizes collaborators beyond the visible stack.",
+    markup: `<span class="oc-avatar-stack" aria-label="Mina, Atlas, Sora, and 3 more participants">
+  <span class="oc-avatar oc-avatar-sm">…</span>
+  <span class="oc-avatar oc-avatar-sm">…</span>
+  <span class="oc-avatar oc-avatar-sm">…</span>
+  <span class="oc-avatar oc-avatar-sm oc-avatar-overflow" aria-hidden="true">+3</span>
+</span>`,
+    previewMarkup: `<span class="oc-avatar-stack" aria-label="Mina, Atlas, Sora, and 3 more participants">
+  ${agentAvatarMarkup("Mina", { size: "sm" })}
+  ${agentAvatarMarkup("Atlas", { size: "sm" })}
+  ${agentAvatarMarkup("Sora", { size: "sm" })}
+  <span class="oc-avatar oc-avatar-sm oc-avatar-overflow" aria-hidden="true">+3</span>
 </span>`,
   },
 ];

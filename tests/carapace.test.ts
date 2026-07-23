@@ -233,10 +233,21 @@ describe("CSS contract", () => {
       ".oc-agent-collaboration-heading",
       ".oc-agent-collaboration-kicker",
       ".oc-agent-collaboration-lead",
+      ".oc-agent-collaboration-presence",
       ".oc-agent-collaboration-role",
+      ".oc-agent-collaboration-stream",
+      ".oc-agent-collaboration-summary",
       ".oc-agent-collaboration-status",
       ".oc-agent-collaboration-tasks",
       ".oc-agent-collaboration-update",
+      ".oc-agent-attributed-message",
+      ".oc-agent-chat",
+      ".oc-agent-message-author",
+      ".oc-agent-message-bubble",
+      ".oc-agent-message-content",
+      ".oc-agent-message-list",
+      ".oc-agent-message-list-content",
+      ".oc-agent-message-role",
       ".oc-agent-interactive-artifact",
       ".oc-agent-interactive-artifact-thumb",
       ".oc-agent-interactive-header",
@@ -288,6 +299,7 @@ describe("CSS contract", () => {
       ".oc-avatar-fallback",
       ".oc-avatar-image",
       ".oc-avatar-lg",
+      ".oc-avatar-overflow",
       ".oc-avatar-pixel",
       ".oc-avatar-sm",
       ".oc-avatar-stack",
@@ -460,6 +472,9 @@ describe("CSS contract", () => {
       /\.oc-app-resource-search:focus-within[\s\S]*?--oc-input-focus-ring/,
     );
     expect(application).toMatch(/\.oc-settings-search:focus-within[\s\S]*?--oc-input-focus-ring/);
+    expect(application).toMatch(
+      /\.oc-avatar\[data-state="speaking"\]::after[\s\S]*?z-index: 2[\s\S]*?pointer-events: none/,
+    );
     expect(application).toMatch(
       /\.oc-settings-row-interactive:focus-visible[\s\S]*?--oc-focus-ring/,
     );

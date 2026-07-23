@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import {
+  appendAgentUserMessage,
   bindAgentComponentDemos,
   findAgentSuggestionTarget,
   normalizeAgentDraft,
@@ -992,11 +993,22 @@ describe("preview behavior", () => {
   });
 
   test("renders distinct Agent Chat empty, streaming, and error states", () => {
+    const multiUser = agentChatWorkbenchMarkup({ example: "multi-user", status: "ready" });
+    const multiAgent = agentChatWorkbenchMarkup({ example: "multi-agent", status: "ready" });
+    const media = agentChatWorkbenchMarkup({ example: "media", status: "ready" });
+    const userArticle = media.slice(
+      media.indexOf('data-author="user"'),
+      media.indexOf("</article>") + "</article>".length,
+    );
+
     expect(agentChatWorkbenchMarkup({ example: "empty", status: "ready" })).not.toContain(
       "Conversation history",
     );
     expect(agentChatWorkbenchMarkup({ example: "suggestions", status: "ready" })).toContain(
       'aria-label="Suggested prompts"',
+    );
+    expect(agentChatWorkbenchMarkup({ example: "suggestions", status: "error" })).toContain(
+      'data-attribution="none"',
     );
     expect(agentChatWorkbenchMarkup({ example: "basic", status: "streaming" })).toContain(
       'data-status="streaming"',
@@ -1013,18 +1025,31 @@ describe("preview behavior", () => {
     expect(agentChatWorkbenchMarkup({ example: "media", status: "streaming" })).toContain(
       'data-status="streaming"',
     );
-    expect(agentChatWorkbenchMarkup({ example: "multi-user", status: "ready" })).toContain(
-      'aria-label="OpenClaw"',
+    expect(multiUser).toContain('class="oc-avatar-image"');
+    expect(multiUser).toContain("<strong>OpenClaw</strong>");
+    expect(multiUser).not.toContain('role="listitem"');
+    expect(agentChatWorkbenchMarkup({ example: "multi-agent", status: "streaming" })).toContain(
+      'data-variant="transcript"',
     );
-    expect(agentChatWorkbenchMarkup({ example: "media", status: "ready" })).toContain(
-      'data-kind="video"',
+    expect(agentChatWorkbenchMarkup({ example: "multi-agent", status: "streaming" })).toContain(
+      "Agents thinking",
     );
-    expect(agentChatWorkbenchMarkup({ example: "media", status: "ready" })).toContain(
-      'data-kind="audio"',
-    );
-    expect(agentChatWorkbenchMarkup({ example: "media", status: "ready" })).toContain(
-      "4 attachments ready",
-    );
+    expect(multiAgent).toContain("Agents ready");
+    expect(multiAgent).toContain("<strong>Mina</strong>");
+    expect(multiAgent).toContain("<strong>Atlas</strong>");
+    expect(multiAgent).toContain('role="listitem"');
+    const multiAgentError = agentChatWorkbenchMarkup({
+      example: "multi-agent",
+      status: "error",
+    });
+    expect(multiAgentError).toContain('data-state="error"');
+    expect(multiAgentError).toContain("Agents paused");
+    expect(multiAgentError).toContain('role="alert"');
+    expect(multiAgentError).not.toContain("Agents thinking");
+    expect(media).toContain('data-kind="video"');
+    expect(media).toContain('data-kind="audio"');
+    expect(media).toContain("4 attachments ready");
+    expect(userArticle).toContain("oc-agent-media-grid");
     expect(agentChatWorkbenchMarkup({ example: "media", status: "ready" })).not.toContain(
       "Inspecting 4 attachments",
     );
@@ -2121,6 +2146,88 @@ describe("preview behavior", () => {
     expect(turn.children[0].className).toBe("oc-agent-user-message-stack");
     expect(turn.children[0].children[0].className).toBe("oc-agent-user-message");
     expect(turn.children[0].children[0].children[0].textContent).toBe("Review the current diff.");
+    expect(status.textContent).toBe("Message sent");
+  });
+
+  test("preserves participant attribution when a multi-user chat submits", () => {
+    class Element {
+      children = [];
+      attributes = new Map();
+      className = "";
+      dataset = {};
+      textContent = "";
+      value = "";
+      ownerDocument;
+      constructor(ownerDocument) {
+        this.ownerDocument = ownerDocument;
+      }
+      append(child) {
+        this.children.push(child);
+      }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+    }
+
+    const ownerDocument = {
+      createElement: () => new Element(ownerDocument),
+      defaultView: { matchMedia: () => ({ matches: true }) },
+    };
+    const form = new Element(ownerDocument);
+    const input = new Element(ownerDocument);
+    input.value = "  Keep the participant bubble attached.  ";
+    const transcript = new Element(ownerDocument);
+    const scroller = new Element(ownerDocument);
+    scroller.scrollHeight = 480;
+    const status = new Element(ownerDocument);
+    const generatedAvatar = new Element(ownerDocument);
+    generatedAvatar.className = "oc-avatar oc-avatar-xs oc-avatar-pixel";
+    const generatedImage = new Element(ownerDocument);
+    generatedImage.className = "oc-avatar-image";
+    generatedAvatar.append(generatedImage);
+    generatedAvatar.cloneNode = () => generatedAvatar;
+    const chat = {
+      dataset: { attribution: "participants", userName: "Mina" },
+      querySelector: () => generatedAvatar,
+    };
+
+    const message = appendAgentUserMessage({
+      form,
+      input,
+      chat,
+      transcript,
+      scroller,
+      status,
+    });
+
+    expect(message?.className).toBe("oc-agent-attributed-message");
+    expect(message?.attributes.get("data-author")).toBe("user");
+    expect(message?.children[0].className).toBe("oc-avatar oc-avatar-xs oc-avatar-pixel");
+    expect(message?.children[0].children[0].className).toBe("oc-avatar-image");
+    expect(message?.children[1].children[0].children[0].textContent).toBe("Mina");
+    expect(message?.children[1].children[0].children[1].textContent).toBe("You");
+    expect(message?.children[1].children[1].children[0].textContent).toBe(
+      "Keep the participant bubble attached.",
+    );
+    expect(input.value).toBe("");
+    expect(scroller.scrollTop).toBe(480);
+    expect(status.textContent).toBe("Message sent");
+  });
+
+  test("preserves empty-state submit feedback without a transcript", () => {
+    const input = { value: "  Start a new conversation.  " };
+    const status = { textContent: "" };
+    const form = { ownerDocument: {} };
+
+    expect(
+      appendAgentUserMessage({
+        form,
+        input,
+        chat: { dataset: { attribution: "participants" } },
+        status,
+      }),
+    ).toBe(null);
+    expect(input.value).toBe("");
     expect(status.textContent).toBe("Message sent");
   });
 

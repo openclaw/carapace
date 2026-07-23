@@ -9,6 +9,99 @@ export function findAgentSuggestionTarget(root, targetId) {
   return [...candidates].find((candidate) => candidate.id === targetId) || null;
 }
 
+function createAttributedAvatar(doc, chat, userName) {
+  const existing = chat?.querySelector?.('[data-author="user"] .oc-avatar');
+  const cloned = existing?.cloneNode?.(true);
+  if (cloned) return cloned;
+
+  const avatar = doc.createElement("span");
+  avatar.className = "oc-avatar oc-avatar-xs";
+  avatar.setAttribute("aria-hidden", "true");
+  const fallback = doc.createElement("span");
+  fallback.className = "oc-avatar-fallback";
+  fallback.textContent = userName.slice(0, 2).toUpperCase();
+  avatar.append(fallback);
+  return avatar;
+}
+
+function appendAttributedUserMessage(doc, chat, transcript, draft, userName) {
+  const message = doc.createElement("article");
+  message.className = "oc-agent-attributed-message";
+  message.setAttribute("data-author", "user");
+
+  const avatar = createAttributedAvatar(doc, chat, userName);
+
+  const content = doc.createElement("div");
+  content.className = "oc-agent-message-content";
+  const author = doc.createElement("header");
+  author.className = "oc-agent-message-author";
+  const name = doc.createElement("strong");
+  name.textContent = userName;
+  const role = doc.createElement("span");
+  role.className = "oc-agent-message-role";
+  role.textContent = "You";
+  author.append(name);
+  author.append(role);
+
+  const bubble = doc.createElement("div");
+  bubble.className = "oc-agent-message-bubble";
+  const paragraph = doc.createElement("p");
+  paragraph.textContent = draft;
+  bubble.append(paragraph);
+  content.append(author);
+  content.append(bubble);
+  message.append(avatar);
+  message.append(content);
+  transcript.append(message);
+  return message;
+}
+
+function appendDirectUserMessage(doc, transcript, draft) {
+  const turn = doc.createElement("div");
+  turn.className = "oc-agent-turn";
+  const stack = doc.createElement("div");
+  stack.className = "oc-agent-user-message-stack";
+  const bubble = doc.createElement("div");
+  bubble.className = "oc-agent-user-message";
+  const message = doc.createElement("p");
+  message.textContent = draft;
+  bubble.append(message);
+  stack.append(bubble);
+  turn.append(stack);
+  transcript.append(turn);
+  return turn;
+}
+
+export function appendAgentUserMessage({ form, input, chat, transcript, scroller, status } = {}) {
+  const draft = normalizeAgentDraft(input?.value);
+  if (!form || !input || !draft) return null;
+  input.value = "";
+  if (status) status.textContent = "Message sent";
+  if (!transcript) return null;
+
+  const doc = form.ownerDocument;
+  const attributed = chat?.dataset?.attribution === "participants";
+  const userName = chat?.dataset?.userName || "Mina";
+  const message = attributed
+    ? appendAttributedUserMessage(doc, chat, transcript, draft, userName)
+    : appendDirectUserMessage(doc, transcript, draft);
+  const reduced = doc.defaultView?.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  message.animate?.(
+    reduced
+      ? [{ opacity: 0 }, { opacity: 1 }]
+      : [
+          { opacity: 0, transform: "translateY(6px)" },
+          { opacity: 1, transform: "translateY(0)" },
+        ],
+    {
+      duration: reduced ? 100 : 200,
+      easing: "cubic-bezier(0.23, 1, 0.32, 1)",
+    },
+  );
+  if (scroller) scroller.scrollTop = scroller.scrollHeight;
+  return message;
+}
+
 export function bindAgentComponentDemos(root = document) {
   const forms = [...root.querySelectorAll("[data-agent-chat-form]")];
 
@@ -22,39 +115,7 @@ export function bindAgentComponentDemos(root = document) {
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      const draft = normalizeAgentDraft(input.value);
-      if (!draft) return;
-
-      const doc = form.ownerDocument;
-      const turn = doc.createElement("div");
-      turn.className = "oc-agent-turn";
-      const stack = doc.createElement("div");
-      stack.className = "oc-agent-user-message-stack";
-      const bubble = doc.createElement("div");
-      bubble.className = "oc-agent-user-message";
-      const message = doc.createElement("p");
-      message.textContent = draft;
-      bubble.append(message);
-      stack.append(bubble);
-      turn.append(stack);
-      transcript.append(turn);
-      const reduced = doc.defaultView
-        ?.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      turn.animate?.(
-        reduced
-          ? [{ opacity: 0 }, { opacity: 1 }]
-          : [
-              { opacity: 0, transform: "translateY(6px)" },
-              { opacity: 1, transform: "translateY(0)" },
-            ],
-        {
-          duration: reduced ? 100 : 200,
-          easing: "cubic-bezier(0.23, 1, 0.32, 1)",
-        },
-      );
-      input.value = "";
-      if (scroller) scroller.scrollTop = scroller.scrollHeight;
-      if (status) status.textContent = "Message sent";
+      appendAgentUserMessage({ form, input, chat, transcript, scroller, status });
     });
   }
 

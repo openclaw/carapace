@@ -1863,6 +1863,7 @@ describe("preview contracts", () => {
         options: [
           { label: "Basic", value: "basic" },
           { label: "Multi-user", value: "multi-user" },
+          { label: "Multi-agent", value: "multi-agent" },
           { label: "Media", value: "media" },
           { label: "Empty", value: "empty" },
           { label: "Suggestions", value: "suggestions" },
@@ -2413,6 +2414,10 @@ describe("preview contracts", () => {
     expect(avatar).toContain('aria-label="OpenClaw"');
     expect(avatar).toContain('class="oc-avatar-status" aria-hidden="true"');
     expect(avatar).toContain("Online");
+    expect(avatar).toContain("Preview fixture generator");
+    expect(avatar).toContain("No image request leaves the browser");
+    expect(avatar).toContain("Production alternative: DiceBear");
+    expect(avatar).toContain("Generated pixel identities");
     expect(avatar).toContain("Never rely on the status indicator or animation alone");
   });
 
@@ -2429,21 +2434,29 @@ describe("preview contracts", () => {
       "presence",
       "stack",
       "thinking",
+      "speaking",
+      "overflow",
     ]);
     expect(
-      allCode.match(/<!-- (Inline|Small|Default|Large|Presence|Stack|Thinking) -->/g),
-    ).toHaveLength(7);
+      allCode.match(
+        /<!-- (Inline|Small|Default|Large|Presence|Stack|Thinking|Speaking|Overflow) -->/g,
+      ),
+    ).toHaveLength(9);
     expect(allCode).not.toContain("...");
     expect(allCode).toContain("oc-avatar-sm");
     expect(allCode).toContain("oc-avatar-lg");
     expect(allCode).toContain("oc-avatar-status");
     expect(allCode).toContain("oc-avatar-stack");
     expect(allCode).toContain('data-state="thinking"');
+    expect(allCode).toContain('data-state="speaking"');
+    expect(allCode).toContain("oc-avatar-overflow");
     const content = getReferenceContent("primitive-avatar");
     expect(content).toContain("&lt;!-- Inline --&gt;");
     expect(content).toContain("&lt;!-- Small --&gt;");
     expect(content).toContain("&lt;!-- Presence --&gt;");
     expect(content).toContain("&lt;!-- Thinking --&gt;");
+    expect(content).toContain("&lt;!-- Speaking --&gt;");
+    expect(content).toContain("&lt;!-- Overflow --&gt;");
   });
 
   test("keeps every Button variant discoverable in canvas, usage, and code", () => {
