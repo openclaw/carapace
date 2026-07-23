@@ -154,6 +154,7 @@ describe("CSS contract", () => {
     const feedback = await readFile("styles/candidate/feedback.css", "utf8");
     const data = await readFile("styles/candidate/data.css", "utf8");
     const application = await readFile("styles/candidate/application.css", "utf8");
+    const lab = await readFile("preview/lab.css", "utf8");
 
     expectClasses(controls, [
       ".oc-field",
@@ -347,8 +348,13 @@ describe("CSS contract", () => {
       ".oc-summary-metric-icon",
       ".oc-summary-strip",
       ".oc-workspace-conversation",
+      ".oc-workspace-compose-box",
+      ".oc-workspace-compose-note",
+      ".oc-workspace-compose-toolbar",
+      ".oc-workspace-composer",
       ".oc-workspace-grid",
       ".oc-workspace-inspector",
+      ".oc-workspace-mode",
       ".oc-workspace-sessions",
       ".oc-workspace-sessions-footer",
     ]);
@@ -368,6 +374,7 @@ describe("CSS contract", () => {
     const feedback = await readFile("styles/candidate/feedback.css", "utf8");
     const data = await readFile("styles/candidate/data.css", "utf8");
     const application = await readFile("styles/candidate/application.css", "utf8");
+    const lab = await readFile("preview/lab.css", "utf8");
 
     expect(controls).toMatch(/\.oc-input\[aria-invalid="true"\][\s\S]*?--oc-status-error-fg/);
     expect(controls).toMatch(/\.oc-checkbox:indeterminate[\s\S]*?--oc-accent-primary/);
@@ -419,6 +426,8 @@ describe("CSS contract", () => {
       /\.oc-app-frame\[data-dock="bottom"\](?!\[data-inspector="true"\])/,
     );
     expect(application).not.toContain(".application-workspace");
+    expect(application).toContain(".oc-workspace-composer");
+    expect(lab).not.toContain(".oc-workspace-composer");
     expect(application).not.toMatch(/(?:^|\n)\.oc-resource-(?:list|search)/);
     expect(application).toMatch(/\.oc-master-detail > \.oc-pane \{[\s\S]*?border-width: 0/);
     expect(application).toMatch(

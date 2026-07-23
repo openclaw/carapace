@@ -1411,7 +1411,6 @@ const definitions = {
   "application-workspace": {
     defaults: {
       dock: "right",
-      inspector: true,
       status: "active",
       navigation: "compact",
     },
@@ -1421,11 +1420,6 @@ const definitions = {
         label: "Inspector dock",
         type: "choice",
         options: applicationDockModes,
-      },
-      {
-        id: "inspector",
-        label: "Inspector",
-        type: "toggle",
       },
       {
         id: "status",
@@ -1440,21 +1434,24 @@ const definitions = {
         options: applicationNavigationModes,
       },
     ],
-    markup: workspaceApplicationMarkup,
+    markup(state) {
+      return workspaceApplicationMarkup({
+        ...state,
+        inspector: state.dock !== "hidden",
+      });
+    },
     render(specimen, state) {
-      specimen.innerHTML = workspaceApplicationMarkup(state);
+      specimen.innerHTML = workspaceApplicationMarkup({
+        ...state,
+        inspector: state.dock !== "hidden",
+      });
     },
     bind(specimen, state, update) {
       bindApplicationNavigation(specimen, state, update);
       specimen
         .querySelector("[data-workbench-application-inspector-hide]")
-        ?.addEventListener("click", () => update("inspector", false));
+        ?.addEventListener("click", () => update("dock", "hidden"));
       specimen.querySelector("[data-workbench-application-dock]")?.addEventListener("click", () => {
-        if (!state.inspector) {
-          if (state.dock === "hidden") update("dock", "right");
-          update("inspector", true);
-          return;
-        }
         update("dock", state.dock === "right" ? "bottom" : "right");
       });
     },

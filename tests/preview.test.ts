@@ -250,14 +250,15 @@ describe("preview contracts", () => {
       "Scheduled work",
     );
 
-    expect(workspace?.controls.map(({ id }) => id)).toEqual([
-      "dock",
-      "inspector",
-      "status",
-      "navigation",
-    ]);
+    expect(workspace?.controls.map(({ id }) => id)).toEqual(["dock", "status", "navigation"]);
     expect(workspace?.markup({ ...workspace.defaults, dock: "bottom" })).toContain(
       'data-dock="bottom"',
+    );
+    expect(workspace?.markup({ ...workspace.defaults, dock: "bottom" })).toContain(
+      'data-inspector="true"',
+    );
+    expect(workspace?.markup({ ...workspace.defaults, dock: "hidden" })).toContain(
+      'data-inspector="false"',
     );
 
     const createButton = (dataset = {}) => Object.assign(new EventTarget(), { dataset });
@@ -318,7 +319,7 @@ describe("preview contracts", () => {
     expect(workspaceUpdates).toEqual([
       ["navigation", "expanded"],
       ["dock", "bottom"],
-      ["inspector", false],
+      ["dock", "hidden"],
     ]);
 
     const hiddenWorkspaceDock = createButton();
@@ -329,17 +330,23 @@ describe("preview contracts", () => {
           selector === "[data-workbench-application-dock]" ? hiddenWorkspaceDock : null,
         querySelectorAll: () => [],
       },
-      { ...workspace.defaults, dock: "hidden", inspector: false },
+      { ...workspace.defaults, dock: "hidden" },
       (id, value) => hiddenWorkspaceUpdates.push([id, value]),
     );
     hiddenWorkspaceDock.dispatchEvent(new Event("click"));
-    expect(hiddenWorkspaceUpdates).toEqual([
-      ["dock", "right"],
-      ["inspector", true],
-    ]);
+    expect(hiddenWorkspaceUpdates).toEqual([["dock", "right"]]);
 
     expect(getReferenceContent("application-operations")).toContain(
       '&lt;section class="oc-pane oc-master-detail"&gt;',
+    );
+    expect(getReferenceContent("application-workspace")).toContain(
+      '&lt;main class="oc-app-main"&gt;',
+    );
+    expect(getReferenceContent("application-workspace")).toContain(
+      '&lt;div class="oc-app-content"&gt;',
+    );
+    expect(getReferenceContent("application-workspace")).toContain(
+      '&lt;footer class="oc-workspace-composer"&gt;',
     );
   });
 

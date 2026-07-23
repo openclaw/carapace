@@ -1106,15 +1106,21 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="application-workspace-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-workspace-preview">Agent session with inspector</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${workspaceApplicationMarkup()}</div></section>
     <section data-section-kind="markup" aria-labelledby="application-workspace-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-workspace-markup">Dock optional context beside the primary task</h2></div></div>${codeBlock(
       `<div class="oc-app-frame" data-dock="right" data-inspector="true">
-  <div class="oc-workspace-grid">
-    <aside class="oc-workspace-sessions" aria-label="Sessions">…</aside>
-    <section class="oc-workspace-conversation" aria-label="Agent workspace">
-      <header class="oc-pane-header">…</header>
-      <div class="oc-pane-body">…</div>
-      <footer class="oc-workspace-composer">…</footer>
-    </section>
-    <aside class="oc-workspace-inspector" aria-label="Inspector">…</aside>
-  </div>
+  <nav class="oc-app-navigation" aria-label="Application">…</nav>
+  <main class="oc-app-main">
+    <header class="oc-app-toolbar">…</header>
+    <div class="oc-app-content">
+      <div class="oc-workspace-grid">
+        <aside class="oc-workspace-sessions" aria-label="Sessions">…</aside>
+        <section class="oc-workspace-conversation" aria-label="Agent workspace">
+          <header class="oc-pane-header">…</header>
+          <div class="oc-pane-body">…</div>
+          <footer class="oc-workspace-composer">…</footer>
+        </section>
+        <aside class="oc-workspace-inspector" aria-label="Inspector">…</aside>
+      </div>
+    </div>
+  </main>
 </div>`,
       "html",
     )}</section>
