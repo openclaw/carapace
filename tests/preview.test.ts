@@ -339,6 +339,12 @@ describe("preview contracts", () => {
     expect(getReferenceContent("application-operations")).toContain(
       '&lt;section class="oc-pane oc-master-detail"&gt;',
     );
+    expect(getReferenceContent("application-settings")).toContain(
+      '&lt;label class="oc-switch-label"&gt;',
+    );
+    expect(getReferenceContent("application-settings")).toContain(
+      "&lt;span&gt;Automatic updates&lt;/span&gt;",
+    );
     expect(getReferenceContent("application-workspace")).toContain(
       '&lt;main class="oc-app-main"&gt;',
     );

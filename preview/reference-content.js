@@ -1067,10 +1067,13 @@ const contents = {
           <section class="oc-settings-section">
             <div class="oc-settings-group">
               <div class="oc-settings-row">
-              <div class="oc-settings-row-content">…</div>
-              <div class="oc-settings-row-control">
-                <input class="oc-switch" type="checkbox" role="switch" />
-              </div>
+                <div class="oc-settings-row-content">…</div>
+                <div class="oc-settings-row-control">
+                  <label class="oc-switch-label">
+                    <input class="oc-switch" type="checkbox" role="switch" />
+                    <span>Automatic updates</span>
+                  </label>
+                </div>
               </div>
             </div>
           </section>
