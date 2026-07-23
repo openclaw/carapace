@@ -1975,7 +1975,7 @@ function bindApplicationNavigation(specimen, state, update) {
     });
 }
 
-function bindApplicationModelControls(specimen, state, update) {
+export function bindApplicationModelControls(specimen, state, update) {
   const options = Array.from(
     specimen.querySelectorAll("[data-workbench-application-model]"),
   );
@@ -2043,7 +2043,7 @@ function bindApplicationModelControls(specimen, state, update) {
   });
   thinking?.addEventListener("change", () => {
     const values = thinking.dataset.thinkingValues?.split(",") ?? [];
-    update("thinking", values[Number(thinking.value)] ?? "high");
+    update("thinking", values[Number(thinking.value)] ?? "high", { render: false });
   });
   thinkingReset?.addEventListener("click", () => update("thinking", "high"));
   fast?.addEventListener("click", () => {
@@ -2455,7 +2455,6 @@ const definitions = {
           scroller,
           status,
         });
-        update("draft", "", { render: false });
       });
       specimen.querySelector('[aria-label="Stop response"]')?.addEventListener("click", () => {
         update("status", "ready");

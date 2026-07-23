@@ -51,7 +51,7 @@ export function agentAvatarStackMarkup(
   const names = participants.map(({ name }) => name);
   const stateAttribute = state ? ` data-state="${escapeHtml(state)}"` : "";
   const accessibleName = labelled
-    ? ` role="img" aria-label="${escapeHtml(names.join(", "))} are collaborating"`
+    ? ` role="img" aria-label="${escapeHtml(names.join(", "))}"`
     : ' aria-hidden="true"';
   const avatars = participants
     .map(({ name }) => agentAvatarMarkup(name, { size: "xs" }))

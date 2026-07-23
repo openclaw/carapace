@@ -2541,6 +2541,12 @@ describe("preview contracts", () => {
     expect(allCode).toContain("oc-avatar-lg");
     expect(allCode).toContain("oc-avatar-status");
     expect(allCode).toContain("oc-avatar-stack");
+    expect(allCode).toContain(
+      '<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, and Review">',
+    );
+    expect(allCode).toContain(
+      '<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, Sora, and 3 more participants">',
+    );
     expect(allCode).toContain('data-state="thinking"');
     expect(allCode).toContain('data-state="speaking"');
     expect(allCode).toContain("oc-avatar-overflow");

@@ -78,12 +78,12 @@ export const avatarWorkbenchExamples = [
     id: "stack",
     label: "Stack",
     purpose: "Overlapping participant identity for compact collaborative activity.",
-    markup: `<span class="oc-avatar-stack" aria-label="Mina, Atlas, and Review">
+    markup: `<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, and Review">
   <span class="oc-avatar oc-avatar-sm"><img class="oc-avatar-image" src="mina.jpg" alt="Mina" /></span>
   <span class="oc-avatar oc-avatar-sm"><img class="oc-avatar-image" src="atlas.jpg" alt="Atlas" /></span>
   <span class="oc-avatar oc-avatar-sm"><img class="oc-avatar-image" src="review.jpg" alt="Review" /></span>
 </span>`,
-    previewMarkup: `<span class="oc-avatar-stack" aria-label="Mina, Atlas, and Review">
+    previewMarkup: `<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, and Review">
   <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Mina")}" alt="Mina" /></span>
   <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Atlas")}" alt="Atlas" /></span>
   <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Review")}" alt="Review" /></span>
@@ -119,13 +119,13 @@ export const avatarWorkbenchExamples = [
     id: "overflow",
     label: "Overflow",
     purpose: "Bounded participant context that summarizes collaborators beyond the visible stack.",
-    markup: `<span class="oc-avatar-stack" aria-label="Mina, Atlas, Sora, and 3 more participants">
+    markup: `<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, Sora, and 3 more participants">
   <span class="oc-avatar oc-avatar-sm">…</span>
   <span class="oc-avatar oc-avatar-sm">…</span>
   <span class="oc-avatar oc-avatar-sm">…</span>
   <span class="oc-avatar oc-avatar-sm oc-avatar-overflow" aria-hidden="true">+3</span>
 </span>`,
-    previewMarkup: `<span class="oc-avatar-stack" aria-label="Mina, Atlas, Sora, and 3 more participants">
+    previewMarkup: `<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, Sora, and 3 more participants">
   ${agentAvatarMarkup("Mina", { size: "sm" })}
   ${agentAvatarMarkup("Atlas", { size: "sm" })}
   ${agentAvatarMarkup("Sora", { size: "sm" })}

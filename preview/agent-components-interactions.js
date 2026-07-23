@@ -76,6 +76,7 @@ export function appendAgentUserMessage({ form, input, chat, transcript, scroller
   const draft = normalizeAgentDraft(input?.value);
   if (!form || !input || !draft) return null;
   input.value = "";
+  input.dispatchEvent?.(new Event("input"));
   if (status) status.textContent = "Message sent";
   if (!transcript) return null;
 

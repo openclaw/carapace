@@ -6,6 +6,7 @@ import {
   normalizeAgentDraft,
 } from "../preview/agent-components-interactions.js";
 import { getAgentReferenceContent } from "../preview/agent-components.js";
+import { collaborationTranscriptMarkup } from "../preview/agent-identity.js";
 import {
   applicationCameraPreviewMarkup,
   applicationComposerPrimaryMarkup,
@@ -57,6 +58,7 @@ import {
 import {
   actionWorkbenchMarkup,
   bindApplicationComposer,
+  bindApplicationModelControls,
   bindInteractiveToolActions,
   clipboardTextWorkbenchMarkup,
   agentChatWorkbenchMarkup,
@@ -464,6 +466,52 @@ describe("preview behavior", () => {
     expect(locked).not.toContain("<details");
     expect(locked).not.toContain("oc-model-menu-settings");
     expect(locked).toContain("reasoning High");
+  });
+
+  test("updates reasoning without replacing the focused range", () => {
+    const attributes = new Map();
+    const styles = new Map();
+    const thinking = Object.assign(new EventTarget(), {
+      dataset: { thinkingValues: "auto,low,medium,high,xhigh" },
+      value: "2",
+      style: { setProperty: (name, value) => styles.set(name, value) },
+      setAttribute: (name, value) => attributes.set(name, value),
+    });
+    const output = { textContent: "" };
+    const updates = [];
+    const specimen = {
+      querySelector(selector) {
+        return (
+          {
+            "[data-workbench-model-thinking]": thinking,
+            "[data-workbench-model-thinking-output]": output,
+          }[selector] ?? null
+        );
+      },
+      querySelectorAll: () => [],
+    };
+
+    bindApplicationModelControls(specimen, { modelProvider: "recent" }, (...args) =>
+      updates.push(args),
+    );
+    thinking.dispatchEvent(new Event("input"));
+    thinking.dispatchEvent(new Event("change"));
+
+    expect(output.textContent).toBe("Medium");
+    expect(attributes.get("aria-valuetext")).toBe("Medium");
+    expect(styles.get("--oc-model-reasoning-fill")).toBe("50%");
+    expect(updates).toEqual([
+      ["thinking", "medium", { render: false }],
+      ["thinking", "medium", { render: false }],
+    ]);
+  });
+
+  test("keeps collaboration facepile names separate from error status", () => {
+    const failed = collaborationTranscriptMarkup({ state: "error" });
+
+    expect(failed).toContain('role="img" aria-label="Mina, Atlas, Sora, Quinn"');
+    expect(failed).toContain("Agents paused");
+    expect(failed).not.toContain("are collaborating");
   });
 
   test("renders Sessions as a compact collection with ready, loading, and empty states", () => {
@@ -2355,6 +2403,8 @@ describe("preview behavior", () => {
 
     const ownerDocument = { createElement: () => new Element(ownerDocument) };
     const input = new Element(ownerDocument);
+    let inputEvents = 0;
+    input.addEventListener("input", () => (inputEvents += 1));
     const transcript = new Element(ownerDocument);
     const scroller = new Element(ownerDocument);
     const status = new Element(ownerDocument);
@@ -2382,6 +2432,7 @@ describe("preview behavior", () => {
 
     expect(submit.defaultPrevented).toBe(true);
     expect(input.value).toBe("");
+    expect(inputEvents).toBe(1);
     expect(scroller.scrollTop).toBe(320);
     const turn = transcript.children[0];
     expect(turn.className).toBe("oc-agent-turn");
