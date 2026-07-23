@@ -4596,6 +4596,15 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
   padding: var(--oc-space-4);
 }
 
+.component-workbench-canvas[data-viewport="mobile"] .oc-identity-panel {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.component-workbench-canvas[data-viewport="mobile"] .oc-identity-meta {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+}
+
 .component-workbench-canvas[data-viewport="mobile"] .oc-summary-strip {
   grid-template-columns: minmax(0, 1fr);
 }

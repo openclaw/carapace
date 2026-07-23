@@ -990,6 +990,11 @@
   color: var(--oc-status-info-fg);
 }
 
+.oc-summary-metric[data-tone="warning"] .oc-summary-metric-icon {
+  background: var(--oc-status-warning-bg);
+  color: var(--oc-status-warning-fg);
+}
+
 .oc-summary-metric[data-tone="error"] .oc-summary-metric-icon {
   background: var(--oc-status-error-bg);
   color: var(--oc-status-error-fg);

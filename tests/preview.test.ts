@@ -397,6 +397,12 @@ describe("preview contracts", () => {
       '.component-workbench-canvas[data-viewport="mobile"] .oc-settings-navigation-item {\n  width: max-content;',
     );
     expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-identity-panel {\n  grid-template-columns: auto minmax(0, 1fr);',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-identity-meta {\n  grid-column: 1 / -1;\n  justify-content: flex-start;',
+    );
+    expect(css).toContain(
       '.component-workbench-canvas[data-viewport="mobile"] .oc-workspace-sessions {\n  grid-row: auto;\n  max-height: 15rem;',
     );
     expect(css).toContain(

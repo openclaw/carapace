@@ -412,6 +412,9 @@ describe("CSS contract", () => {
     expect(application).toMatch(
       /\.oc-app-frame\[data-dock="bottom"\]\[data-inspector="true"\] \.oc-workspace-grid/,
     );
+    expect(application).toMatch(
+      /\.oc-summary-metric\[data-tone="warning"\] \.oc-summary-metric-icon \{[\s\S]*?--oc-status-warning-bg[\s\S]*?--oc-status-warning-fg/,
+    );
     expect(application).not.toMatch(
       /\.oc-app-frame\[data-dock="bottom"\](?!\[data-inspector="true"\])/,
     );
