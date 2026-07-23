@@ -243,7 +243,23 @@ const contents = {
 
   "foundation-base": () =>
     `${pageIntro("Foundations", "Base styles", "The optional baseline establishes predictable sizing, readable defaults, visible focus, selection, and motion preferences.")}
-    <section aria-labelledby="base-contract"><div class="section-heading"><div><p class="eyebrow">Baseline</p><h2 id="base-contract">What base.css owns</h2></div></div>${referenceTable(["Behavior", "Contract"], [["Sizing", "Border-box sizing for every element and pseudo-element."], ["Document", "A 320px minimum width, full-height body, canonical background, text, and body type."], ["Headings", "Balanced wrapping without imposing a heading scale."], ["Selection", "Theme-aware selection color and readable selected text."], ["Focus", "A visible two-pixel focus ring with semantic color."], ["Screen reader text", "A reusable .sr-only utility for visually hidden accessible labels."]])}</section>
+    <section aria-labelledby="base-contract"><div class="section-heading"><div><p class="eyebrow">Baseline</p><h2 id="base-contract">What base.css owns</h2></div></div>${referenceTable(
+      ["Behavior", "Contract"],
+      [
+        ["Sizing", "Border-box sizing for every element and pseudo-element."],
+        [
+          "Document",
+          "A 320px minimum width, full-height body, canonical background, text, and body type.",
+        ],
+        ["Headings", "Balanced wrapping without imposing a heading scale."],
+        ["Selection", "Theme-aware selection color and readable selected text."],
+        ["Focus", "A visible two-pixel focus ring with semantic color."],
+        [
+          "Screen reader text",
+          "A reusable .sr-only utility for visually hidden accessible labels.",
+        ],
+      ],
+    )}</section>
     <section aria-labelledby="base-motion"><div class="section-heading"><div><p class="eyebrow">Preference</p><h2 id="base-motion">Reduced motion is built in</h2></div></div>${guidanceList(["Smooth scrolling is disabled when reduced motion is requested.", "Animations run once with an effectively immediate duration.", "Transitions collapse without requiring a consumer-specific override."])}</section>
     <section aria-labelledby="base-import"><div class="section-heading"><div><p class="eyebrow">Adoption</p><h2 id="base-import">Import deliberately</h2></div></div>${codeBlock(`@import "@openclaw/carapace/base.css";`)}<p class="section-copy">Static documentation builders should compare generated navigation, prose, search, code, and diagrams before opting into the baseline.</p></section>`,
 
@@ -566,11 +582,14 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="input-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="input-preview">Field states</h2></div><span class="oc-pill">.oc-input</span></div>
       <div class="specimen-frame oc-app-surface"><div class="primitive-input-grid"><div class="oc-field"><label class="oc-field-label" for="input-skill-name">Skill name</label><input class="oc-input" id="input-skill-name" name="skillName" type="text" placeholder="e.g. Code review…" autocomplete="off" aria-describedby="input-skill-help" /><span class="oc-field-message" id="input-skill-help">Use a clear, recognizable name.</span></div><div class="oc-field"><label class="oc-field-label" for="input-repository-url">Repository URL</label><input class="oc-input" id="input-repository-url" name="repositoryUrl" type="url" value="not-a-url" autocomplete="off" autocapitalize="none" spellcheck="false" aria-invalid="true" aria-describedby="input-repository-error" /><span class="oc-field-message" id="input-repository-error">Enter a complete URL starting with https://</span></div><div class="oc-field"><label class="oc-field-label" for="input-owner">Owner</label><input class="oc-input" id="input-owner" name="owner" type="text" value="openclaw" autocomplete="off" disabled /></div></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="input-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="input-markup">Associate every field with its label</h2></div></div>${codeBlock(`<div class="oc-field">
+    <section data-section-kind="markup" aria-labelledby="input-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="input-markup">Associate every field with its label</h2></div></div>${codeBlock(
+      `<div class="oc-field">
   <label class="oc-field-label" for="skill-name">Skill name</label>
   <input class="oc-input" id="skill-name" name="skillName" type="text" autocomplete="off" aria-describedby="skill-name-help" />
   <span class="oc-field-message" id="skill-name-help">Use a recognizable name.</span>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="input-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="input-guidance">Behavior stays native</h2></div></div>${guidanceList(["Use the correct input type and autocomplete value.", "Keep a visible label; placeholders are examples, not labels.", "Connect helper and error messages with aria-describedby.", "Set aria-invalid only while the current value is invalid."])}</section>`,
 
   "primitive-checkbox": () =>
@@ -578,10 +597,13 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="checkbox-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="checkbox-preview">Selection states</h2></div><span class="oc-pill">.oc-checkbox</span></div>
       <div class="specimen-frame oc-app-surface"><div class="primitive-checkbox-stack"><label class="oc-check"><input class="oc-checkbox" type="checkbox" name="verified" value="true" checked /><span>Include verified publishers</span></label><label class="oc-check"><input class="oc-checkbox" type="checkbox" name="prerelease" value="true" /><span>Show prerelease packages</span></label><label class="oc-check"><input class="oc-checkbox" type="checkbox" name="selectAll" value="true" data-preview-indeterminate /><span>Select all components</span></label><label class="oc-check"><input class="oc-checkbox" type="checkbox" name="managed" value="true" disabled /><span>Managed by organization</span></label></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="checkbox-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="checkbox-markup">Keep the input inside its label</h2></div></div>${codeBlock(`<label class="oc-check">
+    <section data-section-kind="markup" aria-labelledby="checkbox-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="checkbox-markup">Keep the input inside its label</h2></div></div>${codeBlock(
+      `<label class="oc-check">
   <input class="oc-checkbox" type="checkbox" name="verified" />
   <span>Include verified publishers</span>
-</label>`, "html")}</section>
+</label>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="checkbox-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="checkbox-guidance">One independent choice</h2></div></div>${guidanceList(["Use checkboxes when multiple options may be selected independently.", "Set the native indeterminate property when a parent selection is mixed.", "Write a label that remains clear in checked and unchecked states.", "Use disabled only when the reason is evident nearby.", "Use radio buttons when exactly one option must be chosen."])}</section>`,
 
   "primitive-radio": () =>
@@ -589,13 +611,16 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="radio-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="radio-preview">Single selection</h2></div><span class="oc-pill">.oc-radio</span></div>
       <div class="specimen-frame oc-app-surface"><fieldset class="oc-radio-group"><legend>Default visibility</legend><label class="oc-radio-option"><input class="oc-radio" type="radio" name="visibility-preview" value="public" checked /><span>Public</span></label><label class="oc-radio-option"><input class="oc-radio" type="radio" name="visibility-preview" value="private" /><span>Private</span></label><label class="oc-radio-option"><input class="oc-radio" type="radio" name="visibility-preview" value="organization" disabled /><span>Organization only</span></label></fieldset></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="radio-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="radio-markup">Group related options in a fieldset</h2></div></div>${codeBlock(`<fieldset class="oc-radio-group">
+    <section data-section-kind="markup" aria-labelledby="radio-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="radio-markup">Group related options in a fieldset</h2></div></div>${codeBlock(
+      `<fieldset class="oc-radio-group">
   <legend>Default visibility</legend>
   <label class="oc-radio-option">
     <input class="oc-radio" type="radio" name="visibility" value="public" />
     <span>Public</span>
   </label>
-</fieldset>`, "html")}</section>
+</fieldset>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="radio-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="radio-guidance">Make the full set visible</h2></div></div>${guidanceList(["Use radio buttons when one option is required from a small visible set.", "Share one name across every option in the group.", "Use a fieldset and legend to provide the group name.", "Use Select when the option set is long or space is constrained."])}</section>`,
 
   "primitive-switch": () =>
@@ -603,10 +628,13 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="switch-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="switch-preview">Setting states</h2></div><span class="oc-pill">.oc-switch</span></div>
       <div class="specimen-frame oc-app-surface"><div class="primitive-checkbox-stack"><label class="oc-switch-label"><input class="oc-switch" type="checkbox" role="switch" name="automaticUpdates" value="true" checked /><span>Automatic updates</span></label><label class="oc-switch-label"><input class="oc-switch" type="checkbox" role="switch" name="usageAnalytics" value="true" /><span>Usage analytics</span></label><label class="oc-switch-label"><input class="oc-switch" type="checkbox" role="switch" name="organizationPolicy" value="true" disabled /><span>Organization policy</span></label></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="switch-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="switch-markup">Use native checkbox semantics</h2></div></div>${codeBlock(`<label class="oc-switch-label">
+    <section data-section-kind="markup" aria-labelledby="switch-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="switch-markup">Use native checkbox semantics</h2></div></div>${codeBlock(
+      `<label class="oc-switch-label">
   <input class="oc-switch" type="checkbox" role="switch" name="automatic-updates" />
   <span>Automatic updates</span>
-</label>`, "html")}</section>
+</label>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="switch-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="switch-guidance">Apply changes immediately</h2></div></div>${guidanceList(["Use a switch for a setting that takes effect immediately.", "Use a checkbox when the choice is submitted with a larger form.", "Write the label as the setting name, not as an action.", "Expose pending or failed persistence in the consuming application."])}</section>`,
 
   "primitive-select": () =>
@@ -614,7 +642,8 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="select-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="select-preview">Native options</h2></div><span class="oc-pill">.oc-select</span></div>
       <div class="specimen-frame oc-app-surface"><div class="primitive-input-grid"><div class="oc-field"><label class="oc-field-label" for="select-model">Model</label><span class="oc-select-wrap"><select class="oc-select" id="select-model" name="model" aria-describedby="select-model-help"><option value="balanced">Balanced</option><option value="fast">Fast</option><option value="deep">Deep</option></select></span><span class="oc-field-message" id="select-model-help">Choose the default model for new sessions.</span></div><div class="oc-field"><label class="oc-field-label" for="select-managed">Managed setting</label><span class="oc-select-wrap"><select class="oc-select" id="select-managed" name="managedSetting" disabled><option value="organization">Organization default</option></select></span></div></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="select-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="select-markup">Keep native select semantics</h2></div></div>${codeBlock(`<div class="oc-field">
+    <section data-section-kind="markup" aria-labelledby="select-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="select-markup">Keep native select semantics</h2></div></div>${codeBlock(
+      `<div class="oc-field">
   <label class="oc-field-label" for="model">Model</label>
   <span class="oc-select-wrap">
     <select class="oc-select" id="model" name="model" aria-describedby="model-help">
@@ -623,7 +652,9 @@ const contents = {
     </select>
   </span>
   <span class="oc-field-message" id="model-help">Choose the default model.</span>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="select-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="select-guidance">Use for compact known lists</h2></div></div>${guidanceList(["Use Select when one value is required from a compact known list.", "Keep the visible label outside the control.", "Order options predictably and avoid placeholder options that look selectable.", "Use Combobox when users need to filter a long list."])}</section>`,
 
   "primitive-input-area": () =>
@@ -631,11 +662,14 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="input-area-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="input-area-preview">Multiline entry</h2></div><span class="oc-pill">.oc-textarea</span></div>
       <div class="specimen-frame oc-app-surface"><div class="primitive-input-grid"><div class="oc-field"><label class="oc-field-label" for="input-area-instructions">Instructions</label><textarea class="oc-textarea" id="input-area-instructions" name="instructions" placeholder="e.g. Summarize the changes and list any risks…" autocomplete="off" aria-describedby="input-area-instructions-help"></textarea><span class="oc-field-message" id="input-area-instructions-help">Markdown is supported.</span></div><div class="oc-field"><label class="oc-field-label" for="input-area-summary">Project summary</label><textarea class="oc-textarea" id="input-area-summary" name="summary" autocomplete="off" aria-invalid="true" aria-describedby="input-area-summary-error">Short note</textarea><span class="oc-field-message" id="input-area-summary-error">Enter at least 20 characters.</span></div><div class="oc-field"><label class="oc-field-label" for="input-area-archived">Archived note</label><textarea class="oc-textarea" id="input-area-archived" name="archivedNote" disabled>Read-only after archival.</textarea></div></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="input-area-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="input-area-markup">Use the shared field structure</h2></div></div>${codeBlock(`<div class="oc-field">
+    <section data-section-kind="markup" aria-labelledby="input-area-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="input-area-markup">Use the shared field structure</h2></div></div>${codeBlock(
+      `<div class="oc-field">
   <label class="oc-field-label" for="instructions">Instructions</label>
   <textarea class="oc-textarea" id="instructions" name="instructions" autocomplete="off" aria-describedby="instructions-help"></textarea>
   <span class="oc-field-message" id="instructions-help">Markdown is supported.</span>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="input-area-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="input-area-guidance">Reserve space for meaningful text</h2></div></div>${guidanceList(["Use for content that naturally spans multiple lines.", "Keep vertical resizing available unless layout constraints make it unsafe.", "Provide character limits before submission when they exist.", "Use Input for short single-line values."])}</section>`,
 
   "primitive-label": () =>
@@ -643,13 +677,16 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="label-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="label-preview">Field naming</h2></div><span class="oc-pill">.oc-field · .oc-label</span></div>
       <div class="specimen-frame oc-app-surface"><div class="primitive-input-grid"><div class="oc-field"><label class="oc-label" for="label-name">Skill name <span class="oc-label-required" aria-hidden="true">*</span></label><span class="oc-label-description" id="label-name-description">Visible to everyone who installs the skill.</span><input class="oc-input" id="label-name" name="skillName" type="text" autocomplete="off" aria-describedby="label-name-description" required /></div><div class="oc-field"><label class="oc-label" for="label-note">Internal note <span class="oc-label-optional">Optional</span></label><input class="oc-input" id="label-note" name="internalNote" type="text" autocomplete="off" /></div></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="label-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="label-markup">Associate the complete field explicitly</h2></div></div>${codeBlock(`<div class="oc-field">
+    <section data-section-kind="markup" aria-labelledby="label-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="label-markup">Associate the complete field explicitly</h2></div></div>${codeBlock(
+      `<div class="oc-field">
   <label class="oc-label" for="skill-name">
     Skill name <span class="oc-label-required" aria-hidden="true">*</span>
   </label>
   <span class="oc-label-description" id="skill-name-description">Visible to installers.</span>
   <input class="oc-input" id="skill-name" name="skillName" aria-describedby="skill-name-description" required />
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="label-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="label-guidance">Name the value, not the control</h2></div></div>${guidanceList(["Keep labels visible and concise.", "Associate labels with controls using for and id or by nesting.", "Announce required state semantically with the required attribute.", "Use descriptions only when they clarify a non-obvious constraint."])}</section>`,
 
   "primitive-input-group": () =>
@@ -657,13 +694,16 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="input-group-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="input-group-preview">Prefix and suffix</h2></div><span class="oc-pill">.oc-input-group</span></div>
       <div class="specimen-frame oc-app-surface"><div class="primitive-input-grid"><div class="oc-field"><label class="oc-field-label" for="input-group-repository">Repository</label><span class="oc-input-group"><span class="oc-input-group-addon" id="input-group-repository-prefix">github.com/</span><input class="oc-input" id="input-group-repository" name="repository" type="text" value="openclaw/design-system" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="input-group-repository-prefix" /></span></div><div class="oc-field"><label class="oc-field-label" for="input-group-timeout">Timeout</label><span class="oc-input-group"><input class="oc-input" id="input-group-timeout" name="timeout" type="number" value="0" min="1" autocomplete="off" aria-invalid="true" aria-describedby="input-group-timeout-suffix input-group-timeout-error" /><span class="oc-input-group-addon" id="input-group-timeout-suffix">seconds</span></span><span class="oc-field-message" id="input-group-timeout-error">Enter at least 1 second.</span></div><div class="oc-field"><label class="oc-field-label" for="input-group-managed">Managed namespace</label><span class="oc-input-group"><span class="oc-input-group-addon" id="input-group-managed-prefix">openclaw/</span><input class="oc-input" id="input-group-managed" name="managedNamespace" type="text" value="official" aria-describedby="input-group-managed-prefix" disabled /></span></div></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="input-group-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="input-group-markup">One field, one focus boundary</h2></div></div>${codeBlock(`<div class="oc-field">
+    <section data-section-kind="markup" aria-labelledby="input-group-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="input-group-markup">One field, one focus boundary</h2></div></div>${codeBlock(
+      `<div class="oc-field">
   <label class="oc-field-label" for="repository">Repository</label>
   <span class="oc-input-group">
     <span class="oc-input-group-addon" id="repository-prefix">github.com/</span>
     <input class="oc-input" id="repository" name="repository" type="text" aria-describedby="repository-prefix" />
   </span>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="input-group-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="input-group-guidance">Keep addons structural</h2></div></div>${guidanceList(["Use addons for fixed units, protocols, or namespaces.", "Do not put a second editable control inside the group.", "Keep the complete value understandable to assistive technology.", "Use a separate button when the adjacent element performs an action."])}</section>`,
 
   "primitive-sensitive-input": () =>
@@ -671,13 +711,16 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="sensitive-input-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="sensitive-input-preview">Hidden and visible values</h2></div><span class="oc-pill">.oc-sensitive-input</span></div>
       <div class="specimen-frame oc-app-surface"><div class="oc-field primitive-input-grid"><label class="oc-field-label" for="sensitive-input-key">API key</label><span class="oc-sensitive-input" data-sensitive-input><input class="oc-input" id="sensitive-input-key" name="apiKey" type="password" value="sk-openclaw-example" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="sensitive-input-help" data-sensitive-value /><button class="oc-sensitive-toggle" type="button" aria-controls="sensitive-input-key" aria-label="Show API key" aria-pressed="false" data-sensitive-label="API key" data-toggle-sensitive><i data-lucide="eye" aria-hidden="true"></i></button></span><span class="oc-field-message" id="sensitive-input-help">Stored encrypted after submission.</span></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="sensitive-input-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="sensitive-input-markup">Name the visibility action</h2></div></div>${codeBlock(`<div class="oc-field">
+    <section data-section-kind="markup" aria-labelledby="sensitive-input-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="sensitive-input-markup">Name the visibility action</h2></div></div>${codeBlock(
+      `<div class="oc-field">
   <label class="oc-field-label" for="api-key">API key</label>
   <span class="oc-sensitive-input" data-sensitive-input>
     <input class="oc-input" id="api-key" name="apiKey" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" data-sensitive-value />
     <button class="oc-sensitive-toggle" type="button" aria-controls="api-key" aria-label="Show API key" aria-pressed="false" data-sensitive-label="API key" data-toggle-sensitive><i data-lucide="eye" aria-hidden="true"></i></button>
   </span>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="sensitive-input-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="sensitive-input-guidance">Protect secrets without blocking correction</h2></div></div>${guidanceList(["Use type=password for secrets and credentials.", "Let users reveal the current value with an explicitly named button.", "Do not copy or expose the value without a deliberate action.", "Keep storage, validation, and clipboard policy in the consumer."])}</section>`,
 
   "primitive-sidebar": () =>
@@ -685,7 +728,8 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="sidebar-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="sidebar-preview">Primary navigation rail</h2></div><span class="oc-pill">.oc-sidebar</span></div>
       <div class="specimen-frame"><aside class="oc-sidebar" aria-label="Workspace"><header class="oc-sidebar-header"><img class="oc-sidebar-workspace-mark" src="${brandFaviconUrl}" alt="" width="32" height="32" aria-hidden="true" /><div class="oc-sidebar-brand"><h3 class="oc-sidebar-title">OpenClaw</h3><span class="oc-sidebar-subtitle">Design workspace</span></div><button type="button" aria-label="Workspace options"><i data-lucide="chevrons-up-down"></i></button></header><nav class="oc-sidebar-nav"><p>Workspace</p><a class="oc-sidebar-link" href="#sidebar-preview" aria-current="page"><i data-lucide="layout-dashboard"></i><span>Overview</span></a><a class="oc-sidebar-link" href="#sidebar-markup"><i data-lucide="activity"></i><span>Activity</span><span class="oc-sidebar-count">8</span></a><a class="oc-sidebar-link" href="#sidebar-guidance"><i data-lucide="settings"></i><span>Settings</span></a></nav><footer class="oc-sidebar-footer"><span class="oc-sidebar-avatar">OP</span><span class="oc-sidebar-account"><strong class="oc-sidebar-account-name">Operator</strong><small class="oc-sidebar-account-role">Maintainer</small></span><i data-lucide="ellipsis"></i></footer></aside></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="sidebar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="sidebar-markup">Keep the landmark explicit</h2></div></div>${codeBlock(`<aside class="oc-sidebar" aria-label="Workspace">
+    <section data-section-kind="markup" aria-labelledby="sidebar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="sidebar-markup">Keep the landmark explicit</h2></div></div>${codeBlock(
+      `<aside class="oc-sidebar" aria-label="Workspace">
   <header class="oc-sidebar-header">
     <h2 class="oc-sidebar-title">Workspace</h2>
   </header>
@@ -694,83 +738,104 @@ const contents = {
     <a class="oc-sidebar-link" href="/activity">Activity</a>
   </nav>
   <footer class="oc-sidebar-footer">OpenClaw</footer>
-</aside>`, "html")}</section>
+</aside>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="sidebar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="sidebar-guidance">Navigation stays predictable</h2></div></div>${guidanceList(["Use one sidebar for one bounded navigation context.", "Name the landmark when more than one navigation region exists.", "Mark the current destination with aria-current=page.", "Keep disclosure state and responsive behavior in the consumer."])}</section>`,
 
   "primitive-skeleton-line": () =>
     `${pageIntro("Component", "Skeleton Line", "A quiet placeholder that reserves text rhythm while content is loading.")}
     <section data-section-kind="preview" aria-labelledby="skeleton-line-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="skeleton-line-preview">Preserve the final rhythm</h2></div><span class="oc-pill">.oc-skeleton-line</span></div><div class="specimen-frame"><div class="workbench-skeleton-demo" aria-busy="true"><div class="primitive-input-grid" aria-hidden="true"><span class="oc-skeleton-line"></span><span class="oc-skeleton-line"></span><span class="oc-skeleton-line oc-skeleton-line-short"></span></div><span class="sr-only" role="status">Content is loading…</span></div></div></section>
-    <section data-section-kind="markup" aria-labelledby="skeleton-line-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="skeleton-line-markup">Hide visual placeholders</h2></div></div>${codeBlock(`<div aria-busy="true" aria-describedby="loading-status">
+    <section data-section-kind="markup" aria-labelledby="skeleton-line-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="skeleton-line-markup">Hide visual placeholders</h2></div></div>${codeBlock(
+      `<div aria-busy="true" aria-describedby="loading-status">
   <div aria-hidden="true">
     <span class="oc-skeleton-line"></span>
     <span class="oc-skeleton-line oc-skeleton-line-short"></span>
   </div>
   <span class="sr-only" id="loading-status" role="status">Content is loading…</span>
 </div>
-`, "html")}</section>
+`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="skeleton-line-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="skeleton-line-guidance">Approximate content, not decoration</h2></div></div>${guidanceList(["Match the number and width of lines to the expected content.", "Hide decorative placeholders from assistive technology.", "Expose loading state through adjacent status text or the owning region.", "Reduced-motion preferences remove the sweep animation."])}</section>`,
 
   "primitive-table": () =>
     `${pageIntro("Component", "Table", "Structured data for scanning and comparing consistent attributes across a set of records.")}
     <section data-section-kind="preview" aria-labelledby="table-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="table-preview">Comparable records</h2></div><span class="oc-pill">.oc-table</span></div><div class="specimen-frame"><div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0"><table class="oc-table"><caption class="sr-only">Component status and most recent update</caption><thead><tr><th scope="col">Component</th><th scope="col">Status</th><th scope="col">Updated</th></tr></thead><tbody><tr><td>Button</td><td>Stable</td><td>Today</td></tr><tr><td>Dialog</td><td>Stable</td><td>Yesterday</td></tr><tr><td>Table</td><td>Draft</td><td>Now</td></tr></tbody></table></div></div></section>
-    <section data-section-kind="markup" aria-labelledby="table-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="table-markup">Preserve native table semantics</h2></div></div>${codeBlock(`<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0">
+    <section data-section-kind="markup" aria-labelledby="table-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="table-markup">Preserve native table semantics</h2></div></div>${codeBlock(
+      `<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0">
   <table class="oc-table">
     <caption class="sr-only">Component status</caption>
     <thead><tr><th scope="col">Component</th><th scope="col">Status</th></tr></thead>
     <tbody><tr><td>Button</td><td>Stable</td></tr></tbody>
   </table>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="table-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="table-guidance">Use tables for comparison</h2></div></div>${guidanceList(["Use a table only when rows share comparable columns.", "Provide a caption and keep native table, header, and scope semantics.", "Name and focus the scroll region when the table can overflow.", "Use .oc-table-interactive only when each row actually responds to interaction.", "Move row actions into a clearly labeled final column."])}</section>`,
 
   "primitive-table-of-contents": () =>
     `${pageIntro("Component", "Table of Contents", "Local navigation for a long page, showing its section structure and current reading position.")}
     <section data-section-kind="preview" aria-labelledby="table-of-contents-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="table-of-contents-preview">Page outline</h2></div><span class="oc-pill">.oc-table-of-contents</span></div><div class="specimen-frame"><nav class="oc-table-of-contents" aria-label="On this page"><p class="oc-table-of-contents-title">On this page</p><ol class="oc-table-of-contents-list"><li><a class="oc-table-of-contents-link" href="#table-of-contents-preview" aria-current="location">Overview</a></li><li><a class="oc-table-of-contents-link" href="#table-of-contents-markup">Markup</a></li><li><a class="oc-table-of-contents-link" href="#table-of-contents-guidance">Guidance</a></li></ol></nav></div></section>
-    <section data-section-kind="markup" aria-labelledby="table-of-contents-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="table-of-contents-markup">Link directly to section IDs</h2></div></div>${codeBlock(`<nav class="oc-table-of-contents" aria-label="On this page">
+    <section data-section-kind="markup" aria-labelledby="table-of-contents-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="table-of-contents-markup">Link directly to section IDs</h2></div></div>${codeBlock(
+      `<nav class="oc-table-of-contents" aria-label="On this page">
   <p class="oc-table-of-contents-title">On this page</p>
   <ol class="oc-table-of-contents-list">
     <li><a class="oc-table-of-contents-link" href="#overview" aria-current="location">Overview</a></li>
     <li><a class="oc-table-of-contents-link" href="#usage">Usage</a></li>
   </ol>
-</nav>`, "html")}</section>
+</nav>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="table-of-contents-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="table-of-contents-guidance">Mirror the visible document</h2></div></div>${guidanceList(["Include only stable headings that help readers navigate.", "Keep link labels identical to their section headings.", "Use aria-current=location for the section in view.", "Give destination headings scroll-margin-top when the page has sticky chrome.", "Let the consumer own scroll observation and responsive placement."])}</section>`,
 
   "primitive-tabs": () =>
     `${pageIntro("Component", "Tabs", "A keyboard-operable set of peer panels within one local context.")}
     <section data-section-kind="preview" aria-labelledby="tabs-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="tabs-preview">Switch local views</h2></div><span class="oc-pill">.oc-tabs</span></div><div class="specimen-frame"><div class="oc-tabs" data-tabs><div class="oc-tabs-list" role="tablist" aria-label="Component details"><button class="oc-tabs-trigger" id="component-tabs-preview-trigger" type="button" role="tab" aria-selected="true" aria-controls="component-tabs-preview-panel">Preview</button><button class="oc-tabs-trigger" id="component-tabs-code-trigger" type="button" role="tab" aria-selected="false" aria-controls="component-tabs-code-panel" tabindex="-1">Code</button><button class="oc-tabs-trigger" id="component-tabs-guidance-trigger" type="button" role="tab" aria-selected="false" aria-controls="component-tabs-guidance-panel" tabindex="-1">Guidance</button></div><div class="oc-tabs-panel" id="component-tabs-preview-panel" role="tabpanel" aria-labelledby="component-tabs-preview-trigger">Rendered component preview.</div><div class="oc-tabs-panel" id="component-tabs-code-panel" role="tabpanel" aria-labelledby="component-tabs-code-trigger" hidden>Implementation markup.</div><div class="oc-tabs-panel" id="component-tabs-guidance-panel" role="tabpanel" aria-labelledby="component-tabs-guidance-trigger" hidden>Usage guidance.</div></div></div></section>
-    <section data-section-kind="markup" aria-labelledby="tabs-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="tabs-markup">Connect every tab to one panel</h2></div></div>${codeBlock(`<div class="oc-tabs" data-tabs>
+    <section data-section-kind="markup" aria-labelledby="tabs-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="tabs-markup">Connect every tab to one panel</h2></div></div>${codeBlock(
+      `<div class="oc-tabs" data-tabs>
   <div class="oc-tabs-list" role="tablist" aria-label="Details">
     <button class="oc-tabs-trigger" id="details-preview-trigger" type="button" role="tab" aria-selected="true" aria-controls="details-preview-panel">Preview</button>
     <button class="oc-tabs-trigger" id="details-code-trigger" type="button" role="tab" aria-selected="false" aria-controls="details-code-panel" tabindex="-1">Code</button>
   </div>
   <div class="oc-tabs-panel" id="details-preview-panel" role="tabpanel" aria-labelledby="details-preview-trigger">Preview content</div>
   <div class="oc-tabs-panel" id="details-code-panel" role="tabpanel" aria-labelledby="details-code-trigger" hidden>Code content</div>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="tabs-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="tabs-guidance">Keep views equivalent</h2></div></div>${guidanceList(["Use tabs for peer views, not sequential steps or primary navigation.", "Keep tab labels short and stable.", "Connect unique aria-controls and aria-labelledby values in both directions.", "Arrow keys move between tabs; Home and End move to the boundaries."])}</section>`,
 
   "primitive-text": () =>
     `${pageIntro("Component", "Text", "Semantic text roles for primary copy, supporting detail, metadata, and literal values.")}
     <section data-section-kind="preview" aria-labelledby="text-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="text-preview">Clear reading hierarchy</h2></div><span class="oc-pill">.oc-text</span></div><div class="specimen-frame"><article class="text-hierarchy-demo"><header><span class="oc-text oc-text-muted oc-text-small">Component health</span><h3 class="oc-text">Design contract is ready for review</h3></header><p class="oc-text oc-text-secondary">Primary copy communicates the decision. Supporting text adds context without repeating it or competing for attention.</p><footer><span class="oc-text oc-text-muted oc-text-small">Updated 2 minutes ago</span><code class="oc-text oc-text-mono oc-text-small">--oc-text-primary</code></footer></article></div></section>
-    <section data-section-kind="markup" aria-labelledby="text-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="text-markup">Combine roles deliberately</h2></div></div>${codeBlock(`<p class="oc-text">Primary information.</p>
+    <section data-section-kind="markup" aria-labelledby="text-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="text-markup">Combine roles deliberately</h2></div></div>${codeBlock(
+      `<p class="oc-text">Primary information.</p>
 <p class="oc-text oc-text-secondary">Supporting context.</p>
 <p class="oc-text oc-text-muted oc-text-small">Metadata.</p>
-<code class="oc-text oc-text-mono">--oc-text-primary</code>`, "html")}</section>
+<code class="oc-text oc-text-mono">--oc-text-primary</code>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="text-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="text-guidance">Hierarchy follows meaning</h2></div></div>${guidanceList(["Use primary text for information required to complete the current task.", "Use secondary and muted roles progressively, not decoratively.", "Keep semantic HTML independent from the visual role.", "Reserve balanced wrapping for short titles, not paragraphs.", "Use monospace only for literals, code, identifiers, and data."])}</section>`,
 
   "primitive-toolbar": () =>
     `${pageIntro("Component", "Toolbar", "A compact group of direct, frequently used actions within one working context.")}
     <section data-section-kind="preview" aria-labelledby="toolbar-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="toolbar-preview">Direct formatting actions</h2></div><span class="oc-pill">.oc-toolbar</span></div><div class="specimen-frame"><div class="toolbar-demo"><div class="toolbar-demo-context"><span>Selection</span><strong>Component contract</strong></div><div class="oc-toolbar" role="toolbar" aria-label="Text formatting" data-toolbar><div class="oc-toolbar-group"><button class="oc-toolbar-button" type="button" aria-label="Bold" aria-pressed="true" data-toolbar-item><i data-lucide="bold"></i></button><button class="oc-toolbar-button" type="button" aria-label="Italic" aria-pressed="false" data-toolbar-item><i data-lucide="italic"></i></button><button class="oc-toolbar-button" type="button" aria-label="Underline" aria-pressed="false" data-toolbar-item><i data-lucide="underline"></i></button></div><div class="oc-toolbar-group"><button class="oc-toolbar-button" type="button" aria-label="Add link" data-toolbar-item><i data-lucide="link"></i></button><button class="oc-toolbar-button" type="button" aria-label="Inline code" data-toolbar-item><i data-lucide="code-2"></i></button></div></div></div></div></section>
-    <section data-section-kind="markup" aria-labelledby="toolbar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="toolbar-markup">Group related controls</h2></div></div>${codeBlock(`<div class="oc-toolbar" role="toolbar" aria-label="Text formatting" data-toolbar>
+    <section data-section-kind="markup" aria-labelledby="toolbar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="toolbar-markup">Group related controls</h2></div></div>${codeBlock(
+      `<div class="oc-toolbar" role="toolbar" aria-label="Text formatting" data-toolbar>
   <div class="oc-toolbar-group">
     <button class="oc-toolbar-button" type="button" aria-label="Bold" aria-pressed="true" data-toolbar-item>B</button>
     <button class="oc-toolbar-button" type="button" aria-label="Italic" aria-pressed="false" data-toolbar-item>I</button>
   </div>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="toolbar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="toolbar-guidance">Keep frequent actions immediate</h2></div></div>${guidanceList(["Use a toolbar for direct actions, not controls that only open menus.", "Name icon-only buttons with accessible labels.", "Use aria-pressed for persistent toggle actions.", "Arrow keys move within the toolbar while Tab leaves the group."])}</section>`,
 
   "primitive-toast": () =>
     `${pageIntro("Component", "Toast", "Temporary, non-blocking feedback for an action that has already completed or changed state.")}
     <section data-section-kind="preview" aria-labelledby="toast-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="toast-preview">Confirmation without interruption</h2></div><span class="oc-pill">.oc-toast</span></div><div class="specimen-frame toast-stage-demo"><div class="toast-stage-content"><span class="toast-stage-icon"><i data-lucide="check"></i></span><div><strong>Update complete</strong><span>The page remains usable while feedback appears.</span></div></div><div class="oc-toast-region" aria-label="Notifications" aria-live="polite" aria-relevant="additions removals" data-toast-region><div class="oc-toast" data-toast><span class="oc-toast-status-icon" aria-hidden="true"><i data-lucide="circle-check"></i></span><div class="oc-toast-content"><p class="oc-toast-title">Changes saved</p><p class="oc-toast-message">The component reference is up to date.</p></div><button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-toast-dismiss><i data-lucide="x"></i></button></div></div></div></section>
-    <section data-section-kind="markup" aria-labelledby="toast-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="toast-markup">Announce status politely</h2></div></div>${codeBlock(`<div class="oc-toast-region" aria-label="Notifications" aria-live="polite" aria-relevant="additions removals" data-toast-region>
+    <section data-section-kind="markup" aria-labelledby="toast-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="toast-markup">Announce status politely</h2></div></div>${codeBlock(
+      `<div class="oc-toast-region" aria-label="Notifications" aria-live="polite" aria-relevant="additions removals" data-toast-region>
   <div class="oc-toast" data-toast>
     <div class="oc-toast-content">
       <p class="oc-toast-title">Changes saved</p>
@@ -778,22 +843,28 @@ const contents = {
     </div>
     <button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-toast-dismiss>×</button>
   </div>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="toast-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="toast-guidance">Do not hide required decisions</h2></div></div>${guidanceList(["Use one live stacking region; do not nest another live role on each toast.", "Keep errors near the affected control when correction is required.", "Make dismissal optional unless the message persists.", "After dismissal, move focus to an adjacent toast or back to the notification region."])}</section>`,
 
   "primitive-tooltip": () =>
     `${pageIntro("Component", "Tooltip", "A brief label or supporting description revealed by both pointer hover and keyboard focus.")}
     <section data-section-kind="preview" aria-labelledby="tooltip-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="tooltip-preview">Describe an icon action</h2></div><span class="oc-pill">.oc-tooltip</span></div><div class="specimen-frame"><span class="oc-tooltip" data-tooltip><button class="oc-button oc-button-secondary oc-tooltip-trigger" type="button" aria-label="Copy component markup" aria-describedby="tooltip-copy" data-tooltip-trigger><i data-lucide="copy"></i></button><span class="oc-tooltip-content" id="tooltip-copy" role="tooltip" data-tooltip-content>Copy component markup</span></span></div></section>
-    <section data-section-kind="markup" aria-labelledby="tooltip-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="tooltip-markup">Connect trigger and description</h2></div></div>${codeBlock(`<span class="oc-tooltip" data-tooltip>
+    <section data-section-kind="markup" aria-labelledby="tooltip-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="tooltip-markup">Connect trigger and description</h2></div></div>${codeBlock(
+      `<span class="oc-tooltip" data-tooltip>
   <button type="button" aria-label="Copy component markup" aria-describedby="copy-tooltip" data-tooltip-trigger>...</button>
   <span class="oc-tooltip-content" id="copy-tooltip" role="tooltip" data-tooltip-content>Copy component markup</span>
-</span>`, "html")}</section>
+</span>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="tooltip-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="tooltip-guidance">Keep essential meaning visible</h2></div></div>${guidanceList(["Use tooltips for brief supporting labels, never required instructions.", "Reveal the same content on hover and keyboard focus; Escape dismisses it.", "Connect the trigger with aria-describedby and label icon-only actions directly.", "Keep the surface inside the viewport and avoid interactive controls within it."])}</section>`,
 
   "chart-base": () =>
     `${pageIntro("Charts", "Charts", "A semantic figure, title, caption, and responsive plot foundation for data visualization.")}
     <section data-section-kind="preview" aria-labelledby="chart-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="chart-preview">A readable plot foundation</h2></div><span class="oc-pill">.oc-chart</span></div><div class="specimen-frame"><figure class="oc-chart"><figcaption class="oc-chart-header"><p class="oc-chart-title">Component adoption</p><p class="oc-chart-caption">Last 6 weeks</p></figcaption><svg class="oc-chart-plot" viewBox="0 0 600 220" role="img" aria-labelledby="adoption-title" aria-describedby="adoption-description"><title id="adoption-title">Component adoption</title><desc id="adoption-description">Adoption increased from 12 to 41 consumers over six weeks.</desc><path class="oc-chart-grid-line" d="M0 55H600M0 110H600M0 165H600"/><path class="oc-chart-series" d="M20 180L130 154L240 142L350 105L460 88L580 35"/></svg><ol class="oc-chart-axis-labels" aria-hidden="true"><li>W1</li><li>W2</li><li>W3</li><li>W4</li><li>W5</li><li>W6</li></ol><table class="sr-only"><caption>Component adoption by week</caption><thead><tr><th>Week</th><th>Consumers</th></tr></thead><tbody><tr><td>1</td><td>12</td></tr><tr><td>2</td><td>18</td></tr><tr><td>3</td><td>21</td></tr><tr><td>4</td><td>29</td></tr><tr><td>5</td><td>34</td></tr><tr><td>6</td><td>41</td></tr></tbody></table></figure></div></section>
-    <section data-section-kind="markup" aria-labelledby="chart-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="chart-markup">Start with a semantic figure</h2></div></div>${codeBlock(`<figure class="oc-chart">
+    <section data-section-kind="markup" aria-labelledby="chart-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="chart-markup">Start with a semantic figure</h2></div></div>${codeBlock(
+      `<figure class="oc-chart">
   <figcaption class="oc-chart-header">
     <p class="oc-chart-title">Component adoption</p>
     <p class="oc-chart-caption">Last 6 weeks</p>
@@ -801,23 +872,29 @@ const contents = {
   <svg class="oc-chart-plot" viewBox="0 0 600 220" role="img" aria-label="Adoption increased over six weeks">
     <path class="oc-chart-series" d="M20 180L130 154L240 142L350 105L460 88L580 35" />
   </svg>
-</figure>`, "html")}</section>
+</figure>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="chart-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="chart-guidance">Data remains understandable</h2></div></div>${guidanceList(["Give every chart a visible title and concise time or scope caption.", "Show enough scale and axis context to interpret the values.", "Provide a structured data alternative, not only a prose trend summary.", "Do not rely on color alone to distinguish series.", "Keep data transformation and interaction in the consumer."])}</section>`,
 
   "chart-colors": () =>
     `${pageIntro("Charts", "Colors", "A restrained semantic series palette built from existing accent and status roles.")}
     <section data-section-kind="preview" aria-labelledby="chart-colors-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="chart-colors-preview">Semantic color roles</h2></div><span class="oc-pill">.oc-chart-colors</span></div><div class="specimen-frame primitive-input-grid"><section class="oc-chart-color-group" aria-labelledby="neutral-series-title"><h3 class="oc-chart-color-group-title" id="neutral-series-title">Neutral series</h3><div class="oc-chart-colors"><span class="oc-chart-color oc-chart-color-primary">Series A</span><span class="oc-chart-color oc-chart-color-secondary">Series B</span></div></section><section class="oc-chart-color-group" aria-labelledby="status-series-title"><h3 class="oc-chart-color-group-title" id="status-series-title">Operational meaning</h3><div class="oc-chart-colors"><span class="oc-chart-color oc-chart-color-success">Succeeded</span><span class="oc-chart-color oc-chart-color-warning">Needs review</span><span class="oc-chart-color oc-chart-color-error">Failed</span></div></section></div></section>
-    <section data-section-kind="markup" aria-labelledby="chart-colors-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="chart-colors-markup">Assign meaning before color</h2></div></div>${codeBlock(`<div class="oc-chart-colors">
+    <section data-section-kind="markup" aria-labelledby="chart-colors-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="chart-colors-markup">Assign meaning before color</h2></div></div>${codeBlock(
+      `<div class="oc-chart-colors">
   <span class="oc-chart-color oc-chart-color-primary">Primary</span>
   <span class="oc-chart-color oc-chart-color-secondary">Secondary</span>
   <span class="oc-chart-color oc-chart-color-success">Success</span>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="chart-colors-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="chart-colors-guidance">Color supports, never replaces</h2></div></div>${guidanceList(["Use primary and secondary accents for neutral series.", "Reserve status colors for data that genuinely carries the matching meaning.", "Pair color with labels, shapes, strokes, or patterns.", "Validate every series against both light and dark themes."])}</section>`,
 
   "chart-timeseries": () =>
     `${pageIntro("Charts", "Timeseries", "A temporal plot for reading change, direction, and comparison across a shared interval.")}
     <section data-section-kind="preview" aria-labelledby="timeseries-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="timeseries-preview">Compare change over time</h2></div><span class="oc-pill">.oc-timeseries</span></div><div class="specimen-frame"><figure class="oc-chart oc-timeseries"><figcaption class="oc-chart-header"><div><p class="oc-chart-title">Weekly runs</p><p class="oc-chart-caption">Successful and retried tasks</p></div><ul class="oc-timeseries-legend" aria-label="Series"><li><span class="oc-timeseries-key oc-timeseries-key-primary"></span>Successful</li><li><span class="oc-timeseries-key oc-timeseries-key-secondary"></span>Retried</li></ul></figcaption><svg class="oc-chart-plot" viewBox="0 0 640 240" role="img" aria-labelledby="timeseries-title" aria-describedby="timeseries-description"><title id="timeseries-title">Weekly task runs</title><desc id="timeseries-description">Successful runs rose from 24 to 58 while retried runs fell from 18 to 8 over six weeks.</desc><path class="oc-chart-grid-line" d="M40 40H620M40 100H620M40 160H620M40 220H620"/><path class="oc-timeseries-axis" d="M40 20V220H620"/><path class="oc-timeseries-series oc-timeseries-series-primary" d="M40 184L156 160L272 148L388 112L504 88L620 48"/><path class="oc-timeseries-series oc-timeseries-series-secondary" d="M40 132L156 142L272 156L388 170L504 180L620 194"/><g class="oc-timeseries-points"><circle cx="40" cy="184" r="4"/><circle cx="156" cy="160" r="4"/><circle cx="272" cy="148" r="4"/><circle cx="388" cy="112" r="4"/><circle cx="504" cy="88" r="4"/><circle cx="620" cy="48" r="4"/></g></svg><ol class="oc-chart-axis-labels" aria-hidden="true"><li>Jun 3</li><li>Jun 10</li><li>Jun 17</li><li>Jun 24</li><li>Jul 1</li><li>Jul 8</li></ol><table class="sr-only"><caption>Weekly successful and retried task runs</caption><thead><tr><th>Week</th><th>Successful</th><th>Retried</th></tr></thead><tbody><tr><td>Jun 3</td><td>24</td><td>18</td></tr><tr><td>Jun 10</td><td>32</td><td>16</td></tr><tr><td>Jun 17</td><td>36</td><td>14</td></tr><tr><td>Jun 24</td><td>44</td><td>12</td></tr><tr><td>Jul 1</td><td>51</td><td>10</td></tr><tr><td>Jul 8</td><td>58</td><td>8</td></tr></tbody></table></figure></div></section>
-    <section data-section-kind="markup" aria-labelledby="timeseries-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="timeseries-markup">Describe the temporal story</h2></div></div>${codeBlock(`<figure class="oc-chart oc-timeseries">
+    <section data-section-kind="markup" aria-labelledby="timeseries-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="timeseries-markup">Describe the temporal story</h2></div></div>${codeBlock(
+      `<figure class="oc-chart oc-timeseries">
   <figcaption class="oc-chart-header">
     <p class="oc-chart-title">Weekly runs</p>
     <ul class="oc-timeseries-legend" aria-label="Series">...</ul>
@@ -827,13 +904,16 @@ const contents = {
     <desc id="chart-description">Successful runs rose while retried runs fell over six weeks.</desc>
     <path class="oc-timeseries-series oc-timeseries-series-primary" d="..." />
   </svg>
-</figure>`, "html")}</section>
+</figure>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="timeseries-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="timeseries-guidance">Time determines the reading order</h2></div></div>${guidanceList(["Keep intervals consistent and label changes in sampling or missing data.", "Show the time axis and use the same scale when series are compared directly.", "Pair color with a visible legend and distinct line treatment or points.", "Provide the underlying values as structured data.", "Summarize the meaningful trend in the accessible description."])}</section>`,
 
   "chart-maps": () =>
     `${pageIntro("Charts", "Maps", "A geographic figure for comparing values by location without obscuring the underlying places.")}
     <section data-section-kind="preview" aria-labelledby="map-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="map-preview">Regional activity</h2></div><span class="oc-pill">.oc-map</span></div><div class="specimen-frame"><figure class="oc-chart oc-map"><figcaption class="oc-chart-header"><div><p class="oc-chart-title">Active workspaces</p><p class="oc-chart-caption">Relative activity by region</p></div><div class="oc-map-scale" aria-label="Activity scale"><span>Lower</span><i></i><i></i><i></i><span>Higher</span></div></figcaption><svg class="oc-map-plot" viewBox="0 0 640 300" role="img" aria-labelledby="map-title" aria-describedby="map-description"><title id="map-title">Active workspaces by region</title><desc id="map-description">The east region has the highest activity. Central and south have medium activity. North has the lowest activity.</desc><g class="oc-map-regions"><path class="oc-map-region oc-map-region-low" d="M52 58L210 36L248 126L186 176L72 148Z"><title>North: lower activity</title></path><path class="oc-map-region oc-map-region-medium" d="M248 126L388 60L450 138L356 210L186 176Z"><title>Central: medium activity</title></path><path class="oc-map-region oc-map-region-high" d="M450 138L590 106L606 238L438 270L356 210Z"><title>East: higher activity</title></path><path class="oc-map-region oc-map-region-medium" d="M72 148L186 176L356 210L292 276L104 262Z"><title>South: medium activity</title></path></g><text class="oc-map-label" x="150" y="112">North</text><text class="oc-map-label" x="325" y="142">Central</text><text class="oc-map-label" x="500" y="190">East</text><text class="oc-map-label" x="205" y="238">South</text></svg><dl class="oc-map-summary"><div><dt>North</dt><dd>Lower</dd></div><div><dt>Central</dt><dd>Medium</dd></div><div><dt>East</dt><dd>Higher</dd></div><div><dt>South</dt><dd>Medium</dd></div></dl></figure></div></section>
-    <section data-section-kind="markup" aria-labelledby="map-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="map-markup">Name every region</h2></div></div>${codeBlock(`<figure class="oc-chart oc-map">
+    <section data-section-kind="markup" aria-labelledby="map-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="map-markup">Name every region</h2></div></div>${codeBlock(
+      `<figure class="oc-chart oc-map">
   <figcaption class="oc-chart-header">
     <p class="oc-chart-title">Active workspaces</p>
     <div class="oc-map-scale" aria-label="Activity scale">...</div>
@@ -843,13 +923,16 @@ const contents = {
     <desc id="map-description">The east region has the highest activity.</desc>
     <path class="oc-map-region oc-map-region-high" d="..."><title>East: higher activity</title></path>
   </svg>
-</figure>`, "html")}</section>
+</figure>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="map-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="map-guidance">Geography must explain the data</h2></div></div>${guidanceList(["Use a map only when location changes how the data should be understood.", "Name regions in accessible text and provide the important comparison outside hover.", "Keep boundaries visible in both themes and never encode values with color alone.", "Let consumers own projections, coordinate data, zoom, and selection behavior."])}</section>`,
 
   "chart-sankey": () =>
     `${pageIntro("Charts", "Sankey", "A flow diagram for showing how volume moves from sources through stages to destinations.")}
     <section data-section-kind="preview" aria-labelledby="sankey-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="sankey-preview">Volume through a workflow</h2></div><span class="oc-pill">.oc-sankey</span></div><div class="specimen-frame"><figure class="oc-chart oc-sankey"><figcaption class="oc-chart-header"><p class="oc-chart-title">Request outcomes</p><p class="oc-chart-caption">Last 30 days</p></figcaption><svg class="oc-sankey-plot" viewBox="0 0 640 300" role="img" aria-labelledby="sankey-title" aria-describedby="sankey-description"><title id="sankey-title">Request outcomes</title><desc id="sankey-description">Of 1,200 submitted requests, 780 completed, 280 moved to review, and 140 were blocked.</desc><path class="oc-sankey-link oc-sankey-link-primary" stroke-width="78" d="M90 129C250 129 340 80 510 80"/><path class="oc-sankey-link" stroke-width="28" d="M90 182C250 182 350 180 510 180"/><path class="oc-sankey-link" stroke-width="14" d="M90 203C250 203 350 246 510 246"/><rect class="oc-sankey-node oc-sankey-node-primary" x="60" y="90" width="30" height="120" rx="4"/><rect class="oc-sankey-node" x="510" y="41" width="30" height="78" rx="4"/><rect class="oc-sankey-node" x="510" y="166" width="30" height="28" rx="4"/><rect class="oc-sankey-node" x="510" y="239" width="30" height="14" rx="4"/><text class="oc-sankey-label" x="60" y="230">Submitted</text><text class="oc-sankey-label" x="510" y="34">Completed</text><text class="oc-sankey-label" x="510" y="152">Review</text><text class="oc-sankey-label" x="510" y="226">Blocked</text></svg><dl class="oc-sankey-summary"><div><dt>Submitted</dt><dd>1,200</dd></div><div><dt>Completed</dt><dd>780</dd></div><div><dt>Review</dt><dd>280</dd></div><div><dt>Blocked</dt><dd>140</dd></div></dl></figure></div></section>
-    <section data-section-kind="markup" aria-labelledby="sankey-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="sankey-markup">Describe the dominant flow</h2></div></div>${codeBlock(`<figure class="oc-chart oc-sankey">
+    <section data-section-kind="markup" aria-labelledby="sankey-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="sankey-markup">Describe the dominant flow</h2></div></div>${codeBlock(
+      `<figure class="oc-chart oc-sankey">
   <figcaption class="oc-chart-header"><p class="oc-chart-title">Request outcomes</p></figcaption>
   <svg class="oc-sankey-plot" viewBox="0 0 640 300" role="img" aria-labelledby="flow-title" aria-describedby="flow-description">
     <title id="flow-title">Request outcomes</title>
@@ -857,13 +940,16 @@ const contents = {
     <path class="oc-sankey-link oc-sankey-link-primary" stroke-width="78" d="..." />
     <rect class="oc-sankey-node" x="510" y="41" width="30" height="78" />
   </svg>
-</figure>`, "html")}</section>
+</figure>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="sankey-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="sankey-guidance">Flow width must remain meaningful</h2></div></div>${guidanceList(["Use Sankey only when movement and relative volume are the primary story.", "Keep node order stable and label sources and destinations directly.", "Publish the underlying totals in a structured summary.", "Summarize the dominant and exceptional flows outside pointer interaction.", "Let the consumer own layout calculation, aggregation, and filtering."])}</section>`,
 
   "chart-custom": () =>
     `${pageIntro("Charts", "Custom Chart", "A compositional chart shell for bespoke visuals that still need consistent titles, summaries, and responsive structure.")}
     <section data-section-kind="preview" aria-labelledby="custom-chart-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="custom-chart-preview">Visual and summary together</h2></div><span class="oc-pill">.oc-custom-chart</span></div><div class="specimen-frame"><figure class="oc-chart oc-custom-chart"><figcaption class="oc-chart-header"><p class="oc-chart-title">Completion distribution</p><p class="oc-chart-caption">Current release</p></figcaption><div class="oc-custom-chart-visual"><svg class="oc-chart-plot" viewBox="0 0 420 220" role="img" aria-labelledby="custom-title" aria-describedby="custom-description"><title id="custom-title">Completion distribution</title><desc id="custom-description">Seventy-two percent complete, eighteen percent in review, and ten percent blocked.</desc><circle cx="210" cy="110" r="72" fill="none" stroke="var(--oc-surface-interactive)" stroke-width="28"/><path d="M210 38A72 72 0 1 1 139 121" fill="none" stroke="var(--oc-accent-primary)" stroke-linecap="round" stroke-width="28"/></svg></div><dl class="oc-custom-chart-summary"><div class="oc-custom-chart-stat"><dt class="oc-custom-chart-label">Complete</dt><dd class="oc-custom-chart-value">72%</dd></div><div class="oc-custom-chart-stat"><dt class="oc-custom-chart-label">In review</dt><dd class="oc-custom-chart-detail">18%</dd></div><div class="oc-custom-chart-stat"><dt class="oc-custom-chart-label">Blocked</dt><dd class="oc-custom-chart-detail">10%</dd></div></dl></figure></div></section>
-    <section data-section-kind="markup" aria-labelledby="custom-chart-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="custom-chart-markup">Keep custom visuals within the contract</h2></div></div>${codeBlock(`<figure class="oc-chart oc-custom-chart">
+    <section data-section-kind="markup" aria-labelledby="custom-chart-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="custom-chart-markup">Keep custom visuals within the contract</h2></div></div>${codeBlock(
+      `<figure class="oc-chart oc-custom-chart">
   <figcaption class="oc-chart-header"><p class="oc-chart-title">Completion distribution</p></figcaption>
   <div class="oc-custom-chart-visual">
     <svg class="oc-chart-plot" role="img" aria-labelledby="chart-title" aria-describedby="chart-description">
@@ -873,7 +959,9 @@ const contents = {
     </svg>
   </div>
   <dl class="oc-custom-chart-summary">…</dl>
-</figure>`, "html")}</section>
+</figure>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="custom-chart-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="custom-chart-guidance">Bespoke does not mean unstructured</h2></div></div>${guidanceList(["Use the shared chart shell before inventing a new surface.", "Keep the key result visible outside the graphic.", "Provide a useful accessible description and preserve source order on narrow screens.", "Promote repeated custom visuals into a named chart component only after stable reuse."])}</section>`,
 
   "block-page-header": () =>
@@ -881,7 +969,8 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="page-header-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="page-header-preview">Context before action</h2></div><span class="oc-pill">.oc-page-header</span></div>
       <div class="specimen-frame oc-app-surface"><header class="oc-page-header"><div class="oc-page-header-content"><p class="oc-page-header-kicker">Workspace</p><h3 class="oc-page-header-title">Agent catalog</h3><p class="oc-page-header-description">Manage the capabilities available to this workspace.</p></div><div class="oc-page-header-actions"><button class="oc-button oc-button-secondary" type="button">Import</button><button class="oc-button oc-button-primary" type="button">New agent</button></div></header></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="page-header-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="page-header-markup">Use a semantic page heading</h2></div></div>${codeBlock(`<header class="oc-page-header">
+    <section data-section-kind="markup" aria-labelledby="page-header-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="page-header-markup">Use a semantic page heading</h2></div></div>${codeBlock(
+      `<header class="oc-page-header">
   <div class="oc-page-header-content">
     <p class="oc-page-header-kicker">Workspace</p>
     <h1 class="oc-page-header-title">Agent catalog</h1>
@@ -890,7 +979,9 @@ const contents = {
   <div class="oc-page-header-actions">
     <button class="oc-button oc-button-primary" type="button">New agent</button>
   </div>
-</header>`, "html")}</section>
+</header>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="page-header-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="page-header-guidance">Keep the opening decisive</h2></div></div>${guidanceList(["Use the page's single h1 inside the block.", "Keep the description focused on the page's purpose.", "Expose only the actions users need before reading the page.", "On narrow screens, actions follow the content in source order."])}</section>`,
 
   "block-resource-list": () =>
@@ -898,7 +989,8 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="resource-list-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="resource-list-preview">Scan, compare, open</h2></div><span class="oc-pill">.oc-resource-list</span></div>
       <div class="specimen-frame oc-app-surface"><ul class="oc-resource-list"><li class="oc-resource-list-item"><a class="oc-resource-list-link" href="#resource-list-guidance"><span class="oc-resource-list-content"><strong class="oc-resource-list-title">Research agent</strong><span class="oc-resource-list-description">Searches sources and prepares cited summaries.</span></span><span class="oc-resource-list-meta">12 tools</span><span class="oc-resource-list-arrow" aria-hidden="true">→</span></a></li><li class="oc-resource-list-item"><a class="oc-resource-list-link" href="#resource-list-guidance"><span class="oc-resource-list-content"><strong class="oc-resource-list-title">Release agent</strong><span class="oc-resource-list-description">Validates packages and coordinates deployment checks.</span></span><span class="oc-resource-list-meta">8 tools</span><span class="oc-resource-list-arrow" aria-hidden="true">→</span></a></li><li class="oc-resource-list-item"><a class="oc-resource-list-link" href="#resource-list-guidance"><span class="oc-resource-list-content"><strong class="oc-resource-list-title">Support agent</strong><span class="oc-resource-list-description">Triages incoming requests and escalates blockers.</span></span><span class="oc-resource-list-meta">6 tools</span><span class="oc-resource-list-arrow" aria-hidden="true">→</span></a></li></ul></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="resource-list-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="resource-list-markup">Keep each destination atomic</h2></div></div>${codeBlock(`<ul class="oc-resource-list">
+    <section data-section-kind="markup" aria-labelledby="resource-list-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="resource-list-markup">Keep each destination atomic</h2></div></div>${codeBlock(
+      `<ul class="oc-resource-list">
   <li class="oc-resource-list-item">
     <a class="oc-resource-list-link" href="/agents/research">
       <span class="oc-resource-list-content">
@@ -909,19 +1001,24 @@ const contents = {
       <span class="oc-resource-list-arrow" aria-hidden="true">→</span>
     </a>
   </li>
-</ul>`, "html")}</section>
+</ul>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="resource-list-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="resource-list-guidance">Make the destination clear</h2></div></div>${guidanceList(["Use a list when the resources form one comparable set.", "Make the complete row one link instead of nesting controls.", "Keep descriptions short enough to scan without opening the destination.", "Keep differentiating metadata available on narrow screens.", "Compose the Empty component when the collection has no rows."])}</section>`,
 
   "block-delete-resource": () =>
     `${pageIntro("Block", "Delete Resource", "A bounded destructive action that names the resource, consequence, and explicit next step.")}
     <section data-section-kind="preview" aria-labelledby="delete-resource-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="delete-resource-preview">Destruction stays isolated</h2></div><span class="oc-pill">.oc-delete-resource</span></div><div class="specimen-frame oc-app-surface"><div data-dialog><section class="oc-delete-resource" aria-labelledby="delete-agent-title"><div class="oc-delete-resource-content"><h3 class="oc-delete-resource-title" id="delete-agent-title">Delete research agent</h3><p class="oc-delete-resource-description">This removes the agent and its workspace configuration. Conversation history remains available.</p></div><button class="oc-delete-resource-action" type="button" data-dialog-open>Delete agent</button></section><dialog class="oc-dialog" aria-labelledby="delete-confirmation-title" aria-describedby="delete-confirmation-description"><header class="oc-dialog-header"><h3 class="oc-dialog-title" id="delete-confirmation-title">Delete research agent?</h3><button class="oc-dialog-close" type="button" aria-label="Close dialog" data-dialog-close>×</button></header><div class="oc-dialog-body"><p id="delete-confirmation-description">The workspace configuration will be removed. Conversation history will remain available.</p></div><footer class="oc-dialog-footer"><button class="oc-button oc-button-ghost" type="button" data-dialog-close>Cancel</button><button class="oc-button oc-button-primary" type="button" data-dialog-close>Delete agent</button></footer></dialog></div></div></section>
-    <section data-section-kind="markup" aria-labelledby="delete-resource-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="delete-resource-markup">Name the target and consequence</h2></div></div>${codeBlock(`<section class="oc-delete-resource" aria-labelledby="delete-agent-title">
+    <section data-section-kind="markup" aria-labelledby="delete-resource-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="delete-resource-markup">Name the target and consequence</h2></div></div>${codeBlock(
+      `<section class="oc-delete-resource" aria-labelledby="delete-agent-title">
   <div class="oc-delete-resource-content">
     <h2 class="oc-delete-resource-title" id="delete-agent-title">Delete research agent</h2>
     <p class="oc-delete-resource-description">This removes the agent and its workspace configuration.</p>
   </div>
   <button class="oc-delete-resource-action" type="button" aria-haspopup="dialog">Delete agent</button>
-</section>`, "html")}</section>
+</section>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="delete-resource-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="delete-resource-guidance">Confirmation matches the risk</h2></div></div>${guidanceList(["Name the exact resource in both the block and confirmation step.", "State what is deleted, retained, and reversible before the action.", "Use a confirmation dialog when the action is irreversible or has broad impact.", "Keep permission checks, confirmation, progress, and recovery in the consumer."])}</section>`,
 
   "interface-examples": () =>
@@ -957,57 +1054,71 @@ const contents = {
   "application-settings": () =>
     `${pageIntro("Application", "Settings", "A dense preference surface that aligns native and web hierarchy without sharing runtime behavior.")}
     <section data-section-kind="preview" aria-labelledby="application-settings-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-settings-preview">Application preferences</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${settingsApplicationMarkup()}</div></section>
-    <section data-section-kind="markup" aria-labelledby="application-settings-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-settings-markup">Compose established controls inside shared anatomy</h2></div></div>${codeBlock(`<div class="oc-app-frame">
+    <section data-section-kind="markup" aria-labelledby="application-settings-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-settings-markup">Compose established controls inside shared anatomy</h2></div></div>${codeBlock(
+      `<div class="oc-app-frame">
   <nav class="oc-app-navigation">…</nav>
   <main class="oc-app-main">
-    <header class="oc-page-header">…</header>
-    <div class="oc-pane-layout">
-      <div class="oc-settings-page">
-        <section class="oc-settings-section">
-          <div class="oc-settings-group">
-            <div class="oc-settings-row">
+    <header class="oc-app-toolbar">…</header>
+    <div class="oc-app-content">
+      <div class="oc-settings-shell">
+        <aside class="oc-settings-navigation">…</aside>
+        <section class="oc-settings-detail">
+          <header class="oc-detail-header">…</header>
+          <section class="oc-settings-section">
+            <div class="oc-settings-group">
+              <div class="oc-settings-row">
               <div class="oc-settings-row-content">…</div>
               <div class="oc-settings-row-control">
                 <input class="oc-switch" type="checkbox" role="switch" />
               </div>
+              </div>
             </div>
-          </div>
+          </section>
         </section>
       </div>
     </div>
   </main>
-</div>`, "html")}</section>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="application-settings-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-settings-guidance">Share hierarchy, keep platform behavior</h2></div></div>${guidanceList(["Group related settings into bounded sections rather than nested cards.", "Use existing Carapace controls and preserve immediate switch semantics.", "Let SwiftUI and AppKit keep native materials, window behavior, and accessibility.", "Let the Control UI keep routing, persistence, and gateway state.", "Check comfortable and compact density at every supported width."])}</section>`,
 
   "application-operations": () =>
     `${pageIntro("Application", "Operations", "A master-detail surface for channels, automation, and other recurring operational workflows.")}
     <section data-section-kind="preview" aria-labelledby="application-operations-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-operations-preview">Channels and automation</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${operationsApplicationMarkup()}</div></section>
-    <section data-section-kind="markup" aria-labelledby="application-operations-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-operations-markup">Keep selection and detail in one bounded pane</h2></div></div>${codeBlock(`<section class="oc-pane oc-pane-split">
-  <section class="oc-pane" aria-label="Channels">
+    <section data-section-kind="markup" aria-labelledby="application-operations-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-operations-markup">Keep selection and detail in one bounded pane</h2></div></div>${codeBlock(
+      `<section class="oc-pane oc-master-detail">
+  <section class="oc-pane oc-master-pane" aria-label="Channels">
+    <header class="oc-pane-header">…</header>
+    <div class="oc-resource-list">…</div>
+  </section>
+  <section class="oc-pane oc-detail-pane" aria-label="Selected channel">
     <header class="oc-pane-header">…</header>
     <div class="oc-pane-body">…</div>
   </section>
-  <section class="oc-pane" aria-label="Selected channel">
-    <header class="oc-pane-header">…</header>
-    <div class="oc-pane-body">…</div>
-  </section>
-</section>`, "html")}</section>
+</section>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="application-operations-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-operations-guidance">Optimize repeated inspection</h2></div></div>${guidanceList(["Keep list status visible before selection.", "Use a stable detail header for identity, state, and primary actions.", "Preserve loading, error, empty, and connected states in the same anatomy.", "Collapse master and detail vertically on narrow screens.", "Keep transport and scheduler behavior inside their owning consumer."])}</section>`,
 
   "application-workspace": () =>
     `${pageIntro("Application", "Workspace", "A multi-pane agent surface with a focused conversation and an optional state inspector.")}
     <section data-section-kind="preview" aria-labelledby="application-workspace-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="application-workspace-preview">Agent session with inspector</h2></div><span class="oc-pill">candidate</span></div><div class="specimen-frame application-specimen">${workspaceApplicationMarkup()}</div></section>
-    <section data-section-kind="markup" aria-labelledby="application-workspace-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-workspace-markup">Dock optional context beside the primary task</h2></div></div>${codeBlock(`<div class="oc-pane oc-pane-split" data-split="inspector">
-  <section class="oc-pane" aria-label="Agent workspace">
+    <section data-section-kind="markup" aria-labelledby="application-workspace-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="application-workspace-markup">Dock optional context beside the primary task</h2></div></div>${codeBlock(
+      `<div class="oc-workspace-grid">
+  <aside class="oc-workspace-sessions" aria-label="Sessions">…</aside>
+  <section class="oc-workspace-conversation" aria-label="Agent workspace">
     <header class="oc-pane-header">…</header>
     <div class="oc-pane-body">…</div>
-    <footer class="oc-pane-footer">…</footer>
+    <footer class="oc-workspace-composer">…</footer>
   </section>
-  <section class="oc-pane" aria-label="Inspector">
+  <aside class="oc-workspace-inspector" aria-label="Inspector">
     <header class="oc-pane-header">…</header>
-    <div class="oc-pane-body">…</div>
-  </section>
-</div>`, "html")}</section>
+    <div class="oc-inspector-scroll">…</div>
+  </aside>
+</div>`,
+      "html",
+    )}</section>
     <section data-section-kind="guidance" aria-labelledby="application-workspace-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="application-workspace-guidance">Primary work stays primary</h2></div></div>${guidanceList(["Keep the conversation or document as the dominant pane.", "Treat inspector, terminal, browser, and activity surfaces as optional context.", "Support right, bottom, and hidden inspector modes without changing source meaning.", "Carry session status into both the header and detailed inspector.", "Keep panel lifecycle, drag behavior, and persistence in the consumer."])}</section>`,
 
   "resource-getting-started": () =>
@@ -1018,7 +1129,29 @@ const contents = {
 
   "resource-package-exports": () =>
     `${pageIntro("Resources", "Package exports", "Every public entry point is versioned with the same runtime and guidance contract.")}
-    <section aria-labelledby="package-entry-points"><div class="section-heading"><div><p class="eyebrow">Entry points</p><h2 id="package-entry-points">Import only what the consumer needs</h2></div></div>${referenceTable(["Specifier", "Purpose"], [[".", "Stable contract: tokens, themes, typography, base, and components."], ["./styles.css", "Explicit alias for the stable contract."], ["./tokens.css", "Palette, spacing, type scale, geometry, shadows, motion, and content widths."], ["./themes.css", "Dark and light semantic color roles."], ["./themes/product.css", "Opt-in status, input, and diff roles."], ["./typography.css", "Display, body, editorial, and monospace font stacks."], ["./base.css", "Optional global baseline and accessibility behavior."], ["./components.css", "Stable framework-neutral primitives."], ["./candidate/controls.css", "Opt-in form controls under compatibility validation."], ["./candidate/feedback.css", "Opt-in feedback components under compatibility validation."], ["./candidate/data.css", "Opt-in data components under compatibility validation."], ["./candidate/application.css", "Opt-in app shell, pane, settings, and status anatomy."], ["./tailwind.css", "Tailwind 4 theme mappings and dark variant."], ["./compat/clawhub.css", "Migration aliases and ClawHub theme compatibility."], ["./package.json", "Package metadata for tooling."]])}</section>
+    <section aria-labelledby="package-entry-points"><div class="section-heading"><div><p class="eyebrow">Entry points</p><h2 id="package-entry-points">Import only what the consumer needs</h2></div></div>${referenceTable(
+      ["Specifier", "Purpose"],
+      [
+        [".", "Stable contract: tokens, themes, typography, base, and components."],
+        ["./styles.css", "Explicit alias for the stable contract."],
+        [
+          "./tokens.css",
+          "Palette, spacing, type scale, geometry, shadows, motion, and content widths.",
+        ],
+        ["./themes.css", "Dark and light semantic color roles."],
+        ["./themes/product.css", "Opt-in status, input, and diff roles."],
+        ["./typography.css", "Display, body, editorial, and monospace font stacks."],
+        ["./base.css", "Optional global baseline and accessibility behavior."],
+        ["./components.css", "Stable framework-neutral primitives."],
+        ["./candidate/controls.css", "Opt-in form controls under compatibility validation."],
+        ["./candidate/feedback.css", "Opt-in feedback components under compatibility validation."],
+        ["./candidate/data.css", "Opt-in data components under compatibility validation."],
+        ["./candidate/application.css", "Opt-in app shell, pane, settings, and status anatomy."],
+        ["./tailwind.css", "Tailwind 4 theme mappings and dark variant."],
+        ["./compat/clawhub.css", "Migration aliases and ClawHub theme compatibility."],
+        ["./package.json", "Package metadata for tooling."],
+      ],
+    )}</section>
     <section aria-labelledby="package-order"><div class="section-heading"><div><p class="eyebrow">Order</p><h2 id="package-order">Foundations precede opt-in components</h2></div></div>${codeBlock(`@import "@openclaw/carapace/tokens.css";\n@import "@openclaw/carapace/themes.css";\n@import "@openclaw/carapace/typography.css";\n@import "@openclaw/carapace/components.css";\n@import "@openclaw/carapace/themes/product.css";\n@import "@openclaw/carapace/candidate/controls.css";\n@import "@openclaw/carapace/candidate/feedback.css";\n@import "@openclaw/carapace/candidate/data.css";\n@import "@openclaw/carapace/candidate/application.css";\n@import "@openclaw/carapace/compat/clawhub.css";\n@import "@openclaw/carapace/tailwind.css";`)}</section>`,
 
   "resource-theming": () =>
@@ -1052,14 +1185,36 @@ const contents = {
 
   "resource-governance": () =>
     `${pageIntro("Resources", "Governance", "The shared package owns stable visual contracts; consumers own their products, behavior, routes, and composition.")}
-    <section aria-labelledby="governance-boundary"><div class="section-heading"><div><p class="eyebrow">Ownership</p><h2 id="governance-boundary">Shared foundation, local product</h2></div></div>${referenceTable(["Repository", "Owns"], [["Carapace", "Tokens, themes, typography, base behavior, framework-neutral visual primitives, thin adapters, and current guidance."], ["Consumer", "Data, routes, application state, framework behavior, page composition, media, and consumer-specific components."]])}</section>
+    <section aria-labelledby="governance-boundary"><div class="section-heading"><div><p class="eyebrow">Ownership</p><h2 id="governance-boundary">Shared foundation, local product</h2></div></div>${referenceTable(
+      ["Repository", "Owns"],
+      [
+        [
+          "Carapace",
+          "Tokens, themes, typography, base behavior, framework-neutral visual primitives, thin adapters, and current guidance.",
+        ],
+        [
+          "Consumer",
+          "Data, routes, application state, framework behavior, page composition, media, and consumer-specific components.",
+        ],
+      ],
+    )}</section>
     <section aria-labelledby="governance-promotion"><div class="section-heading"><div><p class="eyebrow">Promotion</p><h2 id="governance-promotion">Reuse must be demonstrated</h2></div></div>${guidanceList(["Keep a component or layout local until at least two consumers share the same interface and behavior.", "Discuss new components, breaking token changes, and large architecture changes before implementation.", "Prefer additive changes because tokens, themes, exports, skill names, and tags are public compatibility surfaces.", "Update project guidance when a public design rule changes."])}</section>
     <section aria-labelledby="governance-contribution"><div class="section-heading"><div><p class="eyebrow">Contribution</p><h2 id="governance-contribution">One logical contract change at a time</h2></div></div>${guidanceList(["Name affected consumers and explain the concrete problem.", "Add or update tests for stylesheet, package, token, or skill contract changes.", "Run the repository checks and report exact validation.", "Do not include credentials, private hosts, local paths, or restricted assets."])}</section>`,
 
   "resource-design-audit": () =>
     `${pageIntro("Resources", "Design audit", "Audit Carapace drift with deterministic source checks, rendered evidence, stable rule IDs, and explicit fix boundaries.")}
     <section aria-labelledby="audit-model"><div class="section-heading"><div><p class="eyebrow">Model</p><h2 id="audit-model">Mechanical rules and judgment stay distinct</h2></div></div><div class="principle-grid"><article><h3>Mechanical</h3><p>Tokens, duplicate primitives, states, overflow, accessible names, focus, theme parity, and asset rights.</p></article><article><h3>Judgment</h3><p>Action hierarchy, card overuse, typography scale, brand accents, literal subjects, and copy clarity.</p></article></div></section>
-    <section aria-labelledby="audit-severity"><div class="section-heading"><div><p class="eyebrow">Severity</p><h2 id="audit-severity">Impact determines priority</h2></div></div>${referenceTable(["Level", "Meaning"], [["Error", "Broken interaction, accessibility barrier, illegible theme, overflow, asset-rights failure, or deterministic contract violation."], ["Warning", "Likely drift or inconsistency with meaningful user impact."], ["Info", "A bounded improvement with limited current impact."]])}</section>
+    <section aria-labelledby="audit-severity"><div class="section-heading"><div><p class="eyebrow">Severity</p><h2 id="audit-severity">Impact determines priority</h2></div></div>${referenceTable(
+      ["Level", "Meaning"],
+      [
+        [
+          "Error",
+          "Broken interaction, accessibility barrier, illegible theme, overflow, asset-rights failure, or deterministic contract violation.",
+        ],
+        ["Warning", "Likely drift or inconsistency with meaningful user impact."],
+        ["Info", "A bounded improvement with limited current impact."],
+      ],
+    )}</section>
     <section aria-labelledby="audit-output"><div class="section-heading"><div><p class="eyebrow">Evidence</p><h2 id="audit-output">Every finding remains traceable</h2></div></div>${guidanceList(["Include file, line, category, severity, stable rule ID, remediation, reference, and finding kind.", "Produce design-audit.json and design-audit.md with version and consumer SHA.", "Automatically fix only narrow deterministic findings covered by an established rule.", "Require human review for copy, hierarchy, navigation, new abstractions, broad redesign, asset interpretation, and compatibility removal."])}</section>`,
 
   "resource-accessibility": () =>
@@ -1081,10 +1236,7 @@ export function getReferenceContent(id) {
   return contents[id]?.() ?? getAgentReferenceContent(id);
 }
 
-export function renderReferenceContent(
-  root = globalThis.document,
-  pageId,
-) {
+export function renderReferenceContent(root = globalThis.document, pageId) {
   const document = root?.ownerDocument || root;
   const mount = root?.matches?.("[data-reference-content]")
     ? root

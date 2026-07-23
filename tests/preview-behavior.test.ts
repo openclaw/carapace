@@ -85,8 +85,12 @@ describe("preview behavior", () => {
   test("keeps the workbench canvas and viewport controls synchronized", () => {
     class Button {
       attributes = new Map();
-      constructor(viewport) { this.dataset = { workbenchViewport: viewport }; }
-      setAttribute(name, value) { this.attributes.set(name, value); }
+      constructor(viewport) {
+        this.dataset = { workbenchViewport: viewport };
+      }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
     }
 
     const canvas = { dataset: { viewport: "desktop" } };
@@ -110,8 +114,12 @@ describe("preview behavior", () => {
   test("changes only the workbench canvas color theme", () => {
     class Button {
       attributes = new Map();
-      constructor(theme) { this.dataset = { workbenchTheme: theme }; }
-      setAttribute(name, value) { this.attributes.set(name, value); }
+      constructor(theme) {
+        this.dataset = { workbenchTheme: theme };
+      }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
     }
 
     const canvas = { dataset: { workbenchTheme: "dark" } };
@@ -133,8 +141,10 @@ describe("preview behavior", () => {
   test("cancels demonstration link navigation without disabling real links", () => {
     const demoLink = {
       blurred: false,
-      blur() { this.blurred = true; },
-      closest: (selector) => selector === "[data-workbench-inert-link]" ? demoLink : null,
+      blur() {
+        this.blurred = true;
+      },
+      closest: (selector) => (selector === "[data-workbench-inert-link]" ? demoLink : null),
     };
     const realLink = { closest: () => null };
 
@@ -161,9 +171,7 @@ describe("preview behavior", () => {
     for (const pageId of ["primitive-breadcrumbs", "primitive-link", "primitive-pagination"]) {
       expect(getReferenceContent(pageId)).toContain("data-workbench-inert-link");
     }
-    expect(markdownWorkbenchMarkup({ example: "table" })).toContain(
-      "data-workbench-inert-link",
-    );
+    expect(markdownWorkbenchMarkup({ example: "table" })).toContain("data-workbench-inert-link");
     expect(linkWorkbenchMarkup({ variant: "standalone" })).toContain("data-workbench-inert-link");
 
     for (const pageId of ["primitive-card", "primitive-sidebar", "primitive-table-of-contents"]) {
@@ -218,7 +226,9 @@ describe("preview behavior", () => {
     const reference = getReferenceContent("primitive-link");
     expect(reference).toContain('class="oc-link oc-link-standalone"');
     expect(reference).toContain(">Browse components</a>");
-    expect(reference).not.toMatch(/oc-link-standalone[^>]*>Browse components[\s\S]*?data-lucide="arrow-right"/);
+    expect(reference).not.toMatch(
+      /oc-link-standalone[^>]*>Browse components[\s\S]*?data-lucide="arrow-right"/,
+    );
   });
 
   test("renders Banner tones without relying on color alone", () => {
@@ -243,7 +253,9 @@ describe("preview behavior", () => {
       expect(markup).toContain('role="status"');
       expect(markup).toContain('class="oc-banner-indicator" aria-hidden="true"');
     }
-    expect(success).toContain('<button class="oc-action oc-action-secondary" type="button">Review</button>');
+    expect(success).toContain(
+      '<button class="oc-action oc-action-secondary" type="button">Review</button>',
+    );
   });
 
   test("renders App Surface with optional toolbar chrome and nested card", () => {
@@ -282,9 +294,7 @@ describe("preview behavior", () => {
     expect(ready).toContain('class="oc-settings-group"');
     expect(ready).toContain('class="oc-switch" type="checkbox" role="switch"');
     expect(ready).toContain('class="oc-segmented" role="group" aria-label="Theme"');
-    expect(ready).toContain(
-      'class="oc-segmented" role="group" aria-label="Interface density"',
-    );
+    expect(ready).toContain('class="oc-segmented" role="group" aria-label="Interface density"');
     expect(compactOffline).toContain('data-navigation="compact"');
     expect(compactOffline).toContain('data-density="compact"');
     expect(compactOffline).toContain("Gateway unavailable");
@@ -303,8 +313,11 @@ describe("preview behavior", () => {
       state: "error",
     });
 
-    expect(channels).toContain('class="oc-pane oc-pane-split"');
-    expect(channels).toContain("Connected channels");
+    expect(channels).toContain('class="oc-pane oc-master-detail"');
+    expect(channels).toContain("Channel network");
+    expect(channels).toContain('class="oc-summary-strip"');
+    expect(channels).toContain('class="oc-resource-list"');
+    expect(channels).toContain("Recent delivery");
     expect(channels).toContain("Discord");
     expect(channels).toContain('aria-pressed="true"');
     expect(channels).not.toContain("aria-selected");
@@ -320,13 +333,15 @@ describe("preview behavior", () => {
     const hidden = workspaceApplicationMarkup({ dock: "hidden", inspector: false });
 
     expect(right).toContain('data-dock="right"');
-    expect(right).toContain('data-split="inspector"');
+    expect(right).toContain('class="oc-workspace-grid"');
+    expect(right).toContain('data-inspector="true"');
+    expect(right).toContain('aria-label="Sessions"');
     expect(right).toContain('aria-label="Inspector"');
     expect(bottom).toContain('data-dock="bottom"');
-    expect(bottom).toContain('data-split="balanced"');
+    expect(bottom).toContain('data-inspector="true"');
     expect(bottom).toContain("Agent idle");
     expect(hidden).not.toContain('aria-label="Inspector"');
-    expect(hidden).not.toContain("oc-pane-split");
+    expect(hidden).toContain('data-inspector="false"');
   });
 
   test("renders Hero with optional lede and consumer-owned actions", () => {
@@ -500,9 +515,7 @@ describe("preview behavior", () => {
   });
 
   test("keeps Toast dismissal optional in the rendered markup", () => {
-    expect(toastWorkbenchMarkup({ dismissible: true })).toContain(
-      'button class="oc-toast-close"',
-    );
+    expect(toastWorkbenchMarkup({ dismissible: true })).toContain('button class="oc-toast-close"');
     expect(toastWorkbenchMarkup({ dismissible: false })).not.toContain("oc-toast-close");
     expect(toastWorkbenchMarkup({ dismissible: false })).toContain('aria-live="polite"');
   });
@@ -611,9 +624,9 @@ describe("preview behavior", () => {
     expect(defaults).toContain("<span>OpenAI</span>");
     expect(defaults).toContain("<span>Gemini</span>");
     expect(defaults).toContain("<span>xAI</span>");
-    expect(defaults).not.toContain('>O</span>');
-    expect(defaults).not.toContain('>G</span>');
-    expect(defaults).not.toContain('>X</span>');
+    expect(defaults).not.toContain(">O</span>");
+    expect(defaults).not.toContain(">G</span>");
+    expect(defaults).not.toContain(">X</span>");
 
     expect(markOnly).toContain("oc-provider-logo-sm");
     expect(markOnly).toContain('data-layout="row"');
@@ -693,19 +706,23 @@ describe("preview behavior", () => {
     );
     expect(modelPickerWorkbenchMarkup({ value: "gpt-5-6" })).toContain("<strong>GPT-5.6</strong>");
     expect(modeSelectorWorkbenchMarkup({ value: "plan" })).toContain(
-      '<span data-agent-mode-label>Plan</span>',
+      "<span data-agent-mode-label>Plan</span>",
     );
   });
 
   test("keeps File Attachment display and removal independently configurable", () => {
-    expect(fileAttachmentWorkbenchMarkup({ kind: "image", display: "image-only", removable: true }))
-      .toContain('data-display="image-only"');
-    expect(fileAttachmentWorkbenchMarkup({ kind: "image", display: "image-only", removable: true }))
-      .toContain('aria-label="Remove interface.png"');
-    expect(fileAttachmentWorkbenchMarkup({ kind: "file", display: "image-only", removable: false }))
-      .not.toContain('data-display="image-only"');
-    expect(fileAttachmentWorkbenchMarkup({ kind: "file", removable: false }))
-      .not.toContain("oc-agent-file-remove");
+    expect(
+      fileAttachmentWorkbenchMarkup({ kind: "image", display: "image-only", removable: true }),
+    ).toContain('data-display="image-only"');
+    expect(
+      fileAttachmentWorkbenchMarkup({ kind: "image", display: "image-only", removable: true }),
+    ).toContain('aria-label="Remove interface.png"');
+    expect(
+      fileAttachmentWorkbenchMarkup({ kind: "file", display: "image-only", removable: false }),
+    ).not.toContain('data-display="image-only"');
+    expect(fileAttachmentWorkbenchMarkup({ kind: "file", removable: false })).not.toContain(
+      "oc-agent-file-remove",
+    );
   });
 
   test("maps shared tool lifecycle into visible running and complete output", () => {
@@ -721,9 +738,7 @@ describe("preview behavior", () => {
     expect(toolWorkbenchMarkup({ kind: "search", state: "complete", open: false })).not.toContain(
       " open",
     );
-    expect(toolWorkbenchMarkup({ kind: "thinking", state: "animating" })).toContain(
-      "Thinking",
-    );
+    expect(toolWorkbenchMarkup({ kind: "thinking", state: "animating" })).toContain("Thinking");
   });
 
   test("keeps specialized tool states faithful to their public data", () => {
@@ -769,9 +784,15 @@ describe("preview behavior", () => {
   test("moves table-of-contents location to the selected section", () => {
     class Link {
       attributes = new Map();
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      removeAttribute(name) { this.attributes.delete(name); }
-      getAttribute(name) { return this.attributes.get(name); }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
     }
 
     const overview = new Link();
@@ -787,9 +808,15 @@ describe("preview behavior", () => {
   test("moves sidebar current-page state to the selected destination", () => {
     class Link {
       attributes = new Map();
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      removeAttribute(name) { this.attributes.delete(name); }
-      getAttribute(name) { return this.attributes.get(name); }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
     }
 
     const overview = new Link();
@@ -814,10 +841,18 @@ describe("preview behavior", () => {
         this.id = id;
         this.textContent = text;
       }
-      getAttribute(name) { return this.attributes.get(name); }
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      removeAttribute(name) { this.attributes.delete(name); }
-      focus() { this.focused = true; }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
+      focus() {
+        this.focused = true;
+      }
     }
 
     const input = new Element();
@@ -830,11 +865,12 @@ describe("preview behavior", () => {
     const listbox = new Element();
     listbox.querySelectorAll = () => options;
     const control = new Element();
-    control.querySelector = (selector) => ({
-      "[role='combobox']": input,
-      "[data-combobox-toggle]": toggle,
-      "[role='listbox']": listbox,
-    })[selector];
+    control.querySelector = (selector) =>
+      ({
+        "[role='combobox']": input,
+        "[data-combobox-toggle]": toggle,
+        "[role='listbox']": listbox,
+      })[selector];
     control.contains = (target) => [input, toggle, listbox, ...options].includes(target);
     const root = { querySelectorAll: () => [control] };
 
@@ -872,10 +908,14 @@ describe("preview behavior", () => {
 
     input.value = "missing";
     input.dispatchEvent(new Event("input"));
-    expect(options.every(({ attributes }) => attributes.get("aria-selected") === "false")).toBe(true);
+    expect(options.every(({ attributes }) => attributes.get("aria-selected") === "false")).toBe(
+      true,
+    );
     input.dispatchEvent(keyboardEvent("Enter"));
     expect(input.value).toBe("missing");
-    expect(options.every(({ attributes }) => attributes.get("aria-selected") !== "true")).toBe(true);
+    expect(options.every(({ attributes }) => attributes.get("aria-selected") !== "true")).toBe(
+      true,
+    );
   });
 
   test("filters and keyboard-navigates command palette results", () => {
@@ -885,9 +925,15 @@ describe("preview behavior", () => {
       value = "";
       textContent = "";
       focused = false;
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      removeAttribute(name) { this.attributes.delete(name); }
-      focus() { this.focused = true; }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
+      focus() {
+        this.focused = true;
+      }
     }
 
     const trigger = new Element();
@@ -958,12 +1004,18 @@ describe("preview behavior", () => {
       clickCount = 0;
       focused = false;
       onClick = null;
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      removeAttribute(name) { this.attributes.delete(name); }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
       closest(selector) {
         return selector === "[data-command-palette-item]" ? this : null;
       }
-      focus() { this.focused = true; }
+      focus() {
+        this.focused = true;
+      }
       click() {
         this.clickCount += 1;
         this.onClick?.();
@@ -1031,10 +1083,18 @@ describe("preview behavior", () => {
         this.handlers[type] = handler;
         super.addEventListener(type, handler);
       }
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      getAttribute(name) { return this.attributes.get(name); }
-      closest(selector) { return selector === "[role='menuitem']" ? this : null; }
-      focus() { this.focused = true; }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
+      closest(selector) {
+        return selector === "[role='menuitem']" ? this : null;
+      }
+      focus() {
+        this.focused = true;
+      }
     }
 
     const trigger = new Element();
@@ -1045,15 +1105,18 @@ describe("preview behavior", () => {
     disabledItem.setAttribute("aria-disabled", "true");
     menu.querySelectorAll = () => [...items, disabledItem];
     const dropdown = new Element();
-    dropdown.querySelector = (selector) => ({
-      "[data-dropdown-trigger]": trigger,
-      "[role='menu']": menu,
-    })[selector];
+    dropdown.querySelector = (selector) =>
+      ({
+        "[data-dropdown-trigger]": trigger,
+        "[role='menu']": menu,
+      })[selector];
     dropdown.contains = (target) => [trigger, menu, ...items].includes(target);
     const rootHandlers = {};
     const root = {
       querySelectorAll: () => [dropdown],
-      addEventListener: (type, handler) => { rootHandlers[type] = handler; },
+      addEventListener: (type, handler) => {
+        rootHandlers[type] = handler;
+      },
     };
 
     expect(bindDropdowns(root)).toBe(1);
@@ -1115,9 +1178,15 @@ describe("preview behavior", () => {
       hidden = false;
       focused = false;
       tabIndex = 0;
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      getAttribute(name) { return this.attributes.get(name); }
-      focus() { this.focused = true; }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
+      focus() {
+        this.focused = true;
+      }
     }
 
     const menuItems = [new Element(), new Element()];
@@ -1152,10 +1221,18 @@ describe("preview behavior", () => {
       attributes = new Map();
       focused = false;
       tabIndex = 0;
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      getAttribute(name) { return this.attributes.get(name); }
-      hasAttribute(name) { return this.attributes.has(name); }
-      focus() { this.focused = true; }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
+      hasAttribute(name) {
+        return this.attributes.has(name);
+      }
+      focus() {
+        this.focused = true;
+      }
     }
 
     const bold = new Button();
@@ -1197,11 +1274,21 @@ describe("preview behavior", () => {
       removed = false;
       focused = false;
       tabIndex = 0;
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      getAttribute(name) { return this.attributes.get(name); }
-      removeAttribute(name) { this.attributes.delete(name); }
-      remove() { this.removed = true; }
-      focus() { this.focused = true; }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
+      remove() {
+        this.removed = true;
+      }
+      focus() {
+        this.focused = true;
+      }
     }
 
     const dismiss = new Element();
@@ -1244,19 +1331,37 @@ describe("preview behavior", () => {
       removed = false;
       id = "";
       parentElement = null;
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      getAttribute(name) { return this.attributes.get(name); }
-      removeAttribute(name) { this.attributes.delete(name); }
-      append(child) { child.parentElement = this; this.children.push(child); }
-      prepend(child) { child.parentElement = this; this.children.unshift(child); }
-      get lastElementChild() { return this.children.at(-1); }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
+      append(child) {
+        child.parentElement = this;
+        this.children.push(child);
+      }
+      prepend(child) {
+        child.parentElement = this;
+        this.children.unshift(child);
+      }
+      get lastElementChild() {
+        return this.children.at(-1);
+      }
       remove() {
         this.removed = true;
         if (this.parentElement?.children) {
-          this.parentElement.children = this.parentElement.children.filter((child) => child !== this);
+          this.parentElement.children = this.parentElement.children.filter(
+            (child) => child !== this,
+          );
         }
       }
-      focus() { this.focused = true; }
+      focus() {
+        this.focused = true;
+      }
     }
 
     const region = new Element();
@@ -1275,7 +1380,7 @@ describe("preview behavior", () => {
     trigger.setAttribute("aria-controls", region.id);
     trigger.parentElement = { querySelector: () => template };
     const root = {
-      querySelectorAll: (selector) => selector === "[data-toast-region]" ? [region] : [trigger],
+      querySelectorAll: (selector) => (selector === "[data-toast-region]" ? [region] : [trigger]),
     };
 
     expect(bindToasts(root)).toBe(1);
@@ -1295,9 +1400,15 @@ describe("preview behavior", () => {
   test("opens, dismisses, and collision-aligns tooltips", () => {
     class Element extends EventTarget {
       attributes = new Map();
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      getAttribute(name) { return this.attributes.get(name); }
-      removeAttribute(name) { this.attributes.delete(name); }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
     }
 
     const trigger = new Element();
@@ -1310,14 +1421,17 @@ describe("preview behavior", () => {
       return { top: -4, left: -6, right: 318 };
     };
     const tooltip = new Element();
-    tooltip.querySelector = (selector) => ({
-      "[data-tooltip-trigger]": trigger,
-      "[data-tooltip-content]": content,
-    })[selector];
+    tooltip.querySelector = (selector) =>
+      ({
+        "[data-tooltip-trigger]": trigger,
+        "[data-tooltip-content]": content,
+      })[selector];
     const viewHandlers = { resize: [], scroll: [] };
     const view = {
       innerWidth: 300,
-      addEventListener(type, handler) { viewHandlers[type].push(handler); },
+      addEventListener(type, handler) {
+        viewHandlers[type].push(handler);
+      },
     };
     const root = {
       defaultView: view,
@@ -1382,7 +1496,9 @@ describe("preview behavior", () => {
     const markup = getAgentReferenceContent("agent-chat");
     expect(markup).toContain('data-agent-suggestion-target="agent-chat-message"');
     expect(markup).toContain('data-agent-chat-status aria-live="polite"');
-    expect(markup).not.toContain('oc-agent-chat-messages" aria-label="Conversation history" aria-live');
+    expect(markup).not.toContain(
+      'oc-agent-chat-messages" aria-label="Conversation history" aria-live',
+    );
   });
 
   test("submits a trimmed agent chat draft into the visible transcript", () => {
@@ -1396,7 +1512,9 @@ describe("preview behavior", () => {
         super();
         this.ownerDocument = ownerDocument;
       }
-      append(child) { this.children.push(child); }
+      append(child) {
+        this.children.push(child);
+      }
     }
 
     const ownerDocument = { createElement: () => new Element(ownerDocument) };
@@ -1438,10 +1556,16 @@ describe("preview behavior", () => {
   });
 
   test("submits a standalone composer without navigating away", () => {
-    const input = { value: "  Ship this update.  ", focused: false, focus() { this.focused = true; } };
+    const input = {
+      value: "  Ship this update.  ",
+      focused: false,
+      focus() {
+        this.focused = true;
+      },
+    };
     const status = { textContent: "" };
     const form = new EventTarget();
-    form.querySelector = (selector) => selector === ".oc-agent-input" ? input : status;
+    form.querySelector = (selector) => (selector === ".oc-agent-input" ? input : status);
     const root = {
       querySelectorAll(selector) {
         return selector === "[data-agent-compose-form]" ? [form] : [];
@@ -1472,7 +1596,7 @@ describe("preview behavior", () => {
     };
     suggestion.textContent = "Review";
     const root = {
-      getElementById: (id) => id === "message" ? input : null,
+      getElementById: (id) => (id === "message" ? input : null),
       querySelectorAll(selector) {
         return selector === "[data-agent-suggestion-value]" ? [suggestion] : [];
       },
@@ -1499,7 +1623,12 @@ describe("preview behavior", () => {
 
   test("updates and closes the agent mode selector", () => {
     const label = { textContent: "Agent" };
-    const summary = { focused: false, focus() { this.focused = true; } };
+    const summary = {
+      focused: false,
+      focus() {
+        this.focused = true;
+      },
+    };
     const agent = new EventTarget();
     agent.checked = true;
     agent.value = "Agent";
@@ -1508,7 +1637,7 @@ describe("preview behavior", () => {
     plan.value = "Plan";
     const selector = {
       open: true,
-      querySelector: (query) => query === "summary" ? summary : label,
+      querySelector: (query) => (query === "summary" ? summary : label),
       querySelectorAll: () => [agent, plan],
     };
     const root = {
@@ -1529,7 +1658,12 @@ describe("preview behavior", () => {
   test("updates and closes the agent model picker", () => {
     const name = { textContent: "Balanced" };
     const version = { textContent: "4.6" };
-    const summary = { focused: false, focus() { this.focused = true; } };
+    const summary = {
+      focused: false,
+      focus() {
+        this.focused = true;
+      },
+    };
     const balanced = new EventTarget();
     balanced.checked = true;
     balanced.value = "Balanced";
@@ -1565,7 +1699,11 @@ describe("preview behavior", () => {
 
   test("removes only the selected file attachment", () => {
     let removed = false;
-    const attachment = { remove: () => { removed = true; } };
+    const attachment = {
+      remove: () => {
+        removed = true;
+      },
+    };
     const button = new EventTarget();
     button.closest = () => attachment;
     const root = {
@@ -1662,14 +1800,23 @@ describe("preview behavior", () => {
         super();
         this.attributes.set("aria-controls", controls);
       }
-      getAttribute(name) { return this.attributes.get(name); }
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      focus() { this.focused = true; }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      focus() {
+        this.focused = true;
+      }
     }
 
     const first = new Tab("first-panel");
     const second = new Tab("second-panel");
-    const panels = [{ id: "first-panel", hidden: false }, { id: "second-panel", hidden: true }];
+    const panels = [
+      { id: "first-panel", hidden: false },
+      { id: "second-panel", hidden: true },
+    ];
     const tabset = {
       querySelectorAll(selector) {
         return selector === '[role="tab"]' ? [first, second] : panels;
@@ -1712,16 +1859,17 @@ describe("preview behavior", () => {
         this.attributes.set("aria-controls", controls);
         this.attributes.set("aria-selected", String(selected));
       }
-      getAttribute(name) { return this.attributes.get(name); }
-      setAttribute(name, value) { this.attributes.set(name, value); }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
       focus() {}
     }
 
     const createTabset = () => {
-      const tabs = [
-        new Tab("usage", "usage-panel", true),
-        new Tab("code", "code-panel"),
-      ];
+      const tabs = [new Tab("usage", "usage-panel", true), new Tab("code", "code-panel")];
       const panels = [
         { id: "usage-panel", hidden: false },
         { id: "code-panel", hidden: true },
@@ -1757,8 +1905,12 @@ describe("preview behavior", () => {
     class Toggle extends EventTarget {
       attributes = new Map();
       innerHTML = "";
-      setAttribute(name, value) { this.attributes.set(name, value); }
-      getAttribute(name) { return this.attributes.get(name); }
+      setAttribute(name, value) {
+        this.attributes.set(name, value);
+      }
+      getAttribute(name) {
+        return this.attributes.get(name);
+      }
     }
 
     const input = { type: "password" };

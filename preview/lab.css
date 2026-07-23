@@ -2162,7 +2162,9 @@ a.oc-layer-card-primary:hover {
   pointer-events: none;
   opacity: 0;
   transform: translate(-50%, var(--oc-space-1));
-  transition: opacity var(--oc-duration-fast) var(--oc-ease-out), transform var(--oc-duration-fast) var(--oc-ease-out);
+  transition:
+    opacity var(--oc-duration-fast) var(--oc-ease-out),
+    transform var(--oc-duration-fast) var(--oc-ease-out);
 }
 
 .oc-tooltip:is(:hover, :focus-within) .oc-tooltip-content {
@@ -2194,7 +2196,8 @@ a.oc-layer-card-primary:hover {
 
 .oc-tooltip-content[data-open],
 .oc-tooltip:is(:hover, :focus-within) .oc-tooltip-content[data-placement="bottom"],
-.oc-tooltip:is(:hover, :focus-within) .oc-tooltip-content:is([data-align="start"], [data-align="end"]) {
+.oc-tooltip:is(:hover, :focus-within)
+  .oc-tooltip-content:is([data-align="start"], [data-align="end"]) {
   opacity: 1;
   transform: translate(0, 0);
 }
@@ -4313,54 +4316,330 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
   min-height: 38rem;
 }
 
-.application-workspace-transcript {
-  display: grid;
-  align-content: start;
-  gap: var(--oc-space-4);
+.oc-workspace-conversation-header .oc-pane-description {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--oc-space-2);
 }
 
-.application-workspace-message {
+.oc-workspace-branch {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--oc-space-1);
+  color: var(--oc-text-secondary);
+  font-family: var(--oc-font-mono);
+  font-size: 0.6875rem;
+}
+
+.oc-workspace-branch svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.oc-workspace-transcript {
   display: grid;
-  max-width: min(100%, 42rem);
+  align-content: start;
+  gap: var(--oc-space-5);
+  padding: var(--oc-space-5) clamp(var(--oc-space-4), 5vw, var(--oc-space-7));
+  background: var(--oc-bg-page);
+}
+
+.oc-workspace-day {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-3);
+  color: var(--oc-text-muted);
+  font-size: 0.6875rem;
+  text-align: center;
+}
+
+.oc-workspace-day::before,
+.oc-workspace-day::after {
+  height: 1px;
+  flex: 1;
+  background: var(--oc-border-subtle);
+  content: "";
+}
+
+.oc-workspace-message {
+  display: grid;
+  width: min(100%, 44rem);
   gap: var(--oc-space-3);
 }
 
-.application-workspace-message p {
+.oc-workspace-message > p {
   margin: 0;
   color: var(--oc-text-secondary);
   font-size: var(--oc-font-size-sm);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
-.application-workspace-message-user {
+.oc-workspace-message-user {
   justify-self: end;
+  width: min(88%, 36rem);
   padding: var(--oc-space-3) var(--oc-space-4);
+  border: 1px solid var(--oc-border-accent);
   border-radius: var(--oc-radius-surface);
   background: var(--oc-surface-accent-soft);
 }
 
-.application-workspace-message-user p {
+.oc-workspace-message-user p {
   color: var(--oc-text-primary);
 }
 
-.application-workspace-composer {
-  display: grid;
-  width: 100%;
-  min-width: 0;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
+.oc-workspace-message-agent {
+  justify-self: start;
+}
+
+.oc-workspace-message-agent > header {
+  display: flex;
+  align-items: center;
   gap: var(--oc-space-2);
 }
 
-.application-workspace[data-dock="bottom"] .oc-pane-split {
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(22rem, 1fr) minmax(18rem, 0.7fr);
-  overflow: auto;
+.oc-workspace-message-agent > header strong {
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
 }
 
-.application-workspace[data-dock="bottom"] .oc-pane-split > .oc-pane + .oc-pane {
-  border-top-width: 1px;
-  border-left-width: 0;
+.oc-workspace-message-agent > header time {
+  color: var(--oc-text-muted);
+  font-size: 0.6875rem;
+}
+
+.oc-workspace-agent-mark {
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  place-items: center;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-surface);
+}
+
+.oc-workspace-agent-mark img {
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: contain;
+}
+
+.oc-workspace-progress {
+  display: grid;
+  gap: var(--oc-space-3);
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border-left: 2px solid var(--oc-accent-secondary);
+  background: color-mix(in oklch, var(--oc-surface-secondary-soft) 48%, transparent);
+}
+
+.oc-workspace-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--oc-space-3);
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-workspace-progress-header strong {
+  color: var(--oc-accent-secondary);
+  font-family: var(--oc-font-mono);
+  font-size: 0.6875rem;
+}
+
+.oc-workspace-progress ol {
+  display: grid;
+  gap: var(--oc-space-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.oc-workspace-progress li {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--oc-space-2);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-workspace-progress li svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.oc-workspace-progress li[data-state="complete"] svg {
+  color: var(--oc-status-success-fg);
+}
+
+.oc-workspace-progress li[data-state="active"] svg {
+  color: var(--oc-status-info-fg);
+  animation: oc-agent-spin 0.85s linear infinite;
+}
+
+.oc-workspace-tool {
+  overflow: hidden;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-surface);
+}
+
+.oc-workspace-tool summary {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-3);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+  cursor: pointer;
+  list-style: none;
+}
+
+.oc-workspace-tool summary::-webkit-details-marker {
+  display: none;
+}
+
+.oc-workspace-tool summary > span {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--oc-space-2);
+}
+
+.oc-workspace-tool summary svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.oc-workspace-tool summary small {
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: 0.6875rem;
+}
+
+.oc-workspace-tool[open] summary > svg {
+  transform: rotate(180deg);
+}
+
+.oc-workspace-tool > div {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--oc-space-3);
+  padding: var(--oc-space-3);
+  border-top: 1px solid var(--oc-border-subtle);
+  background: var(--oc-bg-recessed);
+  font-family: var(--oc-font-mono);
+  font-size: 0.6875rem;
+}
+
+.oc-workspace-tool code {
+  overflow: hidden;
+  color: var(--oc-text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oc-workspace-tool > div span {
+  color: var(--oc-status-success-fg);
+  white-space: nowrap;
+}
+
+.oc-workspace-composer {
+  display: grid;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-3) clamp(var(--oc-space-4), 5vw, var(--oc-space-7));
+  border-top: 1px solid var(--oc-border-subtle);
+  background: var(--oc-bg-surface);
+}
+
+.oc-workspace-compose-box {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--oc-border-strong);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-elevated);
+  box-shadow: var(--oc-shadow-sm);
+}
+
+.oc-workspace-compose-box:focus-within {
+  border-color: var(--oc-input-focus-border);
+  box-shadow: 0 0 0 3px var(--oc-input-focus-ring);
+}
+
+.oc-workspace-compose-box textarea {
+  width: 100%;
+  min-width: 0;
+  resize: none;
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--oc-text-primary);
+  font: inherit;
+  font-size: var(--oc-font-size-sm);
+  line-height: 1.5;
+}
+
+.oc-workspace-compose-toolbar {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-2);
+}
+
+.oc-workspace-compose-toolbar > div {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--oc-space-1);
+}
+
+.oc-workspace-mode {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--oc-space-1);
+  padding: var(--oc-space-2);
+  border: 0;
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-text-secondary);
+  font: inherit;
+  font-size: 0.6875rem;
+  cursor: pointer;
+}
+
+.oc-workspace-mode:hover {
+  background: var(--oc-surface-interactive-hover);
+  color: var(--oc-text-primary);
+}
+
+.oc-workspace-mode:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 1px;
+}
+
+.oc-workspace-mode svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.oc-workspace-compose-note {
+  color: var(--oc-text-muted);
+  font-size: 0.625rem;
+  text-align: center;
 }
 
 /* Shared focus treatment */

@@ -55,10 +55,7 @@ const legacyPackageName = ["@openclaw", "design-system"].join("/");
 describe("preview contracts", () => {
   test("resolves adjacent workbench pages from the site root", () => {
     expect(
-      resolveWorkbenchPageHref(
-        "interface/primitives/autocomplete/",
-        "http://127.0.0.1:4173/",
-      ),
+      resolveWorkbenchPageHref("interface/primitives/autocomplete/", "http://127.0.0.1:4173/"),
     ).toBe("http://127.0.0.1:4173/interface/primitives/autocomplete/");
     expect(
       resolveWorkbenchPageHref(
@@ -243,23 +240,15 @@ describe("preview contracts", () => {
       density: "comfortable",
       state: "ready",
     });
-    expect(settings?.controls.map(({ id }) => id)).toEqual([
-      "navigation",
-      "density",
-      "state",
-    ]);
+    expect(settings?.controls.map(({ id }) => id)).toEqual(["navigation", "density", "state"]);
     expect(settings?.markup({ ...settings.defaults, state: "offline" })).toContain(
       "Gateway unavailable",
     );
 
-    expect(operations?.controls.map(({ id }) => id)).toEqual([
-      "view",
-      "state",
-      "navigation",
-    ]);
-    expect(
-      operations?.markup({ ...operations.defaults, view: "automation" }),
-    ).toContain("Scheduled work");
+    expect(operations?.controls.map(({ id }) => id)).toEqual(["view", "state", "navigation"]);
+    expect(operations?.markup({ ...operations.defaults, view: "automation" })).toContain(
+      "Scheduled work",
+    );
 
     expect(workspace?.controls.map(({ id }) => id)).toEqual([
       "dock",
@@ -268,10 +257,10 @@ describe("preview contracts", () => {
       "navigation",
     ]);
     expect(workspace?.markup({ ...workspace.defaults, dock: "bottom" })).toContain(
-      'data-split="balanced"',
+      'data-dock="bottom"',
     );
     expect(getReferenceContent("application-operations")).toContain(
-      '&lt;section class="oc-pane oc-pane-split"&gt;',
+      '&lt;section class="oc-pane oc-master-detail"&gt;',
     );
   });
 
@@ -411,15 +400,11 @@ describe("preview contracts", () => {
     expect(css).toContain(".oc-layer-card:has(> .oc-layer-card-secondary)");
     expect(css).toContain("background: var(--oc-bg-elevated);");
     expect(css).toContain("background: var(--oc-bg-surface);");
-    expect(css).toContain(
-      "border-radius: var(--oc-radius-surface) var(--oc-radius-surface) 0 0;",
-    );
+    expect(css).toContain("border-radius: var(--oc-radius-surface) var(--oc-radius-surface) 0 0;");
     expect(css).toContain(
       ".oc-layer-card-primary:has(> .oc-layer-card-icon) {\n  display: grid;\n  grid-template-columns: 2.5rem minmax(0, 1fr);\n  gap: var(--oc-space-4);\n  align-items: start;\n}",
     );
-    expect(css).toContain(
-      "margin-bottom: calc(var(--oc-space-2) * -1);",
-    );
+    expect(css).toContain("margin-bottom: calc(var(--oc-space-2) * -1);");
     expect(previewCss).not.toContain(
       ".component-workbench-frame .oc-layer-card-secondary,\n.component-workbench-frame .oc-layer-card-primary",
     );
@@ -454,8 +439,7 @@ describe("preview contracts", () => {
     const source = await readFile("preview/component-workbench.js", "utf8");
     const preRule =
       css.match(/\.component-workbench-dock-panel \.code-block pre \{([^}]*)\}/)?.[1] ?? "";
-    const codeRule =
-      css.match(/\.component-workbench-code-readable code \{([^}]*)\}/)?.[1] ?? "";
+    const codeRule = css.match(/\.component-workbench-code-readable code \{([^}]*)\}/)?.[1] ?? "";
 
     expect(preRule).toContain("overflow-x: hidden;");
     expect(preRule).toContain("overflow-y: hidden;");
@@ -470,7 +454,7 @@ describe("preview contracts", () => {
 
     const lifecycle = await readFile("preview/page-lifecycle.js", "utf8");
     expect(lifecycle).toContain("function bindCopyActions(root, reportFeedback)");
-    expect(lifecycle).toContain('[data-copy-token], [data-copy-code], [data-copy-text]');
+    expect(lifecycle).toContain("[data-copy-token], [data-copy-code], [data-copy-text]");
     expect(lifecycle).toContain('codeBlock?.querySelector("code")?.textContent');
   });
 
@@ -528,10 +512,7 @@ describe("preview contracts", () => {
       },
       removeEventListener() {},
     };
-    const reporter = createFeedbackReporter(
-      { querySelector: () => feedback },
-      view,
-    );
+    const reporter = createFeedbackReporter({ querySelector: () => feedback }, view);
     const stop = bindCopyActions(root, reporter.show);
 
     await click?.({ target: button });
@@ -632,8 +613,7 @@ describe("preview contracts", () => {
       ".oc-date-input:hover:not(:disabled)",
     ]) {
       const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const declarations =
-        lab.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+      const declarations = lab.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
       expect(declarations).toContain("border-color: var(--oc-border-strong)");
     }
 
@@ -643,8 +623,7 @@ describe("preview contracts", () => {
       ".button-secondary:hover",
     ]) {
       const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const declarations =
-        shell.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+      const declarations = shell.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
       expect(declarations).toContain("border-color: var(--oc-border-strong)");
     }
   });
@@ -653,8 +632,7 @@ describe("preview contracts", () => {
     const lab = await readFile("preview/lab.css", "utf8");
     const shell = await readFile("preview/preview.css", "utf8");
 
-    const secondary =
-      lab.match(/\.oc-button-secondary\s*\{([^}]*)\}/)?.[1] ?? "";
+    const secondary = lab.match(/\.oc-button-secondary\s*\{([^}]*)\}/)?.[1] ?? "";
     expect(secondary).toContain("background: var(--oc-bg-elevated);");
     expect(secondary).not.toContain("background: var(--oc-surface-interactive);");
 
@@ -673,8 +651,7 @@ describe("preview contracts", () => {
       ".reference-card.foundations-card-featured",
     ]) {
       const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const declarations =
-        shell.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
+      const declarations = shell.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`))?.[1] ?? "";
       expect(declarations).toContain("background: var(--oc-bg-elevated);");
       expect(declarations).not.toContain("var(--oc-surface-secondary-soft)");
       expect(declarations).not.toContain("var(--oc-bg-surface)");
@@ -827,7 +804,9 @@ describe("preview contracts", () => {
       variant: WORKBENCH_ALL_VALUE,
       disabled: false,
     });
-    expect(getWorkbenchComparison(definition, { variant: WORKBENCH_ALL_VALUE, disabled: false })).toMatchObject({
+    expect(
+      getWorkbenchComparison(definition, { variant: WORKBENCH_ALL_VALUE, disabled: false }),
+    ).toMatchObject({
       layout: "rows",
       items: [
         { label: "Inline", state: { variant: "inline", disabled: false } },
@@ -904,7 +883,9 @@ describe("preview contracts", () => {
       state: WORKBENCH_ALL_VALUE,
       message: true,
     });
-    expect(getWorkbenchComparison(definition, normalizeWorkbenchState(definition, {}))).toMatchObject({
+    expect(
+      getWorkbenchComparison(definition, normalizeWorkbenchState(definition, {})),
+    ).toMatchObject({
       layout: "stack",
       items: [
         { label: "Default", state: { state: "default", message: true } },
@@ -966,7 +947,9 @@ describe("preview contracts", () => {
       state: "default",
       message: true,
     });
-    expect(getWorkbenchComparison(definition, normalizeWorkbenchState(definition, {}))).toMatchObject({
+    expect(
+      getWorkbenchComparison(definition, normalizeWorkbenchState(definition, {})),
+    ).toMatchObject({
       layout: "stack",
       items: [
         {
@@ -1011,11 +994,16 @@ describe("preview contracts", () => {
   test("restores Autocomplete focus after a selected value rerenders the specimen", () => {
     const definition = getWorkbenchDefinition("primitive-autocomplete");
     const initialInput = Object.assign(new EventTarget(), { value: "Card" });
-    const replacementInput = { focused: false, focus() { this.focused = true; } };
+    const replacementInput = {
+      focused: false,
+      focus() {
+        this.focused = true;
+      },
+    };
     let currentInput = initialInput;
     const specimen = {
       querySelectorAll: () => [],
-      querySelector: (selector) => selector === "input" ? currentInput : null,
+      querySelector: (selector) => (selector === "input" ? currentInput : null),
     };
 
     definition?.bind?.(specimen, {}, (id, value) => {
@@ -1055,7 +1043,9 @@ describe("preview contracts", () => {
       },
       { id: "disabled", type: "toggle" },
     ]);
-    expect(normalizeWorkbenchState(definition, { status: "submitted", disabled: true })).toMatchObject({
+    expect(
+      normalizeWorkbenchState(definition, { status: "submitted", disabled: true }),
+    ).toMatchObject({
       status: "submitted",
       disabled: true,
     });
@@ -1149,7 +1139,10 @@ describe("preview contracts", () => {
       label: true,
     });
     expect(
-      getWorkbenchComparison(definition, normalizeWorkbenchState(definition, { size: WORKBENCH_ALL_VALUE })),
+      getWorkbenchComparison(
+        definition,
+        normalizeWorkbenchState(definition, { size: WORKBENCH_ALL_VALUE }),
+      ),
     ).toMatchObject({
       layout: "rows",
       items: [
@@ -1279,15 +1272,15 @@ describe("preview contracts", () => {
       state: "default",
       layout: "wrap",
     });
-    expect(definition?.markup({ size: "sm", label: true, state: "default", layout: "wrap" })).toContain(
-      "oc-provider-logo-sm",
-    );
-    expect(definition?.markup({ size: "md", label: false, state: "selected", layout: "row" })).toContain(
-      'data-selected="true"',
-    );
-    expect(definition?.markup({ size: "lg", label: true, state: "muted", layout: "stack" })).toContain(
-      "oc-provider-logo-muted",
-    );
+    expect(
+      definition?.markup({ size: "sm", label: true, state: "default", layout: "wrap" }),
+    ).toContain("oc-provider-logo-sm");
+    expect(
+      definition?.markup({ size: "md", label: false, state: "selected", layout: "row" }),
+    ).toContain('data-selected="true"');
+    expect(
+      definition?.markup({ size: "lg", label: true, state: "muted", layout: "stack" }),
+    ).toContain("oc-provider-logo-muted");
   });
 
   test("models documented Spiral Loader sizes", () => {
@@ -1451,10 +1444,12 @@ describe("preview contracts", () => {
   test("models transcript status and copy affordance independently", () => {
     const definition = getWorkbenchDefinition("message-list");
 
-    expect(normalizeWorkbenchState(definition, {
-      status: "streaming",
-      copyToolbar: false,
-    })).toEqual({ status: "streaming", copyToolbar: false });
+    expect(
+      normalizeWorkbenchState(definition, {
+        status: "streaming",
+        copyToolbar: false,
+      }),
+    ).toEqual({ status: "streaming", copyToolbar: false });
   });
 
   test("loads canonical styles through valid CSS", async () => {
@@ -1527,27 +1522,21 @@ describe("preview contracts", () => {
     expect(content).not.toContain('class="type-specimens"');
     expect(css).toContain(".type-role-grid");
     expect(css).toContain(".type-scale-row");
-    const typeRoleCard =
-      css.match(/\.type-role-card\s*\{([^}]*)\}/)?.[1] ?? "";
+    const typeRoleCard = css.match(/\.type-role-card\s*\{([^}]*)\}/)?.[1] ?? "";
     expect(typeRoleCard).toContain("border-radius: var(--oc-radius-surface)");
-    const typeScaleList =
-      css.match(/\.type-scale-list\s*\{([^}]*)\}/)?.[1] ?? "";
+    const typeScaleList = css.match(/\.type-scale-list\s*\{([^}]*)\}/)?.[1] ?? "";
     expect(typeScaleList).toContain("border-radius: var(--oc-radius-surface)");
   });
 
   test("applies surface radius to Foundations reference cards", async () => {
     const css = await readFile("preview/preview.css", "utf8");
     const shapeIntro = getReferenceContent("foundation-shape-depth");
-    const referenceCard =
-      css.match(/(?:^|\n)\.reference-card\s*\{([^}]*)\}/)?.[1] ?? "";
-    const colorStatusCard =
-      css.match(/(?:^|\n)\.color-status-card\s*\{([^}]*)\}/)?.[1] ?? "";
+    const referenceCard = css.match(/(?:^|\n)\.reference-card\s*\{([^}]*)\}/)?.[1] ?? "";
+    const colorStatusCard = css.match(/(?:^|\n)\.color-status-card\s*\{([^}]*)\}/)?.[1] ?? "";
 
     expect(referenceCard).toContain("border-radius: var(--oc-radius-surface)");
     expect(colorStatusCard).toContain("border-radius: var(--oc-radius-surface)");
-    expect(shapeIntro).toContain(
-      "Semantic geometry uses surface, control, and inset roles",
-    );
+    expect(shapeIntro).toContain("Semantic geometry uses surface, control, and inset roles");
     expect(shapeIntro).not.toContain("keeps product UI square");
   });
 
@@ -1613,7 +1602,7 @@ describe("preview contracts", () => {
       'class="oc-autocomplete home-input-demo" data-combobox data-combobox-free-entry="true"><label class="oc-field-label"',
     );
     expect(home).toContain('id="home-autocomplete-options" role="listbox" hidden');
-    expect(pageLifecycle).toContain('.home-component-grid .oc-segmented');
+    expect(pageLifecycle).toContain(".home-component-grid .oc-segmented");
     expect(componentLabels.slice(0, 8)).toEqual([
       "Button",
       "Composer",
@@ -1732,9 +1721,7 @@ describe("preview contracts", () => {
   test("documents separate accessible names and descriptions for charts", async () => {
     const customChart = getReferenceContent("chart-custom");
     const chartSources = await Promise.all(
-      ["preview/index.html", "preview/reference-content.js"].map((path) =>
-        readFile(path, "utf8"),
-      ),
+      ["preview/index.html", "preview/reference-content.js"].map((path) => readFile(path, "utf8")),
     );
 
     expect(customChart).toContain(
@@ -1744,15 +1731,13 @@ describe("preview contracts", () => {
       '&lt;title id="chart-title"&gt;Completion distribution&lt;/title&gt;',
     );
     expect(customChart).toContain('&lt;desc id="chart-description"&gt;');
-    expect(chartSources.join("\n")).not.toMatch(
-      /aria-labelledby="[^"]+-title [^"]+-description"/,
-    );
+    expect(chartSources.join("\n")).not.toMatch(/aria-labelledby="[^"]+-title [^"]+-description"/);
   });
 
   test("keeps Sankey flow widths proportional to the published totals", () => {
     const sankey = getReferenceContent("chart-sankey");
-    const flowWidths = [...sankey.matchAll(/stroke-width="(\d+)"/g)].map(
-      ([, width]) => Number(width),
+    const flowWidths = [...sankey.matchAll(/stroke-width="(\d+)"/g)].map(([, width]) =>
+      Number(width),
     );
 
     expect(flowWidths.slice(0, 3)).toEqual([78, 28, 14]);
@@ -1773,15 +1758,7 @@ describe("preview contracts", () => {
   });
 
   test("renders accessible shell icons", () => {
-    for (const name of [
-      "menu",
-      "search",
-      "github",
-      "external",
-      "sun",
-      "moon",
-      "system",
-    ] as const) {
+    for (const name of ["menu", "search", "github", "external", "sun", "moon", "system"] as const) {
       const markup = icon(name);
       expect(markup).toContain("<svg");
       expect(markup).toContain('aria-hidden="true"');
@@ -1792,27 +1769,21 @@ describe("preview contracts", () => {
   test("uses local brand marks without adding click behavior", async () => {
     const shell = await readFile("preview/shell.js", "utf8");
 
-    expect(shell).toContain(
-      'new URL("./assets/openclaw-mark.png", import.meta.url).href',
-    );
-    expect(shell).toContain(
-      'new URL("./assets/openclaw-mark-hover.png", import.meta.url).href',
-    );
+    expect(shell).toContain('new URL("./assets/openclaw-mark.png", import.meta.url).href');
+    expect(shell).toContain('new URL("./assets/openclaw-mark-hover.png", import.meta.url).href');
     expect(shell).toContain('src="${brandMarkUrl}"');
     expect(shell).toContain('src="${brandMarkHoverUrl}"');
     expect(shell).toContain("const faviconUrl = brandMarkHoverUrl;");
     expect(shell).toContain('<span class="brand-wordmark">Carapace</span>');
     expect(shell).not.toContain("openclaw.ai/favicon.svg");
-    expect(shell).not.toContain(
-      'document.querySelector(".brand")?.addEventListener("click"',
-    );
+    expect(shell).not.toContain('document.querySelector(".brand")?.addEventListener("click"');
   });
 
   test("keeps canonical metadata aligned with client-side routes", async () => {
     const app = await readFile("preview/app.jsx", "utf8");
 
-    expect(app).toContain('document.querySelector(\'link[rel="canonical"]\')');
-    expect(app).toContain('document.querySelector(\'meta[property="og:url"]\')');
+    expect(app).toContain("document.querySelector('link[rel=\"canonical\"]')");
+    expect(app).toContain("document.querySelector('meta[property=\"og:url\"]')");
     expect(app).toContain('new URL(path, "https://carapace.design/")');
     expect(app).toContain("updateDocumentMetadata(route.pageId, route.path)");
   });
@@ -1827,7 +1798,9 @@ describe("preview contracts", () => {
     expect(previewStyles).toContain("width: min(100%, 480px)");
     expect(previewStyles).toContain("justify-self: center");
     expect(previewStyles).toContain(".search-field:focus-within");
-    expect(previewStyles).toContain(".topbar-actions {\n  grid-column: 3;\n  display: flex;\n  gap: 8px;");
+    expect(previewStyles).toContain(
+      ".topbar-actions {\n  grid-column: 3;\n  display: flex;\n  gap: 8px;",
+    );
     expect(shell).toContain('${icon("menu")}');
     expect(previewStyles).toContain(".mobile-nav-trigger svg");
     expect(previewStyles).toContain("transform: translateX(-50%)");
@@ -2003,13 +1976,10 @@ describe("preview contracts", () => {
   });
 
   test("renders legacy guidance through the shared Usage contract", async () => {
-    const reference = createFallbackComponentWorkbenchReference(
-      "Hover, focus, and active",
-      [
-        "Keep the whole surface responsible for one action.",
-        "Choose the semantic element in the consumer.",
-      ],
-    );
+    const reference = createFallbackComponentWorkbenchReference("Hover, focus, and active", [
+      "Keep the whole surface responsible for one action.",
+      "Choose the semantic element in the consumer.",
+    ]);
     const source = await readFile("preview/component-workbench.js", "utf8");
     const css = await readFile("preview/preview.css", "utf8");
 
@@ -2047,7 +2017,7 @@ describe("preview contracts", () => {
     expect(source).toContain('data-lucide="sliders-horizontal"');
     expect(formatted).toContain("\n  <summary>");
     expect(formatted).toContain("\n    <span>Ran command</span>");
-    expect(formatted).toContain("\n    <span data-status=\"success\">Exit 0</span>");
+    expect(formatted).toContain('\n    <span data-status="success">Exit 0</span>');
     expect(formatted).toContain(
       '\n    <button type="button" aria-label="Copy result">Copy</button>',
     );
