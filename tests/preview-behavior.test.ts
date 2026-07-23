@@ -1502,6 +1502,7 @@ describe("preview behavior", () => {
     );
     expect(collapsed).toContain("Inbox");
     expect(collapsed).toContain('aria-label="Expand sidebar"');
+    expect(expanded).not.toContain("data-sidebar-workspace-avatar-src");
   });
 
   test("collapses the sidebar rail and closes an open workspace menu", () => {
@@ -1543,17 +1544,27 @@ describe("preview behavior", () => {
   test("updates the visible workspace identity and selected option", () => {
     class Option {
       attributes = new Map();
+      avatarImage;
       constructor(id, name, description, avatarSrc) {
         this.attributes.set("data-sidebar-workspace-id", id);
         this.attributes.set("data-sidebar-workspace-name", name);
         this.attributes.set("data-sidebar-workspace-description", description);
-        this.attributes.set("data-sidebar-workspace-avatar-src", avatarSrc);
+        this.avatarImage = {
+          alt: "Workspace",
+          src: avatarSrc,
+          cloneNode() {
+            return { alt: this.alt, src: this.src };
+          },
+        };
       }
       setAttribute(name, value) {
         this.attributes.set(name, value);
       }
       getAttribute(name) {
         return this.attributes.get(name);
+      }
+      querySelector(selector) {
+        return selector === "img.oc-avatar-image" ? this.avatarImage : null;
       }
     }
 
@@ -1562,13 +1573,13 @@ describe("preview behavior", () => {
     const title = { textContent: "" };
     const subtitle = { textContent: "" };
     const avatarAttributes = new Map();
-    const avatarImage = { src: "", alt: "Workspace" };
+    let avatarImage = null;
     const avatar = {
       setAttribute(name, value) {
         avatarAttributes.set(name, value);
       },
-      querySelector() {
-        return avatarImage;
+      replaceChildren(image) {
+        avatarImage = image;
       },
     };
     class Panel {
@@ -1619,7 +1630,8 @@ describe("preview behavior", () => {
     expect(title.textContent).toBe("Labs");
     expect(subtitle.textContent).toBe("Product experiments");
     expect(avatarAttributes.get("aria-label")).toBe("Labs workspace");
-    expect(avatarImage.src).toBe("labs.png");
+    expect(avatarImage?.src).toBe("labs.png");
+    expect(avatarImage?.alt).toBe("");
     expect(currentPanel.getAttribute("data-active")).toBe("false");
     expect(currentPanel.inert).toBe(true);
     expect(selectedPanel.getAttribute("data-active")).toBe("true");

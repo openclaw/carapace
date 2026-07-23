@@ -729,7 +729,7 @@ export function sidebarWorkbenchMarkup({
       <div class="oc-sidebar-workspace-menu" id="component-sidebar-workspaces" role="menu" aria-label="Choose workspace" aria-hidden="true" data-open="false" data-sidebar-workspace-menu inert>
         ${sidebarWorkspaces
           .map(
-            (candidate) => `<button class="oc-sidebar-workspace-option" type="button" role="menuitemradio" aria-checked="${candidate.id === activeWorkspace.id}" data-sidebar-workspace-option data-sidebar-workspace-id="${candidate.id}" data-sidebar-workspace-name="${candidate.label}" data-sidebar-workspace-description="${candidate.description}" data-sidebar-workspace-avatar-src="${avatarFixtureUrl(candidate.avatarSeed)}">
+            (candidate) => `<button class="oc-sidebar-workspace-option" type="button" role="menuitemradio" aria-checked="${candidate.id === activeWorkspace.id}" data-sidebar-workspace-option data-sidebar-workspace-id="${candidate.id}" data-sidebar-workspace-name="${candidate.label}" data-sidebar-workspace-description="${candidate.description}">
           ${sidebarAvatarMarkup(candidate.avatarSeed, "")}
           <span><strong>${candidate.label}</strong><small>${candidate.description}</small></span>
           <i data-lucide="check" aria-hidden="true"></i>

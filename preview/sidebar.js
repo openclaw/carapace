@@ -72,8 +72,8 @@ export function setSidebarWorkspace(sidebar, option) {
   const workspace = option.getAttribute("data-sidebar-workspace-id");
   const name = option.getAttribute("data-sidebar-workspace-name");
   const description = option.getAttribute("data-sidebar-workspace-description");
-  const avatarSrc = option.getAttribute("data-sidebar-workspace-avatar-src");
-  if (!workspace || !name || !description || !avatarSrc) return false;
+  const optionAvatarImage = option.querySelector?.("img.oc-avatar-image");
+  if (!workspace || !name || !description || !optionAvatarImage) return false;
 
   sidebar.setAttribute("data-sidebar-workspace", workspace);
   for (const candidate of sidebar.querySelectorAll("[data-sidebar-workspace-option]")) {
@@ -83,13 +83,13 @@ export function setSidebarWorkspace(sidebar, option) {
   const title = sidebar.querySelector("[data-sidebar-workspace-title]");
   const subtitle = sidebar.querySelector("[data-sidebar-workspace-subtitle]");
   const avatar = sidebar.querySelector("[data-sidebar-workspace-avatar]");
-  const avatarImage = avatar?.querySelector?.(".oc-avatar-image");
   if (title) title.textContent = name;
   if (subtitle) subtitle.textContent = description;
   if (avatar) avatar.setAttribute("aria-label", `${name} workspace`);
-  if (avatarImage) {
-    avatarImage.src = avatarSrc;
+  if (avatar?.replaceChildren) {
+    const avatarImage = optionAvatarImage.cloneNode(true);
     avatarImage.alt = "";
+    avatar.replaceChildren(avatarImage);
   }
 
   for (const panel of sidebar.querySelectorAll("[data-sidebar-workspace-panel]")) {
