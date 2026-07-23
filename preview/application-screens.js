@@ -709,7 +709,7 @@ export function workspaceApplicationMarkup({
   navigation = "compact",
 } = {}) {
   const showInspector = inspector && dock !== "hidden";
-  return `<div class="oc-app-frame application-workspace" data-navigation="${navigation}" data-dock="${dock}" data-inspector="${showInspector}">
+  return `<div class="oc-app-frame" data-navigation="${navigation}" data-dock="${dock}" data-inspector="${showInspector}">
   ${applicationNavigation({ current: "Sessions", navigation })}
   <main class="oc-app-main">
     ${applicationToolbar({ label: "Sessions", detail: "Carapace app parity", state: status === "error" ? "error" : "ready" })}

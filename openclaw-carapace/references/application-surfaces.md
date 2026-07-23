@@ -62,6 +62,9 @@ create application-specific replacements for controls already in Carapace.
 - Let the primary task own most of a workspace. Session history and inspectors
   should stay narrower, hide on constrained widths, and never squeeze the
   primary content below a usable measure.
+- Set `data-inspector="true|false"` on `.oc-app-frame` for workspace layouts.
+  Add `data-dock="right|bottom|hidden"` when inspector placement changes;
+  bottom layout is reserved only while an inspector is present.
 - Use bounded groups for related settings, not a card around every row or
   section. Keep settings navigation visually quieter than the selected detail.
 - Use coral for primary action and selection, sea for connected identity and

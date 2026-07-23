@@ -405,6 +405,17 @@ describe("CSS contract", () => {
       /\.oc-master-pane \{[\s\S]*?grid-template-rows: auto auto minmax\(0, 1fr\)/,
     );
     expect(application).toMatch(/\.oc-settings-shell\[data-density="compact"\] \.oc-settings-row/);
+    expect(ruleDeclarations(application, ".oc-settings-detail-scroll")).toContain(
+      "box-sizing: border-box",
+    );
+    expect(application).toMatch(/\.oc-app-frame\[data-inspector="false"\] \.oc-workspace-grid/);
+    expect(application).toMatch(
+      /\.oc-app-frame\[data-dock="bottom"\]\[data-inspector="true"\] \.oc-workspace-grid/,
+    );
+    expect(application).not.toMatch(
+      /\.oc-app-frame\[data-dock="bottom"\](?!\[data-inspector="true"\])/,
+    );
+    expect(application).not.toContain(".application-workspace");
     expect(application).not.toMatch(/(?:^|\n)\.oc-resource-(?:list|search)/);
     expect(application).toMatch(/\.oc-master-detail > \.oc-pane \{[\s\S]*?border-width: 0/);
     expect(application).toMatch(

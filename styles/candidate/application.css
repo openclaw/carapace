@@ -1234,6 +1234,7 @@
 .oc-settings-detail-scroll {
   display: grid;
   width: min(100%, 58rem);
+  box-sizing: border-box;
   min-width: 0;
   align-content: start;
   gap: var(--oc-space-6);
@@ -1312,7 +1313,7 @@
   overflow: hidden;
 }
 
-.application-workspace[data-inspector="false"] .oc-workspace-grid {
+.oc-app-frame[data-inspector="false"] .oc-workspace-grid {
   grid-template-columns: minmax(12rem, 14rem) minmax(24rem, 1fr);
 }
 
@@ -1616,17 +1617,17 @@
   white-space: nowrap;
 }
 
-.application-workspace[data-dock="bottom"] .oc-workspace-grid {
+.oc-app-frame[data-dock="bottom"][data-inspector="true"] .oc-workspace-grid {
   grid-template-columns: minmax(12rem, 14rem) minmax(24rem, 1fr);
   grid-template-rows: minmax(24rem, 1fr) minmax(15rem, 0.55fr);
   overflow: auto;
 }
 
-.application-workspace[data-dock="bottom"] .oc-workspace-sessions {
+.oc-app-frame[data-dock="bottom"][data-inspector="true"] .oc-workspace-sessions {
   grid-row: 1 / -1;
 }
 
-.application-workspace[data-dock="bottom"] .oc-workspace-inspector {
+.oc-app-frame[data-dock="bottom"][data-inspector="true"] .oc-workspace-inspector {
   grid-column: 2;
   border-top: 1px solid var(--oc-border-subtle);
   border-left: 0;
@@ -1907,7 +1908,7 @@
     display: none;
   }
 
-  .application-workspace[data-dock="bottom"] .oc-workspace-grid {
+  .oc-app-frame[data-dock="bottom"][data-inspector="true"] .oc-workspace-grid {
     grid-template-columns: minmax(11rem, 13rem) minmax(22rem, 1fr);
     grid-template-rows: minmax(0, 1fr);
     overflow: hidden;
@@ -2163,8 +2164,8 @@
   }
 
   .oc-workspace-grid,
-  .application-workspace[data-inspector="false"] .oc-workspace-grid,
-  .application-workspace[data-dock="bottom"] .oc-workspace-grid {
+  .oc-app-frame[data-inspector="false"] .oc-workspace-grid,
+  .oc-app-frame[data-dock="bottom"][data-inspector="true"] .oc-workspace-grid {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto minmax(28rem, 1fr);
     overflow: visible;

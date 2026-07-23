@@ -331,17 +331,26 @@ describe("preview behavior", () => {
   test("renders Workspace with right, bottom, and hidden inspector modes", () => {
     const right = workspaceApplicationMarkup();
     const bottom = workspaceApplicationMarkup({ dock: "bottom", status: "idle" });
+    const bottomWithoutInspector = workspaceApplicationMarkup({
+      dock: "bottom",
+      inspector: false,
+    });
     const hidden = workspaceApplicationMarkup({ dock: "hidden", inspector: false });
 
     expect(right).toContain('data-dock="right"');
     expect(right).toContain('class="oc-workspace-grid"');
     expect(right).toContain('data-inspector="true"');
+    expect(right).not.toContain("application-workspace");
     expect(right).toContain('aria-label="Sessions"');
     expect(right).toContain('aria-label="Inspector"');
     expect(bottom).toContain('data-dock="bottom"');
     expect(bottom).toContain('data-inspector="true"');
     expect(bottom).toContain("Agent idle");
+    expect(bottomWithoutInspector).toContain('data-dock="bottom"');
+    expect(bottomWithoutInspector).toContain('data-inspector="false"');
+    expect(bottomWithoutInspector).not.toContain('aria-label="Inspector"');
     expect(hidden).not.toContain('aria-label="Inspector"');
+    expect(hidden).toContain('data-dock="hidden"');
     expect(hidden).toContain('data-inspector="false"');
   });
 

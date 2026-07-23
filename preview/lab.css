@@ -4357,13 +4357,13 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
 
 .component-workbench-canvas[data-viewport="tablet"] .oc-workspace-grid,
 .component-workbench-canvas[data-viewport="tablet"]
-  .application-workspace[data-dock="bottom"]
+  .oc-app-frame[data-dock="bottom"][data-inspector="true"]
   .oc-workspace-grid {
   grid-template-columns: minmax(11rem, 13rem) minmax(22rem, 1fr);
 }
 
 .component-workbench-canvas[data-viewport="tablet"]
-  .application-workspace[data-dock="bottom"]
+  .oc-app-frame[data-dock="bottom"][data-inspector="true"]
   .oc-workspace-grid {
   grid-template-rows: minmax(0, 1fr);
   overflow: hidden;
@@ -4617,8 +4617,8 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
 .component-workbench-canvas[data-viewport="mobile"]
   :is(
     .oc-workspace-grid,
-    .application-workspace[data-inspector="false"] .oc-workspace-grid,
-    .application-workspace[data-dock="bottom"] .oc-workspace-grid
+    .oc-app-frame[data-inspector="false"] .oc-workspace-grid,
+    .oc-app-frame[data-dock="bottom"][data-inspector="true"] .oc-workspace-grid
   ) {
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(28rem, 1fr);
