@@ -1090,7 +1090,7 @@ const contents = {
       `<section class="oc-pane oc-master-detail">
   <section class="oc-pane oc-master-pane" aria-label="Channels">
     <header class="oc-pane-header">…</header>
-    <div class="oc-resource-list">…</div>
+    <div class="oc-app-resource-list">…</div>
   </section>
   <section class="oc-pane oc-detail-pane" aria-label="Selected channel">
     <header class="oc-pane-header">…</header>

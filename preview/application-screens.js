@@ -127,7 +127,7 @@ function settingsNavigation(state) {
     <input type="search" placeholder="Search settings" />
     <kbd>⌘ F</kbd>
   </label>
-  <nav class="oc-settings-navigation-list">
+  <nav class="oc-settings-navigation-list" aria-label="Settings sections">
     <section>
       <p>Application</p>
       ${settingsNavigationItem({ icon: "sliders-horizontal", label: "General", current: true })}
@@ -278,10 +278,10 @@ function summaryMetric({ icon, label, value, detail, tone = "neutral" } = {}) {
 }
 
 function resourceListItem({ icon, title, description, status, meta, selected = false } = {}) {
-  return `<button class="oc-resource-list-item" type="button" aria-pressed="${selected}">
-  <span class="oc-resource-list-icon">${agentIcon(icon)}</span>
-  <span class="oc-resource-list-copy"><strong>${title}</strong><small>${description}</small></span>
-  <span class="oc-resource-list-meta">${statusMarkup(status, {
+  return `<button class="oc-app-resource-list-item" type="button" aria-pressed="${selected}">
+  <span class="oc-app-resource-list-icon">${agentIcon(icon)}</span>
+  <span class="oc-app-resource-list-copy"><strong>${title}</strong><small>${description}</small></span>
+  <span class="oc-app-resource-list-meta">${statusMarkup(status, {
     ready: "Connected",
     active: "Running",
     idle: "Paused",
@@ -485,9 +485,9 @@ export function operationsApplicationMarkup({
               </div>
               <button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="Filter list">${agentIcon("list-filter")}</button>
             </header>
-            <div class="oc-resource-search"><span>${agentIcon("search")}</span><input type="search" aria-label="${channels ? "Search channels" : "Search automations"}" placeholder="Filter" /></div>
+            <div class="oc-app-resource-search"><span>${agentIcon("search")}</span><input type="search" aria-label="${channels ? "Search channels" : "Search automations"}" placeholder="Filter" /></div>
             <div class="oc-pane-body oc-pane-body-flush">
-              <div class="oc-resource-list">
+              <div class="oc-app-resource-list">
                 ${
                   channels
                     ? [
@@ -592,7 +592,7 @@ function workspaceSessions(status) {
     <div class="oc-pane-heading"><h2 class="oc-pane-title">Sessions</h2><p class="oc-pane-description">4 open</p></div>
     <button class="oc-action oc-action-icon oc-action-primary" type="button" aria-label="New session">${agentIcon("plus")}</button>
   </header>
-  <div class="oc-resource-search"><span>${agentIcon("search")}</span><input type="search" aria-label="Search sessions" placeholder="Search sessions" /></div>
+  <div class="oc-app-resource-search"><span>${agentIcon("search")}</span><input type="search" aria-label="Search sessions" placeholder="Search sessions" /></div>
   <div class="oc-session-list">
     ${sessionListItem({ title: "Carapace parity", detail: "Design system", time: "now", selected: true, active: status === "active" })}
     ${sessionListItem({ title: "Release validation", detail: "openclaw/openclaw", time: "8m" })}

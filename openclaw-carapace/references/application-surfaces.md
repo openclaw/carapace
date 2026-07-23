@@ -29,7 +29,7 @@ Compose the contract from these roles:
 - `.oc-pane` provides bounded header, body, and footer regions.
 - `.oc-pane-split` creates generic two-pane layouts.
 - `.oc-master-detail`, `.oc-master-pane`, `.oc-detail-pane`,
-  `.oc-resource-list`, and `.oc-activity-list` support repeated operational
+  `.oc-app-resource-list`, and `.oc-activity-list` support repeated operational
   inspection without turning every datum into a card.
 - `.oc-summary-strip` exposes a small set of comparable health metrics above an
   operational workspace.

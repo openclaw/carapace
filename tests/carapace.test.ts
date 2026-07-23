@@ -248,6 +248,12 @@ describe("CSS contract", () => {
       ".oc-app-navigation-section",
       ".oc-app-navigation-title",
       ".oc-app-profile",
+      ".oc-app-resource-list",
+      ".oc-app-resource-list-copy",
+      ".oc-app-resource-list-icon",
+      ".oc-app-resource-list-item",
+      ".oc-app-resource-list-meta",
+      ".oc-app-resource-search",
       ".oc-app-toolbar",
       ".oc-app-toolbar-actions",
       ".oc-app-toolbar-context",
@@ -297,12 +303,6 @@ describe("CSS contract", () => {
       ".oc-pane-state",
       ".oc-pane-title",
       ".oc-pane-title-row",
-      ".oc-resource-list",
-      ".oc-resource-list-copy",
-      ".oc-resource-list-icon",
-      ".oc-resource-list-item",
-      ".oc-resource-list-meta",
-      ".oc-resource-search",
       ".oc-segmented",
       ".oc-select-wrap",
       ".oc-session-list",
@@ -398,6 +398,14 @@ describe("CSS contract", () => {
     expect(application).toMatch(
       /\.oc-master-detail \{[\s\S]*?grid-template-rows: minmax\(0, 1fr\)/,
     );
+    expect(application).toMatch(
+      /\.oc-app-navigation \{[\s\S]*?grid-template-rows: auto auto minmax\(0, 1fr\) auto/,
+    );
+    expect(application).toMatch(
+      /\.oc-master-pane \{[\s\S]*?grid-template-rows: auto auto minmax\(0, 1fr\)/,
+    );
+    expect(application).toMatch(/\.oc-settings-shell\[data-density="compact"\] \.oc-settings-row/);
+    expect(application).not.toMatch(/(?:^|\n)\.oc-resource-(?:list|search)/);
     expect(application).toMatch(/\.oc-master-detail > \.oc-pane \{[\s\S]*?border-width: 0/);
     expect(application).toMatch(
       /@media \(max-width: 48rem\)[\s\S]*?\.oc-pane-split > \.oc-pane,[\s\S]*?\.oc-master-detail > \.oc-pane \{[\s\S]*?min-height: 0/,
@@ -407,6 +415,9 @@ describe("CSS contract", () => {
     );
     expect(application).toMatch(
       /@media \(max-width: 48rem\)[\s\S]*?grid-template-columns: 1\.25rem minmax\(0, 1fr\) auto/,
+    );
+    expect(application).toMatch(
+      /@media \(max-width: 48rem\)[\s\S]*?\.oc-settings-navigation-list \{[\s\S]*?overflow-x: auto/,
     );
     expect(application).toMatch(/@media \(forced-colors: active\)[\s\S]*?Highlight/);
 

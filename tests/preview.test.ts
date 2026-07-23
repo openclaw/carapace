@@ -384,6 +384,23 @@ describe("preview contracts", () => {
     );
   });
 
+  test("adapts application specimens to simulated workbench viewports", async () => {
+    const css = await readFile("preview/lab.css", "utf8");
+
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="tablet"] .oc-summary-strip {\n  grid-template-columns: repeat(2, minmax(0, 1fr));',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-settings-navigation-list {\n  display: flex;\n  overflow-x: auto;',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-settings-navigation-item {\n  width: max-content;',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-workspace-sessions {\n  grid-row: auto;\n  max-height: 15rem;',
+    );
+  });
+
   test("provides a surface role for the Layer Card specimen", () => {
     expect(getReferenceContent("primitive-layer-card")).toContain(
       'class="specimen-frame oc-app-surface"',

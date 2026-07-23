@@ -292,6 +292,7 @@ describe("preview behavior", () => {
 
     expect(ready).toContain('class="oc-app-frame" data-navigation="expanded"');
     expect(ready).toContain('class="oc-settings-group"');
+    expect(ready).toContain('class="oc-settings-navigation-list" aria-label="Settings sections"');
     expect(ready).toContain('class="oc-switch" type="checkbox" role="switch"');
     expect(ready).toContain('class="oc-segmented" role="group" aria-label="Theme"');
     expect(ready).toContain('class="oc-segmented" role="group" aria-label="Interface density"');
@@ -316,7 +317,7 @@ describe("preview behavior", () => {
     expect(channels).toContain('class="oc-pane oc-master-detail"');
     expect(channels).toContain("Channel network");
     expect(channels).toContain('class="oc-summary-strip"');
-    expect(channels).toContain('class="oc-resource-list"');
+    expect(channels).toContain('class="oc-app-resource-list"');
     expect(channels).toContain("Recent delivery");
     expect(channels).toContain("Discord");
     expect(channels).toContain('aria-pressed="true"');
