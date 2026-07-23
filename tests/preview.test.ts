@@ -85,6 +85,8 @@ describe("preview contracts", () => {
       "application-settings",
       "application-operations",
       "application-workspace",
+      "application-sessions",
+      "application-quick-chat",
     ]) {
       expect(getWorkbenchViewportModes(pageId).map(({ id }) => id)).toEqual([
         "desktop",
@@ -234,23 +236,31 @@ describe("preview contracts", () => {
     const settings = getWorkbenchDefinition("application-settings");
     const operations = getWorkbenchDefinition("application-operations");
     const workspace = getWorkbenchDefinition("application-workspace");
+    const sessions = getWorkbenchDefinition("application-sessions");
+    const quickChat = getWorkbenchDefinition("application-quick-chat");
 
     expect(settings?.defaults).toEqual({
-      navigation: "expanded",
-      density: "comfortable",
+      density: "compact",
       state: "ready",
     });
-    expect(settings?.controls.map(({ id }) => id)).toEqual(["navigation", "density", "state"]);
+    expect(settings?.controls.map(({ id }) => id)).toEqual(["density", "state"]);
     expect(settings?.markup({ ...settings.defaults, state: "offline" })).toContain(
       "Gateway unavailable",
     );
 
     expect(operations?.controls.map(({ id }) => id)).toEqual(["view", "state", "navigation"]);
     expect(operations?.markup({ ...operations.defaults, view: "automation" })).toContain(
-      "Scheduled work",
+      "Automations",
     );
 
-    expect(workspace?.controls.map(({ id }) => id)).toEqual(["dock", "status", "navigation"]);
+    expect(workspace?.controls.map(({ id }) => id)).toEqual([
+      "dock",
+      "status",
+      "model",
+      "picker",
+      "thinking",
+      "fast",
+    ]);
     expect(workspace?.markup({ ...workspace.defaults, dock: "bottom" })).toContain(
       'data-dock="bottom"',
     );
@@ -260,21 +270,33 @@ describe("preview contracts", () => {
     expect(workspace?.markup({ ...workspace.defaults, dock: "hidden" })).toContain(
       'data-inspector="false"',
     );
+    expect(workspace?.markup({ ...workspace.defaults, model: "claude-opus", picker: true })).toContain(
+      'class="oc-model-picker" data-workbench-model-picker open',
+    );
+
+    expect(sessions?.controls.map(({ id }) => id)).toEqual(["state", "navigation"]);
+    expect(sessions?.markup({ ...sessions.defaults, state: "loading" })).toContain(
+      "Loading sessions",
+    );
+    expect(sessions?.markup({ ...sessions.defaults, state: "empty" })).toContain(
+      "No sessions found",
+    );
+    expect(sessions?.markup({ ...sessions.defaults, state: "error" })).toContain(
+      "Could not load sessions",
+    );
+
+    expect(quickChat?.controls.map(({ id }) => id)).toEqual([
+      "status",
+      "model",
+      "picker",
+      "thinking",
+      "fast",
+    ]);
+    expect(quickChat?.markup({ ...quickChat.defaults, status: "active" })).toContain(
+      'data-state="active"',
+    );
 
     const createButton = (dataset = {}) => Object.assign(new EventTarget(), { dataset });
-    const settingsNavigation = createButton();
-    const settingsUpdates = [];
-    settings?.bind?.(
-      {
-        querySelector: (selector) =>
-          selector === "[data-workbench-application-navigation]" ? settingsNavigation : null,
-        querySelectorAll: () => [],
-      },
-      settings.defaults,
-      (id, value) => settingsUpdates.push([id, value]),
-    );
-    settingsNavigation.dispatchEvent(new Event("click"));
-    expect(settingsUpdates).toEqual([["navigation", "compact"]]);
 
     const operationsNavigation = createButton();
     const automationView = createButton({ workbenchApplicationView: "automation" });
@@ -296,30 +318,45 @@ describe("preview contracts", () => {
       ["view", "automation"],
     ]);
 
-    const workspaceNavigation = createButton();
     const workspaceDock = createButton();
     const workspaceInspectorHide = createButton();
+    const workspaceModel = createButton({ workbenchApplicationModel: "claude-opus" });
+    const workspacePicker = Object.assign(new EventTarget(), { open: false });
+    const workspaceThinking = createButton({ workbenchModelThinking: "high" });
+    const workspaceFast = Object.assign(new EventTarget(), { checked: true });
     const workspaceUpdates = [];
     workspace?.bind?.(
       {
         querySelector: (selector) =>
           ({
-            "[data-workbench-application-navigation]": workspaceNavigation,
             "[data-workbench-application-dock]": workspaceDock,
             "[data-workbench-application-inspector-hide]": workspaceInspectorHide,
+            "[data-workbench-model-picker]": workspacePicker,
+            "[data-workbench-model-thinking]": workspaceThinking,
+            "[data-workbench-model-fast]": workspaceFast,
           })[selector] ?? null,
-        querySelectorAll: () => [],
+        querySelectorAll: (selector) =>
+          selector === "[data-workbench-application-model]" ? [workspaceModel] : [],
       },
       workspace.defaults,
       (id, value) => workspaceUpdates.push([id, value]),
     );
-    workspaceNavigation.dispatchEvent(new Event("click"));
     workspaceDock.dispatchEvent(new Event("click"));
     workspaceInspectorHide.dispatchEvent(new Event("click"));
+    workspaceModel.dispatchEvent(new Event("click"));
+    workspacePicker.open = true;
+    workspacePicker.dispatchEvent(new Event("toggle"));
+    workspaceThinking.dispatchEvent(new Event("click"));
+    workspaceFast.checked = false;
+    workspaceFast.dispatchEvent(new Event("change"));
     expect(workspaceUpdates).toEqual([
-      ["navigation", "expanded"],
       ["dock", "bottom"],
       ["dock", "hidden"],
+      ["picker", false],
+      ["model", "claude-opus"],
+      ["picker", true],
+      ["thinking", "medium"],
+      ["fast", false],
     ]);
 
     const hiddenWorkspaceDock = createButton();
@@ -346,13 +383,19 @@ describe("preview contracts", () => {
       "&lt;span&gt;Automatic updates&lt;/span&gt;",
     );
     expect(getReferenceContent("application-workspace")).toContain(
-      '&lt;main class="oc-app-main"&gt;',
+      '&lt;div class="oc-chat-shell" data-dock="right" data-inspector="true"&gt;',
     );
     expect(getReferenceContent("application-workspace")).toContain(
-      '&lt;div class="oc-app-content"&gt;',
+      '&lt;div class="oc-model-controls"&gt;',
     );
     expect(getReferenceContent("application-workspace")).toContain(
       '&lt;footer class="oc-workspace-composer"&gt;',
+    );
+    expect(getReferenceContent("application-sessions")).toContain(
+      '&lt;table class="oc-table oc-session-table"&gt;',
+    );
+    expect(getReferenceContent("application-quick-chat")).toContain(
+      '&lt;section class="oc-quick-chat" data-state="idle"&gt;',
     );
   });
 
@@ -505,6 +548,15 @@ describe("preview contracts", () => {
     );
     expect(css).toContain(
       '.component-workbench-canvas[data-viewport="mobile"] .oc-workspace-inspector-action {\n  display: none;',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"]\n  :is(.oc-chat-shell, .oc-quick-chat-stage) {\n  position: relative;',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-model-picker {\n  position: static;',
+    );
+    expect(css).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-model-menu {\n  position: absolute;',
     );
   });
 
@@ -1115,28 +1167,27 @@ describe("preview contracts", () => {
     });
   });
 
-  test("restores Autocomplete focus after a selected value rerenders the specimen", () => {
+  test("keeps Autocomplete focus without rerendering after a selected value", () => {
     const definition = getWorkbenchDefinition("primitive-autocomplete");
-    const initialInput = Object.assign(new EventTarget(), { value: "Card" });
-    const replacementInput = {
+    const initialInput = Object.assign(new EventTarget(), {
+      value: "Card",
       focused: false,
       focus() {
         this.focused = true;
       },
-    };
-    let currentInput = initialInput;
+    });
     const specimen = {
       querySelectorAll: () => [],
-      querySelector: (selector) => (selector === "input" ? currentInput : null),
+      querySelector: (selector) => (selector === "input" ? initialInput : null),
     };
 
-    definition?.bind?.(specimen, {}, (id, value) => {
+    definition?.bind?.(specimen, {}, (id, value, options) => {
       expect([id, value]).toEqual(["value", "Card"]);
-      currentInput = replacementInput;
+      expect(options).toEqual({ render: false });
     });
     initialInput.dispatchEvent(new Event("change"));
 
-    expect(replacementInput.focused).toBe(true);
+    expect(initialInput.focused).toBe(true);
   });
 
   test("models only observable Toast demo states", () => {
@@ -1345,6 +1396,7 @@ describe("preview contracts", () => {
         ],
       },
       { id: "label", type: "toggle" },
+      { id: "framed", type: "toggle" },
       {
         id: "state",
         type: "choice",
@@ -1367,6 +1419,7 @@ describe("preview contracts", () => {
     expect(normalizeWorkbenchState(definition, {})).toEqual({
       size: WORKBENCH_ALL_VALUE,
       label: true,
+      framed: false,
       state: "default",
       layout: "wrap",
     });
@@ -1374,12 +1427,14 @@ describe("preview contracts", () => {
       normalizeWorkbenchState(definition, {
         size: "lg",
         label: false,
+        framed: true,
         state: "selected",
         layout: "stack",
       }),
     ).toEqual({
       size: "lg",
       label: false,
+      framed: true,
       state: "selected",
       layout: "stack",
     });
@@ -1387,24 +1442,94 @@ describe("preview contracts", () => {
       normalizeWorkbenchState(definition, {
         size: "xl",
         label: "yes",
+        framed: "no",
         state: "unknown",
         layout: "grid",
       }),
     ).toEqual({
       size: WORKBENCH_ALL_VALUE,
       label: true,
+      framed: false,
       state: "default",
       layout: "wrap",
     });
     expect(
-      definition?.markup({ size: "sm", label: true, state: "default", layout: "wrap" }),
+      definition?.markup({
+        size: "sm",
+        label: true,
+        framed: false,
+        state: "default",
+        layout: "wrap",
+      }),
     ).toContain("oc-provider-logo-sm");
     expect(
-      definition?.markup({ size: "md", label: false, state: "selected", layout: "row" }),
+      definition?.markup({
+        size: "md",
+        label: false,
+        framed: true,
+        state: "selected",
+        layout: "row",
+      }),
     ).toContain('data-selected="true"');
     expect(
-      definition?.markup({ size: "lg", label: true, state: "muted", layout: "stack" }),
+      definition?.markup({
+        size: "md",
+        label: false,
+        framed: true,
+        state: "selected",
+        layout: "row",
+      }),
+    ).toContain('aria-pressed="true"');
+    expect(
+      definition?.markup({
+        size: "md",
+        label: false,
+        framed: true,
+        state: "selected",
+        layout: "row",
+      }),
+    ).toContain("oc-provider-logo-framed");
+    expect(
+      definition?.markup({
+        size: "lg",
+        label: true,
+        framed: false,
+        state: "muted",
+        layout: "stack",
+      }),
     ).toContain("oc-provider-logo-muted");
+    expect(
+      definition?.markup({
+        size: "lg",
+        label: true,
+        framed: false,
+        state: "muted",
+        layout: "stack",
+      }),
+    ).toContain(" disabled");
+
+    const createProviderButton = () =>
+      Object.assign(new EventTarget(), {
+        attributes: {},
+        setAttribute(name, value) {
+          this.attributes[name] = value;
+        },
+        toggleAttribute(name, force) {
+          if (force) this.attributes[name] = "";
+          else delete this.attributes[name];
+        },
+      });
+    const firstProvider = createProviderButton();
+    const secondProvider = createProviderButton();
+    definition?.bind?.({
+      querySelectorAll: () => [firstProvider, secondProvider],
+    });
+    secondProvider.dispatchEvent(new Event("click"));
+    expect(firstProvider.attributes).toEqual({ "aria-pressed": "false" });
+    expect(secondProvider.attributes).toEqual({
+      "aria-pressed": "true",
+      "data-selected": "",
+    });
   });
 
   test("models documented Spiral Loader sizes", () => {
@@ -1462,7 +1587,23 @@ describe("preview contracts", () => {
   });
 
   test("models Agent tool lifecycle without synthetic states", () => {
-    for (const pageId of ["bash-tool", "edit-tool", "generic-tool"]) {
+    const bashDefinition = getWorkbenchDefinition("bash-tool");
+    expect(bashDefinition?.controls).toMatchObject([
+      {
+        id: "state",
+        type: "choice",
+        options: [
+          { label: "Running", value: "animating" },
+          { label: "Complete", value: "complete" },
+          { label: "Failed", value: "failed" },
+        ],
+      },
+    ]);
+    expect(normalizeWorkbenchState(bashDefinition, { state: "failed" })).toEqual({
+      state: "failed",
+    });
+
+    for (const pageId of ["edit-tool", "generic-tool"]) {
       const definition = getWorkbenchDefinition(pageId);
       expect(definition?.controls).toMatchObject([
         {
@@ -1483,7 +1624,6 @@ describe("preview contracts", () => {
       "mcp-tool",
       "search-tool",
       "thinking-tool",
-      "subagent-tool",
       "tool-group",
     ]) {
       const definition = getWorkbenchDefinition(pageId);
@@ -1503,6 +1643,39 @@ describe("preview contracts", () => {
         open: true,
       });
     }
+
+    const subagentDefinition = getWorkbenchDefinition("subagent-tool");
+    expect(subagentDefinition?.controls).toMatchObject([
+      {
+        id: "state",
+        type: "choice",
+        options: [
+          { label: "Running", value: "animating" },
+          { label: "Complete", value: "complete" },
+        ],
+      },
+      {
+        id: "subagentName",
+        type: "choice",
+        options: [
+          { label: "Volta", value: "Volta" },
+          { label: "Averroes", value: "Averroes" },
+          { label: "Bacon", value: "Bacon" },
+        ],
+      },
+      { id: "open", type: "toggle" },
+    ]);
+    expect(
+      normalizeWorkbenchState(subagentDefinition, {
+        state: "pending",
+        subagentName: "Averroes",
+        open: "yes",
+      }),
+    ).toEqual({
+      state: "complete",
+      subagentName: "Averroes",
+      open: true,
+    });
   });
 
   test("models exact Plan, Todo, and Question states", () => {
@@ -1530,7 +1703,10 @@ describe("preview contracts", () => {
         id: "state",
         options: [
           { label: "Open", value: "open" },
+          { label: "Submitting", value: "submitting" },
           { label: "Answered", value: "answered" },
+          { label: "Skipped", value: "skipped" },
+          { label: "Error", value: "error" },
         ],
       },
       { id: "allowSkip", type: "toggle" },
@@ -1546,6 +1722,8 @@ describe("preview contracts", () => {
         type: "choice",
         options: [
           { label: "Basic", value: "basic" },
+          { label: "Multi-user", value: "multi-user" },
+          { label: "Media", value: "media" },
           { label: "Empty", value: "empty" },
           { label: "Suggestions", value: "suggestions" },
           { label: "Attachments", value: "attachments" },
@@ -1689,32 +1867,41 @@ describe("preview contracts", () => {
       /<div class="home-brand-intro">\s*<code class="home-brand-package">@openclaw\/carapace<\/code>/,
     );
     expect(home).toContain('<h1 id="preview-title">Carapace</h1>');
-    expect(home).toContain("A carapace is a protective outer shell.");
+    expect(home).toContain("Shared tokens, components, agent patterns, and application anatomy");
+    expect(home).toContain("Carapace is the durable visual contract between products");
     expect(home).not.toContain('class="home-hero"');
     expect(home).toContain('class="oc-clipboard-action oc-clipboard-action-icon"');
     expect(home).toContain('data-lucide="copy"');
-    expect(home.match(/home-component-cell/g)).toHaveLength(39);
-    expect(home.match(/class="home-component-cell"/g)).toHaveLength(38);
-    expect(new Set(componentLabels).size).toBe(38);
-    expect(new Set(componentPaths).size).toBe(38);
+    expect(home.match(/home-component-cell/g)).toHaveLength(44);
+    expect(home.match(/class="home-component-cell"/g)).toHaveLength(43);
+    expect(new Set(componentLabels).size).toBe(43);
+    expect(new Set(componentPaths).size).toBe(43);
     expect(componentLabels).toContain("Suggestions");
     expect(componentLabels).toContain("Bash Tool");
     expect(componentLabels).toContain("Thinking Tool");
     expect(componentLabels).toContain("Dialog");
     expect(componentLabels).toContain("Clipboard Text");
+    expect(componentLabels).toContain("Model Picker");
+    expect(componentLabels).toContain("Provider Logo");
+    expect(componentLabels).toContain("Question Tool");
+    expect(componentLabels).toContain("Agent Chat");
+    expect(componentLabels).toContain("Application Surface");
     expect(componentLabels).not.toContain("Plan Tool");
     expect(home).toContain('href="./agent-components/suggestions/"');
     expect(home).toContain('href="./agent-components/bash-tool/"');
     expect(home).toContain('href="./agent-components/thinking-tool/"');
     expect(home).toContain('href="./interface/primitives/dialog/"');
     expect(home).toContain('href="./interface/primitives/clipboard-text/"');
+    expect(home).toContain('href="./agent-components/model-picker/"');
+    expect(home).toContain('href="./interface/primitives/provider-logo/"');
+    expect(home).toContain('href="./agent-components/question-tool/"');
+    expect(home).toContain('href="./agent-components/agent-chat/"');
+    expect(home).toContain('href="./applications/sessions/"');
     expect(componentPaths.every((path) => referencePages.some((page) => page.path === path))).toBe(
       true,
     );
     expect(home.match(/oc-app-surface/g)).toHaveLength(1);
-    expect(previewStyles).toContain(
-      "--home-grid-row-height: calc((100dvh - var(--preview-topbar-height) - 1px) / 2)",
-    );
+    expect(previewStyles).toContain("--home-grid-row-height: clamp(12rem, 24vw, 17rem)");
     expect(previewStyles).toContain("grid-auto-rows: var(--home-grid-row-height)");
     expect(previewStyles).toContain(".home-agent-input-bar");
     expect(previewStyles).toContain(".home-agent-tool-group");

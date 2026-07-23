@@ -1,6 +1,8 @@
 import { agentIcon } from "./agent-components.js";
 import {
   operationsApplicationMarkup,
+  quickChatApplicationMarkup,
+  sessionsApplicationMarkup,
   settingsApplicationMarkup,
   workspaceApplicationMarkup,
 } from "./application-screens.js";
@@ -78,6 +80,7 @@ const attachmentButtonIcons = [
 const attachmentKinds = [
   { label: "File", value: "file" },
   { label: "Image", value: "image" },
+  { label: "Video", value: "video" },
 ];
 
 const attachmentDisplays = [
@@ -91,9 +94,10 @@ const errorMessageExamples = [
 ];
 
 const agentModels = [
-  { label: "GPT-5.6 Fast · 5.6", value: "gpt-5-6-fast" },
-  { label: "Extra High · 5.6 Sol", value: "extra-high" },
-  { label: "GPT-5.6 · 5.6", value: "gpt-5-6" },
+  { label: "GPT-5.6 Fast", value: "gpt-5-6-fast", provider: "OpenAI", version: "5.6" },
+  { label: "GPT-5.6 Sol", value: "extra-high", provider: "OpenAI", version: "5.6 Sol" },
+  { label: "Claude Opus", value: "claude-opus", provider: "Anthropic", version: "4.1" },
+  { label: "Gemini Pro", value: "gemini-pro", provider: "Google", version: "2.5" },
 ];
 
 const agentModes = [
@@ -106,6 +110,17 @@ const toolLifecycleStates = [
   { label: "Complete", value: "complete" },
 ];
 
+const bashLifecycleStates = [
+  ...toolLifecycleStates,
+  { label: "Failed", value: "failed" },
+];
+
+const subagentNames = [
+  { label: "Volta", value: "Volta" },
+  { label: "Averroes", value: "Averroes" },
+  { label: "Bacon", value: "Bacon" },
+];
+
 const todoItemStates = [
   { label: "Pending", value: "pending" },
   { label: "In progress", value: "in_progress" },
@@ -114,11 +129,16 @@ const todoItemStates = [
 
 const questionStates = [
   { label: "Open", value: "open" },
+  { label: "Submitting", value: "submitting" },
   { label: "Answered", value: "answered" },
+  { label: "Skipped", value: "skipped" },
+  { label: "Error", value: "error" },
 ];
 
 const chatExamples = [
   { label: "Basic", value: "basic" },
+  { label: "Multi-user", value: "multi-user" },
+  { label: "Media", value: "media" },
   { label: "Empty", value: "empty" },
   { label: "Suggestions", value: "suggestions" },
   { label: "Attachments", value: "attachments" },
@@ -254,6 +274,26 @@ const applicationDockModes = [
 const applicationSessionStates = [
   { label: "Active", value: "active" },
   { label: "Idle", value: "idle" },
+  { label: "Error", value: "error" },
+];
+
+const applicationModels = [
+  { label: "GPT-5.6 Sol", value: "gpt-5.6-sol" },
+  { label: "GPT-5.6 Terra", value: "gpt-5.6-terra" },
+  { label: "Claude Opus", value: "claude-opus" },
+  { label: "Gemini Pro", value: "gemini-pro" },
+];
+
+const applicationThinkingLevels = [
+  { label: "Low", value: "low" },
+  { label: "Medium", value: "medium" },
+  { label: "High", value: "high" },
+];
+
+const applicationSessionListStates = [
+  { label: "Ready", value: "ready" },
+  { label: "Loading", value: "loading" },
+  { label: "Empty", value: "empty" },
   { label: "Error", value: "error" },
 ];
 
@@ -407,12 +447,13 @@ export function linkWorkbenchMarkup({ variant = "inline", disabled = false } = {
     },
   };
   const selected = examples[variant] ?? examples.inline;
+  const icon = variant === "standalone" ? ' <i data-lucide="arrow-right" aria-hidden="true"></i>' : "";
 
   if (disabled) {
-    return `<a class="${selected.className}" role="link" aria-disabled="true" tabindex="-1">${selected.label}</a>`;
+    return `<a class="${selected.className}" role="link" aria-disabled="true" tabindex="-1">${selected.label}${icon}</a>`;
   }
 
-  return `<a class="${selected.className}" href="${selected.href}" data-workbench-inert-link>${selected.label}</a>`;
+  return `<a class="${selected.className}" href="${selected.href}" data-workbench-inert-link>${selected.label}${icon}</a>`;
 }
 
 export function appSurfaceWorkbenchMarkup({ toolbar = true, card = true } = {}) {
@@ -832,16 +873,18 @@ export function suggestionsWorkbenchMarkup({ disabled = false } = {}) {
 
 export function modelPickerWorkbenchMarkup({ value = "extra-high" } = {}) {
   const active = agentModels.find((model) => model.value === value) ?? agentModels[1];
-  const [activeName, activeVersion] = active.label.split(" · ");
   const options = agentModels
-    .map(({ label, value: optionValue }) => {
-      const [name, version] = label.split(" · ");
+    .map(({ label, value: optionValue, provider, version }, index, models) => {
       const checked = optionValue === value ? " checked" : "";
-      return `<label class="oc-agent-model-option"><input class="sr-only" type="radio" name="workbench-agent-model" value="${optionValue}"${checked}><span class="oc-agent-model-option-copy">${name} <small>${version}</small></span><span class="oc-agent-mode-check" aria-hidden="true">${agentIcon("check")}</span></label>`;
+      const providerHeading =
+        index === 0 || models[index - 1].provider !== provider
+          ? `<span class="oc-agent-model-provider">${provider}</span>`
+          : "";
+      return `${providerHeading}<label class="oc-agent-model-option"><input class="sr-only" type="radio" name="workbench-agent-model" value="${optionValue}"${checked}><span class="oc-agent-model-option-copy"><strong>${label}</strong><small>${provider} · ${version}</small></span><span class="oc-agent-mode-check" aria-hidden="true">${agentIcon("check")}</span></label>`;
     })
     .join("");
   return `<details class="oc-agent-model-picker" data-workbench-model-picker>
-  <summary aria-label="Select model"><strong>${activeName}</strong><span>${activeVersion}</span>${agentIcon("chevron")}</summary>
+  <summary aria-label="Select model"><span class="oc-agent-model-provider-mark">${active.provider.slice(0, 1)}</span><strong>${active.label}</strong><span>${active.provider}</span>${agentIcon("chevron")}</summary>
   <fieldset class="oc-agent-model-menu"><legend class="sr-only">Model</legend>${options}</fieldset>
 </details>`;
 }
@@ -866,16 +909,17 @@ export function fileAttachmentWorkbenchMarkup({
   removable = true,
 } = {}) {
   const isImage = kind === "image";
+  const isVideo = kind === "video";
   const effectiveDisplay = isImage && display === "image-only" ? "image-only" : "chip";
-  const filename = isImage ? "interface.png" : "component-spec.md";
-  const detail = isImage ? "842 KB" : "3.1 KB";
+  const filename = isImage ? "interface.png" : isVideo ? "walkthrough.mp4" : "component-spec.md";
+  const detail = isImage ? "842 KB" : isVideo ? "14.8 MB" : "3.1 KB";
   const remove = removable
     ? `<button class="oc-agent-file-remove" type="button" aria-label="Remove ${filename}" data-workbench-attachment-remove>${agentIcon("close")}</button>`
     : "";
   const content =
     effectiveDisplay === "image-only"
       ? `<span class="oc-agent-file-preview" role="img" aria-label="${filename}">${agentIcon("image")}</span>`
-      : `<span class="oc-agent-file-type" aria-hidden="true">${agentIcon(isImage ? "image" : "file")}</span><span class="oc-agent-file-details"><strong>${filename}</strong><span>${detail}</span></span>`;
+      : `<span class="oc-agent-file-type" aria-hidden="true">${agentIcon(isImage ? "image" : isVideo ? "play" : "file")}</span><span class="oc-agent-file-details"><strong>${filename}</strong><span>${detail}</span></span>`;
 
   return `<li class="oc-agent-file-attachment" data-display="${effectiveDisplay}" data-kind="${kind}">${content}${remove}</li>`;
 }
@@ -899,16 +943,26 @@ export function errorMessageWorkbenchMarkup({ example = "interrupted" } = {}) {
 </div>`;
 }
 
-export function toolWorkbenchMarkup({ kind = "generic", state = "complete", open = true } = {}) {
+export function toolWorkbenchMarkup({
+  kind = "generic",
+  state = "complete",
+  open = true,
+  subagentName = "Volta",
+} = {}) {
   const complete = state === "complete";
 
   if (kind === "bash") {
+    const failed = state === "failed";
     const header = complete
-      ? `<span class="oc-agent-tool-card-title">Ran command: bun</span>`
-      : `<span class="oc-agent-tool-card-title"><span class="oc-agent-text-shimmer">Running command: bun</span></span>${agentSpinner()}`;
+      ? `<span class="oc-agent-tool-card-title">Command succeeded</span><span class="oc-agent-tool-state">312 ms</span>`
+      : failed
+        ? `<span class="oc-agent-tool-card-title">Command failed</span><span class="oc-agent-tool-state">exit 1</span>`
+        : `<span class="oc-agent-tool-card-title"><span class="oc-agent-text-shimmer">Running command</span></span>${agentSpinner()}`;
     const output = complete
       ? `<pre class="oc-agent-bash-output" role="region" aria-label="Command output" tabindex="0"><code>29 pass · 0 fail\nFinished in 312ms</code></pre>`
-      : "";
+      : failed
+        ? `<pre class="oc-agent-bash-output" role="region" aria-label="Command error" tabindex="0"><code>Error: expected application pane to fit viewport\nProcess exited with code 1</code></pre>`
+        : "";
     return `<div class="oc-agent-tool-card oc-agent-bash-tool" data-state="${state}"><header class="oc-agent-tool-card-header">${header}</header><div class="oc-agent-tool-card-body oc-agent-bash-terminal"><div class="oc-agent-bash-command"><span aria-hidden="true">$ </span><code>bun run check</code></div>${output}</div></div>`;
   }
 
@@ -952,7 +1006,7 @@ export function toolWorkbenchMarkup({ kind = "generic", state = "complete", open
     return `<div class="oc-agent-subagent-tool">${agentToolRow({
       label: complete ? "Completed Subagent" : "Running Subagent",
       shimmer: !complete,
-      detail: "Audit component accessibility",
+      detail: `<span class="oc-agent-subagent-name">${escapeHtml(subagentName)}</span> · Audit component accessibility`,
       meta: complete ? "6s" : "",
       open,
       panel: nested,
@@ -1029,22 +1083,34 @@ export function questionToolWorkbenchMarkup({ state = "open", allowSkip = true }
   if (answered) {
     return `<form class="oc-agent-question-tool" data-workbench-question-form data-state="answered">
   <header class="oc-agent-question-header"><span class="oc-agent-question-header-label">${agentIcon("question")}Question</span><span class="oc-agent-question-nav">1 of 1</span></header>
-  <div class="oc-agent-question-body"><p class="oc-agent-question-answered" role="status">Answered · Small scoped patch</p></div>
+  <div class="oc-agent-question-body"><p class="oc-agent-question-answered" role="status">Answered · Focused checks</p></div>
 </form>`;
   }
-  const skip = allowSkip
-    ? `<button class="oc-agent-question-skip" type="button" data-agent-question-skip>Skip</button>`
-    : "";
-  return `<form class="oc-agent-question-tool" data-workbench-question-form>
+  if (state === "skipped") {
+    return `<form class="oc-agent-question-tool" data-workbench-question-form data-state="skipped">
   <header class="oc-agent-question-header"><span class="oc-agent-question-header-label">${agentIcon("question")}Question</span><span class="oc-agent-question-nav">1 of 1</span></header>
+  <div class="oc-agent-question-body"><p class="oc-agent-question-answered" role="status">Skipped · The agent will continue with its best judgment.</p></div>
+</form>`;
+  }
+  const submitting = state === "submitting";
+  const failed = state === "error";
+  const skip = allowSkip
+    ? `<button class="oc-agent-question-skip" type="button" data-agent-question-skip${submitting ? " disabled" : ""}>Skip</button>`
+    : "";
+  const error = failed
+    ? `<p class="oc-agent-question-error" role="alert">Answer could not be submitted. Review your answer and try again.</p>`
+    : "";
+  return `<form class="oc-agent-question-tool" data-workbench-question-form data-state="${state}">
+  <header class="oc-agent-question-header"><span class="oc-agent-question-header-label">${agentIcon("question")}Question</span><span class="oc-agent-question-nav"><span>1 of 2</span><span class="oc-agent-question-time">0:42</span></span></header>
   <div class="oc-agent-question-body">
-    <fieldset>
-      <legend class="oc-agent-question-title"><span class="oc-agent-question-badge" aria-hidden="true">1</span>How should we apply this change?</legend>
-      <label class="oc-agent-question-option"><input class="sr-only" type="radio" name="workbench-scope" value="small" checked><span class="oc-agent-question-badge" aria-hidden="true">A</span><span class="oc-agent-question-option-label">Small scoped patch</span></label>
-      <label class="oc-agent-question-option"><input class="sr-only" type="radio" name="workbench-scope" value="refactor"><span class="oc-agent-question-badge" aria-hidden="true">B</span><span class="oc-agent-question-option-label">Full refactor</span></label>
+    ${error}
+    <fieldset${submitting ? " disabled" : ""}>
+      <legend class="oc-agent-question-title"><span class="oc-agent-question-badge" aria-hidden="true">1</span><span>How should we apply this change?<small>Choose the proof level that matches the current risk.</small></span></legend>
+      <label class="oc-agent-question-option"><input class="sr-only" type="radio" name="workbench-scope" value="small" checked><span class="oc-agent-question-badge" aria-hidden="true">A</span><span class="oc-agent-question-option-label"><strong>Focused checks</strong><small>Fast proof for the touched component and contract.</small></span></label>
+      <label class="oc-agent-question-option"><input class="sr-only" type="radio" name="workbench-scope" value="refactor"><span class="oc-agent-question-badge" aria-hidden="true">B</span><span class="oc-agent-question-option-label"><strong>Full validation</strong><small>Broader proof across preview, package, and skills.</small></span></label>
       <label class="oc-agent-question-option oc-agent-question-option-custom"><input class="sr-only" type="radio" name="workbench-scope" value="custom"><span class="oc-agent-question-badge" aria-hidden="true">C</span><span class="oc-agent-question-custom-field"><span class="sr-only">Custom answer</span><input id="workbench-question-custom" type="text" name="custom-answer" placeholder="Type your answer"></span></label>
     </fieldset>
-    <div class="oc-agent-question-actions">${skip}<button class="oc-agent-question-submit" type="submit">Send</button></div>
+    <div class="oc-agent-question-actions">${skip}<button class="oc-agent-question-submit" type="submit"${submitting ? " disabled" : ""}>${submitting ? "Sending…" : failed ? "Try again" : "Send answer"}</button></div>
   </div>
   <span class="sr-only" data-workbench-question-status aria-live="polite"></span>
 </form>`;
@@ -1166,6 +1232,7 @@ function providerLogoMark(provider) {
 export function providerLogoWorkbenchMarkup({
   size = "md",
   label = true,
+  framed = false,
   state = "default",
   layout = "wrap",
 } = {}) {
@@ -1181,15 +1248,16 @@ export function providerLogoWorkbenchMarkup({
         ? " oc-provider-logo-lg"
         : "";
   const mutedClass = selectedState === "muted" ? " oc-provider-logo-muted" : "";
-  const disabledAttribute = selectedState === "muted" ? ' aria-disabled="true"' : "";
+  const framedClass = framed ? " oc-provider-logo-framed" : "";
+  const disabledAttribute = selectedState === "muted" ? " disabled" : "";
 
   const items = providerLogoProviders
     .map(({ id, name }, index) => {
-      const selectedAttribute =
-        selectedState === "selected" && index === 0 ? ' data-selected="true"' : "";
+      const selected = selectedState === "selected" && index === 0;
+      const selectedAttribute = selected ? ' data-selected="true"' : "";
       const labelMarkup = label ? `<span>${name}</span>` : "";
       const nameAttribute = label ? "" : ` aria-label="${name}"`;
-      return `<span class="oc-provider-logo${sizeClass}${mutedClass}"${nameAttribute}${selectedAttribute}${disabledAttribute}><span class="oc-provider-logo-mark" data-provider="${id}" aria-hidden="true">${providerLogoMark(id)}</span>${labelMarkup}</span>`;
+      return `<button class="oc-provider-logo${sizeClass}${mutedClass}${framedClass}" type="button" aria-pressed="${selected}"${nameAttribute}${selectedAttribute}${disabledAttribute}><span class="oc-provider-logo-mark" data-provider="${id}" aria-hidden="true">${providerLogoMark(id)}</span>${labelMarkup}</button>`;
     })
     .join("");
 
@@ -1245,7 +1313,25 @@ export function agentChatWorkbenchMarkup({
   copyToolbar = false,
 } = {}) {
   const isEmpty = status !== "error" && (example === "empty" || example === "suggestions");
-  const messages = isEmpty ? "" : messageListWorkbenchMarkup({ status, copyToolbar });
+  const attributedMessages =
+    example === "multi-user"
+      ? `<div class="oc-agent-message-list" role="log" aria-label="Conversation history">
+  <div class="oc-agent-message-list-content">
+    <div class="oc-agent-attributed-message" data-author="user"><span class="oc-avatar oc-avatar-sm" role="img" aria-label="Mina"><span class="oc-avatar-fallback" aria-hidden="true">MI</span></span><div><span class="oc-agent-message-author">Mina</span><div class="oc-agent-user-message"><p>Can we make the application panes feel closer to the mac app?</p></div></div></div>
+    <div class="oc-agent-attributed-message" data-author="agent"><span class="oc-avatar oc-avatar-sm" role="img" aria-label="OpenClaw"><span class="oc-avatar-fallback" aria-hidden="true">OC</span></span><div><span class="oc-agent-message-author">OpenClaw</span><div class="oc-agent-markdown"><p>Yes. I’m reducing chrome, tightening rows, and giving every viewport one scroll owner.</p></div></div></div>
+  </div>
+</div>`
+      : "";
+  const mediaMessages =
+    example === "media"
+      ? `<div class="oc-agent-message-list" role="log" aria-label="Conversation history">
+  <div class="oc-agent-message-list-content"><div class="oc-agent-attributed-message" data-author="user"><span class="oc-avatar oc-avatar-sm" role="img" aria-label="Mina"><span class="oc-avatar-fallback" aria-hidden="true">MI</span></span><div><span class="oc-agent-message-author">Mina</span><div class="oc-agent-user-message"><p>Compare these two states.</p></div><div class="oc-agent-media-grid"><figure class="oc-agent-media" data-kind="image"><span class="oc-agent-media-placeholder">${agentIcon("image")}</span><figcaption>settings-light.png</figcaption></figure><figure class="oc-agent-media" data-kind="video"><span class="oc-agent-media-placeholder">${agentIcon("play")}</span><figcaption>control-ui.mp4 · 0:18</figcaption></figure></div></div></div></div>
+</div>`
+      : "";
+  const customTranscript = status === "ready" ? attributedMessages || mediaMessages : "";
+  const messages = isEmpty
+    ? ""
+    : customTranscript || messageListWorkbenchMarkup({ status, copyToolbar });
   const suggestions =
     example === "suggestions"
       ? `<div class="oc-agent-suggestions oc-agent-chat-suggestions" aria-label="Suggested prompts">
@@ -1279,7 +1365,8 @@ export function agentChatWorkbenchMarkup({
 </section>`;
   }
 
-  return `<section class="oc-agent-chat" aria-label="Agent conversation">
+  return `<section class="oc-agent-chat" aria-label="Agent conversation" data-agent-file-drop>
+  <div class="oc-agent-drop-overlay" aria-hidden="true">${agentIcon("paperclip")}<strong>Drop files to attach</strong><span>Images, video, documents, and code</span></div>
   ${messages}
   <div class="oc-agent-chat-composer">${composer}</div>
 </section>`;
@@ -1287,25 +1374,35 @@ export function agentChatWorkbenchMarkup({
 
 function createToolWorkbenchDefinition(kind) {
   const expandable = !["bash", "edit", "generic"].includes(kind);
+  const stateOptions = kind === "bash" ? bashLifecycleStates : toolLifecycleStates;
+  const defaults = expandable ? { state: "complete", open: true } : { state: "complete" };
+  if (kind === "subagent") defaults.subagentName = "Volta";
+  const controls = [
+    {
+      id: "state",
+      label: "State",
+      type: "choice",
+      options: stateOptions,
+    },
+  ];
+  if (kind === "subagent") {
+    controls.push({
+      id: "subagentName",
+      label: "Subagent",
+      type: "choice",
+      options: subagentNames,
+    });
+  }
+  if (expandable) {
+    controls.push({
+      id: "open",
+      label: "Open",
+      type: "toggle",
+    });
+  }
   return {
-    defaults: expandable ? { state: "complete", open: true } : { state: "complete" },
-    controls: [
-      {
-        id: "state",
-        label: "State",
-        type: "choice",
-        options: toolLifecycleStates,
-      },
-      ...(expandable
-        ? [
-            {
-              id: "open",
-              label: "Open",
-              type: "toggle",
-            },
-          ]
-        : []),
-    ],
+    defaults,
+    controls,
     markup(state) {
       return compactIconMarkup(toolWorkbenchMarkup({ kind, ...state }));
     },
@@ -1323,20 +1420,62 @@ function bindApplicationNavigation(specimen, state, update) {
     });
 }
 
+function bindApplicationModelControls(specimen, update) {
+  const options = Array.from(
+    specimen.querySelectorAll("[data-workbench-application-model]"),
+  );
+  const providers = Array.from(specimen.querySelectorAll("[data-workbench-model-provider]"));
+  const search = specimen.querySelector("[data-workbench-model-search]");
+  const picker = specimen.querySelector("[data-workbench-model-picker]");
+  const thinking = specimen.querySelector("[data-workbench-model-thinking]");
+  const fast = specimen.querySelector("[data-workbench-model-fast]");
+
+  const applyFilters = () => {
+    const query = search?.value.trim().toLowerCase() ?? "";
+    const provider =
+      providers.find((button) => button.getAttribute("aria-pressed") === "true")?.dataset
+        .workbenchModelProvider ?? "recent";
+
+    for (const option of options) {
+      const matchesProvider = provider === "recent" || option.dataset.modelProvider === provider;
+      const matchesQuery = (option.textContent ?? "").toLowerCase().includes(query);
+      option.hidden = !matchesProvider || !matchesQuery;
+    }
+  };
+
+  for (const option of options) {
+    option.addEventListener("click", () => {
+      update("picker", false, { render: false });
+      update("model", option.dataset.workbenchApplicationModel);
+    });
+  }
+
+  for (const button of providers) {
+    button.addEventListener("click", () => {
+      for (const provider of providers) {
+        provider.setAttribute("aria-pressed", String(provider === button));
+      }
+      applyFilters();
+    });
+  }
+
+  search?.addEventListener("input", applyFilters);
+  picker?.addEventListener("toggle", () => update("picker", picker.open, { render: false }));
+  thinking?.addEventListener("click", () => {
+    const levels = applicationThinkingLevels.map(({ value }) => value).reverse();
+    const current = levels.indexOf(thinking.dataset.workbenchModelThinking);
+    update("thinking", levels[(current + 1) % levels.length]);
+  });
+  fast?.addEventListener("change", () => update("fast", fast.checked));
+}
+
 const definitions = {
   "application-settings": {
     defaults: {
-      navigation: "expanded",
-      density: "comfortable",
+      density: "compact",
       state: "ready",
     },
     controls: [
-      {
-        id: "navigation",
-        label: "Navigation",
-        type: "choice",
-        options: applicationNavigationModes,
-      },
       {
         id: "density",
         label: "Density",
@@ -1355,7 +1494,6 @@ const definitions = {
       specimen.innerHTML = settingsApplicationMarkup(state);
     },
     bind(specimen, state, update) {
-      bindApplicationNavigation(specimen, state, update);
       const densityButtons = specimen.querySelectorAll(
         '.oc-segmented[aria-label="Interface density"] .oc-segmented-item',
       );
@@ -1412,7 +1550,10 @@ const definitions = {
     defaults: {
       dock: "right",
       status: "active",
-      navigation: "compact",
+      model: "gpt-5.6-sol",
+      picker: false,
+      thinking: "high",
+      fast: true,
     },
     controls: [
       {
@@ -1428,10 +1569,26 @@ const definitions = {
         options: applicationSessionStates,
       },
       {
-        id: "navigation",
-        label: "Navigation",
+        id: "model",
+        label: "Model",
         type: "choice",
-        options: applicationNavigationModes,
+        options: applicationModels,
+      },
+      {
+        id: "picker",
+        label: "Picker open",
+        type: "toggle",
+      },
+      {
+        id: "thinking",
+        label: "Thinking",
+        type: "choice",
+        options: applicationThinkingLevels,
+      },
+      {
+        id: "fast",
+        label: "Fast mode",
+        type: "toggle",
       },
     ],
     markup(state) {
@@ -1447,13 +1604,86 @@ const definitions = {
       });
     },
     bind(specimen, state, update) {
-      bindApplicationNavigation(specimen, state, update);
+      bindApplicationModelControls(specimen, update);
       specimen
         .querySelector("[data-workbench-application-inspector-hide]")
         ?.addEventListener("click", () => update("dock", "hidden"));
       specimen.querySelector("[data-workbench-application-dock]")?.addEventListener("click", () => {
         update("dock", state.dock === "right" ? "bottom" : "right");
       });
+    },
+  },
+  "application-sessions": {
+    defaults: {
+      state: "ready",
+      navigation: "expanded",
+    },
+    controls: [
+      {
+        id: "state",
+        label: "State",
+        type: "choice",
+        options: applicationSessionListStates,
+      },
+      {
+        id: "navigation",
+        label: "Navigation",
+        type: "choice",
+        options: applicationNavigationModes,
+      },
+    ],
+    markup: sessionsApplicationMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = sessionsApplicationMarkup(state);
+    },
+    bind(specimen, state, update) {
+      bindApplicationNavigation(specimen, state, update);
+    },
+  },
+  "application-quick-chat": {
+    defaults: {
+      status: "idle",
+      model: "gpt-5.6-sol",
+      picker: false,
+      thinking: "high",
+      fast: true,
+    },
+    controls: [
+      {
+        id: "status",
+        label: "State",
+        type: "choice",
+        options: applicationSessionStates,
+      },
+      {
+        id: "model",
+        label: "Model",
+        type: "choice",
+        options: applicationModels,
+      },
+      {
+        id: "picker",
+        label: "Picker open",
+        type: "toggle",
+      },
+      {
+        id: "thinking",
+        label: "Thinking",
+        type: "choice",
+        options: applicationThinkingLevels,
+      },
+      {
+        id: "fast",
+        label: "Fast mode",
+        type: "toggle",
+      },
+    ],
+    markup: quickChatApplicationMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = quickChatApplicationMarkup(state);
+    },
+    bind(specimen, _state, update) {
+      bindApplicationModelControls(specimen, update);
     },
   },
   "agent-chat": {
@@ -1978,7 +2208,7 @@ ${appSurfaceWorkbenchMarkup(state)}
     },
   },
   "primitive-provider-logo": {
-    defaults: { size: "md", label: true, state: "default", layout: "wrap" },
+    defaults: { size: "md", label: true, framed: false, state: "default", layout: "wrap" },
     controls: [
       {
         id: "size",
@@ -1990,6 +2220,11 @@ ${appSurfaceWorkbenchMarkup(state)}
       {
         id: "label",
         label: "Label",
+        type: "toggle",
+      },
+      {
+        id: "framed",
+        label: "Framed mark",
         type: "toggle",
       },
       {
@@ -2008,6 +2243,18 @@ ${appSurfaceWorkbenchMarkup(state)}
     markup: providerLogoWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = providerLogoWorkbenchMarkup(state);
+    },
+    bind(specimen) {
+      const buttons = Array.from(specimen.querySelectorAll(".oc-provider-logo"));
+      for (const button of buttons) {
+        button.addEventListener("click", () => {
+          for (const candidate of buttons) {
+            const selected = candidate === button;
+            candidate.setAttribute("aria-pressed", String(selected));
+            candidate.toggleAttribute("data-selected", selected);
+          }
+        });
+      }
     },
   },
   "primitive-select": {
@@ -2105,8 +2352,8 @@ ${appSurfaceWorkbenchMarkup(state)}
     bind(specimen, _state, update) {
       bindCombobox(specimen);
       specimen.querySelector("input")?.addEventListener("change", (event) => {
-        update("value", event.currentTarget.value);
-        specimen.querySelector("input")?.focus();
+        update("value", event.currentTarget.value, { render: false });
+        event.currentTarget.focus();
       });
     },
   },

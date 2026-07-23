@@ -6,7 +6,11 @@ import {
 } from "../preview/agent-components-interactions.js";
 import { getAgentReferenceContent } from "../preview/agent-components.js";
 import {
+  applicationScreenMarkup,
+  applicationModelControlsMarkup,
   operationsApplicationMarkup,
+  quickChatApplicationMarkup,
+  sessionsApplicationMarkup,
   settingsApplicationMarkup,
   workspaceApplicationMarkup,
 } from "../preview/application-screens.js";
@@ -215,18 +219,19 @@ describe("preview behavior", () => {
       '<a class="oc-link oc-link-muted" href="/resources/" data-workbench-inert-link>Muted link</a>',
     );
     expect(linkWorkbenchMarkup({ variant: "standalone" })).toBe(
-      '<a class="oc-link oc-link-standalone" href="/components/" data-workbench-inert-link>Browse components</a>',
+      '<a class="oc-link oc-link-standalone" href="/components/" data-workbench-inert-link>Browse components <i data-lucide="arrow-right" aria-hidden="true"></i></a>',
     );
-    expect(linkWorkbenchMarkup({ variant: "standalone" })).not.toContain("data-lucide");
+    expect(linkWorkbenchMarkup({ variant: "standalone" })).toContain(
+      'data-lucide="arrow-right"',
+    );
     expect(linkWorkbenchMarkup({ variant: "standalone" })).not.toContain("→");
     expect(linkWorkbenchMarkup({ variant: "standalone", disabled: true })).toBe(
-      '<a class="oc-link oc-link-standalone" role="link" aria-disabled="true" tabindex="-1">Browse components</a>',
+      '<a class="oc-link oc-link-standalone" role="link" aria-disabled="true" tabindex="-1">Browse components <i data-lucide="arrow-right" aria-hidden="true"></i></a>',
     );
 
     const reference = getReferenceContent("primitive-link");
     expect(reference).toContain('class="oc-link oc-link-standalone"');
-    expect(reference).toContain(">Browse components</a>");
-    expect(reference).not.toMatch(
+    expect(reference).toMatch(
       /oc-link-standalone[^>]*>Browse components[\s\S]*?data-lucide="arrow-right"/,
     );
   });
@@ -285,24 +290,23 @@ describe("preview behavior", () => {
   test("renders Settings as shared anatomy with existing controls and connection states", () => {
     const ready = settingsApplicationMarkup();
     const compactOffline = settingsApplicationMarkup({
-      navigation: "compact",
       density: "compact",
       state: "offline",
     });
 
-    expect(ready).toContain('class="oc-app-frame" data-navigation="expanded"');
+    expect(ready).toContain('class="oc-settings-shell" data-density="compact"');
+    expect(ready).not.toContain('class="oc-app-frame"');
+    expect(ready).not.toContain('class="oc-app-toolbar"');
     expect(ready).toContain('class="oc-settings-group"');
     expect(ready).toContain('class="oc-settings-navigation-list" aria-label="Settings sections"');
     expect(ready).toContain('class="oc-switch" type="checkbox" role="switch"');
     expect(ready).toContain('class="oc-segmented" role="group" aria-label="Theme"');
     expect(ready).toContain('class="oc-segmented" role="group" aria-label="Interface density"');
-    expect(ready).toContain("data-workbench-application-navigation");
+    expect(ready).not.toContain("data-workbench-application-navigation");
     expect(ready).not.toMatch(/class="oc-status[^"]*" role="status"/);
-    expect(compactOffline).toContain('data-navigation="compact"');
     expect(compactOffline).toContain('data-density="compact"');
     expect(compactOffline).toContain("Gateway unavailable");
-    expect(compactOffline).toContain("Gateway offline");
-    expect(compactOffline).toContain('data-state="offline"');
+    expect(compactOffline).toContain("Offline");
     expect(compactOffline).toContain("oc-status-error");
   });
 
@@ -320,26 +324,27 @@ describe("preview behavior", () => {
     });
 
     expect(channels).toContain('class="oc-pane oc-master-detail"');
-    expect(channels).toContain("Channel network");
-    expect(channels).toContain('class="oc-summary-strip"');
+    expect(channels).toContain("Channels");
+    expect(channels).not.toContain('class="oc-summary-strip"');
+    expect(channels).not.toContain('class="oc-app-toolbar"');
     expect(channels).toContain('class="oc-app-resource-list"');
     expect(channels).toContain("Recent delivery");
     expect(channels).toContain("Discord");
     expect(channels).toContain('data-workbench-application-view="channels"');
     expect(channels).toContain('data-workbench-application-view="automation"');
-    expect(channels).toContain("4 / 5");
     expect(channels).toContain("5 configured");
-    expect(channels).not.toContain("5 / 6");
+    expect(channels).toContain("4 connected");
     expect(channels).not.toContain("6 configured");
-    expect(channelError).toContain("3 / 5");
-    expect(channelError).toContain("1 paused · 1 issue");
-    expect(channelError).toContain('class="oc-summary-metric" data-tone="warning"');
+    expect(channelError).toContain("Discord token expired");
+    expect(channelError).toContain("3 connected");
+    expect(channelError).not.toContain("4 connected");
+    expect(channelError).not.toContain("oc-summary-metric");
     expect(channels).toContain('aria-pressed="true"');
     expect(channels).not.toContain("aria-selected");
     expect(loading).toContain("Loading Discord configuration");
     expect(loading).toContain('class="oc-loader" role="status"');
     expect(automationLoading).toContain("Loading automation configuration");
-    expect(automationError).toContain("Scheduled work");
+    expect(automationError).toContain("Automations");
     expect(automationError).toContain("Last run failed");
   });
 
@@ -353,6 +358,8 @@ describe("preview behavior", () => {
     const hidden = workspaceApplicationMarkup({ dock: "hidden", inspector: false });
 
     expect(right).toContain('data-dock="right"');
+    expect(right).toContain('class="oc-chat-shell"');
+    expect(right).not.toContain('class="oc-app-frame"');
     expect(right).toContain('class="oc-workspace-grid"');
     expect(right).toContain('data-inspector="true"');
     expect(right).toContain("data-workbench-application-dock");
@@ -361,6 +368,10 @@ describe("preview behavior", () => {
     expect(right).not.toContain("application-workspace");
     expect(right).toContain('aria-label="Sessions"');
     expect(right).toContain('aria-label="Inspector"');
+    expect(right).toContain('class="oc-model-controls"');
+    expect(right).toContain("GPT-5.6 Sol");
+    expect(right).toContain("Thinking");
+    expect(right).toContain("Fast");
     expect(bottom).toContain('data-dock="bottom"');
     expect(bottom).toContain('data-inspector="true"');
     expect(bottom).toContain("Agent idle");
@@ -370,6 +381,91 @@ describe("preview behavior", () => {
     expect(hidden).not.toContain('aria-label="Inspector"');
     expect(hidden).toContain('data-dock="hidden"');
     expect(hidden).toContain('data-inspector="false"');
+  });
+
+  test("renders application model controls with picker, reasoning, and locked states", () => {
+    const controls = applicationModelControlsMarkup({
+      model: "claude-opus",
+      thinking: "medium",
+      fast: false,
+      open: true,
+    });
+    const locked = applicationModelControlsMarkup({ locked: true });
+
+    expect(controls).toContain('class="oc-model-picker" data-workbench-model-picker open');
+    expect(controls).toContain('role="group" aria-label="Models"');
+    expect(controls).toContain(
+      'aria-pressed="true" data-workbench-application-model="claude-opus"',
+    );
+    expect(controls).toContain('data-workbench-model-search');
+    expect(controls).toContain('data-workbench-model-provider="Anthropic"');
+    expect(controls).toContain("data-workbench-model-picker");
+    expect(controls).toContain('data-workbench-model-thinking="medium"');
+    expect(controls).toContain("data-workbench-model-fast");
+    expect(controls).toContain("Claude Opus");
+    expect(controls).toContain("Anthropic");
+    expect(controls).toContain("Selected model: Claude Opus by Anthropic");
+    expect(controls).toContain("Reasoning level: medium");
+    expect(controls).toContain("<strong>medium</strong>");
+    expect(controls).not.toContain('type="checkbox" checked');
+    expect(locked).toContain('data-locked="true"');
+    expect(locked).toContain(" disabled");
+    expect(locked).not.toContain("<details");
+    expect(locked).not.toContain('role="group"');
+    expect(locked).toContain(
+      'class="oc-model-control" type="button" aria-label="Reasoning level: high" data-workbench-model-thinking="high" disabled',
+    );
+  });
+
+  test("renders Sessions as a compact collection with ready, loading, and empty states", () => {
+    const ready = sessionsApplicationMarkup();
+    const loading = sessionsApplicationMarkup({ state: "loading" });
+    const empty = sessionsApplicationMarkup({ state: "empty" });
+    const failed = sessionsApplicationMarkup({ state: "error" });
+
+    expect(ready).toContain('class="oc-app-content oc-session-content"');
+    expect(ready).toContain('class="oc-session-toolbar"');
+    expect(ready).toContain('class="oc-table oc-session-table"');
+    expect(ready).toContain("Carapace parity");
+    expect(ready).toContain("GPT-5.6 Sol");
+    expect(ready).toContain('aria-label="Select Carapace parity" checked');
+    expect(ready).toContain('aria-label="Actions for Carapace parity"');
+    expect(loading).toContain('aria-busy="true"');
+    expect(loading).toContain("Loading sessions");
+    expect(empty).toContain("No sessions found");
+    expect(empty).not.toContain('class="oc-session-table"');
+    expect(failed).toContain('role="alert"');
+    expect(failed).toContain("Could not load sessions");
+    expect(failed).toContain("Retry");
+    expect(failed).not.toContain('class="oc-session-table"');
+  });
+
+  test("renders Quick Chat with captured context and shared model controls", () => {
+    const idle = quickChatApplicationMarkup({ picker: true });
+    const active = quickChatApplicationMarkup({ status: "active", model: "gemini-pro" });
+    const error = quickChatApplicationMarkup({ status: "error" });
+
+    expect(idle).toContain('class="oc-quick-chat" data-state="idle"');
+    expect(idle).toContain(
+      'class="oc-quick-chat-composer" role="group" aria-label="Message composer"',
+    );
+    expect(idle).not.toContain('<form class="oc-quick-chat-composer"');
+    expect(idle).toContain("Screenshot attached");
+    expect(idle).toContain('class="oc-model-picker" data-workbench-model-picker open');
+    expect(idle).toContain("Screen context stays local until sent");
+    expect(active).toContain('data-state="active"');
+    expect(active).toContain("Gemini Pro");
+    expect(active).toContain('type="button" aria-label="Stop response"');
+    expect(idle).toContain('type="button" aria-label="Send message"');
+    expect(error).toContain('data-state="error"');
+    expect(error).toContain("could not reach the gateway");
+    expect(error).toContain('aria-label="Retry connection"');
+    expect(error).not.toContain('aria-label="Send message"');
+  });
+
+  test("keys application screen fixtures by their route slug", () => {
+    expect(applicationScreenMarkup["quick-chat"]).toContain('aria-label="Quick Chat"');
+    expect(applicationScreenMarkup).not.toHaveProperty("quickChat");
   });
 
   test("renders Hero with optional lede and consumer-owned actions", () => {
@@ -665,7 +761,7 @@ describe("preview behavior", () => {
 
     expect(muted).toContain("oc-provider-logo-lg");
     expect(muted).toContain("oc-provider-logo-muted");
-    expect(muted).toContain('aria-disabled="true"');
+    expect(muted).toContain(" disabled");
     expect(muted).toContain('data-layout="stack"');
     expect(muted).not.toContain("data-selected");
 
@@ -729,10 +825,18 @@ describe("preview behavior", () => {
       'data-lucide="paperclip"',
     );
     expect(suggestionsWorkbenchMarkup({ disabled: true })).toContain(" disabled");
-    expect(modelPickerWorkbenchMarkup({ value: "gpt-5-6" })).toContain(
-      'type="radio" name="workbench-agent-model" value="gpt-5-6" checked',
+    expect(modelPickerWorkbenchMarkup({ value: "claude-opus" })).toContain(
+      'type="radio" name="workbench-agent-model" value="claude-opus" checked',
     );
-    expect(modelPickerWorkbenchMarkup({ value: "gpt-5-6" })).toContain("<strong>GPT-5.6</strong>");
+    expect(modelPickerWorkbenchMarkup({ value: "claude-opus" })).toContain(
+      "<strong>Claude Opus</strong>",
+    );
+    expect(modelPickerWorkbenchMarkup({ value: "claude-opus" })).toContain(
+      "<small>Anthropic · 4.1</small>",
+    );
+    expect(modelPickerWorkbenchMarkup({ value: "claude-opus" })).toContain(
+      'class="oc-agent-model-provider">Anthropic</span>',
+    );
     expect(modeSelectorWorkbenchMarkup({ value: "plan" })).toContain(
       "<span data-agent-mode-label>Plan</span>",
     );
@@ -775,11 +879,15 @@ describe("preview behavior", () => {
     expect(todoToolWorkbenchMarkup({ status: "completed" })).toContain('data-state="complete"');
     expect(planToolWorkbenchMarkup({ state: "complete", approved: true })).toContain("Approved");
     expect(questionToolWorkbenchMarkup({ state: "answered", allowSkip: true })).toContain(
-      "Small scoped patch",
+      "Focused checks",
     );
     expect(questionToolWorkbenchMarkup({ state: "open", allowSkip: false })).not.toContain(
       "data-agent-question-skip",
     );
+    expect(questionToolWorkbenchMarkup({ state: "submitting" })).toContain("<fieldset disabled>");
+    expect(questionToolWorkbenchMarkup({ state: "error" })).toContain('role="alert"');
+    expect(questionToolWorkbenchMarkup({ state: "error" })).toContain("Try again");
+    expect(questionToolWorkbenchMarkup({ state: "error" })).toContain("Focused checks");
   });
 
   test("renders distinct Agent Chat empty, streaming, and error states", () => {
@@ -797,6 +905,18 @@ describe("preview behavior", () => {
     );
     expect(agentChatWorkbenchMarkup({ example: "empty", status: "error" })).toContain(
       "Request failed",
+    );
+    expect(agentChatWorkbenchMarkup({ example: "multi-user", status: "error" })).toContain(
+      "Request failed",
+    );
+    expect(agentChatWorkbenchMarkup({ example: "media", status: "streaming" })).toContain(
+      'data-status="streaming"',
+    );
+    expect(agentChatWorkbenchMarkup({ example: "multi-user", status: "ready" })).toContain(
+      'aria-label="OpenClaw"',
+    );
+    expect(agentChatWorkbenchMarkup({ example: "media", status: "ready" })).toContain(
+      'data-kind="video"',
     );
   });
 
@@ -1803,6 +1923,53 @@ describe("preview behavior", () => {
     skip.dispatchEvent(new Event("click"));
     expect(form.dataset.state).toBe("skipped");
     expect(status.textContent).toBe("Question skipped");
+  });
+
+  test("accepts file drops without reacting to dragged text", () => {
+    const status = { textContent: "" };
+    const target = new EventTarget();
+    target.dataset = {};
+    target.querySelector = () => status;
+    const root = {
+      querySelectorAll(selector) {
+        return selector === "[data-agent-file-drop]" ? [target] : [];
+      },
+    };
+
+    expect(bindAgentComponentDemos(root)).toBe(1);
+
+    const textDrag = new Event("dragenter", { cancelable: true });
+    Object.defineProperty(textDrag, "dataTransfer", {
+      value: { types: ["text/plain"], files: [] },
+    });
+    target.dispatchEvent(textDrag);
+    expect(textDrag.defaultPrevented).toBe(false);
+    expect(target.dataset.dropActive).toBeUndefined();
+
+    const textDrop = new Event("drop", { cancelable: true });
+    Object.defineProperty(textDrop, "dataTransfer", {
+      value: { types: ["text/plain"], files: [] },
+    });
+    target.dispatchEvent(textDrop);
+    expect(textDrop.defaultPrevented).toBe(false);
+    expect(status.textContent).toBe("");
+
+    const fileDrag = new Event("dragenter", { cancelable: true });
+    Object.defineProperty(fileDrag, "dataTransfer", {
+      value: { types: ["Files"], files: [] },
+    });
+    target.dispatchEvent(fileDrag);
+    expect(fileDrag.defaultPrevented).toBe(true);
+    expect(target.dataset.dropActive).toBe("true");
+
+    const fileDrop = new Event("drop", { cancelable: true });
+    Object.defineProperty(fileDrop, "dataTransfer", {
+      value: { types: ["Files"], files: [{ name: "reference.png" }] },
+    });
+    target.dispatchEvent(fileDrop);
+    expect(fileDrop.defaultPrevented).toBe(true);
+    expect(target.dataset.dropActive).toBe("false");
+    expect(status.textContent).toBe("1 file attached");
   });
 
   test("keeps MCP results named and keyboard scrollable", () => {

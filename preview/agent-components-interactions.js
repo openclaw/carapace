@@ -181,5 +181,41 @@ export function bindAgentComponentDemos(root = document) {
     }
   }
 
-  return forms.length + composeForms.length + suggestions.length + modeSelectors.length + modelPickers.length + attachmentRemoveButtons.length + planApproveButtons.length + questionForms.length;
+  const dropTargets = [...root.querySelectorAll("[data-agent-file-drop]")];
+  for (const target of dropTargets) {
+    let dragDepth = 0;
+    const hasFiles = (event) => {
+      const types = Array.from(event.dataTransfer?.types ?? []);
+      return (event.dataTransfer?.files?.length ?? 0) > 0 || types.includes("Files");
+    };
+    const setActive = (active) => {
+      target.dataset.dropActive = String(active);
+    };
+    target.addEventListener("dragenter", (event) => {
+      if (!hasFiles(event)) return;
+      event.preventDefault();
+      dragDepth += 1;
+      setActive(true);
+    });
+    target.addEventListener("dragover", (event) => {
+      if (!hasFiles(event)) return;
+      event.preventDefault();
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "copy";
+    });
+    target.addEventListener("dragleave", () => {
+      dragDepth = Math.max(0, dragDepth - 1);
+      if (dragDepth === 0) setActive(false);
+    });
+    target.addEventListener("drop", (event) => {
+      const count = event.dataTransfer?.files?.length ?? 0;
+      if (count === 0) return;
+      event.preventDefault();
+      dragDepth = 0;
+      setActive(false);
+      const status = target.querySelector("[data-agent-chat-status]");
+      if (status) status.textContent = count === 1 ? "1 file attached" : `${count} files attached`;
+    });
+  }
+
+  return forms.length + composeForms.length + suggestions.length + modeSelectors.length + modelPickers.length + attachmentRemoveButtons.length + planApproveButtons.length + questionForms.length + dropTargets.length;
 }
