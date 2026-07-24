@@ -46,6 +46,7 @@ Consumers can instead import focused entry points:
 @import "@openclaw/carapace/candidate/data.css";
 @import "@openclaw/carapace/candidate/application.css";
 @import "@openclaw/carapace/candidate/agent.css";
+@import "@openclaw/carapace/candidate/embed.css";
 @import "@openclaw/carapace/compat/clawhub.css";
 @import "@openclaw/carapace/tailwind.css";
 ```
@@ -85,6 +86,13 @@ approval prompts and transcript anatomy such as tool parameter rows,
 payload disclosures, work groups, and compaction markers. Both compose
 existing Carapace controls while leaving routes, data, persistence, native
 window behavior, and framework state inside each consumer.
+
+The candidate embed entry point is the contract for surfaces that render inside
+a host frame, such as MCP apps. It translates the MCP Apps style vocabulary
+into semantic tokens under `.oc-embed-tokens` and supplies system-resolvable
+font stacks for sandboxed documents that cannot load web fonts, so an embedded
+app inherits host surfaces, text, borders, and geometry while keeping its own
+content and identity.
 
 OpenClaw surfaces and controls default to a Kumo-aligned radius profile
 (`surface`/`control` = `--oc-radius-md` / 8px, `inset` = `--oc-radius-sm` / 4px).

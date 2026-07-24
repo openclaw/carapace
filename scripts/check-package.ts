@@ -61,6 +61,7 @@ for (const required of [
   "styles/candidate/data.css",
   "styles/candidate/application.css",
   "styles/candidate/agent.css",
+  "styles/candidate/embed.css",
   "styles/tailwind.css",
   "styles/compat/clawhub.css",
 ]) {

@@ -560,6 +560,48 @@ describe("CSS contract", () => {
     }
   });
 
+  test("embed contract maps the MCP Apps vocabulary onto semantic tokens", async () => {
+    const embed = await readFile("styles/candidate/embed.css", "utf8");
+    const scope = ruleDeclarations(embed, ".oc-embed-tokens");
+    const root = ruleDeclarations(embed, ":root");
+
+    expect(embed).not.toContain("@import");
+    expectClasses(embed, [".oc-embed-tokens"]);
+
+    // The specification vocabulary is unprefixed and collides with names the
+    // Tailwind adapter already declares, so it must stay out of :root.
+    for (const collision of ["--font-mono:", "--shadow-sm:", "--shadow-md:", "--shadow-lg:"]) {
+      expect(root).not.toContain(collision);
+      expect(scope).toContain(collision);
+    }
+
+    // Sandboxed app documents cannot load web fonts, so the embed stacks must
+    // stay system resolvable; a brand face would silently fall back instead.
+    expect(root).toContain("--oc-font-embed-sans:");
+    expect(root).toContain("--oc-font-embed-mono:");
+    for (const face of ["Switzer", "Sentient", "Inter"]) {
+      expect(root).not.toContain(face);
+    }
+    expect(scope).toContain("--font-sans: var(--oc-font-embed-sans");
+    expect(scope).toContain("--font-mono: var(--oc-font-embed-mono");
+
+    // Every mapped value carries a literal fallback so an embedded app can
+    // bundle this layer alone and still render outside an OpenClaw host.
+    for (const declaration of scope.split(";")) {
+      if (!declaration.includes("var(--oc-")) continue;
+      expect(declaration).toMatch(/var\(--oc-[\w-]+,/);
+    }
+
+    // Standalone fallbacks stay theme-aware; a host may omit style variables.
+    expect(scope).toContain("light-dark(");
+
+    // The transported record is a closed specification key set, so an OpenClaw
+    // name declared here could never reach an app. Branding is host chrome.
+    expect([...customProperties(scope, /^\s*(--[\w-]+)\s*:/gm)].filter((name) =>
+      name.startsWith("--oc-"),
+    )).toEqual([]);
+  });
+
   test("candidate behavior includes native states and accessibility fallbacks", async () => {
     const controls = await readFile("styles/candidate/controls.css", "utf8");
     const feedback = await readFile("styles/candidate/feedback.css", "utf8");

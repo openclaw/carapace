@@ -9,6 +9,7 @@
 @import "../styles/candidate/data.css";
 @import "../styles/candidate/application.css";
 @import "../styles/candidate/agent.css";
+@import "../styles/candidate/embed.css";
 @import "./lab.css";
 
 :root {
