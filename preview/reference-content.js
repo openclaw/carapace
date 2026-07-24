@@ -737,6 +737,29 @@ const contents = {
     )}</section>
     <section data-section-kind="guidance" aria-labelledby="input-area-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="input-area-guidance">Reserve space for meaningful text</h2></div></div>${guidanceList(["Use for content that naturally spans multiple lines.", "Keep vertical resizing available unless layout constraints make it unsafe.", "Provide character limits before submission when they exist.", "Use Input for short single-line values."])}</section>`,
 
+  "primitive-indicators": () =>
+    `${pageIntro("Component", "Indicators", "Compact signals for sessions and collections: metric strips, owner chips, unread dots, run spinners, and toned badges.")}
+    <section data-section-kind="preview" aria-labelledby="indicators-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="indicators-preview">Collection and row signals</h2></div><span class="oc-pill">.oc-summary-strip</span></div>
+      <div class="specimen-frame"><div style="display: grid; gap: var(--oc-space-4); width: min(100%, 40rem);">
+        <div class="oc-summary-strip">
+          <div class="oc-summary-metric"><span class="oc-summary-metric-icon">${icon("message-square")}</span><span class="oc-summary-metric-copy"><strong>24</strong><small>Sessions</small></span></div>
+          <div class="oc-summary-metric" data-tone="success"><span class="oc-summary-metric-icon">${icon("play")}</span><span class="oc-summary-metric-copy"><strong>3</strong><small>Running</small></span></div>
+          <div class="oc-summary-metric" data-tone="warning"><span class="oc-summary-metric-icon">${icon("shield-check")}</span><span class="oc-summary-metric-copy"><strong>2</strong><small>Awaiting approval</small></span></div>
+          <div class="oc-summary-metric" data-tone="error"><span class="oc-summary-metric-icon">${icon("triangle-alert")}</span><span class="oc-summary-metric-copy"><strong>1</strong><small>Failed</small></span></div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--oc-space-3);">
+          <span class="oc-session-badges"><span class="oc-badge oc-badge-warning">Approval</span><span class="oc-badge oc-badge-info">Cloud</span><span class="oc-badge oc-badge-success">PR #142</span><span class="oc-badge oc-badge-neutral">Queued</span></span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--oc-space-3);">
+          <span class="oc-owner-chip"><span class="oc-avatar oc-avatar-xs oc-avatar-pixel" aria-hidden="true"><img class="oc-avatar-image" data-avatar-seed="Mina" alt="" width="20" height="20" /></span><span>Mina</span></span>
+          <span class="oc-unread-dot" role="status" aria-label="Unread activity"></span>
+          <span class="oc-run-spinner" role="status" aria-label="Session running"></span>
+        </div>
+      </div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="indicators-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="indicators-markup">Signals compose from small pieces</h2></div></div>${codeBlock(`<div class="oc-summary-strip">\n  <div class="oc-summary-metric" data-tone="warning">\n    <span class="oc-summary-metric-icon">…</span>\n    <span class="oc-summary-metric-copy"><strong>2</strong><small>Awaiting approval</small></span>\n  </div>\n</div>\n<span class="oc-session-badges">\n  <span class="oc-badge oc-badge-warning">Approval</span>\n</span>\n<span class="oc-run-spinner" role="status" aria-label="Session running"></span>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="indicators-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="indicators-guidance">Signal without shouting</h2></div></div>${guidanceList(["Summary metrics stay dimensionally stable while values change.", "Badges reuse the shared oc-badge tones; the label carries the meaning, not the color.", "Give unread dots and run spinners accessible names on the row or the indicator.", "Owner chips truncate long names instead of wrapping the row."])}</section>`,
+
   "primitive-label": () =>
     `${pageIntro("Interface primitive", "Label", "A visible field name and field structure for required, optional, and descriptive metadata.")}
     <section data-section-kind="preview" aria-labelledby="label-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="label-preview">Field naming</h2></div><span class="oc-pill">.oc-field · .oc-label</span></div>

@@ -4283,3 +4283,144 @@
     padding: var(--oc-space-2);
   }
 }
+
+/* Session indicators: compact list-row signals shared by the sessions rail,
+   sessions table, and menu-bar shortcuts. Badges reuse oc-badge tones. */
+.oc-session-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oc-space-1);
+}
+
+.oc-unread-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-accent-primary);
+}
+
+.oc-owner-chip {
+  display: inline-flex;
+  overflow: hidden;
+  max-width: 12rem;
+  align-items: center;
+  gap: var(--oc-space-1);
+  padding: 2px var(--oc-space-2) 2px 2px;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-bg-surface);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.oc-owner-chip .oc-avatar {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.oc-owner-chip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* One rotating ring communicates a running session at row scale without
+   competing with row text; pairs with aria-label on the row. */
+.oc-run-spinner {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: 0 0 auto;
+  border: 2px solid var(--oc-border-subtle);
+  border-top-color: var(--oc-accent-primary);
+  border-radius: var(--oc-radius-round);
+  animation: oc-run-spinner 0.9s linear infinite;
+}
+
+@keyframes oc-run-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-run-spinner {
+    animation: none;
+    border-top-color: var(--oc-status-success-fg);
+  }
+}
+
+/* Summary strip: a compact row of key metrics above a collection. Metrics
+   stay dimensionally stable; tones mark attention without color-only
+   meaning because the value and label carry the fact. */
+.oc-summary-strip {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-border-subtle);
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  overflow: hidden;
+}
+
+.oc-summary-metric {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-2) var(--oc-space-3);
+  background: var(--oc-bg-surface);
+}
+
+.oc-summary-metric-icon {
+  display: inline-grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-recessed);
+  color: var(--oc-text-secondary);
+}
+
+.oc-summary-metric-icon [data-lucide],
+.oc-summary-metric-icon svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.oc-summary-metric[data-tone="warning"] .oc-summary-metric-icon {
+  background: var(--oc-status-warning-bg);
+  color: var(--oc-status-warning-fg);
+}
+
+.oc-summary-metric[data-tone="error"] .oc-summary-metric-icon {
+  background: var(--oc-status-error-bg);
+  color: var(--oc-status-error-fg);
+}
+
+.oc-summary-metric[data-tone="success"] .oc-summary-metric-icon {
+  background: var(--oc-status-success-bg);
+  color: var(--oc-status-success-fg);
+}
+
+.oc-summary-metric-copy {
+  display: grid;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.oc-summary-metric-copy strong {
+  font-size: var(--oc-font-size-md);
+  font-variant-numeric: tabular-nums;
+}
+
+.oc-summary-metric-copy small {
+  overflow: hidden;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

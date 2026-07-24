@@ -538,7 +538,7 @@ describe("preview contracts", () => {
       next: { id: "primitive-hero" },
     });
     expect(getAdjacentReferencePages("primitive-input")).toMatchObject({
-      previous: { id: "primitive-hero" },
+      previous: { id: "primitive-indicators" },
       next: { id: "primitive-input-area" },
     });
     expect(getAdjacentReferencePages("resource-theming")).toEqual({

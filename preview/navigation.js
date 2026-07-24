@@ -369,6 +369,12 @@ export const referenceAreas = [
         keywords: "oc-textarea multiline resize form message",
       },
       {
+        id: "primitive-indicators",
+        label: "Indicators",
+        path: "interface/primitives/indicators/",
+        keywords: "oc-summary-strip oc-owner-chip oc-unread-dot oc-run-spinner session badges metrics",
+      },
+      {
         id: "primitive-label",
         label: "Label",
         path: "interface/primitives/label/",
