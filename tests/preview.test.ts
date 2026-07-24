@@ -224,8 +224,8 @@ describe("preview contracts", () => {
     expect(home).toContain('aria-label="Mistral"');
     expect(home).toContain('data-provider="openai"');
     expect(home).toContain('data-provider="gemini"');
-    expect(home).toContain('data-avatar-seed="Mina"');
-    expect(home).toContain('data-avatar-seed="Quinn"');
+    expect(home).toContain('data-avatar-seed="Shelly"');
+    expect(home).toContain('data-avatar-seed="Krill"');
     expect(home).not.toContain('aria-label="OpenAI"><span class="oc-provider-logo-mark" aria-hidden="true">OA');
     expect(home).toContain('href="./agent-components/question-tool/"');
     expect(home).toContain('href="./agent-components/agent-chat/"');
@@ -606,21 +606,20 @@ describe("preview contracts", () => {
     expect(allCode).toContain("oc-avatar-status");
     expect(allCode).toContain("oc-avatar-stack");
     expect(allCode).toContain(
-      '<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, and Review">',
+      '<span class="oc-avatar-stack" role="img" aria-label="Shelly, Barnacle, and Review">',
     );
     expect(allCode).toContain(
-      '<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, Sora, and 3 more participants">',
+      '<span class="oc-avatar-stack" role="img" aria-label="Shelly, Barnacle, Scampi, and 3 more participants">',
     );
     expect(allCode).toContain('data-state="thinking"');
     expect(allCode).toContain('data-state="speaking"');
     expect(allCode).toContain("oc-avatar-overflow");
     const content = getReferenceContent("primitive-avatar");
-    expect(content).toContain("&lt;!-- Inline --&gt;");
-    expect(content).toContain("&lt;!-- Small --&gt;");
-    expect(content).toContain("&lt;!-- Presence --&gt;");
-    expect(content).toContain("&lt;!-- Thinking --&gt;");
-    expect(content).toContain("&lt;!-- Speaking --&gt;");
-    expect(content).toContain("&lt;!-- Overflow --&gt;");
+    expect(content).toContain('avatarFixtureUrl("Shelly")');
+    expect(content).toContain("#ff6b45");
+    expect(content).toContain("resolveAvatarUrl");
+    expect(content).toContain("data-presence=");
+    expect(content).toContain("data-animated=");
   });
   test("keeps every Button variant discoverable in canvas, usage, and code", () => {
     const definition = getWorkbenchDefinition("primitive-button");

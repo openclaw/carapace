@@ -5325,3 +5325,61 @@
   grid-template-columns: repeat(auto-fit, minmax(7.5rem, auto));
   align-self: center;
 }
+
+/* Presence: a corner dot communicates connection state; offline also mutes
+   the artwork. Pair with visible text or an accessible name — never the
+   dot alone. */
+.oc-avatar[data-presence]::before {
+  position: absolute;
+  z-index: 2;
+  right: -1px;
+  bottom: -1px;
+  width: 27%;
+  height: 27%;
+  min-width: 0.4rem;
+  min-height: 0.4rem;
+  border-radius: var(--oc-radius-round);
+  box-shadow: 0 0 0 2px var(--oc-bg-page);
+  content: "";
+}
+
+.oc-avatar[data-presence="online"]::before {
+  background: var(--oc-status-success-fg);
+}
+
+.oc-avatar[data-presence="busy"]::before {
+  background: var(--oc-status-warning-fg);
+}
+
+.oc-avatar[data-presence="offline"]::before {
+  background: var(--oc-text-inactive);
+}
+
+.oc-avatar[data-presence="offline"] .oc-avatar-image {
+  filter: grayscale(0.85);
+  opacity: 0.6;
+}
+
+/* Animated identity: an opt-in living shimmer for active agents. The art
+   itself breathes; speaking and thinking rings still come from data-state. */
+.oc-avatar[data-animated="true"] .oc-avatar-image {
+  animation: oc-avatar-live 3.2s var(--oc-ease-out) infinite;
+}
+
+@keyframes oc-avatar-live {
+  0%,
+  100% {
+    filter: saturate(1) brightness(1);
+    transform: scale(1);
+  }
+  50% {
+    filter: saturate(1.25) brightness(1.1);
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-avatar[data-animated="true"] .oc-avatar-image {
+    animation: none;
+  }
+}

@@ -258,10 +258,10 @@ const components = {
     className: "oc-agent-chat",
     lede: "The complete conversation surface: a scrollable message list above a composer, sharing one bounded column.",
     previewTitle: "Conversation workspace",
-    preview: `<section class="oc-agent-chat" data-layout="compact" data-attribution="participants" data-user-name="Mina" aria-label="Agent conversation">
+    preview: `<section class="oc-agent-chat" data-layout="compact" data-attribution="participants" data-user-name="Shelly" aria-label="Agent conversation">
   <div class="oc-agent-message-list" role="log" aria-label="Conversation history">
     <div class="oc-agent-message-list-content">
-      ${attributedMessageMarkup({ author: "user", name: "Mina", role: "You", message: "Summarize the pending changes and flag anything risky." })}
+      ${attributedMessageMarkup({ author: "user", name: "Shelly", role: "You", message: "Summarize the pending changes and flag anything risky." })}
       ${attributedMessageMarkup({
         name: "OpenClaw",
         role: "Assistant",
@@ -597,9 +597,9 @@ const components = {
     lede: "A delegated-work row that names the subagent objective, tracks elapsed time, and expands into its nested tool activity.",
     previewTitle: "Delegated agent work",
     preview: `<div class="oc-agent-subagent-tool">${toolRow({
-      icon: collaborationAvatar("Atlas"),
+      icon: collaborationAvatar("Barnacle"),
       label: "Completed Subagent",
-      detail: '<span class="oc-agent-subagent-name"><strong>Atlas</strong><small>Audit component accessibility</small></span>',
+      detail: '<span class="oc-agent-subagent-name"><strong>Barnacle</strong><small>Audit component accessibility</small></span>',
       meta: "6s",
       panel: `<div class="oc-agent-tool-row-list">
         ${toolRow({ icon: agentIcon("file"), label: "Read file", detail: "styles/components.css" })}
@@ -607,7 +607,7 @@ const components = {
       </div>`,
     })}</div>`,
     markup: `<details class="oc-agent-tool-row" open>
-  <summary class="oc-agent-tool-row-summary"><span class="oc-avatar oc-avatar-xs">…</span><span class="oc-agent-tool-row-label">Completed Subagent</span><span class="oc-agent-tool-row-detail"><span class="oc-agent-subagent-name"><strong>Atlas</strong><small>Audit component accessibility</small></span></span><span class="oc-agent-tool-row-meta">6s</span><span class="oc-agent-tool-row-chevron" aria-hidden="true">…</span></summary>
+  <summary class="oc-agent-tool-row-summary"><span class="oc-avatar oc-avatar-xs">…</span><span class="oc-agent-tool-row-label">Completed Subagent</span><span class="oc-agent-tool-row-detail"><span class="oc-agent-subagent-name"><strong>Barnacle</strong><small>Audit component accessibility</small></span></span><span class="oc-agent-tool-row-meta">6s</span><span class="oc-agent-tool-row-chevron" aria-hidden="true">…</span></summary>
   <div class="oc-agent-tool-row-panel"><div class="oc-agent-tool-row-list">…nested tool rows…</div></div>
 </details>`,
     guidance: ["Name the delegated agent and its objective instead of showing an opaque identifier.", "Shimmer the label and surface the latest nested call while running.", "The parent consumer owns delegation, interruption, permissions, and acceptance of results."],

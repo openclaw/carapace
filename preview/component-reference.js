@@ -102,14 +102,14 @@ export const avatarWorkbenchExamples = [
     id: "stack",
     label: "Stack",
     purpose: "Overlapping participant identity for compact collaborative activity.",
-    markup: `<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, and Review">
-  <span class="oc-avatar oc-avatar-sm"><img class="oc-avatar-image" src="mina.jpg" alt="Mina" /></span>
-  <span class="oc-avatar oc-avatar-sm"><img class="oc-avatar-image" src="atlas.jpg" alt="Atlas" /></span>
+    markup: `<span class="oc-avatar-stack" role="img" aria-label="Shelly, Barnacle, and Review">
+  <span class="oc-avatar oc-avatar-sm"><img class="oc-avatar-image" src="mina.jpg" alt="Shelly" /></span>
+  <span class="oc-avatar oc-avatar-sm"><img class="oc-avatar-image" src="atlas.jpg" alt="Barnacle" /></span>
   <span class="oc-avatar oc-avatar-sm"><img class="oc-avatar-image" src="review.jpg" alt="Review" /></span>
 </span>`,
-    previewMarkup: `<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, and Review">
-  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Mina")}" alt="Mina" /></span>
-  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Atlas")}" alt="Atlas" /></span>
+    previewMarkup: `<span class="oc-avatar-stack" role="img" aria-label="Shelly, Barnacle, and Review">
+  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Shelly")}" alt="Shelly" /></span>
+  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Barnacle")}" alt="Barnacle" /></span>
   <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Review")}" alt="Review" /></span>
 </span>`,
   },
@@ -119,9 +119,9 @@ export const avatarWorkbenchExamples = [
     purpose: "Animated participant stack for active multi-agent collaboration.",
     markup: `<span class="oc-avatar-stack" data-state="thinking" aria-hidden="true">…</span>`,
     previewMarkup: `<span class="oc-avatar-stack" data-state="thinking" aria-hidden="true">
-  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Planner")}" alt="" /></span>
-  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Builder")}" alt="" /></span>
-  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Reviewer")}" alt="" /></span>
+  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Pincer")}" alt="" /></span>
+  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Scuttle")}" alt="" /></span>
+  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Mantis")}" alt="" /></span>
 </span>`,
   },
   {
@@ -143,16 +143,16 @@ export const avatarWorkbenchExamples = [
     id: "overflow",
     label: "Overflow",
     purpose: "Bounded participant context that summarizes collaborators beyond the visible stack.",
-    markup: `<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, Sora, and 3 more participants">
+    markup: `<span class="oc-avatar-stack" role="img" aria-label="Shelly, Barnacle, Scampi, and 3 more participants">
   <span class="oc-avatar oc-avatar-sm">…</span>
   <span class="oc-avatar oc-avatar-sm">…</span>
   <span class="oc-avatar oc-avatar-sm">…</span>
   <span class="oc-avatar oc-avatar-sm oc-avatar-overflow" aria-hidden="true">+3</span>
 </span>`,
-    previewMarkup: `<span class="oc-avatar-stack" role="img" aria-label="Mina, Atlas, Sora, and 3 more participants">
-  ${agentAvatarMarkup("Mina", { size: "sm" })}
-  ${agentAvatarMarkup("Atlas", { size: "sm" })}
-  ${agentAvatarMarkup("Sora", { size: "sm" })}
+    previewMarkup: `<span class="oc-avatar-stack" role="img" aria-label="Shelly, Barnacle, Scampi, and 3 more participants">
+  ${agentAvatarMarkup("Shelly", { size: "sm" })}
+  ${agentAvatarMarkup("Barnacle", { size: "sm" })}
+  ${agentAvatarMarkup("Scampi", { size: "sm" })}
   <span class="oc-avatar oc-avatar-sm oc-avatar-overflow" aria-hidden="true">+3</span>
 </span>`,
   },

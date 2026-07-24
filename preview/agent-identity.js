@@ -9,19 +9,19 @@ function escapeHtml(value) {
 }
 
 export const collaborationParticipants = [
-  { name: "Mina", role: "Leader", message: "Pulling the specialist findings into one clear answer." },
+  { name: "Shelly", role: "Leader", message: "Pulling the specialist findings into one clear answer." },
   {
-    name: "Atlas",
+    name: "Barnacle",
     role: "Research",
     message: "The compact transcript pattern matches the strongest application surfaces.",
   },
   {
-    name: "Sora",
+    name: "Scampi",
     role: "Interface",
     message: "Avatar, author, role, and message now read as one conversational unit.",
   },
   {
-    name: "Quinn",
+    name: "Krill",
     role: "Systems",
     message: "Motion stays isolated to four transform-only avatar layers.",
   },

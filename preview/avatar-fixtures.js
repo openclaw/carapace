@@ -10,14 +10,14 @@ const avatarPalettes = [
 ];
 
 export const avatarFixturePeople = [
-  { name: "Mina", role: "Product" },
-  { name: "Atlas", role: "Research" },
-  { name: "Sora", role: "Interface" },
-  { name: "Quinn", role: "Systems" },
-  { name: "Planner", role: "Planning" },
-  { name: "Builder", role: "Build" },
-  { name: "Reviewer", role: "Review" },
-  { name: "Scout", role: "Discovery" },
+  { name: "Shelly", role: "Product" },
+  { name: "Barnacle", role: "Research" },
+  { name: "Scampi", role: "Interface" },
+  { name: "Krill", role: "Systems" },
+  { name: "Pincer", role: "Planning" },
+  { name: "Scuttle", role: "Build" },
+  { name: "Mantis", role: "Review" },
+  { name: "Krabby", role: "Discovery" },
 ];
 
 function hashAvatarSeed(seed) {

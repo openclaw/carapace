@@ -407,11 +407,27 @@ const contents = {
       <div class="specimen-frame"><div class="primitive-avatar-row primitive-avatar-variants">${avatarPreview()}</div></div>
     </section>
     <section class="avatar-generator" aria-labelledby="avatar-generator-title">
-      <div class="avatar-generator-heading"><div><p class="eyebrow">Preview fixture generator</p><h2 id="avatar-generator-title">One stable seed, one colorful identity</h2><p>Carapace hashes a local text seed into skin, hair, expression, clothing, accessories, and background pixels. No image request leaves the browser. The generator exists for documentation fixtures; the public <code>.oc-avatar</code> contract accepts uploaded images, initials, or another compatible service.</p></div><div class="avatar-generator-links"><a class="oc-link oc-link-standalone" href="https://github.com/openclaw/carapace/blob/main/preview/avatar-fixtures.js" target="_blank" rel="noreferrer">View fixture source <i data-lucide="arrow-right" aria-hidden="true"></i></a><a class="oc-link oc-link-standalone" href="https://www.dicebear.com/styles/pixel-art/" target="_blank" rel="noreferrer">Production alternative: DiceBear <i data-lucide="arrow-right" aria-hidden="true"></i></a></div></div>
+      <div class="avatar-generator-heading"><div><p class="eyebrow">Preview fixture generator</p><h2 id="avatar-generator-title">One stable seed, one colorful identity</h2><p>Carapace hashes a local text seed into a dominant hue, an analogous four-tone palette, and a mosaic, quad, or rings pixel pattern. No image request leaves the browser. The generator exists for documentation fixtures; the public <code>.oc-avatar</code> contract accepts uploaded images, initials, or another compatible service.</p></div><div class="avatar-generator-links"><a class="oc-link oc-link-standalone" href="https://github.com/openclaw/carapace/blob/main/preview/avatar-fixtures.js" target="_blank" rel="noreferrer">View fixture source <i data-lucide="arrow-right" aria-hidden="true"></i></a><a class="oc-link oc-link-standalone" href="https://www.dicebear.com/styles/pixel-art/" target="_blank" rel="noreferrer">Production alternative: DiceBear <i data-lucide="arrow-right" aria-hidden="true"></i></a></div></div>
       <div class="avatar-generator-gallery" aria-label="Generated pixel identities">${avatarGeneratorGallery()}</div>
       <dl class="avatar-generator-facts"><div><dt>Input</dt><dd>Stable user or agent identifier</dd></div><div><dt>Output</dt><dd>Local SVG data URL</dd></div><div><dt>Privacy</dt><dd>No remote avatar request</dd></div><div><dt>Consumer contract</dt><dd>Generator agnostic</dd></div></dl>
     </section>
-    <section data-section-kind="markup" aria-labelledby="avatar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="avatar-markup">Name fallback identity explicitly</h2></div></div>${codeBlock(formatComponentWorkbenchCode(avatarWorkbenchExamples), "html")}</section>
+    <section data-section-kind="markup" aria-labelledby="avatar-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="avatar-markup">Generate identities and declare state</h2></div></div>
+    ${codeBlock(`// Deterministic: any stable string is a seed
+avatarFixtureUrl("Shelly");                          // name
+avatarFixtureUrl("req_8f31");                        // request or session hash
+avatarFixtureUrl("agent-7", { color: "#ff6b45" });   // hex locks the palette
+avatarFixtureUrl("Shelly", { style: "rings" });      // mosaic | quad | rings
+
+// Unknown identities fall back to the claw mark
+resolveAvatarUrl(session.ownerName);`, "js")}
+    ${codeBlock(`<!-- Presence: corner dot plus muted art when offline -->
+<span class="oc-avatar oc-avatar-pixel" data-presence="online" role="img" aria-label="Shelly · online">
+  <img class="oc-avatar-image" src="…" alt="" width="40" height="40" />
+</span>
+
+<!-- Activity: speaking and thinking rings; animated identity is opt-in -->
+<span class="oc-avatar oc-avatar-pixel" data-state="speaking" role="img" aria-label="Shelly · speaking">…</span>
+<span class="oc-avatar oc-avatar-pixel" data-animated="true" role="img" aria-label="Shelly">…</span>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="avatar-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="avatar-guidance">Identity remains understandable without the image</h2></div></div>${guidanceList(["Use the extra-small inline size beside an author name so identity and message read as one unit.", "Use a stack for compact participant context and the thinking state only while collaboration is actively progressing.", "Use a bounded overflow avatar instead of making a facepile grow without limit.", "Use an empty image alt when adjacent text names the same person or agent.", "When the avatar stands alone, give the wrapper an image role and an accessible name; hide fallback initials from assistive technology.", "Never rely on the status indicator or animation alone; pair it with visible text or an equivalent accessible state.", "Wrap interactive avatars in .oc-avatar-button so hover and focus belong to the control, not a passive image."])}</section>`,
 
   "primitive-badge": () =>
@@ -871,7 +887,7 @@ Retry-After: 12s · request id req_8f31</span></div>
           <span class="oc-session-badges"><span class="oc-badge oc-badge-warning">Approval</span><span class="oc-badge oc-badge-info">Cloud</span><span class="oc-badge oc-badge-success">PR #142</span><span class="oc-badge oc-badge-neutral">Queued</span></span>
         </div>
         <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--oc-space-3);">
-          <span class="oc-owner-chip"><span class="oc-avatar oc-avatar-xs oc-avatar-pixel" aria-hidden="true"><img class="oc-avatar-image" data-avatar-seed="Mina" alt="" width="20" height="20" /></span><span>Mina</span></span>
+          <span class="oc-owner-chip"><span class="oc-avatar oc-avatar-xs oc-avatar-pixel" aria-hidden="true"><img class="oc-avatar-image" data-avatar-seed="Shelly" alt="" width="20" height="20" /></span><span>Shelly</span></span>
           <span class="oc-unread-dot" role="status" aria-label="Unread activity"></span>
           <span class="oc-run-spinner" role="status" aria-label="Session running"></span>
         </div>

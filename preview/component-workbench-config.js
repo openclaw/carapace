@@ -144,7 +144,7 @@ function createToolWorkbenchDefinition(kind) {
   const defaults = expandable ? { state: "complete", open: true } : { state: "complete" };
   if (kind === "interactive") defaults.variant = "terminal";
   if (kind === "subagent") defaults.taskTitle = "Accessibility audit";
-  if (kind === "subagent") defaults.agentName = "Atlas";
+  if (kind === "subagent") defaults.agentName = "Barnacle";
   const controls = [
     {
       id: "state",
@@ -961,7 +961,7 @@ ${appSurfaceWorkbenchMarkup(state)}
     },
   },
   "primitive-avatar": {
-    defaults: { seed: "Mina", style: "auto", size: "md", presence: "none" },
+    defaults: { seed: "Shelly", style: "auto", size: "md", presence: "none", animated: false },
     controls: [
       {
         id: "seed",
@@ -986,6 +986,11 @@ ${appSurfaceWorkbenchMarkup(state)}
         label: "Presence",
         type: "choice",
         options: avatarPresenceOptions,
+      },
+      {
+        id: "animated",
+        label: "Animated",
+        type: "toggle",
       },
     ],
     markup: avatarPlaygroundMarkup,

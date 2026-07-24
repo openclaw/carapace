@@ -571,10 +571,10 @@ function workspaceSessions(status) {
   </header>
   <div class="oc-app-resource-search"><span>${agentIcon("search")}</span><input type="search" aria-label="Search sessions" placeholder="Search sessions" /></div>
   <div class="oc-session-list">
-    ${sessionListItem({ title: "Carapace parity", detail: "Design system", time: "now", agent: "Mina", selected: true, active: status === "active" })}
-    ${sessionListItem({ title: "Release validation", detail: "openclaw/openclaw", time: "8m", agent: "Atlas", unread: true })}
-    ${sessionListItem({ title: "CI queue health", detail: "maintainers", time: "34m", agent: "Quinn" })}
-    ${sessionListItem({ title: "Docs navigation", detail: "openclaw/docs", time: "2h", agent: "Sora" })}
+    ${sessionListItem({ title: "Carapace parity", detail: "Design system", time: "now", agent: "Shelly", selected: true, active: status === "active" })}
+    ${sessionListItem({ title: "Release validation", detail: "openclaw/openclaw", time: "8m", agent: "Barnacle", unread: true })}
+    ${sessionListItem({ title: "CI queue health", detail: "maintainers", time: "34m", agent: "Krill" })}
+    ${sessionListItem({ title: "Docs navigation", detail: "openclaw/docs", time: "2h", agent: "Scampi" })}
   </div>
   <footer class="oc-workspace-sessions-footer">
     <span>${agentIcon("history")} Recent</span>
@@ -844,7 +844,7 @@ export function sessionsApplicationMarkup({
                       model: "GPT-5.5",
                       updated: "now",
                       status: "active",
-                      owner: "Mina",
+                      owner: "Shelly",
                       badges: '<span class="oc-badge oc-badge-success">PR #30</span>',
                       selected: true,
                     }),
@@ -854,7 +854,7 @@ export function sessionsApplicationMarkup({
                       model: "Claude Opus",
                       updated: "8m",
                       status: "idle",
-                      owner: "Atlas",
+                      owner: "Barnacle",
                       badges: '<span class="oc-badge oc-badge-warning">Approval</span>',
                       unread: true,
                     }),

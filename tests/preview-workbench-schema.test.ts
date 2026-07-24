@@ -867,9 +867,9 @@ describe("workbench schema contracts", () => {
         id: "agentName",
         type: "choice",
         options: [
-          { label: "Atlas", value: "Atlas" },
-          { label: "Sora", value: "Sora" },
-          { label: "Quinn", value: "Quinn" },
+          { label: "Barnacle", value: "Barnacle" },
+          { label: "Scampi", value: "Scampi" },
+          { label: "Krill", value: "Krill" },
         ],
       },
       {
@@ -886,13 +886,13 @@ describe("workbench schema contracts", () => {
     expect(
       normalizeWorkbenchState(subagentDefinition, {
         state: "timed_out",
-        agentName: "Quinn",
+        agentName: "Krill",
         taskTitle: "Control UI parity",
         open: "yes",
       }),
     ).toEqual({
       state: "timed_out",
-      agentName: "Quinn",
+      agentName: "Krill",
       taskTitle: "Control UI parity",
       open: true,
     });

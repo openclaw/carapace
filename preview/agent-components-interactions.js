@@ -82,7 +82,7 @@ export function appendAgentUserMessage({ form, input, chat, transcript, scroller
 
   const doc = form.ownerDocument;
   const attributed = chat?.dataset?.attribution === "participants";
-  const userName = chat?.dataset?.userName || "Mina";
+  const userName = chat?.dataset?.userName || "Shelly";
   const message = attributed
     ? appendAttributedUserMessage(doc, chat, transcript, draft, userName)
     : appendDirectUserMessage(doc, transcript, draft);

@@ -25,7 +25,7 @@ describe("agent component behavior", () => {
   test("keeps collaboration facepile names separate from error status", () => {
     const failed = collaborationTranscriptMarkup({ state: "error" });
 
-    expect(failed).toContain('role="img" aria-label="Mina, Atlas, Sora, Quinn"');
+    expect(failed).toContain('role="img" aria-label="Shelly, Barnacle, Scampi, Krill"');
     expect(failed).toContain("Agents paused");
     expect(failed).not.toContain("are collaborating");
   });
@@ -210,8 +210,8 @@ describe("agent component behavior", () => {
       "Agents thinking",
     );
     expect(multiAgent).toContain("Agents ready");
-    expect(multiAgent).toContain("<strong>Mina</strong>");
-    expect(multiAgent).toContain("<strong>Atlas</strong>");
+    expect(multiAgent).toContain("<strong>Shelly</strong>");
+    expect(multiAgent).toContain("<strong>Barnacle</strong>");
     expect(multiAgent).toContain('role="listitem"');
     const multiAgentError = agentChatWorkbenchMarkup({
       example: "multi-agent",
@@ -372,7 +372,7 @@ describe("agent component behavior", () => {
     generatedAvatar.append(generatedImage);
     generatedAvatar.cloneNode = () => generatedAvatar;
     const chat = {
-      dataset: { attribution: "participants", userName: "Mina" },
+      dataset: { attribution: "participants", userName: "Shelly" },
       querySelector: () => generatedAvatar,
     };
 
@@ -389,7 +389,7 @@ describe("agent component behavior", () => {
     expect(message?.attributes.get("data-author")).toBe("user");
     expect(message?.children[0].className).toBe("oc-avatar oc-avatar-xs oc-avatar-pixel");
     expect(message?.children[0].children[0].className).toBe("oc-avatar-image");
-    expect(message?.children[1].children[0].children[0].textContent).toBe("Mina");
+    expect(message?.children[1].children[0].children[0].textContent).toBe("Shelly");
     expect(message?.children[1].children[0].children[1].textContent).toBe("You");
     expect(message?.children[1].children[1].children[0].textContent).toBe(
       "Keep the participant bubble attached.",

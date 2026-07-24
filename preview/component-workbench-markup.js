@@ -121,7 +121,7 @@ export const sidebarWorkspaces = [
     id: "personal",
     label: "Personal",
     description: "Private drafts",
-    avatarSeed: "Mina personal workspace",
+    avatarSeed: "Shelly personal workspace",
     groups: [
       {
         id: "personal",
@@ -214,9 +214,9 @@ export const subagentTaskTitles = [
 ];
 
 export const subagentNames = [
-  { label: "Atlas", value: "Atlas" },
-  { label: "Sora", value: "Sora" },
-  { label: "Quinn", value: "Quinn" },
+  { label: "Barnacle", value: "Barnacle" },
+  { label: "Scampi", value: "Scampi" },
+  { label: "Krill", value: "Krill" },
 ];
 
 export const subagentLifecycleStates = [
@@ -762,9 +762,9 @@ export function sidebarWorkbenchMarkup({
       .join("")}
   </nav>
   <footer class="oc-sidebar-footer">
-    ${sidebarAvatarMarkup("Mina operator", "Mina")}
+    ${sidebarAvatarMarkup("Shelly operator", "Shelly")}
     <span class="oc-sidebar-account">
-      <strong class="oc-sidebar-account-name">Mina</strong>
+      <strong class="oc-sidebar-account-name">Shelly</strong>
       <small class="oc-sidebar-account-role">Maintainer</small>
     </span>
     <button class="oc-sidebar-footer-action" type="button" aria-label="Account options">
@@ -1255,7 +1255,7 @@ export function toolWorkbenchMarkup({
   state = "complete",
   open = true,
   taskTitle = "Accessibility audit",
-  agentName = "Atlas",
+  agentName = "Barnacle",
   variant = "terminal",
 } = {}) {
   const complete = state === "complete";
@@ -1591,7 +1591,7 @@ export function messageListWorkbenchMarkup({
     const userMessage = `<div class="oc-agent-message-bubble"><p>Can we make the application panes feel closer to the mac app?</p></div>`;
     const user = attributedMessageMarkup({
       author: "user",
-      name: "Mina",
+      name: "Shelly",
       role: "You",
       content: `${userMessage}${media ? mediaGalleryMarkup(status) : ""}`,
     });
@@ -1753,7 +1753,7 @@ export function providerLogoWorkbenchMarkup({
           anthropic: "Claude Opus 4.6",
           gemini: "Gemini 3 Pro",
           xai: "Grok 4",
-          groq: "Llama 4 Scout",
+          groq: "Llama 4 Krabby",
           mistral: "Mistral Large",
           openrouter: "Auto router",
           deepseek: "DeepSeek R2",
@@ -1776,9 +1776,9 @@ export function providerLogoWorkbenchMarkup({
 
   if (selectedLayout === "profiles") {
     const people = [
-      { name: "Mina", role: "Design systems", provider: providerLogoProviders[0] },
-      { name: "Atlas", role: "Agent runtime", provider: providerLogoProviders[1] },
-      { name: "Sora", role: "Interface review", provider: providerLogoProviders[2] },
+      { name: "Shelly", role: "Design systems", provider: providerLogoProviders[0] },
+      { name: "Barnacle", role: "Agent runtime", provider: providerLogoProviders[1] },
+      { name: "Scampi", role: "Interface review", provider: providerLogoProviders[2] },
     ];
     const profiles = people
       .map(({ name, role, provider }, index) => {
@@ -1910,13 +1910,13 @@ export function agentChatWorkbenchMarkup({
   </form>`;
 
   if (isEmpty) {
-    return `<section class="oc-agent-chat oc-agent-chat-empty" data-layout="compact" data-attribution="participants" data-user-name="Mina" aria-label="Agent conversation" data-agent-file-drop>
+    return `<section class="oc-agent-chat oc-agent-chat-empty" data-layout="compact" data-attribution="participants" data-user-name="Shelly" aria-label="Agent conversation" data-agent-file-drop>
   <div class="oc-agent-drop-overlay" aria-hidden="true">${agentIcon("paperclip")}<strong>Drop files to attach</strong><span>Images, video, audio, documents, and code</span></div>
   <div class="oc-agent-chat-center">${composer}${suggestions}</div>
 </section>`;
   }
 
-  return `<section class="oc-agent-chat" data-layout="compact" data-attribution="${transcriptMode === "attributed" ? "participants" : "none"}" data-user-name="Mina" aria-label="Agent conversation" data-agent-file-drop>
+  return `<section class="oc-agent-chat" data-layout="compact" data-attribution="${transcriptMode === "attributed" ? "participants" : "none"}" data-user-name="Shelly" aria-label="Agent conversation" data-agent-file-drop>
   <div class="oc-agent-drop-overlay" aria-hidden="true">${agentIcon("paperclip")}<strong>Drop files to attach</strong><span>Images, video, documents, and code</span></div>
   ${messages}
   <div class="oc-agent-chat-composer">${composer}</div>
@@ -1925,9 +1925,9 @@ export function agentChatWorkbenchMarkup({
 
 
 export const avatarSeeds = [
-  { label: "Mina", value: "Mina" },
-  { label: "Atlas", value: "Atlas" },
-  { label: "Quinn", value: "Quinn" },
+  { label: "Shelly", value: "Shelly" },
+  { label: "Barnacle", value: "Barnacle" },
+  { label: "Krill", value: "Krill" },
   { label: "Hex #FF6B45", value: "#ff6b45" },
   { label: "Hash req_8f31", value: "req_8f31" },
 ];
@@ -1949,15 +1949,18 @@ export const avatarSizeOptions = [
 export const avatarPresenceOptions = [
   { label: "None", value: "none" },
   { label: "Online", value: "online" },
+  { label: "Busy", value: "busy" },
+  { label: "Offline", value: "offline" },
   { label: "Speaking", value: "speaking" },
   { label: "Thinking", value: "thinking" },
 ];
 
 export function avatarPlaygroundMarkup({
-  seed = "Mina",
+  seed = "Shelly",
   style = "auto",
   size = "md",
   presence = "none",
+  animated = false,
 } = {}) {
   const options = {};
   if (style !== "auto") options.style = style;
@@ -1965,16 +1968,18 @@ export function avatarPlaygroundMarkup({
   const sizeClass = size === "md" ? "" : ` oc-avatar-${size}`;
   const stateAttribute =
     presence === "speaking" || presence === "thinking" ? ` data-state="${presence}"` : "";
+  const presenceAttribute =
+    presence === "online" || presence === "busy" || presence === "offline"
+      ? ` data-presence="${presence}"`
+      : "";
+  const animatedAttribute = animated ? ' data-animated="true"' : "";
+  const stateLabel = presence === "none" ? "" : ` · ${presence}`;
   const dimension = size === "xs" ? 20 : size === "sm" ? 24 : size === "lg" ? 48 : 40;
-  const avatar = `<span class="oc-avatar${sizeClass} oc-avatar-pixel"${stateAttribute} role="img" aria-label="${escapeHtml(seed)}"><img class="oc-avatar-image" src="${avatarFixtureUrl(seed, options)}" alt="" width="${dimension}" height="${dimension}" /></span>`;
-  if (presence === "online") {
-    return `<span class="primitive-avatar-presence">${avatar}<span class="primitive-avatar-presence-dot" aria-hidden="true"></span><span>${escapeHtml(seed)} · Online</span></span>`;
-  }
-  return avatar;
+  return `<span class="oc-avatar${sizeClass} oc-avatar-pixel"${stateAttribute}${presenceAttribute}${animatedAttribute} role="img" aria-label="${escapeHtml(seed)}${escapeHtml(stateLabel)}"><img class="oc-avatar-image" src="${avatarFixtureUrl(seed, options)}" alt="" width="${dimension}" height="${dimension}" /></span>`;
 }
 
 export function avatarCatalogMarkup(state) {
-  const generated = ["Mina", "Atlas", "Quinn", "Sora", "Scout", "Planner"]
+  const generated = ["Shelly", "Barnacle", "Krill", "Scampi", "Krabby", "Pincer"]
     .map(
       (name) =>
         `<span class="primitive-avatar-example"><span class="oc-avatar oc-avatar-pixel" role="img" aria-label="${name}"><img class="oc-avatar-image" src="${avatarFixtureUrl(name)}" alt="" width="40" height="40" /></span><span>${name}</span></span>`,
@@ -1983,13 +1988,14 @@ export function avatarCatalogMarkup(state) {
   const styleRow = ["mosaic", "quad", "rings"]
     .map(
       (styleName) =>
-        `<span class="primitive-avatar-example"><span class="oc-avatar oc-avatar-pixel" aria-hidden="true"><img class="oc-avatar-image" src="${avatarFixtureUrl(state.seed ?? "Mina", { style: styleName })}" alt="" width="40" height="40" /></span><span>${styleName}</span></span>`,
+        `<span class="primitive-avatar-example"><span class="oc-avatar oc-avatar-pixel" aria-hidden="true"><img class="oc-avatar-image" src="${avatarFixtureUrl(state.seed ?? "Shelly", { style: styleName })}" alt="" width="40" height="40" /></span><span>${styleName}</span></span>`,
     )
     .join("");
   return `<div class="avatar-section-list">
-  <div><small>Playground — drive with the controls</small><div class="primitive-avatar-row"><span class="primitive-avatar-example">${avatarPlaygroundMarkup(state)}<span>${escapeHtml(state.seed ?? "Mina")}${state.style && state.style !== "auto" ? ` · ${escapeHtml(state.style)}` : ""}</span></span></div></div>
+  <div><small>Playground — drive with the controls</small><div class="primitive-avatar-row"><span class="primitive-avatar-example">${avatarPlaygroundMarkup(state)}<span>${escapeHtml(state.seed ?? "Shelly")}${state.style && state.style !== "auto" ? ` · ${escapeHtml(state.style)}` : ""}</span></span></div></div>
   <div><small>Distinct generated identities — one hue and pattern per seed</small><div class="primitive-avatar-row">${generated}</div></div>
   <div><small>Pattern styles for the current seed</small><div class="primitive-avatar-row">${styleRow}</div></div>
+  <div><small>States — presence dots, speaking and thinking rings, animated identity</small><div class="primitive-avatar-row">${["online", "busy", "offline"].map((presence) => `<span class="primitive-avatar-example">${avatarPlaygroundMarkup({ seed: state.seed ?? "Shelly", presence })}<span>${presence}</span></span>`).join("")}<span class="primitive-avatar-example">${avatarPlaygroundMarkup({ seed: state.seed ?? "Shelly", presence: "speaking" })}<span>speaking</span></span><span class="primitive-avatar-example">${avatarPlaygroundMarkup({ seed: state.seed ?? "Shelly", presence: "thinking" })}<span>thinking</span></span><span class="primitive-avatar-example">${avatarPlaygroundMarkup({ seed: state.seed ?? "Shelly", animated: true })}<span>animated</span></span></div></div>
   <div><small>Defaults and sources</small><div class="primitive-avatar-row"><span class="primitive-avatar-example"><span class="oc-avatar oc-avatar-pixel" role="img" aria-label="OpenClaw agent"><img class="oc-avatar-image" src="${clawAvatarUrl()}" alt="" width="40" height="40" /></span><span>Claw default</span></span><span class="primitive-avatar-example"><span class="oc-avatar" role="img" aria-label="OpenClaw"><span class="oc-avatar-fallback" aria-hidden="true">OC</span></span><span>Initials</span></span></div></div>
 </div>`;
 }
