@@ -237,6 +237,12 @@ export const referenceAreas = [
         keywords: "oc-meter measurement range capacity score native",
       },
       {
+        id: "primitive-option-card",
+        label: "Option Card",
+        path: "interface/primitives/option-card/",
+        keywords: "oc-option-card onboarding setup choice radio connect pair qr code",
+      },
+      {
         id: "primitive-pagination",
         label: "Pagination",
         path: "interface/primitives/pagination/",
@@ -883,6 +889,7 @@ const candidateReferenceIds = new Set([
   "primitive-split-pane",
   "primitive-log-viewer",
   "primitive-menu-panel",
+  "primitive-option-card",
   "primitive-badge",
   "primitive-banner",
   "primitive-checkbox",

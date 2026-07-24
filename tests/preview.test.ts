@@ -351,6 +351,7 @@ describe("preview contracts", () => {
         "primitive-loader",
         "primitive-log-viewer",
         "primitive-menu-panel",
+        "primitive-option-card",
         "primitive-radio",
         "primitive-select",
         "primitive-skeleton-line",

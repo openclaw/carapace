@@ -810,6 +810,28 @@ Retry-After: 12s · request id req_8f31</span></div>
     <section data-section-kind="markup" aria-labelledby="menu-panel-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="menu-panel-markup">Identity, meters, shortcuts, actions</h2></div></div>${codeBlock(`<div class="oc-menu-panel">\n  <header class="oc-menu-panel-header">…</header>\n  <div class="oc-menu-panel-usage">…</div>\n  <ul class="oc-menu-panel-list">\n    <li><button class="oc-menu-panel-item" type="button">Carapace parity<small>now</small></button></li>\n  </ul>\n  <footer class="oc-menu-panel-footer">…</footer>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="menu-panel-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="menu-panel-guidance">The most-seen surface stays quiet</h2></div></div>${guidanceList(["Lead with identity and connection state; meters stay compact.", "Shortcut rows never wrap; trailing metadata truncates first.", "Keep destructive actions in the footer, separated from shortcuts.", "The native window, positioning, and dismissal stay consumer-owned."])}</section>`,
 
+  "primitive-option-card": () =>
+    `${pageIntro("Component", "Option Card", "Setup choices as real radio labels, and the shared connect surface for pairing and sign-in with a code or QR area.")}
+    <section data-section-kind="preview" aria-labelledby="option-card-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="option-card-preview">Choice and connect</h2></div><span class="oc-pill">.oc-option-card</span></div>
+      <div class="specimen-frame"><div style="display: grid; gap: var(--oc-space-5); width: min(100%, 42rem); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); align-items: start;">
+        <fieldset class="oc-option-group" style="border: 0; margin: 0; padding: 0;">
+          <legend class="sr-only">Choose a setup path</legend>
+          <label class="oc-option-card"><input type="radio" name="setup-path" checked /><span class="oc-option-card-icon">${icon("sparkles")}</span><span class="oc-option-card-copy"><strong>Express setup</strong><small>Recommended defaults with one provider.</small></span><span class="oc-option-card-meta">2 min</span></label>
+          <label class="oc-option-card"><input type="radio" name="setup-path" /><span class="oc-option-card-icon">${icon("sliders-horizontal")}</span><span class="oc-option-card-copy"><strong>Custom setup</strong><small>Choose providers, channels, and agents.</small></span><span class="oc-option-card-meta">10 min</span></label>
+          <label class="oc-option-card"><input type="radio" name="setup-path" /><span class="oc-option-card-icon">${icon("download")}</span><span class="oc-option-card-copy"><strong>Import</strong><small>Bring settings from another install.</small></span></label>
+        </fieldset>
+        <div class="oc-connect">
+          <h3 class="oc-connect-title">Pair this device</h3>
+          <div class="oc-connect-qr" role="img" aria-label="Pairing QR code">${icon("layout-grid")}</div>
+          <code class="oc-connect-code">418 302</code>
+          <p class="oc-connect-copy">Scan with the OpenClaw app or enter the code on your other device.</p>
+          <span class="oc-connect-alternative">Or connect with <a href="#" data-workbench-inert-link>a gateway URL</a></span>
+        </div>
+      </div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="option-card-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="option-card-markup">The input does the work</h2></div></div>${codeBlock(`<label class="oc-option-card">\n  <input type="radio" name="setup-path" checked />\n  <span class="oc-option-card-icon">…</span>\n  <span class="oc-option-card-copy"><strong>Express setup</strong><small>Recommended defaults.</small></span>\n</label>\n\n<div class="oc-connect">\n  <div class="oc-connect-qr" role="img" aria-label="Pairing QR code">…</div>\n  <code class="oc-connect-code">418 302</code>\n</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="option-card-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="option-card-guidance">Real inputs, one decision at a time</h2></div></div>${guidanceList(["Cards wrap radio inputs; selection and focus come from the input.", "Offer the manual alternative next to every QR path.", "Pairing codes stay short, grouped, and monospace.", "Verification, retry, and expiry handling stay consumer-owned."])}</section>`,
+
   "primitive-indicators": () =>
     `${pageIntro("Component", "Indicators", "Compact signals for sessions and collections: metric strips, owner chips, unread dots, run spinners, and toned badges.")}
     <section data-section-kind="preview" aria-labelledby="indicators-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="indicators-preview">Collection and row signals</h2></div><span class="oc-pill">.oc-summary-strip</span></div>
