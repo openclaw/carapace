@@ -26,6 +26,19 @@ until at least two consumers share the same interface and behavior.
 - Use mutable `bun install` only for deliberate dependency changes, and review
   `bun.lock` as a security-sensitive generated artifact.
 
+## Code
+
+- Keep JS/TS/JSX source files under about 1,000 lines; split before a file
+  crosses 2,000. Split along ownership seams (markup vs. behavior vs. config),
+  not arbitrary line counts. Generated files and test fixtures are exempt;
+  large test files should still split by surface when practical.
+- Preview markup is queried by attribute at runtime, so keep the contract
+  tests green: binder-queried `data-workbench-*` hooks must render in at least
+  one workbench state, and every `data-lucide` icon name must be registered in
+  `preview/lucide.js`.
+- Candidate CSS ships only selectors a preview specimen renders; delete
+  unvalidated anatomy instead of keeping it speculative.
+
 ## Release
 
 - Use Conventional Commits.
