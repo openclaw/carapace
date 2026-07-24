@@ -2302,6 +2302,9 @@
 .oc-model-trigger {
   display: inline-flex;
   box-sizing: border-box;
+
+  /* Fixed width: switching models must not resize the trigger or move the menu. */
+  width: 10.5rem;
   min-height: 1.875rem;
   align-items: center;
   gap: var(--oc-space-1);
@@ -2343,6 +2346,7 @@
 .oc-model-trigger > span:nth-child(2) {
   display: flex;
   min-width: 0;
+  flex: 1;
   align-items: baseline;
   gap: var(--oc-space-1);
 }
@@ -2399,7 +2403,7 @@
   z-index: 20;
   bottom: calc(100% + var(--oc-space-2));
   left: 0;
-  width: min(28rem, calc(100vw - 2rem));
+  width: min(21rem, calc(100vw - 2rem));
   overflow: hidden;
   border: 1px solid var(--oc-border-strong);
   border-radius: var(--oc-radius-control);
@@ -2422,8 +2426,15 @@
 }
 
 .oc-model-search {
-  margin: var(--oc-space-2);
-  padding-inline: var(--oc-space-2);
+  margin: 0;
+  padding-inline: var(--oc-space-3);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.oc-model-search input::-webkit-search-cancel-button {
+  appearance: none;
 }
 
 .oc-model-search svg,
@@ -2437,7 +2448,7 @@
 .oc-search-field input {
   width: 100%;
   min-width: 0;
-  height: 2rem;
+  height: 2.25rem;
   padding: 0;
   border: 0;
   outline: 0;
@@ -2449,8 +2460,8 @@
 
 .oc-model-menu-layout {
   display: grid;
-  min-height: 12.75rem;
-  grid-template-columns: 7.5rem minmax(0, 1fr);
+  min-height: 10.5rem;
+  grid-template-columns: 6.25rem minmax(0, 1fr);
   border-top: 1px solid var(--oc-border-subtle);
 }
 
@@ -2477,12 +2488,57 @@
   min-width: 0;
   grid-template-columns: 8rem minmax(0, 1fr);
   align-items: center;
-  gap: var(--oc-space-3);
+  gap: var(--oc-space-2);
   padding: var(--oc-space-2) var(--oc-space-3);
 }
 
 .oc-model-setting-row + .oc-model-setting-row {
   border-top: 1px solid var(--oc-border-subtle);
+}
+
+.oc-model-reasoning-row {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--oc-space-1);
+}
+
+.oc-model-reasoning-row .oc-model-setting-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.oc-model-reasoning-stops {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 0.125rem;
+}
+
+.oc-model-reasoning-stop {
+  min-height: 1.375rem;
+  padding: 0 var(--oc-space-1);
+  border: 0;
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-text-muted);
+  font: inherit;
+  font-size: 0.625rem;
+  cursor: pointer;
+}
+
+.oc-model-reasoning-stop:hover:not(:disabled) {
+  background: var(--oc-surface-interactive-hover);
+  color: var(--oc-text-primary);
+}
+
+.oc-model-reasoning-stop[aria-pressed="true"] {
+  background: var(--oc-surface-accent-soft);
+  color: var(--oc-accent-primary);
+  font-weight: 600;
+}
+
+.oc-model-reasoning-stop:disabled {
+  cursor: not-allowed;
 }
 
 .oc-model-setting-heading {
@@ -3074,6 +3130,11 @@
   font: inherit;
   text-align: left;
   cursor: pointer;
+}
+
+/* display: grid outspecifies the UA [hidden] rule; keep filtered options gone. */
+.oc-model-option[hidden] {
+  display: none;
 }
 
 .oc-model-option-provider {

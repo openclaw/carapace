@@ -148,14 +148,21 @@ export function applicationModelControlsMarkup({
         `<span class="oc-model-reasoning-dot${value === defaultReasoningLevel ? " oc-model-reasoning-dot-default" : ""}" data-stop="${value}"></span>`,
     )
     .join("");
+  const reasoningStops = applicationReasoningStops
+    .map(
+      ({ value, label }) =>
+        `<button class="oc-model-reasoning-stop" type="button" aria-pressed="${value === selectedThinking.value}" data-workbench-model-thinking-stop="${value}"${locked ? " disabled" : ""}>${label}</button>`,
+    )
+    .join("");
   const settings = `<section class="oc-model-menu-settings" aria-label="Model settings">
-    <div class="oc-model-setting-row">
+    <div class="oc-model-setting-row oc-model-reasoning-row">
       <div class="oc-model-setting-heading"><span>${agentIcon("brain")} Reasoning</span><output data-workbench-model-thinking-output>${selectedThinking.label}</output></div>
       <div class="oc-model-reasoning-control">
         <span class="oc-model-reasoning-dots" aria-hidden="true">${reasoningDots}</span>
         <input class="oc-model-reasoning-range" type="range" min="0" max="${applicationReasoningStops.length - 1}" step="1" value="${thinkingIndex}" style="--oc-model-reasoning-fill:${(thinkingIndex / (applicationReasoningStops.length - 1)) * 100}%" data-workbench-model-thinking data-thinking-values="${applicationReasoningStops.map(({ value }) => value).join(",")}" aria-label="Reasoning level" aria-valuetext="${selectedThinking.label}"${locked ? " disabled" : ""} />
         <button class="oc-model-setting-reset" type="button" aria-label="Reset reasoning to High" data-workbench-model-thinking-reset${thinking === defaultReasoningLevel || locked ? " disabled" : ""}>${agentIcon("rotate-ccw")}</button>
       </div>
+      <div class="oc-model-reasoning-stops" role="group" aria-label="Reasoning presets">${reasoningStops}</div>
     </div>
     <div class="oc-model-setting-row oc-model-speed-row">
       <div class="oc-model-setting-heading"><span>${agentIcon("zap")} Response speed</span><small>${fastSupported ? "Uses more capacity" : "Unavailable for this model"}</small></div>
@@ -257,6 +264,11 @@ export function bindApplicationModelControls(specimen, state, update) {
       render: false,
     });
   });
+  for (const stop of specimen.querySelectorAll("[data-workbench-model-thinking-stop]")) {
+    stop.addEventListener("click", () => {
+      update("thinking", stop.dataset.workbenchModelThinkingStop);
+    });
+  }
   thinkingReset?.addEventListener("click", () => update("thinking", defaultReasoningLevel));
   fast?.addEventListener("click", () => {
     update("fast", fast.getAttribute("aria-checked") !== "true");
