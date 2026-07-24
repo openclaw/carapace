@@ -5,7 +5,10 @@ import ArrowDownLeft from "lucide/dist/esm/icons/arrow-down-left.mjs";
 import ArrowLeft from "lucide/dist/esm/icons/arrow-left.mjs";
 import ArrowRight from "lucide/dist/esm/icons/arrow-right.mjs";
 import ArrowUp from "lucide/dist/esm/icons/arrow-up.mjs";
+import ArrowUpCircle from "lucide/dist/esm/icons/circle-arrow-up.mjs";
 import ArrowUpRight from "lucide/dist/esm/icons/arrow-up-right.mjs";
+import AudioLines from "lucide/dist/esm/icons/audio-lines.mjs";
+import AudioWaveform from "lucide/dist/esm/icons/audio-waveform.mjs";
 import Bell from "lucide/dist/esm/icons/bell.mjs";
 import Blocks from "lucide/dist/esm/icons/blocks.mjs";
 import Bold from "lucide/dist/esm/icons/bold.mjs";
@@ -17,6 +20,7 @@ import Bug from "lucide/dist/esm/icons/bug.mjs";
 import Calendar from "lucide/dist/esm/icons/calendar.mjs";
 import CalendarClock from "lucide/dist/esm/icons/calendar-clock.mjs";
 import Camera from "lucide/dist/esm/icons/camera.mjs";
+import CameraOff from "lucide/dist/esm/icons/camera-off.mjs";
 import Check from "lucide/dist/esm/icons/check.mjs";
 import ChevronDown from "lucide/dist/esm/icons/chevron-down.mjs";
 import ChevronRight from "lucide/dist/esm/icons/chevron-right.mjs";
@@ -27,7 +31,9 @@ import CircleCheck from "lucide/dist/esm/icons/circle-check.mjs";
 import CircleHelp from "lucide/dist/esm/icons/circle-question-mark.mjs";
 import Code2 from "lucide/dist/esm/icons/code-xml.mjs";
 import Copy from "lucide/dist/esm/icons/copy.mjs";
+import Download from "lucide/dist/esm/icons/download.mjs";
 import Ellipsis from "lucide/dist/esm/icons/ellipsis.mjs";
+import ExternalLink from "lucide/dist/esm/icons/external-link.mjs";
 import Eye from "lucide/dist/esm/icons/eye.mjs";
 import EyeOff from "lucide/dist/esm/icons/eye-off.mjs";
 import FileCode from "lucide/dist/esm/icons/file-code.mjs";
@@ -35,6 +41,7 @@ import FileJson from "lucide/dist/esm/icons/file-braces.mjs";
 import FileText from "lucide/dist/esm/icons/file-text.mjs";
 import FolderGit2 from "lucide/dist/esm/icons/folder-git-2.mjs";
 import GitBranch from "lucide/dist/esm/icons/git-branch.mjs";
+import Globe from "lucide/dist/esm/icons/globe.mjs";
 import Hash from "lucide/dist/esm/icons/hash.mjs";
 import HeartPulse from "lucide/dist/esm/icons/heart-pulse.mjs";
 import History from "lucide/dist/esm/icons/history.mjs";
@@ -79,9 +86,11 @@ import ShieldCheck from "lucide/dist/esm/icons/shield-check.mjs";
 import SlidersHorizontal from "lucide/dist/esm/icons/sliders-horizontal.mjs";
 import Sparkles from "lucide/dist/esm/icons/sparkles.mjs";
 import Square from "lucide/dist/esm/icons/square.mjs";
+import SwitchCamera from "lucide/dist/esm/icons/switch-camera.mjs";
 import Terminal from "lucide/dist/esm/icons/terminal.mjs";
 import TriangleAlert from "lucide/dist/esm/icons/triangle-alert.mjs";
 import Underline from "lucide/dist/esm/icons/underline.mjs";
+import User from "lucide/dist/esm/icons/user.mjs";
 import X from "lucide/dist/esm/icons/x.mjs";
 import Zap from "lucide/dist/esm/icons/zap.mjs";
 
@@ -92,7 +101,10 @@ const icons = {
   "arrow-left": ArrowLeft,
   "arrow-right": ArrowRight,
   "arrow-up": ArrowUp,
+  "arrow-up-circle": ArrowUpCircle,
   "arrow-up-right": ArrowUpRight,
+  "audio-lines": AudioLines,
+  "audio-waveform": AudioWaveform,
   bell: Bell,
   blocks: Blocks,
   bold: Bold,
@@ -104,6 +116,7 @@ const icons = {
   calendar: Calendar,
   "calendar-clock": CalendarClock,
   camera: Camera,
+  "camera-off": CameraOff,
   check: Check,
   "chevron-down": ChevronDown,
   "chevron-right": ChevronRight,
@@ -114,7 +127,9 @@ const icons = {
   "circle-help": CircleHelp,
   "code-2": Code2,
   copy: Copy,
+  download: Download,
   ellipsis: Ellipsis,
+  "external-link": ExternalLink,
   eye: Eye,
   "eye-off": EyeOff,
   "file-code": FileCode,
@@ -122,6 +137,7 @@ const icons = {
   "file-text": FileText,
   "folder-git-2": FolderGit2,
   "git-branch": GitBranch,
+  globe: Globe,
   hash: Hash,
   "heart-pulse": HeartPulse,
   history: History,
@@ -166,12 +182,18 @@ const icons = {
   "sliders-horizontal": SlidersHorizontal,
   sparkles: Sparkles,
   square: Square,
+  "switch-camera": SwitchCamera,
   terminal: Terminal,
   "triangle-alert": TriangleAlert,
   underline: Underline,
+  user: User,
   x: X,
   zap: Zap,
 };
+
+// Guard-test surface: markup may only reference names present in this curated
+// subset; unregistered names render as nothing at runtime.
+export const registeredIconNames = Object.freeze(Object.keys(icons));
 
 export function createIcons(options = {}) {
   const {
