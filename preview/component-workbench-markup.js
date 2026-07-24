@@ -18,6 +18,11 @@ import {
 } from "./component-reference.js";
 
 export const interactiveArtifactUrl = new URL("./assets/carapace-home-artwork.avif", import.meta.url).href;
+const bannerCrustaceanUrls = {
+  lobster: new URL("./assets/carapace-lobster-artwork.avif", import.meta.url).href,
+  shrimp: new URL("./assets/carapace-shrimp-artwork.avif", import.meta.url).href,
+  hermit: new URL("./assets/carapace-hermit-artwork.avif", import.meta.url).href,
+};
 export const interactiveOpenClawMarkUrl = new URL("./assets/openclaw-mark.png", import.meta.url).href;
 const userVincentAvatarUrl = new URL("./assets/user-vincentkoc.png", import.meta.url).href;
 const userSteipeteAvatarUrl = new URL("./assets/user-steipete.png", import.meta.url).href;
@@ -795,7 +800,7 @@ export function brandBannerWorkbenchMarkup({
   const art =
     asset === "mark"
       ? `<img src="${interactiveOpenClawMarkUrl}" alt="" />`
-      : `<img src="${interactiveArtifactUrl}" alt="" />`;
+      : `<img src="${bannerCrustaceanUrls[asset] ?? interactiveArtifactUrl}" alt="" />`;
   const contentMarkup = content
     ? `<div class="oc-brand-banner-content">
     <p class="oc-eyebrow">OpenClaw design system</p>

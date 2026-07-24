@@ -1154,6 +1154,9 @@ ${appSurfaceWorkbenchMarkup(state)}
         type: "choice",
         options: [
           { label: "Crab artwork", value: "crab" },
+          { label: "Lobster", value: "lobster" },
+          { label: "Shrimp", value: "shrimp" },
+          { label: "Hermit crab", value: "hermit" },
           { label: "OpenClaw mark", value: "mark" },
         ],
       },

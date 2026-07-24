@@ -986,6 +986,12 @@ describe("preview behavior", () => {
     expect(banner).toContain('data-shader="dither"');
     expect(banner).toContain('data-tone="ocean"');
     expect(brandBannerWorkbenchMarkup({ asset: "mark" })).toContain("openclaw-mark");
+    expect(brandBannerWorkbenchMarkup({ asset: "lobster" })).toContain(
+      "carapace-lobster-artwork",
+    );
+    expect(brandBannerWorkbenchMarkup({ asset: "hermit" })).toContain(
+      "carapace-hermit-artwork",
+    );
     // Every tone is a four-step palette the shader can index directly.
     for (const palette of Object.values(bannerTones)) {
       expect(palette).toHaveLength(4);
