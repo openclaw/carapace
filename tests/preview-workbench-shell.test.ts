@@ -432,8 +432,10 @@ describe("workbench shell contracts", () => {
       ["model", "anthropic/claude-opus-4-8"],
       ["picker", true],
       ["thinking", "medium"],
-      ["fast", false],
     ]);
+    // Claude Opus has no fast mode: selecting it disables the toggle, so the
+    // click above must not emit a fast update.
+    expect(workspaceFast.disabled).toBe(true);
     const rerenderedWorkspace = workspace?.markup(workspaceState) ?? "";
     expect(rerenderedWorkspace).toContain(
       'aria-pressed="true" data-workbench-model-provider="anthropic"',

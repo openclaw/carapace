@@ -2304,7 +2304,7 @@
   box-sizing: border-box;
 
   /* Fixed width: switching models must not resize the trigger or move the menu. */
-  width: 10.5rem;
+  width: 12rem;
   min-height: 1.875rem;
   align-items: center;
   gap: var(--oc-space-1);
@@ -2444,13 +2444,19 @@
   color: var(--oc-text-muted);
 }
 
+/* The [type="search"] forms outweigh the base input[type="search"] rule,
+   which ties on specificity and loads later; keep the flush look winning. */
+.oc-model-search input[type="search"],
+.oc-search-field input[type="search"],
 .oc-model-search input,
 .oc-search-field input {
   width: 100%;
   min-width: 0;
   height: 2.25rem;
+  min-height: 0;
   padding: 0;
   border: 0;
+  border-radius: 0;
   outline: 0;
   background: transparent;
   color: var(--oc-text-primary);
@@ -2507,19 +2513,20 @@
   justify-content: space-between;
 }
 
+/* Tick labels under the slider track, not a second tab control: plain
+   text aligned to the dot span, clickable as shortcuts to each stop. */
 .oc-model-reasoning-stops {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: 0.125rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: -0.25rem;
+  padding-right: calc(1.75rem + var(--oc-space-2));
+  padding-left: 0.125rem;
 }
 
 .oc-model-reasoning-stop {
-  min-height: 1.375rem;
-  padding: 0 var(--oc-space-1);
+  padding: 0;
   border: 0;
-  border-radius: var(--oc-radius-control);
-  background: transparent;
+  background: none;
   color: var(--oc-text-muted);
   font: inherit;
   font-size: 0.625rem;
@@ -2527,12 +2534,10 @@
 }
 
 .oc-model-reasoning-stop:hover:not(:disabled) {
-  background: var(--oc-surface-interactive-hover);
   color: var(--oc-text-primary);
 }
 
 .oc-model-reasoning-stop[aria-pressed="true"] {
-  background: var(--oc-surface-accent-soft);
   color: var(--oc-accent-primary);
   font-weight: 600;
 }

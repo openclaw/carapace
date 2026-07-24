@@ -204,8 +204,118 @@ export function bindApplicationModelControls(specimen, state, update) {
   const fast = specimen.querySelector("[data-workbench-model-fast]");
   const thinkingOutput = specimen.querySelector("[data-workbench-model-thinking-output]");
   const thinkingReset = specimen.querySelector("[data-workbench-model-thinking-reset]");
+  const thinkingStops = Array.from(
+    specimen.querySelectorAll("[data-workbench-model-thinking-stop]"),
+  );
   const reset = specimen.querySelector("[data-workbench-model-reset]");
+  const trigger = picker?.querySelector?.(".oc-model-trigger");
   let activeProvider = state.modelProvider ?? "recent";
+
+  /* Closure-tracked selection: update() may not mutate state synchronously,
+     and the patch helpers below must read the value they just applied. */
+  let currentModel = state.model ?? defaultApplicationModel;
+  let currentThinking = state.thinking ?? defaultReasoningLevel;
+  let currentFast = state.fast !== false;
+
+  const selectedEntry = () =>
+    applicationModels.find(({ value }) => value === currentModel) ?? applicationModels[0];
+  const thinkingLabel = () =>
+    applicationReasoningStops.find(({ value }) => value === currentThinking)?.label ??
+    applicationReasoningStops[0].label;
+
+  /* Clicks patch the open menu in place (render: false): a full specimen
+     re-render would replay the menu entry animation as a visible flash. */
+  const syncTrigger = () => {
+    if (!trigger) return;
+    const entry = selectedEntry();
+    const fastActive = entry.supportsFast && currentFast;
+    const copy = trigger.querySelector?.("span:not(.oc-model-provider-mark)");
+    if (copy) {
+      copy.innerHTML = `<strong>${entry.label}</strong><small>${thinkingLabel()}${fastActive ? " · Fast" : ""}</small>`;
+    }
+    const mark = trigger.querySelector?.(".oc-model-provider-mark");
+    if (mark) {
+      mark.dataset.provider = entry.providerId;
+      mark.innerHTML = applicationProviderMark(entry.providerId);
+    }
+    trigger.setAttribute(
+      "aria-label",
+      `Selected model: ${entry.label} by ${entry.provider}; reasoning ${thinkingLabel()}${fastActive ? "; Fast responses on" : ""}`,
+    );
+  };
+
+  const syncReset = () => {
+    if (reset) {
+      reset.disabled =
+        currentModel === defaultApplicationModel &&
+        currentThinking === defaultReasoningLevel &&
+        currentFast === true;
+    }
+    if (thinkingReset) thinkingReset.disabled = currentThinking === defaultReasoningLevel;
+  };
+
+  const syncFast = () => {
+    if (!fast) return;
+    const entry = selectedEntry();
+    const fastActive = entry.supportsFast && currentFast;
+    fast.disabled = !entry.supportsFast;
+    fast.classList?.toggle("is-active", fastActive);
+    fast.setAttribute("aria-checked", String(fastActive));
+    fast.setAttribute("aria-label", `Fast responses: ${fastActive ? "On" : "Off"}`);
+    const label = fast.querySelector?.("strong");
+    if (label) label.textContent = fastActive ? "Fast" : "Standard";
+    const heading = fast.closest?.(".oc-model-setting-row")?.querySelector("small");
+    if (heading) {
+      heading.textContent = entry.supportsFast
+        ? "Uses more capacity"
+        : "Unavailable for this model";
+    }
+  };
+
+  const applyThinking = (value) => {
+    currentThinking = value;
+    update("thinking", value, { render: false });
+    const index = applicationReasoningStops.findIndex((entry) => entry.value === value);
+    if (thinking && index >= 0) {
+      thinking.value = String(index);
+      thinking.style.setProperty(
+        "--oc-model-reasoning-fill",
+        `${(index / Math.max(1, applicationReasoningStops.length - 1)) * 100}%`,
+      );
+      thinking.setAttribute?.("aria-valuetext", thinkingLabel());
+    }
+    if (thinkingOutput) thinkingOutput.textContent = thinkingLabel();
+    for (const stop of thinkingStops) {
+      stop.setAttribute(
+        "aria-pressed",
+        String(stop.dataset.workbenchModelThinkingStop === value),
+      );
+    }
+    syncReset();
+    syncTrigger();
+  };
+
+  const applyModel = (value) => {
+    currentModel = value;
+    update("model", value, { render: false });
+    for (const option of options) {
+      const active = option.dataset.workbenchApplicationModel === value;
+      option.setAttribute("aria-pressed", String(active));
+      const check = option.querySelector?.(".oc-model-check");
+      if (active && !check) {
+        option.insertAdjacentHTML?.(
+          "beforeend",
+          `<span class="oc-model-check" aria-hidden="true">${agentIcon("check")}</span>`,
+        );
+      } else if (!active && check) {
+        check.remove();
+      }
+    }
+    syncFast();
+    syncReset();
+    syncTrigger();
+    applyFilters();
+  };
 
   const applyFilters = () => {
     const query = search?.value ?? "";
@@ -218,14 +328,14 @@ export function bindApplicationModelControls(specimen, state, update) {
         !modelMatchesFilter(entry, {
           provider: activeProvider,
           query,
-          selectedValue: state.model,
+          selectedValue: currentModel,
         });
     }
   };
 
   for (const option of options) {
     option.addEventListener("click", () => {
-      update("model", option.dataset.workbenchApplicationModel);
+      applyModel(option.dataset.workbenchApplicationModel);
     });
   }
 
@@ -245,38 +355,32 @@ export function bindApplicationModelControls(specimen, state, update) {
     applyFilters();
   });
   picker?.addEventListener("toggle", () => update("picker", picker.open, { render: false }));
-  thinking?.addEventListener("input", () => {
+  const onThinkingSlide = () => {
     const values = thinking.dataset.thinkingValues?.split(",") ?? [];
-    const value = values[Number(thinking.value)] ?? defaultReasoningLevel;
-    const label =
-      applicationReasoningStops.find((entry) => entry.value === value)?.label ?? value;
-    thinking.style.setProperty(
-      "--oc-model-reasoning-fill",
-      `${(Number(thinking.value) / Math.max(1, values.length - 1)) * 100}%`,
-    );
-    thinking.setAttribute("aria-valuetext", label);
-    if (thinkingOutput) thinkingOutput.textContent = label;
-    update("thinking", value, { render: false });
-  });
-  thinking?.addEventListener("change", () => {
-    const values = thinking.dataset.thinkingValues?.split(",") ?? [];
-    update("thinking", values[Number(thinking.value)] ?? defaultReasoningLevel, {
-      render: false,
-    });
-  });
-  for (const stop of specimen.querySelectorAll("[data-workbench-model-thinking-stop]")) {
+    applyThinking(values[Number(thinking.value)] ?? defaultReasoningLevel);
+  };
+  thinking?.addEventListener("input", onThinkingSlide);
+  thinking?.addEventListener("change", onThinkingSlide);
+  for (const stop of thinkingStops) {
     stop.addEventListener("click", () => {
-      update("thinking", stop.dataset.workbenchModelThinkingStop);
+      applyThinking(stop.dataset.workbenchModelThinkingStop);
     });
   }
-  thinkingReset?.addEventListener("click", () => update("thinking", defaultReasoningLevel));
+  thinkingReset?.addEventListener("click", () => applyThinking(defaultReasoningLevel));
   fast?.addEventListener("click", () => {
-    update("fast", fast.getAttribute("aria-checked") !== "true");
+    /* Unsupported models disable the toggle; mock events can still land here. */
+    if (fast.disabled) return;
+    currentFast = fast.getAttribute("aria-checked") !== "true";
+    update("fast", currentFast, { render: false });
+    syncFast();
+    syncReset();
+    syncTrigger();
   });
   reset?.addEventListener("click", () => {
-    update("model", defaultApplicationModel, { render: false });
-    update("thinking", defaultReasoningLevel, { render: false });
-    update("fast", true);
+    currentFast = true;
+    update("fast", true, { render: false });
+    applyModel(defaultApplicationModel);
+    applyThinking(defaultReasoningLevel);
   });
   applyFilters();
 }
