@@ -3461,7 +3461,7 @@ a.oc-layer-card-primary:hover {
 
 .oc-agent-collaboration-stream {
   display: grid;
-  gap: var(--oc-space-4);
+  gap: var(--oc-space-3);
 }
 
 .oc-agent-attributed-message {
@@ -3472,8 +3472,9 @@ a.oc-layer-card-primary:hover {
   align-items: start;
 }
 
+/* Stream gap comes from the grid; sibling margins would double it. */
 .oc-agent-attributed-message + .oc-agent-attributed-message {
-  margin-top: var(--oc-space-5);
+  margin-top: 0;
 }
 
 .oc-agent-message-author {

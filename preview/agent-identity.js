@@ -35,13 +35,13 @@ const avatarIntrinsicSizes = {
 
 export function agentAvatarMarkup(
   name,
-  { size = "xs", activity = "", labelled = false } = {},
+  { size = "xs", activity = "", labelled = false, animated = false } = {},
 ) {
   const safeName = escapeHtml(name);
   const intrinsicSize = avatarIntrinsicSizes[size] ?? 40;
   const activityAttribute = activity ? ` data-state="${escapeHtml(activity)}"` : "";
   const accessibleName = labelled ? ` role="img" aria-label="${safeName}"` : "";
-  return `<span class="oc-avatar oc-avatar-${size} oc-avatar-pixel"${activityAttribute}${accessibleName}><img class="oc-avatar-image" src="${avatarFixtureUrl(name)}" alt="" width="${intrinsicSize}" height="${intrinsicSize}" /></span>`;
+  return `<span class="oc-avatar oc-avatar-${size} oc-avatar-pixel"${activityAttribute}${accessibleName}><img class="oc-avatar-image" src="${avatarFixtureUrl(name, { animated })}" alt="" width="${intrinsicSize}" height="${intrinsicSize}" /></span>`;
 }
 
 export function agentAvatarStackMarkup(
@@ -54,7 +54,7 @@ export function agentAvatarStackMarkup(
     ? ` role="img" aria-label="${escapeHtml(names.join(", "))}"`
     : ' aria-hidden="true"';
   const avatars = participants
-    .map(({ name }) => agentAvatarMarkup(name, { size: "xs" }))
+    .map(({ name }) => agentAvatarMarkup(name, { size: "xs", animated: state === "thinking" }))
     .join("");
   return `<span class="oc-avatar-stack oc-agent-collaboration-facepile"${stateAttribute}${accessibleName}>${avatars}</span>`;
 }
@@ -96,7 +96,6 @@ export function collaborationTranscriptMarkup({
     .map((participant, index) =>
       attributedMessageMarkup({
         ...participant,
-        activity: active && index === 0 ? "speaking" : "",
         listItem: true,
       }),
     )
@@ -116,7 +115,7 @@ export function collaborationTranscriptMarkup({
     ${agentAvatarStackMarkup(collaborationParticipants, { state: active ? "thinking" : "" })}
     <strong>${status}</strong>
     <span aria-hidden="true">·</span>
-    <time aria-hidden="true">${escapeHtml(elapsed)}</time>
+    <time aria-hidden="true" data-collab-elapsed>${escapeHtml(elapsed)}</time>
   </header>
   <p class="oc-agent-collaboration-summary">${escapeHtml(resolvedSummary)}</p>
   ${stream}

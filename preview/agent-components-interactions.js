@@ -161,6 +161,18 @@ export function bindAgentComponentDemos(root = document) {
     });
   }
 
+  for (const timer of root.querySelectorAll("[data-collab-elapsed]")) {
+    const base = parseInt(timer.textContent, 10) || 0;
+    const started = Date.now();
+    const tick = setInterval(() => {
+      if (!timer.isConnected) {
+        clearInterval(tick);
+        return;
+      }
+      timer.textContent = `${base + Math.round((Date.now() - started) / 1000)}s`;
+    }, 1000);
+  }
+
   const suggestions = [...root.querySelectorAll("[data-agent-suggestion-value]")];
   for (const suggestion of suggestions) {
     const targetId = suggestion.dataset.agentSuggestionTarget;
