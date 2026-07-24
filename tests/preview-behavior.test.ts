@@ -10,7 +10,6 @@ import { collaborationTranscriptMarkup } from "../preview/agent-identity.js";
 import {
   applicationCameraPreviewMarkup,
   applicationComposerPrimaryMarkup,
-  applicationScreenMarkup,
   operationsApplicationMarkup,
   quickChatApplicationMarkup,
   sessionsApplicationMarkup,
@@ -562,11 +561,6 @@ describe("preview behavior", () => {
     expect(error).toContain('class="oc-quick-chat-reply"');
     expect(error).toContain('aria-label="Retry connection"');
     expect(error).not.toContain('aria-label="Send message"');
-  });
-
-  test("keys application screen fixtures by their route slug", () => {
-    expect(applicationScreenMarkup["quick-chat"]).toContain('aria-label="Quick Chat"');
-    expect(applicationScreenMarkup).not.toHaveProperty("quickChat");
   });
 
   test("renders Hero with optional lede and consumer-owned actions", () => {

@@ -22,6 +22,9 @@ export function bindSensitiveInputs(root = document) {
     if (!input || !toggle) continue;
 
     const label = toggle.getAttribute("data-sensitive-label") || "value";
+    // sync runs on every input/scroll event; only rebuild the toggle icon on
+    // reveal transitions so scrolling does not thrash innerHTML + createIcons.
+    let lastRevealed = null;
     const sync = () => {
       const revealed = input.type === "text";
       control.dataset.revealed = String(revealed);
@@ -33,9 +36,12 @@ export function bindSensitiveInputs(root = document) {
         }
       }
       control.dataset.sensitiveMaskReady = String(Boolean(mask && maskText));
-      setSensitiveToggleIcon(toggle, revealed);
-      toggle.setAttribute("aria-pressed", String(revealed));
-      toggle.setAttribute("aria-label", `${revealed ? "Hide" : "Show"} ${label}`);
+      if (revealed !== lastRevealed) {
+        lastRevealed = revealed;
+        setSensitiveToggleIcon(toggle, revealed);
+        toggle.setAttribute("aria-pressed", String(revealed));
+        toggle.setAttribute("aria-label", `${revealed ? "Hide" : "Show"} ${label}`);
+      }
     };
 
     sync();

@@ -2050,15 +2050,9 @@ const definitions = {
       specimen.innerHTML = settingsApplicationMarkup(state);
     },
     bind(specimen, state, update) {
-      const densityButtons = specimen.querySelectorAll(
-        '.oc-segmented[aria-label="Interface density"] .oc-segmented-item',
-      );
-      densityButtons.forEach((button) => {
+      specimen.querySelectorAll("[data-workbench-density]").forEach((button) => {
         button.addEventListener("click", () => {
-          update(
-            "density",
-            button.textContent?.trim().toLowerCase() === "compact" ? "compact" : "comfortable",
-          );
+          update("density", button.dataset.workbenchDensity);
         });
       });
     },

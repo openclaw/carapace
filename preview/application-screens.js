@@ -10,8 +10,8 @@ function navigationItem({ icon, label, meta = "", current = false, view = "" } =
   const viewHook = view ? ` data-workbench-application-view="${escapeAttribute(view)}"` : "";
   return `<li><a class="oc-app-navigation-item" href="#"${current ? ' aria-current="page"' : ""} data-workbench-inert-link${viewHook}>
     <span class="oc-app-navigation-icon">${agentIcon(icon)}</span>
-    <span class="oc-app-navigation-item-label">${label}</span>
-    ${meta ? `<span class="oc-app-navigation-meta">${meta}</span>` : ""}
+    <span class="oc-app-navigation-item-label">${escapeAttribute(label)}</span>
+    ${meta ? `<span class="oc-app-navigation-meta">${escapeAttribute(meta)}</span>` : ""}
   </a></li>`;
 }
 
@@ -84,7 +84,7 @@ function statusMarkup(state, labels = {}) {
     }[state] ?? "info";
   return `<span class="oc-status oc-status-${tone}">
     <span class="oc-status-indicator" aria-hidden="true"></span>
-    <span class="oc-status-label">${label}</span>
+    <span class="oc-status-label">${escapeAttribute(label)}</span>
   </span>`;
 }
 
@@ -146,8 +146,8 @@ export function applicationComposerPrimaryMarkup({
 function settingsRow({ title, description, control, stacked = false } = {}) {
   return `<div class="oc-settings-row${stacked ? " oc-settings-row-stacked" : ""}">
   <div class="oc-settings-row-content">
-    <p class="oc-settings-row-title">${title}</p>
-    <p class="oc-settings-row-description">${description}</p>
+    <p class="oc-settings-row-title">${escapeAttribute(title)}</p>
+    <p class="oc-settings-row-description">${escapeAttribute(description)}</p>
   </div>
   <div class="oc-settings-row-control">${control}</div>
 </div>`;
@@ -156,8 +156,8 @@ function settingsRow({ title, description, control, stacked = false } = {}) {
 function settingsNavigationItem({ icon, label, current = false, meta = "" } = {}) {
   return `<button class="oc-settings-navigation-item" type="button"${current ? ' aria-current="page"' : ""}>
     <span class="oc-settings-navigation-icon">${agentIcon(icon)}</span>
-    <span>${label}</span>
-    ${meta ? `<small>${meta}</small>` : ""}
+    <span>${escapeAttribute(label)}</span>
+    ${meta ? `<small>${escapeAttribute(meta)}</small>` : ""}
   </button>`;
 }
 
@@ -279,7 +279,7 @@ export function settingsApplicationMarkup({
           ${settingsRow({
             title: "Density",
             description: "Adjust information density.",
-            control: `<div class="oc-segmented" role="group" aria-label="Interface density"><button class="oc-segmented-item" type="button" aria-pressed="${density === "comfortable"}">Comfortable</button><button class="oc-segmented-item" type="button" aria-pressed="${density === "compact"}">Compact</button></div>`,
+            control: `<div class="oc-segmented" role="group" aria-label="Interface density"><button class="oc-segmented-item" type="button" aria-pressed="${density === "comfortable"}" data-workbench-density="comfortable">Comfortable</button><button class="oc-segmented-item" type="button" aria-pressed="${density === "compact"}" data-workbench-density="compact">Compact</button></div>`,
           })}
         </div>
       </section>
@@ -307,21 +307,21 @@ export function settingsApplicationMarkup({
 function resourceListItem({ icon, title, description, status, meta, selected = false } = {}) {
   return `<button class="oc-app-resource-list-item" type="button" aria-pressed="${selected}">
   <span class="oc-app-resource-list-icon">${agentIcon(icon)}</span>
-  <span class="oc-app-resource-list-copy"><strong>${title}</strong><small>${description}</small></span>
+  <span class="oc-app-resource-list-copy"><strong>${escapeAttribute(title)}</strong><small>${escapeAttribute(description)}</small></span>
   <span class="oc-app-resource-list-meta">${statusMarkup(status, {
     ready: "Connected",
     active: "Running",
     idle: "Paused",
     error: "Attention",
-  })}<small>${meta}</small></span>
+  })}<small>${escapeAttribute(meta)}</small></span>
 </button>`;
 }
 
 function activityItem({ icon, title, detail, time, tone = "neutral" } = {}) {
   return `<li class="oc-activity-item" data-tone="${tone}">
   <span class="oc-activity-marker">${agentIcon(icon)}</span>
-  <span class="oc-activity-copy"><strong>${title}</strong><small>${detail}</small></span>
-  <time>${time}</time>
+  <span class="oc-activity-copy"><strong>${escapeAttribute(title)}</strong><small>${escapeAttribute(detail)}</small></span>
+  <time>${escapeAttribute(time)}</time>
 </li>`;
 }
 
@@ -535,8 +535,8 @@ export function operationsApplicationMarkup({
 function sessionListItem({ title, detail, time, selected = false, active = false } = {}) {
   return `<button class="oc-session-list-item" type="button" aria-pressed="${selected}">
   <span class="oc-session-list-avatar">${agentIcon(active ? "sparkles" : "message-square")}</span>
-  <span class="oc-session-list-copy"><strong>${title}</strong><small>${detail}</small></span>
-  <time>${time}</time>
+  <span class="oc-session-list-copy"><strong>${escapeAttribute(title)}</strong><small>${escapeAttribute(detail)}</small></span>
+  <time>${escapeAttribute(time)}</time>
 </button>`;
 }
 
@@ -731,12 +731,12 @@ function sessionsTableRow({
   selected = false,
 } = {}) {
   return `<tr${selected ? ' aria-selected="true"' : ""}>
-  <td><input class="oc-checkbox" type="checkbox" aria-label="Select ${title}"${selected ? " checked" : ""} /></td>
-  <td><div class="oc-session-cell"><strong>${title}</strong><small>${agent}</small></div></td>
-  <td>${model}</td>
+  <td><input class="oc-checkbox" type="checkbox" aria-label="Select ${escapeAttribute(title)}"${selected ? " checked" : ""} /></td>
+  <td><div class="oc-session-cell"><strong>${escapeAttribute(title)}</strong><small>${escapeAttribute(agent)}</small></div></td>
+  <td>${escapeAttribute(model)}</td>
   <td>${statusMarkup(status, { active: "Running", idle: "Idle", error: "Failed" })}</td>
-  <td><time>${updated}</time></td>
-  <td><button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="Actions for ${title}">${agentIcon("ellipsis")}</button></td>
+  <td><time>${escapeAttribute(updated)}</time></td>
+  <td><button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="Actions for ${escapeAttribute(title)}">${agentIcon("ellipsis")}</button></td>
 </tr>`;
 }
 
@@ -881,11 +881,3 @@ export function quickChatApplicationMarkup({
   </section>
 </div>`;
 }
-
-export const applicationScreenMarkup = {
-  settings: settingsApplicationMarkup(),
-  operations: operationsApplicationMarkup(),
-  workspace: workspaceApplicationMarkup(),
-  sessions: sessionsApplicationMarkup(),
-  "quick-chat": quickChatApplicationMarkup(),
-};
