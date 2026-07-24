@@ -40,8 +40,10 @@ export function agentAvatarMarkup(
   const safeName = escapeHtml(name);
   const intrinsicSize = avatarIntrinsicSizes[size] ?? 40;
   const activityAttribute = activity ? ` data-state="${escapeHtml(activity)}"` : "";
+  /* Thinking is a motion state: the identity itself boils, not just the ring. */
+  const boiling = animated || activity === "thinking";
   const accessibleName = labelled ? ` role="img" aria-label="${safeName}"` : "";
-  return `<span class="oc-avatar oc-avatar-${size} oc-avatar-pixel"${activityAttribute}${accessibleName}><img class="oc-avatar-image" src="${avatarFixtureUrl(name, { animated })}" alt="" width="${intrinsicSize}" height="${intrinsicSize}" /></span>`;
+  return `<span class="oc-avatar oc-avatar-${size} oc-avatar-pixel"${activityAttribute}${accessibleName}><img class="oc-avatar-image" src="${avatarFixtureUrl(name, { animated: boiling })}" alt="" width="${intrinsicSize}" height="${intrinsicSize}" /></span>`;
 }
 
 export function agentAvatarStackMarkup(

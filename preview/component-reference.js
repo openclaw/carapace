@@ -119,9 +119,9 @@ export const avatarWorkbenchExamples = [
     purpose: "Animated participant stack for active multi-agent collaboration.",
     markup: `<span class="oc-avatar-stack" data-state="thinking" aria-hidden="true">…</span>`,
     previewMarkup: `<span class="oc-avatar-stack" data-state="thinking" aria-hidden="true">
-  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Pincer")}" alt="" /></span>
-  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Scuttle")}" alt="" /></span>
-  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Mantis")}" alt="" /></span>
+  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Pincer", { animated: true })}" alt="" /></span>
+  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Scuttle", { animated: true })}" alt="" /></span>
+  <span class="oc-avatar oc-avatar-sm oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Mantis", { animated: true })}" alt="" /></span>
 </span>`,
   },
   {

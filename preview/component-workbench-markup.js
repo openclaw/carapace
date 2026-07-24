@@ -1992,7 +1992,7 @@ export function avatarPlaygroundMarkup({
   const options = {};
   if (style !== "auto") options.style = style;
   if (seed.startsWith("#")) options.color = seed;
-  if (animated) options.animated = true;
+  if (animated || presence === "thinking") options.animated = true;
   const sizeClass = size === "md" ? "" : ` oc-avatar-${size}`;
   const stateAttribute =
     presence === "speaking" || presence === "thinking" ? ` data-state="${presence}"` : "";

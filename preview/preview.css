@@ -943,7 +943,15 @@ body[data-page-kind="home"] .preview-stage {
 .home-collaboration-preview > span:last-child {
   display: grid;
   min-width: 0;
+  flex: 1;
   gap: 2px;
+}
+
+.home-collaboration-preview strong,
+.home-collaboration-preview small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .home-collaboration-preview strong {

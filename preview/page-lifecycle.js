@@ -334,7 +334,9 @@ function bindHomeSegmentedControls(root) {
 
 function hydrateAvatarFixtures(root) {
   for (const image of root.querySelectorAll("img[data-avatar-seed]")) {
-    image.src = avatarFixtureUrl(image.dataset.avatarSeed || "OpenClaw");
+    image.src = avatarFixtureUrl(image.dataset.avatarSeed || "OpenClaw", {
+      animated: image.hasAttribute("data-avatar-animated"),
+    });
   }
 }
 
