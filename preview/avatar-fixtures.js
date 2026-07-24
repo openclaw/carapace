@@ -117,36 +117,21 @@ export function avatarFixtureUrl(seed, { color, style, animated = false } = {}) 
       }
     }
   }
-  // Animated identities twinkle deterministically: a hashed subset of cells
-  // cycles through the palette with staggered starts, baked into the SVG so
-  // it plays inside a plain <img>. Serve the static URL when the consumer
-  // honors prefers-reduced-motion.
-  const animatedCells = new Set();
-  if (animated) {
-    while (animatedCells.size < Math.min(22, cells.length)) {
-      animatedCells.add(next() % cells.length);
-    }
-  }
+  // Boiling identity: every cell churns through neighboring tones with
+  // stepped (discrete) switches, so the whole disc reads as live static —
+  // no easing, no sliding, and the circle never changes size. Negative
+  // begins start each cell mid-cycle so the boil is instant. Deterministic
+  // per seed; serve the static URL under prefers-reduced-motion.
   const rects = cells
-    .map(({ x, y, fill }, index) => {
-      const px = x * 5;
-      const py = y * 5;
-      if (!animatedCells.has(index)) {
-        return `<rect x="${px}" y="${py}" width="5" height="5" fill="${fill}"/>`;
+    .map(({ x, y, fill }) => {
+      if (!animated) {
+        return `<rect x="${x * 5}" y="${y * 5}" width="5" height="5" fill="${fill}"/>`;
       }
-      // Blocks visibly shuffle: each animated cell slides one slot along a
-      // hashed axis and back while swapping to a sibling tone. The circle
-      // itself never moves or scales.
-      const alt = c[next() % 3];
-      const begin = ((next() % 20) / 10).toFixed(1);
-      const dur = (1.6 + (next() % 12) / 10).toFixed(1);
-      const axis = next() % 2 === 0 ? "x" : "y";
-      const base = axis === "x" ? px : py;
-      const limit = 35;
-      const step = base <= 0 ? 5 : base >= limit ? -5 : next() % 2 === 0 ? 5 : -5;
-      const slide = `<animate attributeName="${axis}" values="${base};${base + step};${base}" dur="${dur}s" begin="${begin}s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1;0.4 0 0.2 1"/>`;
-      const recolor = `<animate attributeName="fill" values="${fill};${alt};${fill}" dur="${dur}s" begin="${begin}s" repeatCount="indefinite"/>`;
-      return `<rect x="${px}" y="${py}" width="5" height="5" fill="${fill}">${slide}${recolor}</rect>`;
+      const alt1 = c[next() % 4];
+      const alt2 = c[next() % 4];
+      const dur = (0.7 + (next() % 11) / 10).toFixed(1);
+      const begin = (-((next() % 20) / 10)).toFixed(1);
+      return `<rect x="${x * 5}" y="${y * 5}" width="5" height="5" fill="${fill}"><animate attributeName="fill" values="${fill};${alt1};${fill};${alt2}" dur="${dur}s" begin="${begin}s" calcMode="discrete" repeatCount="indefinite"/></rect>`;
     })
     .join("");
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" shape-rendering="crispEdges"><rect width="40" height="40" fill="${bg}"/>${rects}</svg>`;
