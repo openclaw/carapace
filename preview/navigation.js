@@ -858,6 +858,10 @@ const stableReferenceIds = new Set([
 
 const candidateReferenceIds = new Set([
   "block-resource-list",
+  "approval",
+  "primitive-code-block",
+  "primitive-command-palette",
+  "primitive-indicators",
   "primitive-badge",
   "primitive-banner",
   "primitive-checkbox",

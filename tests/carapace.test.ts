@@ -318,6 +318,19 @@ describe("CSS contract", () => {
       ".oc-avatar-stack",
       ".oc-avatar-xs",
       ".oc-chat-shell",
+      ".oc-command-palette",
+      ".oc-command-palette-empty",
+      ".oc-command-palette-footer",
+      ".oc-command-palette-group-label",
+      ".oc-command-palette-item",
+      ".oc-command-palette-item-icon",
+      ".oc-command-palette-item-keys",
+      ".oc-command-palette-item-label",
+      ".oc-command-palette-list",
+      ".oc-command-palette-results",
+      ".oc-command-palette-search",
+      ".oc-command-palette-search-icon",
+      ".oc-command-palette-status",
       ".oc-composer-camera-person",
       ".oc-composer-camera-preview",
       ".oc-composer-camera-toggle",
@@ -636,7 +649,10 @@ describe("CSS contract", () => {
     expect(aggregate).not.toContain("lab.css");
     expect(Object.values(packageJson.exports)).not.toContain("./preview/lab.css");
     expect(lab).toContain(".oc-agent-chat");
-    expect(lab).toContain(".oc-command-palette");
+    expect(lab).not.toContain(".oc-command-palette");
+    expect(await readFile("styles/candidate/application.css", "utf8")).toContain(
+      ".oc-command-palette",
+    );
     expect(lab).toContain(".oc-chart");
   });
 

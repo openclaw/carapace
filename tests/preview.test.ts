@@ -336,11 +336,15 @@ describe("preview contracts", () => {
     );
     expect(candidate).toEqual(
       [
+        "approval",
         "block-resource-list",
         "primitive-badge",
         "primitive-banner",
         "primitive-checkbox",
+        "primitive-code-block",
+        "primitive-command-palette",
         "primitive-empty",
+        "primitive-indicators",
         "primitive-input",
         "primitive-input-area",
         "primitive-label",
