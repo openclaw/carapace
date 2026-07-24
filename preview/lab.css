@@ -6302,3 +6302,31 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
   width: 0.875rem;
   height: 0.875rem;
 }
+
+/* Pagination variants: the compact form for toolbars and constrained
+   panes, and the load-more form for feeds without page addresses. */
+.oc-pagination-status {
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.oc-pagination-compact {
+  gap: var(--oc-space-2);
+}
+
+.oc-pagination-more {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-3);
+}
+
+/* Menu items lead with an optional muted icon. */
+.oc-dropdown-item [data-lucide],
+.oc-dropdown-item svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-right: var(--oc-space-2);
+  color: var(--oc-text-muted);
+  vertical-align: -0.125em;
+}

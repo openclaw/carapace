@@ -428,6 +428,7 @@ describe("CSS contract", () => {
       ".oc-option-card-copy",
       ".oc-option-card-icon",
       ".oc-option-card-meta",
+      ".oc-option-card-thumb",
       ".oc-option-group",
       ".oc-owner-chip",
       ".oc-page-header",

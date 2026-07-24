@@ -5084,6 +5084,23 @@
   clip-path: inset(50%);
 }
 
+.oc-option-card-thumb {
+  display: block;
+  overflow: hidden;
+  width: 3.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-inset);
+  background: var(--oc-bg-recessed);
+}
+
+.oc-option-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .oc-option-card-icon {
   display: inline-grid;
   width: 2rem;
