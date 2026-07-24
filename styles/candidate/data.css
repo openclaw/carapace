@@ -157,14 +157,29 @@
   }
 }
 
-/* Table toolbar: search plus filters directly above a collection table.
-   The toolbar swaps to the bulk bar when rows are selected so the table
-   below never moves. */
+/* Table shell: toolbar, table, and footer share one bordered surface so
+   collection chrome reads as a single datatable instead of floating
+   strips. The toolbar swaps to the bulk bar on selection without moving
+   the table. */
+.oc-table-shell {
+  overflow: hidden;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-surface);
+}
+
+.oc-table-shell .oc-table-wrap {
+  border: 0;
+  border-radius: 0;
+}
+
 .oc-table-toolbar {
   display: flex;
+  min-height: 3rem;
   align-items: center;
   gap: var(--oc-space-2);
-  padding: var(--oc-space-2) 0;
+  padding: var(--oc-space-1) var(--oc-space-3);
+  border-bottom: 1px solid var(--oc-border-subtle);
 }
 
 .oc-table-toolbar .oc-search-field {
@@ -173,12 +188,6 @@
 }
 
 .oc-table-bulk-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--oc-space-2);
-  padding: var(--oc-space-2) var(--oc-space-3);
-  border: 1px solid var(--oc-border-strong);
-  border-radius: var(--oc-radius-control);
   background: var(--oc-surface-accent-soft);
   color: var(--oc-text-primary);
   font-size: var(--oc-font-size-xs);
@@ -239,7 +248,8 @@ th[aria-sort] .oc-table-sort-icon {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--oc-space-2) 0;
+  padding: var(--oc-space-1) var(--oc-space-3);
+  border-top: 1px solid var(--oc-border-subtle);
   color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);
 }
@@ -369,13 +379,14 @@ th[aria-sort] .oc-table-sort-icon {
   background: var(--oc-bg-recessed);
 }
 
-/* Active filter chips: removable applied filters beneath the toolbar. */
+/* Active filter chips live inline in the toolbar, between search and
+   actions, wrapping when narrow. */
 .oc-table-filters {
   display: flex;
+  flex: 1;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--oc-space-2);
-  padding-bottom: var(--oc-space-2);
 }
 
 .oc-table-filter-chip {

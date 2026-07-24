@@ -1543,11 +1543,15 @@ a.oc-layer-card-primary:hover {
 
 .oc-meter-track {
   position: relative;
-  display: block;
+  display: flex;
   overflow: hidden;
+  align-items: center;
   border-radius: var(--oc-radius-round);
+  line-height: 0;
   /* The sheen uses a blend mode; isolate and hard-clip so no engine can
-     bleed the highlight outside the rounded track. */
+     bleed the highlight outside the rounded track. The flex line-height
+     reset keeps the track exactly the bar's height, so the sheen cannot
+     tower above it. */
   isolation: isolate;
   clip-path: inset(0 round var(--oc-radius-round));
 }
@@ -1952,7 +1956,7 @@ a.oc-layer-card-primary:hover {
   min-height: 2.5rem;
   grid-template-columns: 1.75rem minmax(0, 1fr) 1rem;
   align-items: center;
-  gap: var(--oc-space-2);
+  gap: var(--oc-space-3);
   padding: var(--oc-space-1);
   border: 1px solid transparent;
   border-radius: var(--oc-radius-control);
@@ -6564,3 +6568,47 @@ body[data-preview-page="model-picker"] .oc-model-menu {
 
 /* Animated identity: motion lives inside the generated SVG so the circle
    never changes size; data-animated only marks the state for consumers. */
+
+.oc-panel-tab-close {
+  margin-left: var(--oc-space-1);
+}
+
+.oc-panel-tab-close [data-lucide],
+.oc-panel-tab-close svg {
+  display: block;
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+/* Provider row: a single icon-only line, divided, for footers and
+   attribution strips. Marks take their brand color on hover. */
+.oc-provider-row-line {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-3);
+}
+
+.oc-provider-row-mark {
+  display: inline-grid;
+  color: var(--oc-text-muted);
+  place-items: center;
+}
+
+.oc-provider-row-mark:hover {
+  color: var(--provider-brand-color, var(--oc-text-primary));
+}
+
+.oc-provider-row-mark .oc-provider-logo-mark svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.oc-provider-row-mark .oc-provider-logo-mark[data-size="xs"] svg { width: 0.875rem; height: 0.875rem; }
+.oc-provider-row-mark .oc-provider-logo-mark[data-size="lg"] svg { width: 1.5rem; height: 1.5rem; }
+.oc-provider-row-mark .oc-provider-logo-mark[data-size="xl"] svg { width: 2rem; height: 2rem; }
+
+.oc-provider-row-divider {
+  width: 1px;
+  height: 1rem;
+  background: var(--oc-border-subtle);
+}

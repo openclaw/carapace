@@ -260,6 +260,7 @@ describe("CSS contract", () => {
       ".oc-table-filters",
       ".oc-table-footer",
       ".oc-table-interactive",
+      ".oc-table-shell",
       ".oc-table-sort",
       ".oc-table-sort-icon",
       ".oc-table-toolbar",

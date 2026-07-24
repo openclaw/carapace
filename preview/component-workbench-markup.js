@@ -304,6 +304,7 @@ export const providerLogoLayouts = [
   { label: "Stack", value: "stack" },
   { label: "Profiles", value: "profiles" },
   { label: "Tiles", value: "tiles" },
+  { label: "Row", value: "row" },
 ];
 
 export const providerLogoStates = [
@@ -553,17 +554,18 @@ export function tableWorkbenchMarkup({ interactive = false, chrome = false, sele
   const toolbar = !chrome
     ? ""
     : selected
-      ? `<div class="oc-table-bulk-bar"><span class="oc-table-bulk-count">2 selected</span><span>of ${records.length} components</span><div class="oc-table-bulk-actions"><button class="oc-action oc-action-ghost" type="button">Archive</button><button class="oc-action oc-action-secondary" type="button">Export</button></div></div>\n  `
-      : `<div class="oc-table-toolbar"><label class="oc-search-field"><span class="sr-only">Search components</span><input type="search" placeholder="Search components" /></label><button class="oc-action oc-action-ghost" type="button">Filters</button></div>
-  <div class="oc-table-filters" role="group" aria-label="Active filters"><span class="oc-table-filter-chip">Status: Stable<button type="button" aria-label="Remove status filter"><i data-lucide="x" aria-hidden="true"></i></button></span><span class="oc-table-filter-chip">Updated: This week<button type="button" aria-label="Remove updated filter"><i data-lucide="x" aria-hidden="true"></i></button></span><button class="oc-table-filter-add" type="button">+ Add filter</button></div>\n  `;
+      ? `<div class="oc-table-toolbar oc-table-bulk-bar"><span class="oc-table-bulk-count">2 selected</span><span>of ${records.length} components</span><div class="oc-table-bulk-actions"><button class="oc-action oc-action-ghost" type="button">Archive</button><button class="oc-action oc-action-secondary" type="button">Export</button></div></div>`
+      : `<div class="oc-table-toolbar"><label class="oc-search-field"><span class="sr-only">Search components</span><input type="search" placeholder="Search components" /></label><div class="oc-table-filters" role="group" aria-label="Active filters"><span class="oc-table-filter-chip">Status: Stable<button type="button" aria-label="Remove status filter"><i data-lucide="x" aria-hidden="true"></i></button></span><span class="oc-table-filter-chip">Updated: This week<button type="button" aria-label="Remove updated filter"><i data-lucide="x" aria-hidden="true"></i></button></span><button class="oc-table-filter-add" type="button">+ Add filter</button></div><button class="oc-action oc-action-ghost" type="button"><i data-lucide="list-filter" aria-hidden="true"></i> Filters</button></div>`;
   const sortableHeader = chrome
     ? `<th scope="col" aria-sort="ascending"><button class="oc-table-sort" type="button">Component<span class="oc-table-sort-icon" aria-hidden="true">↑</span></button></th>`
     : '<th scope="col">Component</th>';
   const footer = chrome
-    ? `\n  <div class="oc-table-footer"><span>${records.length} of 24 components</span><nav class="oc-pagination" aria-label="Table pages"><ol class="oc-pagination-list"><li><a class="oc-pagination-link" href="?page=1" aria-current="page" data-workbench-inert-link>1</a></li><li><a class="oc-pagination-link" href="?page=2" data-workbench-inert-link>2</a></li></ol></nav></div>`
+    ? `<div class="oc-table-footer"><span>${records.length} of 24 components</span><nav class="oc-pagination" aria-label="Table pages"><ol class="oc-pagination-list"><li><a class="oc-pagination-link" href="?page=1" aria-current="page" data-workbench-inert-link>1</a></li><li><a class="oc-pagination-link" href="?page=2" data-workbench-inert-link>2</a></li></ol></nav></div>`
     : "";
   const expanderHeader = expandable ? '<th scope="col"><span class="sr-only">Details</span></th>' : "";
-  return `${toolbar}<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0">
+  const open_shell = chrome ? `<div class="oc-table-shell">` : "";
+  const close_shell = chrome ? `</div>` : "";
+  return `${open_shell}${toolbar}<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0">
   <table class="oc-table${modifier}">
     <caption class="sr-only">${caption}</caption>
     <thead><tr>${expanderHeader}${sortableHeader}<th scope="col">Status</th><th scope="col">Updated</th>${actionHeader}</tr></thead>
@@ -571,7 +573,7 @@ export function tableWorkbenchMarkup({ interactive = false, chrome = false, sele
       ${rows}
     </tbody>
   </table>
-</div>${footer}`;
+</div>${footer}${close_shell}`;
 }
 
 export function gridWorkbenchMarkup({ columns = "3", items = "3" } = {}) {
@@ -1719,6 +1721,15 @@ export function providerLogoWorkbenchMarkup({
   const selectedLayout = providerLogoLayouts.some(({ value }) => value === layout)
     ? layout
     : "wrap";
+  if (selectedLayout === "row") {
+    const marks = providerLogoProviders
+      .map(
+        ({ id, name, color }) =>
+          `<span class="oc-provider-row-mark" style="--provider-brand-color:${color}" title="${name}"><span class="oc-provider-logo-mark" data-size="${selectedSize}" aria-hidden="true">${providerLogoMark(id)}</span><span class="sr-only">${name}</span></span>`,
+      )
+      .join('<span class="oc-provider-row-divider" aria-hidden="true"></span>');
+    return `<div class="oc-provider-row-line" role="list" aria-label="Providers">${marks}</div>`;
+  }
   if (selectedLayout === "tiles") {
     const tiles = providerLogoProviders
       .map(

@@ -597,6 +597,7 @@ describe("workbench schema contracts", () => {
           { label: "Stack", value: "stack" },
           { label: "Profiles", value: "profiles" },
           { label: "Tiles", value: "tiles" },
+          { label: "Row", value: "row" },
         ],
       },
     ]);
