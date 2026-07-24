@@ -45,6 +45,30 @@ Compose the contract from these roles:
   model controls into a focused utility surface.
 - `.oc-status` presents compact operational state with text and a semantic
   indicator.
+- `.oc-summary-strip` and `.oc-summary-metric` lead a collection with stable
+  key metrics; `.oc-session-badges`, `.oc-owner-chip`, `.oc-unread-dot`, and
+  `.oc-run-spinner` carry row-scale signals.
+- `.oc-split`, `.oc-split-pane`, `.oc-panel-tab-strip`, and
+  `.oc-split-divider` compose docked two-pane work surfaces; resize behavior
+  stays consumer-owned.
+- `.oc-log-stream` renders dense diagnostic rows with level, time,
+  subsystem, and message columns.
+- `.oc-menu-panel` structures the tray or menu-bar dropdown: identity,
+  usage meters, session shortcuts, and footer actions.
+- `.oc-option-card` renders setup choices as real radio labels;
+  `.oc-connect` is the shared pairing and sign-in surface.
+- `.oc-command-palette` provides the shared command dialog anatomy.
+- `.oc-hovercard` and `.oc-lightbox` cover anchored reference context and
+  single-attachment inspection.
+- `.oc-table-toolbar`, `.oc-table-bulk-bar`, `.oc-table-sort`, and
+  `.oc-table-footer` (candidate data layer) extend collection tables with
+  search, selection, sorting, and pagination chrome.
+
+The agent entry point (`candidate/agent.css`) owns approval prompts
+(`.oc-approval-card`, `.oc-approval-queue`) and transcript anatomy:
+`.oc-tool-kv`, `.oc-json-collapse`, `.oc-work-group`, `.oc-turn-recap`,
+`.oc-compaction`, and `.oc-activity-indicator`. Approval policy, transport,
+and expansion behavior stay consumer-owned.
 
 Use existing controls such as `.oc-switch`, `.oc-input`, `.oc-select`,
 `.oc-segmented`, `.oc-action`, and `.oc-badge` inside these compositions. Do not

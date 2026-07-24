@@ -78,9 +78,13 @@ behavior have been validated in multiple consumers. Preview-only Lab work is
 not included in package exports.
 
 The candidate application entry point supplies compact navigation, pane,
-settings, chat, model-control, session-table, Quick Chat, and status anatomy. It
-composes existing Carapace controls while leaving routes, data, persistence,
-native window behavior, and framework state inside each consumer.
+settings, chat, model-control, session-table, Quick Chat, and status anatomy,
+plus split panes, log streams, menu panels, option cards, the command
+palette, and collection indicators. The candidate agent entry point owns
+approval prompts and transcript anatomy such as tool parameter rows,
+payload disclosures, work groups, and compaction markers. Both compose
+existing Carapace controls while leaving routes, data, persistence, native
+window behavior, and framework state inside each consumer.
 
 OpenClaw surfaces and controls default to a Kumo-aligned radius profile
 (`surface`/`control` = `--oc-radius-md` / 8px, `inset` = `--oc-radius-sm` / 4px).
