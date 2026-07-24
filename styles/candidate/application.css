@@ -4828,3 +4828,76 @@
   overflow: auto;
   background: var(--oc-bg-page);
 }
+
+/* Log viewer: dense diagnostic rows with level, time, subsystem, and
+   message columns. The stream container owns scrolling; rows stay one
+   line with the message truncating until expanded by the consumer. */
+.oc-log-stream {
+  overflow: auto;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-recessed);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-log-row {
+  display: grid;
+  align-items: baseline;
+  padding: 2px var(--oc-space-3);
+  gap: var(--oc-space-2);
+  grid-template-columns: auto 4.5rem 7rem minmax(0, 1fr);
+  line-height: 1.7;
+}
+
+.oc-log-row:hover {
+  background: var(--oc-surface-interactive);
+}
+
+.oc-log-time {
+  color: var(--oc-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.oc-log-level {
+  justify-self: start;
+  padding: 0 var(--oc-space-1);
+  border-radius: var(--oc-radius-inset);
+  color: var(--oc-text-secondary);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.oc-log-row[data-level="warn"] .oc-log-level {
+  background: var(--oc-status-warning-bg);
+  color: var(--oc-status-warning-fg);
+}
+
+.oc-log-row[data-level="error"] .oc-log-level {
+  background: var(--oc-status-error-bg);
+  color: var(--oc-status-error-fg);
+}
+
+.oc-log-row[data-level="debug"] .oc-log-level,
+.oc-log-row[data-level="debug"] .oc-log-message {
+  color: var(--oc-text-muted);
+}
+
+.oc-log-subsystem {
+  overflow: hidden;
+  color: var(--oc-text-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oc-log-message {
+  overflow: hidden;
+  color: var(--oc-text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oc-log-row[data-expanded="true"] .oc-log-message {
+  white-space: pre-wrap;
+}

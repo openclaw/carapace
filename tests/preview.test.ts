@@ -349,6 +349,7 @@ describe("preview contracts", () => {
         "primitive-input-area",
         "primitive-label",
         "primitive-loader",
+        "primitive-log-viewer",
         "primitive-radio",
         "primitive-select",
         "primitive-skeleton-line",

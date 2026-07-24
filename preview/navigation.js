@@ -207,6 +207,12 @@ export const referenceAreas = [
         keywords: "oc-link navigation inline standalone muted disabled",
       },
       {
+        id: "primitive-log-viewer",
+        label: "Log Viewer",
+        path: "interface/primitives/log-viewer/",
+        keywords: "oc-log-stream diagnostics level time subsystem message rows",
+      },
+      {
         id: "primitive-loader",
         label: "Loader",
         path: "interface/primitives/loader/",
@@ -869,6 +875,7 @@ const candidateReferenceIds = new Set([
   "primitive-command-palette",
   "primitive-indicators",
   "primitive-split-pane",
+  "primitive-log-viewer",
   "primitive-badge",
   "primitive-banner",
   "primitive-checkbox",
