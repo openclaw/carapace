@@ -1538,6 +1538,10 @@ a.oc-layer-card-primary:hover {
   display: block;
   overflow: hidden;
   border-radius: var(--oc-radius-round);
+  /* The sheen uses a blend mode; isolate and hard-clip so no engine can
+     bleed the highlight outside the rounded track. */
+  isolation: isolate;
+  clip-path: inset(0 round var(--oc-radius-round));
 }
 
 .oc-meter[data-state="active"][data-effect="sheen"] .oc-meter-track::after {
@@ -1587,6 +1591,9 @@ a.oc-layer-card-primary:hover {
   height: 0.5rem;
   border: 0;
   border-radius: var(--oc-radius-round);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   background: var(--oc-surface-interactive);
 }
 
@@ -3181,7 +3188,12 @@ a.oc-layer-card-primary:hover {
    chat card; releasing overflow only while it is open keeps corner clipping
    everywhere else but stops the menu from being cut off. */
 .oc-agent-chat:has(.oc-model-picker[open]),
-.component-workbench-stage:has(.oc-model-picker[open]) {
+.component-workbench-stage:has(.oc-model-picker[open]),
+.component-workbench-stage:has(.oc-command-palette[open]),
+.component-workbench-stage:has(.oc-dropdown-menu:not([hidden])),
+.component-workbench-canvas:has(.oc-model-picker[open]),
+.component-workbench-canvas:has(.oc-command-palette[open]),
+.component-workbench-canvas:has(.oc-dropdown-menu:not([hidden])) {
   overflow: visible;
 }
 
