@@ -235,8 +235,8 @@ describe("CSS contract", () => {
       ".oc-skeleton-line-short",
     ]);
     expectClasses(data, [
-      ".oc-action",
       ".oc-code-block",
+      ".oc-code-block-copy",
       ".oc-code-block-header",
       ".oc-resource-list",
       ".oc-resource-list-arrow",

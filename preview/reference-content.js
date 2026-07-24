@@ -741,14 +741,14 @@ const contents = {
     `${pageIntro("Component", "Code Block", "A read-only code surface with an identifying header, horizontal scrolling, and a copy affordance.")}
     <section data-section-kind="preview" aria-labelledby="code-block-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="code-block-preview">Identified snippet</h2></div><span class="oc-pill">.oc-code-block</span></div>
       <div class="specimen-frame"><div class="oc-code-block" style="width: min(100%, 36rem);">
-        <div class="oc-code-block-header"><span>openclaw.json</span><button class="oc-action oc-action-ghost" type="button" data-copy-code>Copy</button><span class="sr-only" aria-live="polite" data-copy-code-status></span></div>
+        <div class="oc-code-block-header"><span>openclaw.json</span><button class="oc-code-block-copy" type="button" aria-label="Copy code" data-copy-code><i data-lucide="copy" aria-hidden="true"></i></button><span class="sr-only" aria-live="polite" data-copy-code-status></span></div>
         <pre tabindex="0" aria-label="Configuration example"><code>{
   "agents": { "default": "personal" },
   "channels": { "discord": { "enabled": true } }
 }</code></pre>
       </div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="code-block-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="code-block-markup">Name the source in the header</h2></div></div>${codeBlock(`<div class="oc-code-block">\n  <div class="oc-code-block-header"><span>openclaw.json</span><button class="oc-action oc-action-ghost" type="button">Copy</button></div>\n  <pre tabindex="0" aria-label="Configuration example"><code>…</code></pre>\n</div>`, "html")}</section>
+    <section data-section-kind="markup" aria-labelledby="code-block-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="code-block-markup">Name the source in the header</h2></div></div>${codeBlock(`<div class="oc-code-block">\n  <div class="oc-code-block-header"><span>openclaw.json</span><button class="oc-code-block-copy" type="button" aria-label="Copy code">…</button></div>\n  <pre tabindex="0" aria-label="Configuration example"><code>…</code></pre>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="code-block-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="code-block-guidance">Structure only; highlighting stays consumer-owned</h2></div></div>${guidanceList(["Name the file, language, or command in the header.", "Make the scrollable region keyboard focusable with an accessible name.", "Announce copy results through a polite live region.", "Token or syntax coloring belongs to the consumer's highlighter."])}</section>`,
 
   "primitive-split-pane": () =>

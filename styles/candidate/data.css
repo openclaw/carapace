@@ -266,18 +266,52 @@ th[aria-sort] .oc-table-sort-icon {
   font-size: var(--oc-font-size-xs);
 }
 
-.oc-code-block-header .oc-action {
-  margin-left: auto;
-}
-
 .oc-code-block pre {
   overflow-x: auto;
   margin: 0;
   padding: var(--oc-space-3);
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--oc-text-primary);
   font-family: var(--oc-font-mono);
   font-size: var(--oc-font-size-xs);
   line-height: 1.7;
   tab-size: 2;
+}
+
+.oc-code-block pre:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
+.oc-code-block-copy {
+  display: inline-grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: auto;
+  border: 0;
+  border-radius: var(--oc-radius-inset);
+  background: none;
+  color: var(--oc-text-muted);
+  cursor: pointer;
+  place-items: center;
+}
+
+.oc-code-block-copy:hover {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.oc-code-block-copy:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 1px;
+}
+
+.oc-code-block-copy [data-lucide],
+.oc-code-block-copy svg {
+  width: 0.875rem;
+  height: 0.875rem;
 }
 
 .oc-code-block code {
