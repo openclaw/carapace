@@ -1393,7 +1393,7 @@ export function toolWorkbenchMarkup({
   })}</div>`;
 }
 
-export function todoToolWorkbenchMarkup({ status = "in_progress" } = {}) {
+export function todoToolWorkbenchMarkup({ status = "in_progress", display = "card" } = {}) {
   const itemState =
     status === "in_progress" ? "active" : status === "completed" ? "complete" : "pending";
   const itemPrefix =
@@ -1408,6 +1408,14 @@ export function todoToolWorkbenchMarkup({ status = "in_progress" } = {}) {
       : itemState === "active"
         ? agentIcon("arrow-right")
         : "";
+  if (display === "bar") {
+    const done = status === "completed" ? 3 : 2;
+    return `<div class="oc-agent-todo-bar" role="status" aria-label="Plan progress: ${done} of 3 steps complete">
+  <span class="oc-agent-todo-bar-label">Run visual check</span>
+  <span class="oc-agent-todo-bar-track" aria-hidden="true"><span style="width: ${Math.round((done / 3) * 100)}%"></span></span>
+  <span class="oc-agent-todo-bar-count">${done} / 3</span>
+</div>`;
+  }
   return `<ul class="oc-agent-todo-list">
   <li data-state="complete"><span class="oc-agent-todo-marker" aria-hidden="true">${agentIcon("check")}</span><span class="sr-only">Completed: </span><span class="oc-agent-todo-text">Inspect contract</span></li>
   <li data-state="complete"><span class="oc-agent-todo-marker" aria-hidden="true">${agentIcon("check")}</span><span class="sr-only">Completed: </span><span class="oc-agent-todo-text">Implement component</span></li>

@@ -722,13 +722,22 @@ const definitions = {
   "subagent-tool": createToolWorkbenchDefinition("subagent"),
   "tool-group": createToolWorkbenchDefinition("tool-group"),
   "todo-tool": {
-    defaults: { status: "in_progress" },
+    defaults: { status: "in_progress", display: "card" },
     controls: [
       {
         id: "status",
         label: "Current item",
         type: "choice",
         options: todoItemStates,
+      },
+      {
+        id: "display",
+        label: "Display",
+        type: "choice",
+        options: [
+          { label: "Card", value: "card" },
+          { label: "Bar", value: "bar" },
+        ],
       },
     ],
     markup: todoToolWorkbenchMarkup,

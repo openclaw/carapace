@@ -6196,3 +6196,46 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Checklist bar: the one-line plan progress variant used above a
+   composer or in a header; the card list stays the expanded form. */
+.oc-agent-todo-bar {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-1) var(--oc-space-3);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-surface);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-agent-todo-bar-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oc-agent-todo-bar-count {
+  color: var(--oc-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.oc-agent-todo-bar-track {
+  position: relative;
+  min-width: 4rem;
+  height: 4px;
+  flex: 1;
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-bg-recessed);
+}
+
+.oc-agent-todo-bar-track span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: var(--oc-accent-primary);
+}
