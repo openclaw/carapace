@@ -628,6 +628,7 @@ describe("CSS contract", () => {
         (path) =>
           !path.startsWith(".git/") &&
           !path.startsWith("node_modules/") &&
+          !path.startsWith("dist/") &&
           path !== "preview/assets/openclaw-mark.png" &&
           path !== "preview/assets/openclaw-mark-hover.png" &&
           path !== "preview/assets/carapace-home-artwork.avif" &&
