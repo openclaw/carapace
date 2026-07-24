@@ -996,7 +996,7 @@ Retry-After: 12s · request id req_8f31</span></div>
 </div>`,
       "html",
     )}</section>
-    <section data-section-kind="guidance" aria-labelledby="table-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="table-guidance">Use tables for comparison</h2></div></div>${guidanceList(["Use a table only when rows share comparable columns.", "Provide a caption and keep native table, header, and scope semantics.", "Name and focus the scroll region when the table can overflow.", "Use .oc-table-interactive only when each row actually responds to interaction.", "Move row actions into a clearly labeled final column."])}</section>`,
+    <section data-section-kind="guidance" aria-labelledby="table-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="table-guidance">Use tables for comparison</h2></div></div>${guidanceList(["The anatomy is renderer-agnostic: TanStack Table, AG Grid, or plain markup consume the same classes while owning sorting, filtering, and virtualization logic.", "Use a table only when rows share comparable columns.", "Provide a caption and keep native table, header, and scope semantics.", "Name and focus the scroll region when the table can overflow.", "Use .oc-table-interactive only when each row actually responds to interaction.", "Move row actions into a clearly labeled final column."])}</section>`,
 
   "primitive-table-of-contents": () =>
     `${pageIntro("Component", "Table of Contents", "Local navigation for a long page, showing its section structure and current reading position.")}

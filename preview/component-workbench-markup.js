@@ -292,9 +292,11 @@ export const skeletonLineWidths = [
 ];
 
 export const providerLogoSizes = [
+  { label: "Tiny", value: "xs" },
   { label: "Small", value: "sm" },
   { label: "Medium", value: "md" },
   { label: "Large", value: "lg" },
+  { label: "Display", value: "xl" },
 ];
 
 export const providerLogoLayouts = [
@@ -303,6 +305,7 @@ export const providerLogoLayouts = [
   { label: "Picker", value: "picker" },
   { label: "Stack", value: "stack" },
   { label: "Profiles", value: "profiles" },
+  { label: "Tiles", value: "tiles" },
 ];
 
 export const providerLogoStates = [
@@ -553,7 +556,8 @@ export function tableWorkbenchMarkup({ interactive = false, chrome = false, sele
     ? ""
     : selected
       ? `<div class="oc-table-bulk-bar"><span class="oc-table-bulk-count">2 selected</span><span>of ${records.length} components</span><div class="oc-table-bulk-actions"><button class="oc-action oc-action-ghost" type="button">Archive</button><button class="oc-action oc-action-secondary" type="button">Export</button></div></div>\n  `
-      : `<div class="oc-table-toolbar"><label class="oc-search-field"><span class="sr-only">Search components</span><input type="search" placeholder="Search components" /></label><button class="oc-action oc-action-ghost" type="button">Filters</button></div>\n  `;
+      : `<div class="oc-table-toolbar"><label class="oc-search-field"><span class="sr-only">Search components</span><input type="search" placeholder="Search components" /></label><button class="oc-action oc-action-ghost" type="button">Filters</button></div>
+  <div class="oc-table-filters" role="group" aria-label="Active filters"><span class="oc-table-filter-chip">Status: Stable<button type="button" aria-label="Remove status filter"><i data-lucide="x" aria-hidden="true"></i></button></span><span class="oc-table-filter-chip">Updated: This week<button type="button" aria-label="Remove updated filter"><i data-lucide="x" aria-hidden="true"></i></button></span><button class="oc-table-filter-add" type="button">+ Add filter</button></div>\n  `;
   const sortableHeader = chrome
     ? `<th scope="col" aria-sort="ascending"><button class="oc-table-sort" type="button">Component<span class="oc-table-sort-icon" aria-hidden="true">↑</span></button></th>`
     : '<th scope="col">Component</th>';
@@ -1717,6 +1721,16 @@ export function providerLogoWorkbenchMarkup({
   const selectedLayout = providerLogoLayouts.some(({ value }) => value === layout)
     ? layout
     : "wrap";
+  if (selectedLayout === "tiles") {
+    const tiles = providerLogoProviders
+      .map(
+        ({ id, name, color }) =>
+          `<span class="oc-provider-tile" data-size="${selectedSize}" style="--provider-brand-color:${color}" title="${name}"><span class="oc-provider-logo-mark" aria-hidden="true">${providerLogoMark(id)}</span><span class="sr-only">${name}</span></span>`,
+      )
+      .join("");
+    return `<div class="oc-provider-tile-grid" role="list" aria-label="Provider tiles">${tiles}</div>`;
+  }
+
   const sizeClass =
     selectedSize === "sm"
       ? " oc-provider-logo-sm"

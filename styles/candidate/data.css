@@ -368,3 +368,56 @@ th[aria-sort] .oc-table-sort-icon {
   border-top: 0;
   background: var(--oc-bg-recessed);
 }
+
+/* Active filter chips: removable applied filters beneath the toolbar. */
+.oc-table-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding-bottom: var(--oc-space-2);
+}
+
+.oc-table-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oc-space-1);
+  padding: 2px var(--oc-space-1) 2px var(--oc-space-2);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-bg-surface);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-table-filter-chip button {
+  display: inline-grid;
+  width: 1rem;
+  height: 1rem;
+  border: 0;
+  border-radius: var(--oc-radius-round);
+  background: none;
+  color: var(--oc-text-muted);
+  cursor: pointer;
+  place-items: center;
+}
+
+.oc-table-filter-chip button:hover {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.oc-table-filter-chip [data-lucide],
+.oc-table-filter-chip svg {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.oc-table-filter-add {
+  border: 0;
+  background: none;
+  color: var(--oc-text-link);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--oc-font-size-xs);
+}

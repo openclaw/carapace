@@ -568,9 +568,11 @@ describe("workbench schema contracts", () => {
         id: "size",
         type: "choice",
         options: [
+          { label: "Tiny", value: "xs" },
           { label: "Small", value: "sm" },
           { label: "Medium", value: "md" },
           { label: "Large", value: "lg" },
+          { label: "Display", value: "xl" },
         ],
       },
       { id: "label", type: "toggle" },
@@ -594,6 +596,7 @@ describe("workbench schema contracts", () => {
           { label: "Picker", value: "picker" },
           { label: "Stack", value: "stack" },
           { label: "Profiles", value: "profiles" },
+          { label: "Tiles", value: "tiles" },
         ],
       },
     ]);
@@ -628,7 +631,7 @@ describe("workbench schema contracts", () => {
         layout: "grid",
       }),
     ).toEqual({
-      size: "md",
+      size: "xl",
       label: true,
       framed: false,
       state: "default",

@@ -6442,3 +6442,40 @@ body[data-preview-page="model-picker"] .oc-model-menu {
   outline-offset: -2px;
 }
 
+
+/* Provider tiles: uniform rounded squares for pickers and grids; the mark
+   takes the brand color on hover like the standalone logo. */
+.oc-provider-tile-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--oc-space-2);
+}
+
+.oc-provider-tile {
+  display: inline-grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-surface);
+  color: var(--oc-text-secondary);
+}
+
+.oc-provider-tile[data-size="xs"] { width: 1.5rem; height: 1.5rem; }
+.oc-provider-tile[data-size="sm"] { width: 2rem; height: 2rem; }
+.oc-provider-tile[data-size="lg"] { width: 3rem; height: 3rem; }
+.oc-provider-tile[data-size="xl"] { width: 4rem; height: 4rem; }
+
+.oc-provider-tile:hover {
+  border-color: var(--oc-border-strong);
+  color: var(--provider-brand-color, var(--oc-text-primary));
+}
+
+.oc-provider-tile .oc-provider-logo-mark svg {
+  width: 55%;
+  height: 55%;
+}
+
+.oc-provider-logo[data-logo-size="xs"] .oc-provider-logo-mark svg { width: 0.75rem; height: 0.75rem; }
+.oc-provider-logo[data-logo-size="xl"] .oc-provider-logo-mark svg { width: 2rem; height: 2rem; }
