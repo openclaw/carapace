@@ -790,6 +790,26 @@ Retry-After: 12s · request id req_8f31</span></div>
     <section data-section-kind="markup" aria-labelledby="log-viewer-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="log-viewer-markup">One row per event</h2></div></div>${codeBlock(`<div class="oc-log-stream" role="log" aria-label="Gateway log">\n  <div class="oc-log-row" data-level="warn">\n    <span class="oc-log-time">09:41:08</span>\n    <span class="oc-log-level">warn</span>\n    <span class="oc-log-subsystem">channels/discord</span>\n    <span class="oc-log-message">Reconnect attempt 2</span>\n  </div>\n</div>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="log-viewer-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="log-viewer-guidance">Optimize for scanning, expand for detail</h2></div></div>${guidanceList(["Rows stay one line; data-expanded reveals the full message.", "Level tones use the shared status colors and never carry meaning alone.", "Keep timestamps tabular so columns do not shimmer while streaming.", "Filtering, following, and pause-on-scroll stay consumer-owned."])}</section>`,
 
+  "primitive-menu-panel": () =>
+    `${pageIntro("Component", "Menu Panel", "The compact surface behind a menu-bar or tray icon: identity, usage meters, session shortcuts, and a footer action row.")}
+    <section data-section-kind="preview" aria-labelledby="menu-panel-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="menu-panel-preview">Menu bar extra</h2></div><span class="oc-pill">.oc-menu-panel</span></div>
+      <div class="specimen-frame"><div class="oc-menu-panel">
+        <header class="oc-menu-panel-header"><img src="./assets/openclaw-mark.png" alt="" width="24" height="24" /><span class="oc-menu-panel-copy"><strong>OpenClaw</strong><small>Gateway online · v2026.7.1</small></span><span class="oc-status oc-status-success"><span class="oc-status-indicator" aria-hidden="true"></span><span class="oc-status-label">Ready</span></span></header>
+        <div class="oc-menu-panel-usage">
+          <div class="oc-menu-panel-usage-row"><span class="oc-menu-panel-usage-label">Context</span><div class="oc-inspector-meter" role="meter" aria-label="Context used" aria-valuenow="41" aria-valuemin="0" aria-valuemax="100"><span style="width: 41%"></span></div><span class="oc-menu-panel-usage-value">41%</span></div>
+          <div class="oc-menu-panel-usage-row"><span class="oc-menu-panel-usage-label">Daily cost</span><div class="oc-inspector-meter" role="meter" aria-label="Daily budget used" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"><span style="width: 62%"></span></div><span class="oc-menu-panel-usage-value">$3.10</span></div>
+        </div>
+        <ul class="oc-menu-panel-list">
+          <li><button class="oc-menu-panel-item" type="button">${icon("sparkles")} Carapace parity<small>now</small></button></li>
+          <li><button class="oc-menu-panel-item" type="button">${icon("message-square")} Release validation<small>8m</small></button></li>
+          <li><button class="oc-menu-panel-item" type="button">${icon("plus")} New session</button></li>
+        </ul>
+        <footer class="oc-menu-panel-footer"><button class="oc-action oc-action-ghost" type="button">Settings</button><button class="oc-action oc-action-ghost" type="button">Quit</button></footer>
+      </div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="menu-panel-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="menu-panel-markup">Identity, meters, shortcuts, actions</h2></div></div>${codeBlock(`<div class="oc-menu-panel">\n  <header class="oc-menu-panel-header">…</header>\n  <div class="oc-menu-panel-usage">…</div>\n  <ul class="oc-menu-panel-list">\n    <li><button class="oc-menu-panel-item" type="button">Carapace parity<small>now</small></button></li>\n  </ul>\n  <footer class="oc-menu-panel-footer">…</footer>\n</div>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="menu-panel-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="menu-panel-guidance">The most-seen surface stays quiet</h2></div></div>${guidanceList(["Lead with identity and connection state; meters stay compact.", "Shortcut rows never wrap; trailing metadata truncates first.", "Keep destructive actions in the footer, separated from shortcuts.", "The native window, positioning, and dismissal stay consumer-owned."])}</section>`,
+
   "primitive-indicators": () =>
     `${pageIntro("Component", "Indicators", "Compact signals for sessions and collections: metric strips, owner chips, unread dots, run spinners, and toned badges.")}
     <section data-section-kind="preview" aria-labelledby="indicators-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="indicators-preview">Collection and row signals</h2></div><span class="oc-pill">.oc-summary-strip</span></div>

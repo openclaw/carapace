@@ -219,6 +219,12 @@ export const referenceAreas = [
         keywords: "oc-loader spinner loading progress busy status",
       },
       {
+        id: "primitive-menu-panel",
+        label: "Menu Panel",
+        path: "interface/primitives/menu-panel/",
+        keywords: "oc-menu-panel tray menu bar extra dropdown usage sessions shortcuts",
+      },
+      {
         id: "primitive-menu-bar",
         label: "Menu Bar",
         path: "interface/primitives/menu-bar/",
@@ -876,6 +882,7 @@ const candidateReferenceIds = new Set([
   "primitive-indicators",
   "primitive-split-pane",
   "primitive-log-viewer",
+  "primitive-menu-panel",
   "primitive-badge",
   "primitive-banner",
   "primitive-checkbox",

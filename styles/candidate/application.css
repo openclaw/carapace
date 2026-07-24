@@ -4901,3 +4901,118 @@
 .oc-log-row[data-expanded="true"] .oc-log-message {
   white-space: pre-wrap;
 }
+
+/* Menu panel: the compact dropdown surface behind a menu-bar or tray icon.
+   Identity header, metric rows, shortcut list, and a footer action row;
+   windowing and the trigger itself stay native and consumer-owned. */
+.oc-menu-panel {
+  display: grid;
+  overflow: hidden;
+  width: min(100%, 20rem);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-elevated);
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-menu-panel-header {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-3);
+  border-bottom: 1px solid var(--oc-border-subtle);
+}
+
+.oc-menu-panel-header img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.oc-menu-panel-header .oc-status {
+  margin-left: auto;
+}
+
+.oc-menu-panel-copy {
+  display: grid;
+  line-height: 1.3;
+}
+
+.oc-menu-panel-copy small {
+  color: var(--oc-text-muted);
+}
+
+.oc-menu-panel-usage {
+  display: grid;
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border-bottom: 1px solid var(--oc-border-subtle);
+  gap: var(--oc-space-2);
+}
+
+.oc-menu-panel-usage-row {
+  display: grid;
+  align-items: center;
+  gap: var(--oc-space-2);
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.oc-menu-panel-usage-row .oc-inspector-meter,
+.oc-menu-panel-usage-row meter {
+  min-width: 0;
+}
+
+.oc-menu-panel-usage-label {
+  color: var(--oc-text-secondary);
+}
+
+.oc-menu-panel-usage-value {
+  color: var(--oc-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.oc-menu-panel-list {
+  display: grid;
+  margin: 0;
+  padding: var(--oc-space-1);
+  list-style: none;
+}
+
+.oc-menu-panel-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-1) var(--oc-space-2);
+  border: 0;
+  border-radius: var(--oc-radius-inset);
+  background: none;
+  color: var(--oc-text-primary);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.oc-menu-panel-item:hover {
+  background: var(--oc-surface-interactive);
+}
+
+.oc-menu-panel-item:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
+.oc-menu-panel-item small {
+  overflow: hidden;
+  margin-left: auto;
+  color: var(--oc-text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oc-menu-panel-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border-top: 1px solid var(--oc-border-subtle);
+  background: var(--oc-bg-surface);
+}
