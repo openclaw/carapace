@@ -135,6 +135,32 @@ export function bindAgentComponentDemos(root = document) {
     });
   }
 
+  for (const attach of root.querySelectorAll(".oc-agent-attachment-button")) {
+    attach.addEventListener("click", () => {
+      const container = attach.closest(".oc-agent-input-container");
+      if (!container) return;
+      const doc = attach.ownerDocument;
+      let rowContainer = container.querySelector("[data-agent-attachment-row]");
+      if (!rowContainer) {
+        rowContainer = doc.createElement("div");
+        rowContainer.className = "oc-agent-attachment-row";
+        rowContainer.setAttribute("data-agent-attachment-row", "");
+        container.prepend(rowContainer);
+      }
+      const names = ["component-spec.md", "tokens.css", "screenshot.png", "notes.txt"];
+      const name = names[rowContainer.children.length % names.length];
+      const chip = doc.createElement("span");
+      chip.className = "oc-agent-file-attachment";
+      chip.setAttribute("data-agent-attachment", "");
+      chip.innerHTML = `<span class="oc-agent-file-name">${name}</span><button class="oc-agent-file-remove" type="button" aria-label="Remove ${name}" data-agent-attachment-remove><i data-lucide="x" aria-hidden="true"></i></button>`;
+      rowContainer.append(chip);
+      chip.querySelector("[data-agent-attachment-remove]").addEventListener("click", () => chip.remove());
+      attach.ownerDocument.defaultView?.lucide?.createIcons({ root: chip });
+      const status = attach.closest("form")?.querySelector("[data-agent-chat-status], [data-agent-compose-status]");
+      if (status) status.textContent = `${name} attached`;
+    });
+  }
+
   const suggestions = [...root.querySelectorAll("[data-agent-suggestion-value]")];
   for (const suggestion of suggestions) {
     const targetId = suggestion.dataset.agentSuggestionTarget;

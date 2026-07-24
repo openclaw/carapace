@@ -166,11 +166,13 @@ describe("workbench schema contracts", () => {
       { id: "interactive", label: "Interactive rows", type: "toggle" },
       { id: "chrome", label: "Toolbar and footer", type: "toggle" },
       { id: "selected", label: "Rows selected", type: "toggle" },
+      { id: "expandable", label: "Expandable rows", type: "toggle" },
     ]);
     expect(normalizeWorkbenchState(definition, { interactive: true })).toEqual({
       interactive: true,
       chrome: false,
       selected: false,
+      expandable: false,
     });
     expect(normalizeWorkbenchState(definition, { interactive: "yes" })).toMatchObject({
       interactive: false,
@@ -966,7 +968,6 @@ describe("workbench schema contracts", () => {
           { label: "Error", value: "error" },
         ],
       },
-      { id: "camera", type: "toggle" },
     ]);
   });
   test("models transcript status and copy affordance independently", () => {
@@ -977,7 +978,7 @@ describe("workbench schema contracts", () => {
         status: "streaming",
         copyToolbar: false,
       }),
-    ).toEqual({ status: "streaming", copyToolbar: false });
+    ).toEqual({ status: "streaming", copyToolbar: false, meta: false });
   });
   test("keeps Agent Chat model controls in normalized workbench state", () => {
     const definition = getWorkbenchDefinition("agent-chat");

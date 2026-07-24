@@ -324,3 +324,47 @@ th[aria-sort] .oc-table-sort-icon {
     border-color: CanvasText;
   }
 }
+
+/* Expandable rows: a chevron cell toggles a full-width detail row. */
+.oc-table-expander {
+  width: 2rem;
+}
+
+.oc-table-expand {
+  display: inline-grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: var(--oc-radius-inset);
+  background: none;
+  color: var(--oc-text-muted);
+  cursor: pointer;
+  place-items: center;
+}
+
+.oc-table-expand:hover {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.oc-table-expand:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 1px;
+}
+
+.oc-table-expand [data-lucide],
+.oc-table-expand svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  transition: rotate var(--oc-duration-fast, 120ms) ease;
+}
+
+.oc-table-expand[aria-expanded="true"] [data-lucide],
+.oc-table-expand[aria-expanded="true"] svg {
+  rotate: 90deg;
+}
+
+.oc-table-expansion td {
+  border-top: 0;
+  background: var(--oc-bg-recessed);
+}

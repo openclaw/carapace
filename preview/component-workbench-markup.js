@@ -523,7 +523,7 @@ export function bannerWorkbenchMarkup({ tone = "warning", action = true, dismiss
 </div>`;
 }
 
-export function tableWorkbenchMarkup({ interactive = false, chrome = false, selected = false } = {}) {
+export function tableWorkbenchMarkup({ interactive = false, chrome = false, selected = false, expandable = false } = {}) {
   const records = [
     { component: "Button", status: "Stable", updated: "Today" },
     { component: "Dialog", status: "Stable", updated: "Yesterday" },
@@ -531,11 +531,17 @@ export function tableWorkbenchMarkup({ interactive = false, chrome = false, sele
   ];
   const actionHeader = interactive ? '<th scope="col">Action</th>' : "";
   const rows = records
-    .map(({ component, status, updated }) => {
+    .map(({ component, status, updated }, index) => {
       const action = interactive
         ? `<td><button class="oc-action oc-action-ghost" type="button" aria-label="Open ${component}">Open</button></td>`
         : "";
-      return `<tr><td>${component}</td><td>${status}</td><td>${updated}</td>${action}</tr>`;
+      const expander = expandable
+        ? `<td class="oc-table-expander"><button class="oc-table-expand" type="button" aria-expanded="${index === 0}" aria-label="Toggle details for ${component}" data-workbench-table-expand><i data-lucide="chevron-right" aria-hidden="true"></i></button></td>`
+        : "";
+      const detailRow = expandable
+        ? `\n      <tr class="oc-table-expansion"${index === 0 ? "" : " hidden"}><td colspan="${(interactive ? 4 : 3) + 1}"><dl class="oc-tool-kv"><dt>Owner</dt><dd>interface</dd><dt>Last change</dt><dd>${updated} · contract check green</dd></dl></td></tr>`
+        : "";
+      return `<tr>${expander}<td>${component}</td><td>${status}</td><td>${updated}</td>${action}</tr>${detailRow}`;
     })
     .join("\n      ");
   const modifier = interactive ? " oc-table-interactive" : "";
@@ -554,10 +560,11 @@ export function tableWorkbenchMarkup({ interactive = false, chrome = false, sele
   const footer = chrome
     ? `\n  <div class="oc-table-footer"><span>${records.length} of 24 components</span><nav class="oc-pagination" aria-label="Table pages"><ol class="oc-pagination-list"><li><a class="oc-pagination-link" href="?page=1" aria-current="page" data-workbench-inert-link>1</a></li><li><a class="oc-pagination-link" href="?page=2" data-workbench-inert-link>2</a></li></ol></nav></div>`
     : "";
+  const expanderHeader = expandable ? '<th scope="col"><span class="sr-only">Details</span></th>' : "";
   return `${toolbar}<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0">
   <table class="oc-table${modifier}">
     <caption class="sr-only">${caption}</caption>
-    <thead><tr>${sortableHeader}<th scope="col">Status</th><th scope="col">Updated</th>${actionHeader}</tr></thead>
+    <thead><tr>${expanderHeader}${sortableHeader}<th scope="col">Status</th><th scope="col">Updated</th>${actionHeader}</tr></thead>
     <tbody>
       ${rows}
     </tbody>
@@ -1379,9 +1386,9 @@ export function toolWorkbenchMarkup({
 </div>`;
     return `<div class="oc-agent-subagent-tool">${agentToolRow({
       icon: `<span class="oc-avatar oc-avatar-xs oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl(agentName)}" alt="" /></span>`,
-      label: statusLabel,
+      label: escapeHtml(taskTitle),
       shimmer: !complete && !failed && !timedOut,
-      detail: `<span class="oc-agent-subagent-name"><strong>${escapeHtml(agentName)}</strong><small>${escapeHtml(taskTitle)}</small></span>`,
+      detail: `<span class="oc-agent-subagent-name"><span class="oc-agent-subagent-owner">${escapeHtml(agentName)}</span><small>${statusLabel}</small></span>`,
       meta: complete ? "6s" : failed ? "error" : timedOut ? "30s" : "58%",
       open,
       panel: nested,
@@ -1512,7 +1519,7 @@ export function composerWorkbenchMarkup({ status = "ready", disabled = false, dr
 </form>`;
 }
 
-export function chatResponseMarkup(status, copyToolbar) {
+export function chatResponseMarkup(status, copyToolbar, meta = false) {
   if (status === "error") {
     return `<div class="oc-agent-assistant-turn"><div class="oc-agent-error-message" role="alert"><strong>Request failed</strong><p>The response could not be completed. Your draft is still available.</p></div></div>`;
   }
@@ -1525,9 +1532,12 @@ export function chatResponseMarkup(status, copyToolbar) {
     return `<div class="oc-agent-assistant-turn" data-status="streaming">${agentToolRow({ icon: agentIcon("search"), label: "Searching", shimmer: true, detail: "semantic tokens" })}<div class="oc-agent-markdown"><p>Reviewing the component contract and current validation output<span class="oc-agent-streaming-cursor" aria-hidden="true"></span></p></div></div>`;
   }
 
-  const toolbar = copyToolbar
-    ? `<div class="oc-agent-message-toolbar"><button class="oc-agent-copy-button" type="button" aria-label="Copy response" data-copy-text="The component contract is intact and ready for review.">${agentIcon("copy")}</button></div>`
-    : "";
+  const copyButton = `<button class="oc-agent-copy-button" type="button" aria-label="Copy response" data-copy-text="The component contract is intact and ready for review.">${agentIcon("copy")}</button>`;
+  const toolbar = meta
+    ? `<div class="oc-agent-message-meta"><span>12.4s · 1.2k tokens · GPT-5.5</span>${copyToolbar ? copyButton : ""}</div>`
+    : copyToolbar
+      ? `<div class="oc-agent-message-toolbar">${copyButton}</div>`
+      : "";
   return `<div class="oc-agent-assistant-turn">${agentToolRow({ icon: agentIcon("terminal"), label: "Ran command", detail: "bun run check" })}<div class="oc-agent-markdown"><p>The component contract is intact. The preview changes are local, the focused tests pass, and no exported token or component contract changed.</p></div>${toolbar}</div>`;
 }
 
@@ -1561,6 +1571,7 @@ export function mediaStatusMarkup(status) {
 export function messageListWorkbenchMarkup({
   status = "ready",
   copyToolbar = true,
+  meta = false,
   mode = "direct",
   media = false,
 } = {}) {
@@ -1585,7 +1596,7 @@ export function messageListWorkbenchMarkup({
     const agent = attributedMessageMarkup({
       name: "OpenClaw",
       role: "Assistant",
-      content: `${chatResponseMarkup(status, copyToolbar)}${media ? mediaStatusMarkup(status) : ""}`,
+      content: `${chatResponseMarkup(status, copyToolbar, meta)}${media ? mediaStatusMarkup(status) : ""}`,
     });
     return `<div class="oc-agent-message-list" role="log" aria-label="Conversation history">
   <div class="oc-agent-message-list-content">${user}${agent}</div>
@@ -1829,7 +1840,6 @@ export function agentChatWorkbenchMarkup({
   thinking = "high",
   fast = true,
   voice = "idle",
-  camera = false,
   modelProvider = "recent",
   modelQuery = "",
   draft = "",
@@ -1861,11 +1871,10 @@ export function agentChatWorkbenchMarkup({
       ? `<ul class="oc-agent-attachment-list" aria-label="Attached files"><li class="oc-agent-file-attachment" data-kind="file"><span class="oc-agent-file-type" aria-hidden="true">${agentIcon("file")}</span><span class="oc-agent-file-details"><strong>component-spec.md</strong><span>3.1 KB</span></span><button class="oc-agent-file-remove" type="button" aria-label="Remove component-spec.md" data-workbench-attachment-remove>${agentIcon("close")}</button></li></ul>`
       : "";
   const isBusy = status === "streaming" || status === "submitted";
-  const action = applicationComposerPrimaryMarkup({ busy: isBusy, voice, camera });
+  const action = applicationComposerPrimaryMarkup({ busy: isBusy, voice, camera: false });
   const composer = `<form class="oc-agent-input-bar" data-workbench-chat-form>
     <div class="oc-agent-input-container">
       ${attachments}
-      ${applicationCameraPreviewMarkup({ camera })}
       <div class="oc-composer-dictation-status" data-workbench-composer-dictation-status hidden aria-live="polite"><span class="oc-composer-voice-bars" data-state="listening" aria-hidden="true">${Array.from({ length: 7 }, () => "<i></i>").join("")}</span><span>Listening… release to stop</span></div>
       <label class="sr-only" for="workbench-chat-message">Message</label>
       <textarea id="workbench-chat-message" class="oc-agent-input" rows="1" placeholder="Send a message..." data-workbench-composer-input>${escapeHtml(draft)}</textarea>

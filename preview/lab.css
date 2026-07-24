@@ -1118,7 +1118,7 @@
   --oc-flow-marker-size: 2rem;
 
   display: grid;
-  width: min(100%, 44rem);
+  width: min(100%, 52rem);
   min-width: 36rem;
   grid-template-columns: repeat(3, minmax(8rem, 1fr));
   column-gap: var(--oc-flow-connector-gap);
@@ -6329,4 +6329,67 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
   margin-right: var(--oc-space-2);
   color: var(--oc-text-muted);
   vertical-align: -0.125em;
+}
+
+/* Response meta: duration, token, and model facts inline with the copy
+   affordance beneath an assistant message. */
+.oc-agent-message-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.oc-agent-message-meta .oc-agent-copy-button {
+  margin-left: auto;
+}
+
+.oc-agent-subagent-owner {
+  display: inline-flex;
+  align-items: center;
+  color: var(--oc-text-secondary);
+  font-weight: 600;
+}
+
+/* Workspace menu and panels ease open instead of snapping. */
+[data-sidebar-workspace-menu] {
+  transition:
+    opacity var(--oc-duration-fast) var(--oc-ease-out),
+    translate var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+[data-sidebar-workspace-menu][data-open="false"] {
+  opacity: 0;
+  translate: 0 -4px;
+  pointer-events: none;
+}
+
+[data-sidebar-workspace-menu][data-open="true"] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+[data-sidebar-workspace-panel] {
+  transition: opacity var(--oc-duration-base, 200ms) var(--oc-ease-out);
+}
+
+[data-sidebar-workspace-panel][data-active="false"] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-sidebar-workspace-menu],
+  [data-sidebar-workspace-panel] {
+    transition: none;
+    translate: 0 0;
+  }
+}
+
+.oc-agent-attachment-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-2) var(--oc-space-2) 0;
 }

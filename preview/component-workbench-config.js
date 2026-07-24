@@ -524,7 +524,6 @@ const definitions = {
       thinking: "high",
       fast: true,
       voice: "idle",
-      camera: false,
       modelProvider: "recent",
       modelQuery: "",
       draft: "",
@@ -575,11 +574,6 @@ const definitions = {
         type: "choice",
         options: applicationVoiceStates,
       },
-      {
-        id: "camera",
-        label: "Camera",
-        type: "toggle",
-      },
     ],
     markup(state) {
       return compactIconMarkup(agentChatWorkbenchMarkup(state));
@@ -626,7 +620,7 @@ const definitions = {
     },
   },
   "message-list": {
-    defaults: { status: "ready", copyToolbar: true },
+    defaults: { status: "ready", copyToolbar: true, meta: false },
     controls: [
       {
         id: "status",
@@ -637,6 +631,11 @@ const definitions = {
       {
         id: "copyToolbar",
         label: "Copy toolbar",
+        type: "toggle",
+      },
+      {
+        id: "meta",
+        label: "Response meta",
         type: "toggle",
       },
     ],
@@ -1012,7 +1011,7 @@ ${appSurfaceWorkbenchMarkup(state)}
     },
   },
   "primitive-table": {
-    defaults: { interactive: false, chrome: false, selected: false },
+    defaults: { interactive: false, chrome: false, selected: false, expandable: false },
     controls: [
       {
         id: "interactive",
@@ -1029,12 +1028,25 @@ ${appSurfaceWorkbenchMarkup(state)}
         label: "Rows selected",
         type: "toggle",
       },
+      {
+        id: "expandable",
+        label: "Expandable rows",
+        type: "toggle",
+      },
     ],
     markup: tableWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = tableWorkbenchMarkup(state);
     },
     bind(specimen) {
+      specimen.querySelectorAll("[data-workbench-table-expand]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const expanded = button.getAttribute("aria-expanded") === "true";
+          button.setAttribute("aria-expanded", String(!expanded));
+          const detail = button.closest("tr")?.nextElementSibling;
+          if (detail?.classList.contains("oc-table-expansion")) detail.hidden = expanded;
+        });
+      });
       specimen.querySelectorAll(".oc-table-interactive button").forEach((button) => {
         button.addEventListener("click", () => {
           const row = button.closest("tr");
