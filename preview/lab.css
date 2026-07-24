@@ -3445,6 +3445,14 @@ a.oc-layer-card-primary:hover {
   color: var(--oc-text-primary);
 }
 
+/* The model menu opens upward from the composer and can be taller than the
+   chat card; releasing overflow only while it is open keeps corner clipping
+   everywhere else but stops the menu from being cut off. */
+.oc-agent-chat:has(.oc-model-picker[open]),
+.component-workbench-stage:has(.oc-model-picker[open]) {
+  overflow: visible;
+}
+
 .oc-agent-chat[data-layout="compact"] {
   height: auto;
   max-height: none;
