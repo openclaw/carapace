@@ -6479,3 +6479,51 @@ body[data-preview-page="model-picker"] .oc-model-menu {
 
 .oc-provider-logo[data-logo-size="xs"] .oc-provider-logo-mark svg { width: 0.75rem; height: 0.75rem; }
 .oc-provider-logo[data-logo-size="xl"] .oc-provider-logo-mark svg { width: 2rem; height: 2rem; }
+
+/* ITEM 15: the composer always spans the chat card; primary actions pin to
+   the trailing edge so no dead gap opens at wide widths. */
+.oc-agent-chat .oc-agent-input-bar,
+.oc-agent-chat .oc-agent-input-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.oc-agent-input-toolbar {
+  width: 100%;
+}
+
+.oc-agent-input-actions {
+  margin-left: auto;
+}
+
+/* Voice model: dictate is hold-to-talk on the mic; talk mode is the live
+   session toggle. Give the two distinct affordances a visual pairing. */
+.oc-agent-input-tools [data-workbench-composer-talk][aria-pressed="true"] {
+  background: var(--oc-surface-accent-soft);
+  color: var(--oc-accent-primary);
+}
+
+/* ITEM 12/16: workspace switching settles instead of jumping — slower ease
+   on the menu, staggered panel fade-in. */
+[data-sidebar-workspace-menu] {
+  transition:
+    opacity 180ms var(--oc-ease-out),
+    translate 180ms var(--oc-ease-out);
+  will-change: opacity, translate;
+}
+
+[data-sidebar-workspace-menu][data-open="false"] {
+  translate: 0 -6px;
+}
+
+[data-sidebar-workspace-panel][data-active="true"] {
+  transition:
+    opacity 220ms var(--oc-ease-out) 60ms,
+    translate 220ms var(--oc-ease-out) 60ms;
+  translate: 0 0;
+}
+
+[data-sidebar-workspace-panel][data-active="false"] {
+  translate: 0 2px;
+  transition-delay: 0ms;
+}
