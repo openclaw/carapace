@@ -87,6 +87,8 @@ import {
   loaderWorkbenchMarkup,
   markdownExamples,
   markdownWorkbenchMarkup,
+  mcpAppLifecycleStates,
+  mcpAppWorkbenchMarkup,
   messageListWorkbenchMarkup,
   meterValues,
   meterWorkbenchMarkup,
@@ -736,6 +738,23 @@ const definitions = {
   "edit-tool": createToolWorkbenchDefinition("edit"),
   "generic-tool": createToolWorkbenchDefinition("generic"),
   "mcp-tool": createToolWorkbenchDefinition("mcp"),
+  "mcp-app": {
+    defaults: { state: "ready", branded: true },
+    controls: [
+      {
+        id: "state",
+        label: "Lifecycle",
+        type: "choice",
+        compare: "stack",
+        options: mcpAppLifecycleStates,
+      },
+      { id: "branded", label: "App accent", type: "toggle" },
+    ],
+    markup: mcpAppWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = mcpAppWorkbenchMarkup(state);
+    },
+  },
   "search-tool": createToolWorkbenchDefinition("search"),
   "thinking-tool": createToolWorkbenchDefinition("thinking"),
   "subagent-tool": createToolWorkbenchDefinition("subagent"),

@@ -1,3 +1,4 @@
+import { mcpAppDemoBody, mcpAppFrame, mcpAppState } from "./mcp-app.js";
 import { agentIcon } from "./agent-icons.js";
 import {
   attributedMessageMarkup,
@@ -2067,4 +2068,19 @@ export function avatarCatalogMarkup(state) {
   <div><small>States — presence dots, speaking and thinking rings, animated identity</small><div class="primitive-avatar-row">${["online", "busy", "offline"].map((presence) => `<span class="primitive-avatar-example">${avatarPlaygroundMarkup({ seed: state.seed ?? "Shelly", presence })}<span>${presence}</span></span>`).join("")}<span class="primitive-avatar-example">${avatarPlaygroundMarkup({ seed: state.seed ?? "Shelly", presence: "speaking" })}<span>speaking</span></span><span class="primitive-avatar-example">${avatarPlaygroundMarkup({ seed: state.seed ?? "Shelly", presence: "thinking" })}<span>thinking</span></span><span class="primitive-avatar-example">${avatarPlaygroundMarkup({ seed: state.seed ?? "Shelly", animated: true })}<span>animated</span></span></div></div>
   <div><small>Defaults and sources</small><div class="primitive-avatar-row"><span class="primitive-avatar-example"><span class="oc-avatar oc-avatar-pixel" role="img" aria-label="OpenClaw agent"><img class="oc-avatar-image" src="${clawAvatarUrl()}" alt="" width="40" height="40" /></span><span>Default</span></span><span class="primitive-avatar-example"><span class="oc-avatar" role="img" aria-label="OpenClaw"><span class="oc-avatar-fallback" aria-hidden="true">OC</span></span><span>Initials</span></span></div></div>
 </div>`;
+}
+
+export const mcpAppLifecycleStates = [
+  { label: "Ready", value: "ready" },
+  { label: "Loading", value: "loading" },
+  { label: "Consent", value: "blocked" },
+  { label: "Expired", value: "expired" },
+  { label: "Error", value: "error" },
+];
+
+export function mcpAppWorkbenchMarkup({ state = "ready", branded = true } = {}) {
+  const body = state === "ready" ? mcpAppDemoBody : mcpAppState(state);
+  // The branded case is what a validated app accent looks like once the host
+  // sets it on the frame; the unbranded case falls back to the OpenClaw accent.
+  return mcpAppFrame({ accent: branded ? "#7c5cff" : "", body });
 }

@@ -1,4 +1,5 @@
 import { agentIcon } from "./agent-icons.js";
+import { mcpAppDemoBody, mcpAppFrame } from "./mcp-app.js";
 
 const userAvatarUrl = new URL("./assets/user-vincentkoc.png", import.meta.url).href;
 import {
@@ -380,6 +381,43 @@ const components = {
   <div class="oc-agent-tool-row-panel"><div class="oc-agent-tool-card"><pre class="oc-agent-code-block" role="region" aria-label="MCP tool result" tabindex="0"><code>…</code></pre></div></div>
 </details>`,
     guidance: ["Use active verbs while running and completed verbs when done (Listing → Listed).", "Preview the most relevant arguments as the muted row detail.", "The consumer owns discovery, consent, credentials, invocation, and trust boundaries."],
+  },
+  "mcp-app": {
+    slug: "mcp-app",
+    title: "MCP App",
+    className: "oc-mcp-app",
+    lede: "Host chrome around a sandboxed embedded app: identity, server provenance, frame actions, and the lifecycle states the host owns while the app owns everything inside the body.",
+    previewTitle: "Embedded app frame",
+    preview: mcpAppFrame({ accent: "#7c5cff", body: mcpAppDemoBody }),
+    markup: `<section class="oc-mcp-app">
+  <header class="oc-mcp-app-header">
+    <div class="oc-mcp-app-identity">
+      <span class="oc-mcp-app-mark" aria-hidden="true">…</span>
+      <span class="oc-mcp-app-name">Table Booking</span>
+      <span class="oc-mcp-app-origin">reservations</span>
+    </div>
+    <div class="oc-mcp-app-actions">
+      <button type="button" aria-label="Reload app">…</button>
+      <button type="button" aria-label="Expand app">…</button>
+    </div>
+  </header>
+  <div class="oc-mcp-app-body oc-embed-tokens"><!-- sandboxed app document --></div>
+</section>
+
+<!-- Lifecycle states replace the body and keep the frame dimensionally stable. -->
+<div class="oc-mcp-app-state" data-state="blocked" role="status">
+  <span aria-hidden="true">…</span>
+  <span class="oc-mcp-app-state-title">Let this app run?</span>
+  <span class="oc-mcp-app-state-copy">Reservations wants to render an interactive surface.</span>
+  <div class="oc-mcp-app-state-actions">…</div>
+</div>`,
+    guidance: [
+      "Keep the frame, header, provenance, and lifecycle states host-owned so every installed app reads as one system.",
+      "Name the originating server in the header; provenance is the trust signal for a surface the host did not author.",
+      "Let an app spend its declared accent on primary actions and identity only, and validate its contrast against host surfaces before applying it.",
+      "Replace the body for loading, failure, expiry, and consent rather than resizing the frame, so a transcript never reflows around a recovering app.",
+      "The consumer owns sandboxing, iframe permissions, lease renewal, consent persistence, and destructive-action approval.",
+    ],
   },
   "input-bar": {
     slug: "input-bar",
