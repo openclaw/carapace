@@ -1,5 +1,5 @@
 import { agentIcon } from "./agent-icons.js";
-import { mcpAppDemoBody, mcpAppFrame } from "./mcp-app.js";
+import { mcpAppBrand, mcpAppDemoBody, mcpAppFrame } from "./mcp-app.js";
 
 const userAvatarUrl = new URL("./assets/user-vincentkoc.png", import.meta.url).href;
 import {
@@ -388,7 +388,7 @@ const components = {
     className: "oc-mcp-app",
     lede: "Host chrome around a sandboxed embedded app: identity, server provenance, frame actions, and the lifecycle states the host owns while the app owns everything inside the body.",
     previewTitle: "Embedded app frame",
-    preview: mcpAppFrame({ accent: "#7c5cff", body: mcpAppDemoBody }),
+    preview: mcpAppFrame({ ...mcpAppBrand, body: mcpAppDemoBody }),
     markup: `<section class="oc-mcp-app">
   <header class="oc-mcp-app-header">
     <div class="oc-mcp-app-identity">

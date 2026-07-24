@@ -3923,10 +3923,13 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
 
 .oc-mcp-app {
   /* Branding slot. The embedded app declares an accent, the host validates it
-     and sets this property on the frame. It stays on the chrome because the
-     transported MCP style record is a closed key set that cannot carry an
-     OpenClaw name. Unbranded apps fall back to the OpenClaw accent. */
+     and sets these properties on the frame. They stay on the chrome because
+     the transported MCP style record is a closed key set that cannot carry an
+     OpenClaw name. The pair travels together: an accent the host cannot put a
+     legible foreground on is unusable, so a host that overrides one overrides
+     both. Unbranded apps fall back to the OpenClaw accent. */
   --oc-app-accent: var(--oc-accent-primary);
+  --oc-app-accent-contrast: var(--oc-text-on-accent);
 
   display: flex;
   overflow: hidden;
@@ -4088,9 +4091,9 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
   }
 }
 
-/* Specimen only: a miniature embedded app painted entirely through the embed
-   contract variables, so the frame demonstrates what a themed app inherits
-   from the host and what it keeps for itself. */
+/* Specimen only: a miniature embedded app painted through the embed contract
+   variables plus the branding slot it inherits from the frame, so the frame
+   demonstrates what a themed app takes from the host and what stays its own. */
 
 .oc-mcp-app-demo {
   display: grid;
@@ -4136,7 +4139,7 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
 .oc-mcp-app-demo-actions button.is-brand {
   border-color: transparent;
   background: var(--oc-app-accent);
-  color: var(--oc-text-on-accent);
+  color: var(--oc-app-accent-contrast);
 }
 
 /* Bash tool */

@@ -3,13 +3,27 @@
 // an import cycle through the workbench config.
 import { agentIcon } from "./agent-icons.js";
 
+// A declared brand accent is only usable with a foreground the host can put on
+// it, so the specimen carries the pair a host would resolve together. This one
+// clears AA on the accent it ships with; the frame default cannot, because
+// --oc-text-on-accent is tuned for the OpenClaw accent rather than an
+// arbitrary third-party one.
+export const mcpAppBrand = { accent: "#6d28d9", accentContrast: "#ffffff" };
+
 export function mcpAppFrame({
   name = "Table Booking",
   origin = "reservations",
   accent = "",
+  accentContrast = "",
   body = "",
 } = {}) {
-  const style = accent ? ` style="--oc-app-accent: ${accent}"` : "";
+  const custom = [
+    accent ? `--oc-app-accent: ${accent}` : "",
+    accentContrast ? `--oc-app-accent-contrast: ${accentContrast}` : "",
+  ]
+    .filter(Boolean)
+    .join("; ");
+  const style = custom ? ` style="${custom}"` : "";
   return `<section class="oc-mcp-app"${style}>
     <header class="oc-mcp-app-header">
       <div class="oc-mcp-app-identity">

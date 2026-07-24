@@ -1,4 +1,4 @@
-import { mcpAppDemoBody, mcpAppFrame, mcpAppState } from "./mcp-app.js";
+import { mcpAppBrand, mcpAppDemoBody, mcpAppFrame, mcpAppState } from "./mcp-app.js";
 import { agentIcon } from "./agent-icons.js";
 import {
   attributedMessageMarkup,
@@ -2082,5 +2082,5 @@ export function mcpAppWorkbenchMarkup({ state = "ready", branded = true } = {}) 
   const body = state === "ready" ? mcpAppDemoBody : mcpAppState(state);
   // The branded case is what a validated app accent looks like once the host
   // sets it on the frame; the unbranded case falls back to the OpenClaw accent.
-  return mcpAppFrame({ accent: branded ? "#7c5cff" : "", body });
+  return mcpAppFrame(branded ? { ...mcpAppBrand, body } : { body });
 }
