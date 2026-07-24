@@ -148,6 +148,45 @@ const components = {
 </div>`,
     guidance: ["Keep the row to one line: icon, name, then truncated detail.", "Swap the label for a text shimmer while the call is pending.", "The consumer owns approval, cancellation, execution, streaming, and error handling."],
   },
+  approval: {
+    slug: "approval",
+    title: "Approval",
+    className: "oc-approval-card",
+    lede: "A decision card for agent permission requests: command preview, risk framing, and explicit allow or deny actions, with additional requests queued below.",
+    previewTitle: "Pending approval with a queue",
+    preview: `<div class="oc-approval-queue" style="max-width: 34rem;">
+  <article class="oc-approval-card" data-state="pending">
+    <header class="oc-approval-header">${agentIcon("shield-check")}<h3 class="oc-approval-title">Run command</h3><time>now</time></header>
+    <p class="oc-approval-sub">Personal agent · session Carapace parity</p>
+    <code class="oc-approval-command">git push origin feat/app-surface-parity</code>
+    <dl class="oc-approval-meta">
+      <dt>Host</dt><dd>vincent-mbp.local</dd>
+      <dt>Directory</dt><dd>~/Projects/carapace</dd>
+    </dl>
+    <div class="oc-approval-warning">${agentIcon("triangle-alert")}<span>Pushes to a shared remote branch.</span></div>
+    <div class="oc-approval-actions">
+      <button class="oc-action oc-action-ghost" type="button">Deny</button>
+      <button class="oc-action oc-action-secondary" type="button">Allow always</button>
+      <button class="oc-action oc-action-primary" type="button">Allow once</button>
+    </div>
+    <p class="oc-approval-resolution">${agentIcon("check")}<span>Approved by Vincent · applies to this session</span></p>
+  </article>
+  <div class="oc-approval-queue-header"><span>2 more waiting</span><button class="oc-action oc-action-ghost" type="button">Review all</button></div>
+  <div class="oc-approval-queue-item">${agentIcon("terminal")}<code>bun run check</code><time>12s</time></div>
+  <div class="oc-approval-queue-item">${agentIcon("globe")}<code>fetch https://docs.openclaw.ai/tools</code><time>31s</time></div>
+</div>`,
+    markup: `<article class="oc-approval-card" data-state="pending">
+  <header class="oc-approval-header">…<h3 class="oc-approval-title">Run command</h3><time>now</time></header>
+  <p class="oc-approval-sub">Personal agent · session Carapace parity</p>
+  <code class="oc-approval-command">git push origin feat/app-surface-parity</code>
+  <div class="oc-approval-warning">…<span>Pushes to a shared remote branch.</span></div>
+  <div class="oc-approval-actions">
+    <button class="oc-action oc-action-ghost" type="button">Deny</button>
+    <button class="oc-action oc-action-primary" type="button">Allow once</button>
+  </div>
+</article>`,
+    guidance: ["State exactly what will run; never summarize the command away.", "Keep deny reachable without scrolling and visually quieter than allow.", "Resolved cards keep the command visible as the transcript record.", "Queue further requests below the active decision instead of stacking modals.", "The consumer owns approval policy, scope persistence, and transport."],
+  },
   "error-message": {
     slug: "error-message",
     title: "Error Message",

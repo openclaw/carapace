@@ -403,6 +403,12 @@ export const referenceAreas = [
     path: "agent-components/agent-chat/",
     pages: [
       {
+        id: "approval",
+        label: "Approval",
+        path: "agent-components/approval/",
+        keywords: "oc-approval-card permission allow deny exec command queue risk",
+      },
+      {
         id: "agent-chat",
         label: "Agent Chat",
         path: "agent-components/agent-chat/",
