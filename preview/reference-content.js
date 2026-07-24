@@ -16,6 +16,7 @@ import {
 } from "./component-reference.js";
 import {
   appSurfaceWorkbenchMarkup,
+  brandBannerWorkbenchMarkup,
   collapsibleWorkbenchMarkup,
   flowWorkbenchMarkup,
   meterWorkbenchMarkup,
@@ -616,6 +617,14 @@ resolveAvatarUrl(session.ownerName);`, "js")}
     </section>
     <section data-section-kind="markup" aria-labelledby="provider-logo-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="provider-logo-markup">Bring the asset from the consumer</h2></div></div>${codeBlock(`<button class="oc-provider-logo" type="button">\n  <span class="oc-provider-logo-mark" aria-hidden="true">\n    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">…</svg>\n  </span>\n  <span>Provider</span>\n</button>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="provider-logo-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="provider-logo-guidance">Preserve source brand rules</h2></div></div>${guidanceList(["Keep trademarked artwork in the consumer repository; preview marks are demo-only.", "Keep the base mark boxless. Add .oc-provider-logo-framed only when a surrounding surface needs containment.", "Use interactive wrappers for hover, focus, and selected states; passive brand lockups should not imply a click.", "Do not recolor multicolor marks unless the provider explicitly permits it."])}</section>`,
+
+  "primitive-brand-banner": () =>
+    `${pageIntro("Interface primitive", "Brand Banner", "A reusable artwork band: asset, anchor, and effect belong to the banner; copy and actions stay consumer-owned.")}
+    <section data-section-kind="preview" aria-labelledby="brand-banner-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="brand-banner-preview">Artwork band</h2></div><span class="oc-pill">.oc-brand-banner</span></div>
+      <div class="specimen-frame oc-app-surface">${brandBannerWorkbenchMarkup()}</div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="brand-banner-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="brand-banner-markup">Art layer plus consumer content</h2></div></div>${codeBlock(`<section class="oc-brand-banner" data-asset="crab" data-anchor="top" data-effect="fade" data-size="hero">\n  <div class="oc-brand-banner-art" aria-hidden="true">\n    <img src="banner-artwork.avif" alt="" />\n  </div>\n  <div class="oc-brand-banner-content">\n    <p class="oc-eyebrow">OpenClaw design system</p>\n    <h1>Carapace</h1>\n    <p>Consumer-owned copy.</p>\n  </div>\n</section>`, "html")}</section>
+    <section data-section-kind="guidance" aria-labelledby="brand-banner-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="brand-banner-guidance">One band, many assets</h2></div></div>${guidanceList(["Anchor the art so the focal point never clips: the crustacean artwork is top-anchored, photography is usually bottom-anchored.", "Use the fade effect whenever copy sits on the band; wash and grid are decorative and need high-contrast content.", "The strip size is for section headers and empty states; reserve the hero size for page-level introductions.", "Ship real assets from the consumer; the mosaic and mark variants show how generated identity art can fill the band."])}</section>`,
 
   "primitive-hero": () =>
     `${pageIntro("Interface primitive", "Hero", "A centered introduction with explicit title and supporting-copy roles.")}

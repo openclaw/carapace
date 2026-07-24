@@ -333,6 +333,12 @@ export const referenceAreas = [
         keywords: "oc-hovercard oc-lightbox link preview reference attachment dialog",
       },
       {
+        id: "primitive-brand-banner",
+        label: "Brand Banner",
+        path: "interface/primitives/brand-banner/",
+        keywords: "oc-brand-banner artwork band hero strip fade wash grid mosaic mark",
+      },
+      {
         id: "primitive-hero",
         label: "Hero",
         path: "interface/primitives/hero/",

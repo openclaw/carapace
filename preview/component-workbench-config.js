@@ -71,6 +71,7 @@ import {
   gridColumns,
   gridItemCounts,
   gridWorkbenchMarkup,
+  brandBannerWorkbenchMarkup,
   heroWorkbenchMarkup,
   inputAreaStates,
   inputAreaWorkbenchMarkup,
@@ -1120,6 +1121,59 @@ ${appSurfaceWorkbenchMarkup(state)}
     markup: gridWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = gridWorkbenchMarkup(state);
+    },
+  },
+  "primitive-brand-banner": {
+    defaults: { asset: "crab", anchor: "top", effect: "fade", size: "hero", content: true },
+    controls: [
+      {
+        id: "asset",
+        label: "Asset",
+        type: "choice",
+        options: [
+          { label: "Crab artwork", value: "crab" },
+          { label: "Identity mosaic", value: "mosaic" },
+          { label: "OpenClaw mark", value: "mark" },
+        ],
+      },
+      {
+        id: "anchor",
+        label: "Anchor",
+        type: "choice",
+        options: [
+          { label: "Top", value: "top" },
+          { label: "Bottom", value: "bottom" },
+        ],
+      },
+      {
+        id: "effect",
+        label: "Effect",
+        type: "choice",
+        options: [
+          { label: "Fade", value: "fade" },
+          { label: "Accent wash", value: "wash" },
+          { label: "Dot grid", value: "grid" },
+          { label: "None", value: "none" },
+        ],
+      },
+      {
+        id: "size",
+        label: "Size",
+        type: "choice",
+        options: [
+          { label: "Hero", value: "hero" },
+          { label: "Strip", value: "strip" },
+        ],
+      },
+      {
+        id: "content",
+        label: "Content",
+        type: "toggle",
+      },
+    ],
+    markup: brandBannerWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = brandBannerWorkbenchMarkup(state);
     },
   },
   "primitive-hero": {

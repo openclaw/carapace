@@ -5470,3 +5470,123 @@
   color: var(--oc-text-primary);
   font-weight: 600;
 }
+/* Brand banner: a reusable artwork band. The banner owns the asset layer,
+   anchoring, and effect; content stays consumer-owned above it. */
+.oc-brand-banner {
+  position: relative;
+  display: grid;
+  min-height: 16rem;
+  align-content: end;
+  overflow: hidden;
+  padding: var(--oc-space-6);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-surface);
+}
+
+.oc-brand-banner[data-size="strip"] {
+  min-height: 7.5rem;
+  padding: var(--oc-space-4) var(--oc-space-6);
+}
+
+.oc-brand-banner-art {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.oc-brand-banner-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  opacity: 0.82;
+}
+
+.oc-brand-banner[data-anchor="top"] .oc-brand-banner-art img {
+  object-position: 50% 0%;
+}
+
+.oc-brand-banner[data-anchor="bottom"] .oc-brand-banner-art img {
+  object-position: 50% 100%;
+}
+
+/* Fade dissolves the art toward the content edge so copy stays legible. */
+.oc-brand-banner[data-effect="fade"][data-anchor="top"] .oc-brand-banner-art img {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 36%, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 36%, transparent 78%);
+}
+
+.oc-brand-banner[data-effect="fade"][data-anchor="bottom"] .oc-brand-banner-art img {
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 36%, transparent 78%);
+  mask-image: linear-gradient(to top, #000 0%, #000 36%, transparent 78%);
+}
+
+.oc-brand-banner[data-effect="wash"] .oc-brand-banner-art::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--oc-accent-primary) 38%, transparent),
+    transparent 55%,
+    color-mix(in srgb, var(--oc-accent-primary) 18%, transparent)
+  );
+  content: "";
+}
+
+.oc-brand-banner[data-effect="grid"] .oc-brand-banner-art::after {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--oc-bg-surface) 82%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 6px 6px;
+  content: "";
+}
+
+/* The mark asset floats as a pixel emblem instead of covering the band. */
+.oc-brand-banner[data-asset="mark"] .oc-brand-banner-art img {
+  inset: auto var(--oc-space-6) auto auto;
+  top: 50%;
+  width: auto;
+  height: 72%;
+  image-rendering: pixelated;
+  opacity: 0.5;
+  transform: translateY(-50%);
+}
+
+/* Mosaic tiles the generated identities into a pixel band. */
+.oc-brand-banner[data-asset="mosaic"] .oc-brand-banner-art {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.oc-brand-banner[data-asset="mosaic"] .oc-brand-banner-art img {
+  position: static;
+  image-rendering: pixelated;
+  opacity: 0.45;
+}
+
+.oc-brand-banner-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  max-width: 36rem;
+  gap: var(--oc-space-2);
+}
+
+.oc-brand-banner-content h3 {
+  margin: 0;
+  font-size: var(--oc-font-size-2xl);
+}
+
+.oc-brand-banner-content p {
+  margin: 0;
+  color: var(--oc-text-secondary);
+}

@@ -782,6 +782,45 @@ export function sidebarWorkbenchMarkup({
 </aside>`;
 }
 
+export const brandBannerCast = [
+  "Shelly",
+  "Barnacle",
+  "Scampi",
+  "Krill",
+  "Pincer",
+  "Scuttle",
+  "Mantis",
+  "Krabby",
+];
+
+export function brandBannerWorkbenchMarkup({
+  asset = "crab",
+  anchor = "top",
+  effect = "fade",
+  size = "hero",
+  content = true,
+} = {}) {
+  const art =
+    asset === "mosaic"
+      ? brandBannerCast
+          .map((seed) => `<img src="${avatarFixtureUrl(seed)}" alt="" />`)
+          .join("")
+      : asset === "mark"
+        ? `<img src="${interactiveOpenClawMarkUrl}" alt="" />`
+        : `<img src="${interactiveArtifactUrl}" alt="" />`;
+  const contentMarkup = content
+    ? `<div class="oc-brand-banner-content">
+    <p class="oc-eyebrow">OpenClaw design system</p>
+    <h3>Carapace</h3>
+    <p>A reusable artwork band: the asset and effect belong to the banner, the copy and actions stay consumer-owned.</p>
+  </div>`
+    : "";
+  return `<section class="oc-brand-banner" data-asset="${asset}" data-anchor="${anchor}" data-effect="${effect}" data-size="${size}">
+  <div class="oc-brand-banner-art" aria-hidden="true">${art}</div>
+  ${contentMarkup}
+</section>`;
+}
+
 export function heroWorkbenchMarkup({ lede = true, actions = false } = {}) {
   const ledeMarkup = lede
     ? '\n  <p class="oc-hero-lede">A shared visual introduction with consumer-owned content and actions.</p>'
