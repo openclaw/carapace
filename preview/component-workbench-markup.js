@@ -55,6 +55,7 @@ export const inputGroupAddons = [
   { label: "Prefix", value: "prefix" },
   { label: "Suffix", value: "suffix" },
   { label: "Both", value: "both" },
+  { label: "Stepper", value: "stepper" },
 ];
 
 export const inputGroupStates = [
@@ -873,6 +874,20 @@ export function inputGroupWorkbenchMarkup({
 } = {}) {
   const selectedAddon = inputGroupAddons.some(({ value }) => value === addon) ? addon : "prefix";
   const selectedState = inputGroupStates.some(({ value }) => value === state) ? state : "default";
+  if (selectedAddon === "stepper") {
+    const stepperDisabled = selectedState === "disabled" ? " disabled" : "";
+    const stepperMessage = message
+      ? `\n  <span class="oc-field-message" id="workbench-stepper-message">Between 1 and 16 concurrent agents.</span>`
+      : "";
+    return `<div class="oc-field">
+  <label class="oc-field-label" for="workbench-stepper">Parallel agents</label>
+  <span class="oc-input-group oc-input-group-stepper">
+    <button class="oc-input-group-step" type="button" aria-label="Decrease"${stepperDisabled}><i data-lucide="minus" aria-hidden="true"></i></button>
+    <input class="oc-input" id="workbench-stepper" name="workbench-stepper" type="number" inputmode="numeric" value="4" min="1" max="16"${message ? ' aria-describedby="workbench-stepper-message"' : ""}${stepperDisabled} />
+    <button class="oc-input-group-step" type="button" aria-label="Increase"${stepperDisabled}><i data-lucide="plus" aria-hidden="true"></i></button>
+  </span>${stepperMessage}
+</div>`;
+  }
   const examples = {
     prefix: {
       label: "Repository",

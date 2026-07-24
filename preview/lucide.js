@@ -63,6 +63,7 @@ import MessageCircleMore from "lucide/dist/esm/icons/message-circle-more.mjs";
 import MessageSquare from "lucide/dist/esm/icons/message-square.mjs";
 import MessagesSquare from "lucide/dist/esm/icons/messages-square.mjs";
 import Mic from "lucide/dist/esm/icons/mic.mjs";
+import Minus from "lucide/dist/esm/icons/minus.mjs";
 import Monitor from "lucide/dist/esm/icons/monitor.mjs";
 import Moon from "lucide/dist/esm/icons/moon.mjs";
 import MousePointer2 from "lucide/dist/esm/icons/mouse-pointer-2.mjs";
@@ -166,6 +167,7 @@ const icons = {
   "message-square": MessageSquare,
   "messages-square": MessagesSquare,
   mic: Mic,
+  minus: Minus,
   monitor: Monitor,
   moon: Moon,
   "mouse-pointer-2": MousePointer2,

@@ -6248,3 +6248,57 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
   border-radius: inherit;
   background: var(--oc-accent-primary);
 }
+
+/* Stepper group: paired decrement and increment controls around a numeric
+   value; native spinners hide so the buttons are the one adjust path. */
+.oc-input-group-stepper .oc-input {
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.oc-input-group-stepper .oc-input::-webkit-inner-spin-button,
+.oc-input-group-stepper .oc-input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.oc-input-group-step {
+  display: inline-grid;
+  width: 2.5rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  background: var(--oc-bg-surface);
+  color: var(--oc-text-secondary);
+  cursor: pointer;
+}
+
+.oc-input-group-step:first-child {
+  border-right: 1px solid var(--oc-border-subtle);
+}
+
+.oc-input-group-step:last-child {
+  border-left: 1px solid var(--oc-border-subtle);
+}
+
+.oc-input-group-step:hover:not(:disabled) {
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-primary);
+}
+
+.oc-input-group-step:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
+.oc-input-group-step:disabled {
+  color: var(--oc-text-inactive);
+  cursor: default;
+}
+
+.oc-input-group-step [data-lucide],
+.oc-input-group-step svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}

@@ -258,6 +258,7 @@ describe("workbench schema contracts", () => {
           { label: "Prefix", value: "prefix" },
           { label: "Suffix", value: "suffix" },
           { label: "Both", value: "both" },
+          { label: "Stepper", value: "stepper" },
         ],
       },
       {
@@ -314,6 +315,10 @@ describe("workbench schema contracts", () => {
         {
           label: "Both",
           state: { addon: "both", state: "default", message: true },
+        },
+        {
+          label: "Stepper",
+          state: { addon: "stepper", state: "default", message: true },
         },
       ],
     });
