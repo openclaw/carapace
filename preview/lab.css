@@ -4597,7 +4597,9 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
 /* Composer */
 
 .oc-agent-input-bar {
+  display: grid;
   width: min(100%, 42rem);
+  gap: var(--oc-space-2);
 }
 
 .oc-agent-input-container {
@@ -4615,6 +4617,9 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
 
 .oc-agent-input {
   min-height: 2.75rem;
+  /* Long drafts grow to the cap, then scroll inside; the binder autosizes. */
+  max-height: 11rem;
+  overflow-y: auto;
   padding: var(--oc-space-3) var(--oc-space-4) var(--oc-space-1);
   border: 0;
   background: transparent;

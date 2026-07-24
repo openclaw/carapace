@@ -138,9 +138,11 @@ export function applicationComposerPrimaryMarkup({
       }
     </div>`;
   }
+  /* Send stays anchored at the far right; the mic sits to its left. The
+     binder enables send once a draft exists instead of swapping buttons. */
   return `<div class="oc-composer-primary-actions">
-    <button class="oc-composer-primary-button" type="submit" aria-label="Send message" data-workbench-composer-send hidden>${agentIcon("arrow-up")}</button>
     <button class="oc-composer-primary-button is-dictation" type="button" aria-label="Hold to dictate" aria-pressed="false" data-workbench-composer-dictation>${agentIcon("mic")}</button>
+    <button class="oc-composer-primary-button" type="submit" aria-label="Send message" data-workbench-composer-send disabled>${agentIcon("arrow-up")}</button>
   </div>`;
 }
 

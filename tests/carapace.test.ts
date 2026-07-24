@@ -355,6 +355,8 @@ describe("CSS contract", () => {
       ".oc-command-palette-status",
       ".oc-composer-camera-person",
       ".oc-composer-camera-preview",
+      ".oc-composer-context",
+      ".oc-composer-context-chip",
       ".oc-composer-camera-toggle",
       ".oc-composer-dictation-status",
       ".oc-composer-primary-actions",

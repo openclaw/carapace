@@ -2079,6 +2079,15 @@
   opacity: 0.88;
 }
 
+.oc-composer-primary-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.oc-composer-primary-button:disabled:hover {
+  opacity: 0.4;
+}
+
 .oc-composer-primary-button.is-dictation {
   background: var(--oc-surface-interactive);
   color: var(--oc-text-secondary);
@@ -5589,4 +5598,37 @@
 .oc-brand-banner-content p {
   margin: 0;
   color: var(--oc-text-secondary);
+}
+/* Working context: project, machine, and branch chips above the composer.
+   Mirrors the openclaw link/pull flow for Codex- and Claude-backed work. */
+.oc-composer-context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--oc-space-1);
+}
+
+.oc-composer-context-chip {
+  display: inline-flex;
+  min-height: 1.625rem;
+  align-items: center;
+  gap: var(--oc-space-1);
+  padding: 0 var(--oc-space-2);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-surface-interactive);
+  color: var(--oc-text-secondary);
+  font: inherit;
+  font-size: 0.6875rem;
+  cursor: pointer;
+}
+
+.oc-composer-context-chip:hover {
+  background: var(--oc-surface-interactive-hover);
+  color: var(--oc-text-primary);
+}
+
+.oc-composer-context-chip :is(svg, [data-lucide]) {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: var(--oc-text-muted);
 }

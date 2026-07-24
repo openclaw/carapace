@@ -961,6 +961,7 @@ describe("workbench schema contracts", () => {
         ],
       },
       { id: "copyToolbar", type: "toggle" },
+      { id: "project", type: "toggle" },
       {
         id: "voice",
         type: "choice",

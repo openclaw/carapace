@@ -281,13 +281,13 @@ describe("application surface behavior", () => {
     bindApplicationComposer(specimen, { voice: "idle", camera: false }, (id, value) =>
       updates.push([id, value]),
     );
-    expect(send.hidden).toBe(true);
-    expect(dictation.hidden).toBe(false);
+    expect(send.disabled).toBe(true);
 
     input.value = "Ship the compact composer";
     input.dispatchEvent(new Event("input"));
-    expect(send.hidden).toBe(false);
-    expect(dictation.hidden).toBe(true);
+    expect(send.disabled).toBe(false);
+    // The mic keeps its slot on the left of send instead of swapping out.
+    expect(dictation.hidden).toBe(false);
 
     input.value = "";
     input.dispatchEvent(new Event("input"));

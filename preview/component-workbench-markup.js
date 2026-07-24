@@ -1921,6 +1921,7 @@ export function agentChatWorkbenchMarkup({
   modelProvider = "recent",
   modelQuery = "",
   draft = "",
+  project = true,
 } = {}) {
   const isEmpty = status !== "error" && (example === "empty" || example === "suggestions");
   const transcriptMode =
@@ -1950,7 +1951,15 @@ export function agentChatWorkbenchMarkup({
       : "";
   const isBusy = status === "streaming" || status === "submitted";
   const action = applicationComposerPrimaryMarkup({ busy: isBusy, voice, camera: false });
+  const projectContext = project
+    ? `<div class="oc-composer-context" aria-label="Working context">
+        <button class="oc-composer-context-chip" type="button">${agentIcon("folder-git-2")}<span>openclaw</span></button>
+        <button class="oc-composer-context-chip" type="button">${agentIcon("monitor")}<span>Local</span></button>
+        <button class="oc-composer-context-chip" type="button">${agentIcon("git-branch")}<span>main</span></button>
+      </div>`
+    : "";
   const composer = `<form class="oc-agent-input-bar" data-workbench-chat-form>
+    ${projectContext}
     <div class="oc-agent-input-container">
       ${attachments}
       <div class="oc-composer-dictation-status" data-workbench-composer-dictation-status hidden aria-live="polite"><span class="oc-composer-voice-bars" data-state="listening" aria-hidden="true">${Array.from({ length: 7 }, () => "<i></i>").join("")}</span><span>Listening… release to stop</span></div>

@@ -238,16 +238,22 @@ export function bindApplicationComposer(specimen, state, update) {
   const dictation = specimen.querySelector("[data-workbench-composer-dictation]");
   const dictationStatus = specimen.querySelector("[data-workbench-composer-dictation-status]");
   const syncPrimaryAction = () => {
-    const hasDraft = Boolean(input?.value.trim());
-    if (send) send.hidden = !hasDraft;
-    if (dictation) dictation.hidden = hasDraft;
+    if (send) send.disabled = !input?.value.trim();
+  };
+  /* Grow with the draft up to a cap, then scroll inside the textarea. */
+  const autosize = () => {
+    if (!input?.style) return;
+    input.style.height = "auto";
+    input.style.height = `${Math.min(input.scrollHeight, 176)}px`;
   };
 
   input?.addEventListener("input", () => {
     update("draft", input.value, { render: false });
     syncPrimaryAction();
+    autosize();
   });
   syncPrimaryAction();
+  autosize();
 
   specimen.querySelectorAll("[data-workbench-composer-talk]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -526,6 +532,7 @@ const definitions = {
       example: "multi-user",
       status: "ready",
       copyToolbar: false,
+      project: true,
       model: "openai/gpt-5.5",
       picker: false,
       thinking: "high",
@@ -551,6 +558,11 @@ const definitions = {
       {
         id: "copyToolbar",
         label: "Copy toolbar",
+        type: "toggle",
+      },
+      {
+        id: "project",
+        label: "Project context",
         type: "toggle",
       },
       {
