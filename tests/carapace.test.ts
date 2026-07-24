@@ -226,20 +226,10 @@ describe("CSS contract", () => {
       ".oc-activity-list",
       ".oc-activity-marker",
       ".oc-agent-collaboration",
-      ".oc-agent-collaboration-author",
       ".oc-agent-collaboration-facepile",
-      ".oc-agent-collaboration-footer",
-      ".oc-agent-collaboration-header",
-      ".oc-agent-collaboration-heading",
-      ".oc-agent-collaboration-kicker",
-      ".oc-agent-collaboration-lead",
       ".oc-agent-collaboration-presence",
-      ".oc-agent-collaboration-role",
       ".oc-agent-collaboration-stream",
       ".oc-agent-collaboration-summary",
-      ".oc-agent-collaboration-status",
-      ".oc-agent-collaboration-tasks",
-      ".oc-agent-collaboration-update",
       ".oc-agent-attributed-message",
       ".oc-agent-chat",
       ".oc-agent-message-author",
@@ -260,7 +250,6 @@ describe("CSS contract", () => {
       ".oc-agent-interactive-state",
       ".oc-agent-interactive-tool",
       ".oc-agent-interactive-tool-row",
-      ".oc-app-command",
       ".oc-app-content",
       ".oc-app-frame",
       ".oc-app-main",
@@ -280,24 +269,16 @@ describe("CSS contract", () => {
       ".oc-app-navigation-item-label",
       ".oc-app-navigation-label",
       ".oc-app-navigation-list",
-      ".oc-app-navigation-mark",
       ".oc-app-navigation-meta",
       ".oc-app-navigation-presence",
       ".oc-app-navigation-section",
       ".oc-app-navigation-title",
-      ".oc-app-profile",
       ".oc-app-resource-list",
       ".oc-app-resource-list-copy",
       ".oc-app-resource-list-icon",
       ".oc-app-resource-list-item",
       ".oc-app-resource-list-meta",
       ".oc-app-resource-search",
-      ".oc-app-toolbar",
-      ".oc-app-toolbar-actions",
-      ".oc-app-toolbar-context",
-      ".oc-app-toolbar-detail",
-      ".oc-app-toolbar-divider",
-      ".oc-app-toolbar-label",
       ".oc-avatar",
       ".oc-avatar-fallback",
       ".oc-avatar-image",
@@ -321,16 +302,9 @@ describe("CSS contract", () => {
       ".oc-detail-grid",
       ".oc-detail-grid-span",
       ".oc-detail-header",
-      ".oc-detail-kicker",
       ".oc-detail-section",
       ".oc-detail-section-icon",
-      ".oc-fast-mode",
       ".oc-field",
-      ".oc-identity-copy",
-      ".oc-identity-kicker",
-      ".oc-identity-mark",
-      ".oc-identity-meta",
-      ".oc-identity-panel",
       ".oc-inspector-activity",
       ".oc-inspector-facts",
       ".oc-inspector-files",
@@ -340,7 +314,6 @@ describe("CSS contract", () => {
       ".oc-master-detail",
       ".oc-master-pane",
       ".oc-model-check",
-      ".oc-model-control",
       ".oc-model-controls",
       ".oc-model-menu",
       ".oc-model-menu-footer",
@@ -378,14 +351,10 @@ describe("CSS contract", () => {
       ".oc-pane-body",
       ".oc-pane-body-flush",
       ".oc-pane-description",
-      ".oc-pane-footer",
       ".oc-pane-header",
       ".oc-pane-header-identity",
       ".oc-pane-heading",
       ".oc-pane-identity-icon",
-      ".oc-pane-layout",
-      ".oc-pane-layout-tight",
-      ".oc-pane-split",
       ".oc-pane-state",
       ".oc-pane-title",
       ".oc-pane-title-row",
@@ -394,15 +363,12 @@ describe("CSS contract", () => {
       ".oc-quick-chat-agent",
       ".oc-quick-chat-composer",
       ".oc-quick-chat-context",
-      ".oc-quick-chat-footer",
       ".oc-quick-chat-header",
       ".oc-quick-chat-input-row",
-      ".oc-quick-chat-mark",
       ".oc-quick-chat-reply",
       ".oc-quick-chat-send",
       ".oc-quick-chat-stage",
       ".oc-quick-chat-toolbar",
-      ".oc-quick-chat-tools",
       ".oc-search-field",
       ".oc-segmented",
       ".oc-select-wrap",
@@ -426,18 +392,14 @@ describe("CSS contract", () => {
       ".oc-settings-navigation-item",
       ".oc-settings-navigation-kicker",
       ".oc-settings-navigation-list",
-      ".oc-settings-page",
       ".oc-settings-row",
       ".oc-settings-row-content",
       ".oc-settings-row-control",
       ".oc-settings-row-description",
-      ".oc-settings-row-interactive",
       ".oc-settings-row-stacked",
       ".oc-settings-row-title",
       ".oc-settings-search",
       ".oc-settings-section",
-      ".oc-settings-section-actions",
-      ".oc-settings-section-description",
       ".oc-settings-section-header",
       ".oc-settings-section-heading",
       ".oc-settings-section-title",
@@ -449,20 +411,14 @@ describe("CSS contract", () => {
       ".oc-status-label",
       ".oc-status-success",
       ".oc-status-warning",
-      ".oc-summary-metric",
-      ".oc-summary-metric-copy",
-      ".oc-summary-metric-icon",
-      ".oc-summary-strip",
       ".oc-workspace-compose-actions",
       ".oc-workspace-conversation",
       ".oc-workspace-compose-box",
-      ".oc-workspace-compose-note",
       ".oc-workspace-compose-toolbar",
       ".oc-workspace-composer",
       ".oc-workspace-grid",
       ".oc-workspace-inspector",
       ".oc-workspace-inspector-action",
-      ".oc-workspace-mode",
       ".oc-workspace-progress",
       ".oc-workspace-sessions",
       ".oc-workspace-sessions-footer",
@@ -502,9 +458,6 @@ describe("CSS contract", () => {
       /\.oc-avatar\[data-state="speaking"\]::after[\s\S]*?z-index: 2[\s\S]*?pointer-events: none/,
     );
     expect(application).toMatch(
-      /\.oc-settings-row-interactive:focus-visible[\s\S]*?--oc-focus-ring/,
-    );
-    expect(application).toMatch(
       /@media \(max-width: 48rem\)[\s\S]*?grid-template-columns: minmax\(0, 1fr\)/,
     );
     expect(application).not.toMatch(
@@ -512,9 +465,6 @@ describe("CSS contract", () => {
     );
     expect(application).toMatch(
       /data-navigation="compact"[\s\S]*?\.oc-app-navigation-item-label[\s\S]*?clip-path: inset\(50%\)/,
-    );
-    expect(application).toMatch(
-      /\.oc-settings-row-interactive\[aria-pressed="true"\][\s\S]*?--oc-surface-accent-soft/,
     );
     expect(application).toContain('.oc-model-providers button[aria-pressed="true"]');
     expect(application).toContain('.oc-model-option[aria-pressed="true"]');
@@ -538,9 +488,6 @@ describe("CSS contract", () => {
     expect(application).toMatch(/\.oc-app-frame\[data-inspector="false"\] \.oc-workspace-grid/);
     expect(application).toMatch(
       /\.oc-app-frame\[data-dock="bottom"\]\[data-inspector="true"\] \.oc-workspace-grid/,
-    );
-    expect(application).toMatch(
-      /\.oc-summary-metric\[data-tone="warning"\] \.oc-summary-metric-icon \{[\s\S]*?--oc-status-warning-bg[\s\S]*?--oc-status-warning-fg/,
     );
     expect(application).not.toMatch(
       /\.oc-app-frame\[data-dock="bottom"\](?!\[data-inspector="true"\])/,
@@ -569,10 +516,7 @@ describe("CSS contract", () => {
     expect(application).not.toMatch(/(?:^|\n)\.oc-resource-(?:list|search)/);
     expect(application).toMatch(/\.oc-master-detail > \.oc-pane \{[\s\S]*?border-width: 0/);
     expect(application).toMatch(
-      /@media \(max-width: 48rem\)[\s\S]*?\.oc-pane-split > \.oc-pane,[\s\S]*?\.oc-master-detail > \.oc-pane \{[\s\S]*?min-height: 0/,
-    );
-    expect(application).toMatch(
-      /@media \(max-width: 48rem\)[\s\S]*?\.oc-pane\.oc-pane-split,[\s\S]*?grid-template-rows: auto minmax\(18rem, 1fr\)/,
+      /@media \(max-width: 48rem\)[\s\S]*?\.oc-master-detail > \.oc-pane \{[\s\S]*?min-height: 0/,
     );
     expect(application).toMatch(
       /@media \(max-width: 48rem\)[\s\S]*?grid-template-columns: 1\.25rem minmax\(0, 1fr\) auto/,

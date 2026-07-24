@@ -1191,9 +1191,10 @@ const contents = {
       <div class="oc-pane-body">…</div>
       <footer class="oc-workspace-composer">
         <div class="oc-model-controls">
-          <details class="oc-model-picker">…</details>
-          <button class="oc-model-control">Thinking · high</button>
-          <label class="oc-fast-mode">…</label>
+          <details class="oc-model-picker">
+            <summary class="oc-model-trigger">…</summary>
+            <div class="oc-model-menu">…</div>
+          </details>
         </div>
       </footer>
     </section>

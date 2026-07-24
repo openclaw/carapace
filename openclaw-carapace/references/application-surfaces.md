@@ -25,21 +25,20 @@ Compose the contract from these roles:
 - `.oc-page-header` names the current route and holds route-level actions when
   the route needs an introduction.
 - `.oc-pane` provides bounded header, body, and footer regions.
-- `.oc-pane-split` creates generic two-pane layouts.
 - `.oc-master-detail`, `.oc-master-pane`, `.oc-detail-pane`,
   `.oc-app-resource-list`, and `.oc-activity-list` support repeated operational
   inspection without turning every datum into a card.
 - `.oc-settings-shell`, `.oc-settings-navigation`, `.oc-settings-detail`, and
   `.oc-detail-header` create a settings takeover with local navigation and a
   focused detail canvas.
-- `.oc-settings-page`, `.oc-settings-section`, `.oc-settings-group`, and
-  `.oc-settings-row` create dense, scan-friendly preference screens.
+- `.oc-settings-section`, `.oc-settings-group`, and `.oc-settings-row` create
+  dense, scan-friendly preference screens.
 - `.oc-chat-shell`, `.oc-workspace-grid`, `.oc-workspace-sessions`,
   `.oc-workspace-conversation`, and `.oc-workspace-inspector` create a
   session-oriented working surface without duplicating the global app shell.
-- `.oc-model-controls`, `.oc-model-picker`, `.oc-model-control`, and
-  `.oc-fast-mode` keep model, provider, reasoning, and speed controls beside the
-  composer.
+- `.oc-model-controls`, `.oc-model-picker`, `.oc-model-menu`, and
+  `.oc-model-speed-toggle` keep model, provider, reasoning, and speed controls
+  beside the composer.
 - `.oc-session-toolbar`, `.oc-session-table`, and `.oc-session-cell` support
   dense session management.
 - `.oc-quick-chat` composes captured context, response state, and the shared
