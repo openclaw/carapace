@@ -1268,12 +1268,13 @@ const contents = {
         ["./candidate/feedback.css", "Opt-in feedback components under compatibility validation."],
         ["./candidate/data.css", "Opt-in data components under compatibility validation."],
         ["./candidate/application.css", "Opt-in app shell, pane, settings, and status anatomy."],
+        ["./candidate/agent.css", "Opt-in agent approval and transcript anatomy."],
         ["./tailwind.css", "Tailwind 4 theme mappings and dark variant."],
         ["./compat/clawhub.css", "Migration aliases and ClawHub theme compatibility."],
         ["./package.json", "Package metadata for tooling."],
       ],
     )}</section>
-    <section aria-labelledby="package-order"><div class="section-heading"><div><p class="eyebrow">Order</p><h2 id="package-order">Foundations precede opt-in components</h2></div></div>${codeBlock(`@import "@openclaw/carapace/tokens.css";\n@import "@openclaw/carapace/themes.css";\n@import "@openclaw/carapace/typography.css";\n@import "@openclaw/carapace/components.css";\n@import "@openclaw/carapace/themes/product.css";\n@import "@openclaw/carapace/candidate/controls.css";\n@import "@openclaw/carapace/candidate/feedback.css";\n@import "@openclaw/carapace/candidate/data.css";\n@import "@openclaw/carapace/candidate/application.css";\n@import "@openclaw/carapace/compat/clawhub.css";\n@import "@openclaw/carapace/tailwind.css";`)}</section>`,
+    <section aria-labelledby="package-order"><div class="section-heading"><div><p class="eyebrow">Order</p><h2 id="package-order">Foundations precede opt-in components</h2></div></div>${codeBlock(`@import "@openclaw/carapace/tokens.css";\n@import "@openclaw/carapace/themes.css";\n@import "@openclaw/carapace/typography.css";\n@import "@openclaw/carapace/components.css";\n@import "@openclaw/carapace/themes/product.css";\n@import "@openclaw/carapace/candidate/controls.css";\n@import "@openclaw/carapace/candidate/feedback.css";\n@import "@openclaw/carapace/candidate/data.css";\n@import "@openclaw/carapace/candidate/application.css";\n@import "@openclaw/carapace/candidate/agent.css";\n@import "@openclaw/carapace/compat/clawhub.css";\n@import "@openclaw/carapace/tailwind.css";`)}</section>`,
 
   "resource-theming": () =>
     `${pageIntro("Resources", "Theming", "Light and dark appearances resolve the same semantic roles while theme selection remains application-owned.")}

@@ -45,6 +45,7 @@ Consumers can instead import focused entry points:
 @import "@openclaw/carapace/candidate/feedback.css";
 @import "@openclaw/carapace/candidate/data.css";
 @import "@openclaw/carapace/candidate/application.css";
+@import "@openclaw/carapace/candidate/agent.css";
 @import "@openclaw/carapace/compat/clawhub.css";
 @import "@openclaw/carapace/tailwind.css";
 ```

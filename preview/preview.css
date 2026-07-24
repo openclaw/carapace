@@ -8,6 +8,7 @@
 @import "../styles/candidate/feedback.css";
 @import "../styles/candidate/data.css";
 @import "../styles/candidate/application.css";
+@import "../styles/candidate/agent.css";
 @import "./lab.css";
 
 :root {

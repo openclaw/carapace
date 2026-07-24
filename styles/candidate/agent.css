@@ -1,0 +1,178 @@
+/*
+ * Opt-in candidate agent anatomy. Import explicitly after the canonical
+ * foundations, stable components, and candidate controls.
+ *
+ * This layer owns the visual structure of agent-facing surfaces: approval
+ * prompts and, as they are validated, deeper transcript anatomy. Consumers
+ * keep approval policy, transport, and framework state.
+ */
+
+/* Approval prompt: an agent asks permission for a side-effectful action.
+   The card must read as a decision, so the command preview, risk framing,
+   and actions stay dimensionally stable across pending and resolved states. */
+.oc-approval-card {
+  display: grid;
+  gap: var(--oc-space-3);
+  padding: var(--oc-space-4);
+  border: 1px solid var(--oc-border-strong);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-surface-card);
+  color: var(--oc-text-primary);
+}
+
+.oc-approval-card[data-state="approved"],
+.oc-approval-card[data-state="denied"] {
+  border-color: var(--oc-border-subtle);
+  background: var(--oc-bg-surface);
+}
+
+.oc-approval-header {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+}
+
+.oc-approval-header .oc-agent-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--oc-status-warning-fg);
+}
+
+.oc-approval-card[data-state="approved"] .oc-approval-header .oc-agent-icon {
+  color: var(--oc-status-success-fg);
+}
+
+.oc-approval-card[data-state="denied"] .oc-approval-header .oc-agent-icon {
+  color: var(--oc-status-error-fg);
+}
+
+.oc-approval-title {
+  margin: 0;
+  font-size: var(--oc-font-size-sm);
+  font-weight: 600;
+}
+
+.oc-approval-header time {
+  margin-left: auto;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-approval-sub {
+  margin: 0;
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-approval-command {
+  display: block;
+  overflow-x: auto;
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-inset);
+  background: var(--oc-bg-recessed);
+  color: var(--oc-text-primary);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.oc-approval-meta {
+  display: grid;
+  margin: 0;
+  gap: var(--oc-space-1) var(--oc-space-3);
+  grid-template-columns: auto minmax(0, 1fr);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-approval-meta dt {
+  color: var(--oc-text-muted);
+}
+
+.oc-approval-meta dd {
+  margin: 0;
+  overflow: hidden;
+  color: var(--oc-text-secondary);
+  font-family: var(--oc-font-mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oc-approval-warning {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border-radius: var(--oc-radius-inset);
+  background: var(--oc-status-warning-bg);
+  color: var(--oc-status-warning-fg);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-approval-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--oc-space-2);
+}
+
+/* Resolved cards collapse the decision into a single status row while
+   keeping the command visible for the transcript record. */
+.oc-approval-resolution {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-approval-card[data-state="pending"] .oc-approval-resolution {
+  display: none;
+}
+
+.oc-approval-card[data-state="approved"] .oc-approval-actions,
+.oc-approval-card[data-state="denied"] .oc-approval-actions {
+  display: none;
+}
+
+/* Queue: additional pending approvals stack beneath the active card as
+   compact rows so one decision stays primary. */
+.oc-approval-queue {
+  display: grid;
+  gap: var(--oc-space-2);
+}
+
+.oc-approval-queue-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-approval-queue-item {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-surface);
+  color: var(--oc-text-secondary);
+  font-size: var(--oc-font-size-xs);
+}
+
+.oc-approval-queue-item code {
+  overflow: hidden;
+  flex: 1;
+  font-family: var(--oc-font-mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .oc-approval-card,
+  .oc-approval-queue-item {
+    border-color: CanvasText;
+  }
+}
