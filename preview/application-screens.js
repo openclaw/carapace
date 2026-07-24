@@ -10,8 +10,9 @@ function escapeAttribute(value = "") {
     .replaceAll(">", "&gt;");
 }
 
-function navigationItem({ icon, label, meta = "", current = false } = {}) {
-  return `<li><a class="oc-app-navigation-item" href="#"${current ? ' aria-current="page"' : ""} data-workbench-inert-link>
+function navigationItem({ icon, label, meta = "", current = false, view = "" } = {}) {
+  const viewHook = view ? ` data-workbench-application-view="${escapeAttribute(view)}"` : "";
+  return `<li><a class="oc-app-navigation-item" href="#"${current ? ' aria-current="page"' : ""} data-workbench-inert-link${viewHook}>
     <span class="oc-app-navigation-icon">${agentIcon(icon)}</span>
     <span class="oc-app-navigation-item-label">${label}</span>
     ${meta ? `<span class="oc-app-navigation-meta">${meta}</span>` : ""}
@@ -22,6 +23,9 @@ function applicationNavigation({
   current = "Overview",
   navigation = "expanded",
   state = "ready",
+  // Screens that own an in-canvas view (operations) mark the matching
+  // navigation items so the workbench binder can switch views on click.
+  viewHooks = false,
 } = {}) {
   const gatewayOffline = state === "offline";
   return `<nav class="oc-app-navigation" aria-label="Application">
@@ -41,8 +45,8 @@ function applicationNavigation({
       <ul class="oc-app-navigation-list">
         ${navigationItem({ icon: "layout-dashboard", label: "Overview", current: current === "Overview" })}
         ${navigationItem({ icon: "message-square", label: "Sessions", meta: "4", current: current === "Sessions" })}
-        ${navigationItem({ icon: "radio", label: "Channels", meta: "5", current: current === "Channels" })}
-        ${navigationItem({ icon: "calendar-clock", label: "Automation", meta: "3", current: current === "Automation" })}
+        ${navigationItem({ icon: "radio", label: "Channels", meta: "5", current: current === "Channels", view: viewHooks ? "channels" : "" })}
+        ${navigationItem({ icon: "calendar-clock", label: "Automation", meta: "3", current: current === "Automation", view: viewHooks ? "automation" : "" })}
       </ul>
     </section>
     <section class="oc-app-navigation-section" aria-labelledby="application-nav-system">
@@ -586,7 +590,7 @@ export function operationsApplicationMarkup({
 } = {}) {
   const channels = view === "channels";
   return `<div class="oc-app-frame" data-navigation="${navigation}">
-  ${applicationNavigation({ current: channels ? "Channels" : "Automation", navigation })}
+  ${applicationNavigation({ current: channels ? "Channels" : "Automation", navigation, viewHooks: true })}
   <main class="oc-app-main">
     <div class="oc-app-content">
       <header class="oc-page-header oc-page-header-compact">
@@ -1001,12 +1005,18 @@ export function quickChatApplicationMarkup({
 } = {}) {
   const running = status === "active";
   const failed = status === "error";
+  const hasDraft = Boolean(draft.trim());
   const reply = running
     ? "Reviewing the captured page and current workspace…"
     : "Quick Chat could not reach the gateway. Check the connection and try again.";
   const primaryAction = failed
     ? `<button class="oc-quick-chat-send is-error" type="button" aria-label="Retry connection">${agentIcon("refresh-cw")}</button>`
-    : `<button class="oc-quick-chat-send" type="${running ? "button" : "submit"}" aria-label="${running ? "Stop response" : "Send message"}">${agentIcon(running ? "square" : "arrow-up-circle")}</button>`;
+    : running
+      ? `<button class="oc-quick-chat-send" type="button" aria-label="Stop response">${agentIcon("square")}</button>`
+      : `<button class="oc-quick-chat-send" type="submit" aria-label="Send message" data-workbench-composer-send${hasDraft ? "" : " hidden"}>${agentIcon("arrow-up-circle")}</button>`;
+  const dictationAction = running || failed
+    ? `<button class="oc-quick-chat-action" type="button" aria-label="Dictate">${agentIcon("mic")}</button>`
+    : `<button class="oc-quick-chat-action" type="button" aria-label="Hold to dictate" aria-pressed="false" data-workbench-composer-dictation${hasDraft ? " hidden" : ""}>${agentIcon("mic")}</button>`;
   return `<div class="oc-quick-chat-stage">
   <section class="oc-quick-chat" data-state="${status}" aria-label="Quick Chat">
     <form class="oc-quick-chat-input-row" data-workbench-quick-chat-form>
@@ -1022,7 +1032,7 @@ export function quickChatApplicationMarkup({
       <label class="sr-only" for="quick-chat-message">Message</label>
       <textarea id="quick-chat-message" rows="1" placeholder="Message OpenClaw" data-workbench-composer-input>${escapeAttribute(draft)}</textarea>
       <button class="oc-quick-chat-action" type="button" aria-label="Continue a recent conversation" data-compact-hide>${agentIcon("history")}</button>
-      <button class="oc-quick-chat-action" type="button" aria-label="Dictate">${agentIcon("mic")}</button>
+      ${dictationAction}
       <button class="oc-quick-chat-action is-optional" type="button" aria-label="Attach text from current app">${agentIcon("file-text")}</button>
       <button class="oc-quick-chat-action is-optional" type="button" aria-label="Capture screenshot">${agentIcon("camera")}</button>
       ${primaryAction}
