@@ -5,10 +5,14 @@ import {
   collaborationTranscriptMarkup,
 } from "./agent-identity.js";
 import {
-  applicationCameraPreviewMarkup,
-  applicationComposerPrimaryMarkup,
   applicationModels as applicationModelCatalog,
   applicationModelControlsMarkup,
+  applicationReasoningStops,
+  bindApplicationModelControls,
+} from "./application-model-controls.js";
+import {
+  applicationCameraPreviewMarkup,
+  applicationComposerPrimaryMarkup,
   applicationTalkToggleMarkup,
   operationsApplicationMarkup,
   quickChatApplicationMarkup,
@@ -426,14 +430,6 @@ const applicationVoiceStates = [
 ];
 
 const applicationModels = applicationModelCatalog.map(({ label, value }) => ({ label, value }));
-
-const applicationThinkingLevels = [
-  { label: "Auto", value: "auto" },
-  { label: "Low", value: "low" },
-  { label: "Medium", value: "medium" },
-  { label: "High", value: "high" },
-  { label: "Extra high", value: "xhigh" },
-];
 
 const applicationSessionListStates = [
   { label: "Ready", value: "ready" },
@@ -1975,91 +1971,6 @@ function bindApplicationNavigation(specimen, state, update) {
     });
 }
 
-export function bindApplicationModelControls(specimen, state, update) {
-  const options = Array.from(
-    specimen.querySelectorAll("[data-workbench-application-model]"),
-  );
-  const providers = Array.from(specimen.querySelectorAll("[data-workbench-model-provider]"));
-  const search = specimen.querySelector("[data-workbench-model-search]");
-  const picker = specimen.querySelector("[data-workbench-model-picker]");
-  const thinking = specimen.querySelector("[data-workbench-model-thinking]");
-  const fast = specimen.querySelector("[data-workbench-model-fast]");
-  const thinkingOutput = specimen.querySelector("[data-workbench-model-thinking-output]");
-  const thinkingReset = specimen.querySelector("[data-workbench-model-thinking-reset]");
-  const reset = specimen.querySelector("[data-workbench-model-reset]");
-  let activeProvider = state.modelProvider ?? "recent";
-
-  const applyFilters = () => {
-    const query = search?.value.trim().toLowerCase() ?? "";
-
-    for (const option of options) {
-      const selectedModel = applicationModelCatalog.find(
-        ({ value }) => value === option.dataset.workbenchApplicationModel,
-      );
-      const matchesProvider =
-        activeProvider === "recent"
-          ? selectedModel?.recentlyUsed ||
-            option.dataset.workbenchApplicationModel === state.model
-          : selectedModel?.providerId === activeProvider;
-      const matchesQuery = (option.dataset.modelSearch ?? "").includes(query);
-      option.hidden = !matchesProvider || !matchesQuery;
-    }
-  };
-
-  for (const option of options) {
-    option.addEventListener("click", () => {
-      update("model", option.dataset.workbenchApplicationModel);
-    });
-  }
-
-  for (const button of providers) {
-    button.addEventListener("click", () => {
-      for (const provider of providers) {
-        provider.setAttribute("aria-pressed", String(provider === button));
-      }
-      activeProvider = button.dataset.workbenchModelProvider;
-      update("modelProvider", activeProvider, { render: false });
-      applyFilters();
-    });
-  }
-
-  search?.addEventListener("input", () => {
-    update("modelQuery", search.value, { render: false });
-    applyFilters();
-  });
-  picker?.addEventListener("toggle", () => update("picker", picker.open, { render: false }));
-  thinking?.addEventListener("input", () => {
-    const values = thinking.dataset.thinkingValues?.split(",") ?? [];
-    const value = values[Number(thinking.value)] ?? "high";
-    const label =
-      applicationThinkingLevels.find((entry) => entry.value === value)?.label ?? value;
-    thinking.style.setProperty(
-      "--oc-model-reasoning-fill",
-      `${(Number(thinking.value) / Math.max(1, values.length - 1)) * 100}%`,
-    );
-    thinking.setAttribute("aria-valuetext", label);
-    if (thinkingOutput) thinkingOutput.textContent = label;
-    update("thinking", value, { render: false });
-  });
-  thinking?.addEventListener("change", () => {
-    const values = thinking.dataset.thinkingValues?.split(",") ?? [];
-    update("thinking", values[Number(thinking.value)] ?? "high", { render: false });
-  });
-  thinkingReset?.addEventListener("click", () => update("thinking", "high"));
-  fast?.addEventListener("click", () => {
-    update("fast", fast.getAttribute("aria-checked") !== "true");
-  });
-  reset?.addEventListener("click", () => {
-    if (reset.hasAttribute("disabled")) {
-      return;
-    }
-    update("model", "openai/gpt-5.5", { render: false });
-    update("thinking", "high", { render: false });
-    update("fast", true);
-  });
-  applyFilters();
-}
-
 export function bindApplicationComposer(specimen, state, update) {
   const input = specimen.querySelector("[data-workbench-composer-input]");
   const send = specimen.querySelector("[data-workbench-composer-send]");
@@ -2233,7 +2144,7 @@ const definitions = {
         id: "thinking",
         label: "Thinking",
         type: "choice",
-        options: applicationThinkingLevels,
+        options: applicationReasoningStops,
       },
       {
         id: "fast",
@@ -2335,7 +2246,7 @@ const definitions = {
         id: "thinking",
         label: "Thinking",
         type: "choice",
-        options: applicationThinkingLevels,
+        options: applicationReasoningStops,
       },
       {
         id: "fast",
@@ -2402,7 +2313,7 @@ const definitions = {
       {
         id: "thinking",
         type: "choice",
-        options: applicationThinkingLevels,
+        options: applicationReasoningStops,
         hidden: true,
       },
       {
@@ -3387,7 +3298,7 @@ ${appSurfaceWorkbenchMarkup(state)}
         id: "thinking",
         label: "Thinking",
         type: "choice",
-        options: applicationThinkingLevels,
+        options: applicationReasoningStops,
       },
       {
         id: "fast",

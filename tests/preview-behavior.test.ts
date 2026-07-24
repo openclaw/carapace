@@ -11,7 +11,6 @@ import {
   applicationCameraPreviewMarkup,
   applicationComposerPrimaryMarkup,
   applicationScreenMarkup,
-  applicationModelControlsMarkup,
   operationsApplicationMarkup,
   quickChatApplicationMarkup,
   sessionsApplicationMarkup,
@@ -56,9 +55,12 @@ import {
   setWorkbenchViewport,
 } from "../preview/component-workbench.js";
 import {
+  applicationModelControlsMarkup,
+  bindApplicationModelControls,
+} from "../preview/application-model-controls.js";
+import {
   actionWorkbenchMarkup,
   bindApplicationComposer,
-  bindApplicationModelControls,
   bindInteractiveToolActions,
   clipboardTextWorkbenchMarkup,
   agentChatWorkbenchMarkup,
@@ -963,12 +965,12 @@ describe("preview behavior", () => {
       'data-workbench-model-provider="anthropic"',
     );
     expect(modelPickerWorkbenchMarkup()).toContain(
-      'data-workbench-application-model="xai/grok-4" data-model-provider="xAI" data-model-search="grok 4 xai 256k" hidden',
+      'data-workbench-application-model="xai/grok-4" data-model-provider="xAI" hidden',
     );
     expect(
       modelPickerWorkbenchMarkup({ model: "google/gemini-2.5-pro" }),
     ).not.toContain(
-      'data-workbench-application-model="google/gemini-2.5-pro" data-model-provider="Google" data-model-search="gemini 2.5 pro google 1m" hidden',
+      'data-workbench-application-model="google/gemini-2.5-pro" data-model-provider="Google" hidden',
     );
     const filteredModelPicker = modelPickerWorkbenchMarkup({
       modelProvider: "google",
@@ -986,10 +988,10 @@ describe("preview behavior", () => {
       modelQuery: "256k",
     });
     expect(metadataFilteredModelPicker).toContain(
-      'data-workbench-application-model="xai/grok-4" data-model-provider="xAI" data-model-search="grok 4 xai 256k"',
+      'data-workbench-application-model="xai/grok-4" data-model-provider="xAI"',
     );
     expect(metadataFilteredModelPicker).not.toContain(
-      'data-model-search="grok 4 xai 256k" hidden',
+      'data-workbench-application-model="xai/grok-4" data-model-provider="xAI" hidden',
     );
     expect(modelPickerWorkbenchMarkup()).toContain("data-workbench-model-reset disabled");
     expect(modelPickerWorkbenchMarkup({ fast: false })).not.toContain(
