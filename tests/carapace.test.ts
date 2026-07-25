@@ -587,8 +587,12 @@ describe("CSS contract", () => {
 
     // Every mapped value carries a literal fallback so an embedded app can
     // bundle this layer alone and still render outside an OpenClaw host.
-    for (const declaration of scope.split(";")) {
-      if (!declaration.includes("var(--oc-")) continue;
+    // Formatter-wrapped declarations put a newline after `var(`, so collapse
+    // that whitespace first or the longest values silently skip the check.
+    const flattened = scope.replace(/var\(\s+/g, "var(");
+    const mapped = flattened.split(";").filter((declaration) => declaration.includes("var(--oc-"));
+    expect(mapped.length).toBeGreaterThan(50);
+    for (const declaration of mapped) {
       expect(declaration).toMatch(/var\(--oc-[\w-]+,/);
     }
 
