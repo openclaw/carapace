@@ -133,16 +133,18 @@ The size contract is the most common source of embedded breakage.
   app reports nothing. OpenClaw clamps to 160–1200px and defaults to 600px.
   Design for the narrow end; do not assume the default.
 - The body slot supplies no padding. The app owns its own inset.
-- A fixed `containerDimensions.height` does **not** mean the host ignores what
-  the app reports. OpenClaw sends a fixed number from both of its hosts while
-  still resizing the frame from the reported height, so the field cannot be
-  used to detect who owns sizing. Treat `containerDimensions` as a hint about
-  the space available, never as a mode signal.
-- Default to letting content determine height, and do not set `height: 100%`
-  on `html` or `body` while `autoResize` is on. The app would measure a height
-  the host just set from the app's own measurement, and the two chase each
-  other — against a host that reports a fixed height and still auto-resizes,
-  that pins the app at the reported value forever.
+- The specification treats a fixed `containerDimensions.height` as host-owned
+  sizing, and a `maxHeight` or an omitted field as handing height to the app.
+  Where a host honors that split, fill a host-owned height and scroll inside.
+- OpenClaw does not honor it. Both of its hosts send a fixed number and still
+  resize the frame from the reported height — the standalone host hardcodes
+  600 and auto-resizes anyway — so against OpenClaw the field says nothing
+  about who owns sizing.
+- When the split cannot be trusted, which includes OpenClaw today, let content
+  determine height and do not set `height: 100%` on `html` or `body` while
+  `autoResize` is on. The app would measure a height the host just set from the
+  app's own measurement, and against a host that reports a fixed height and
+  still auto-resizes, that pins the app at the reported value forever.
 - When the app genuinely needs a scrolling region, give that region its own
   `max-height` and scroll it, rather than making the document fill the frame.
 - `containerDimensions` is optional, and each axis independently arrives as a
@@ -169,8 +171,13 @@ capabilities entirely, so absent is a normal case rather than an error.
 | Chat column | ~360–720px | The default composition |
 | Wide pane | above ~720px | Multi-column permitted |
 
-- Branch on `deviceCapabilities.hover === false` to make hover-only
-  affordances always visible, and on `touch === true` for larger hit targets.
+- Treat absent capabilities as the more accessible case rather than the
+  default one. Reveal an affordance unless `hover` is explicitly `true`, and
+  size hit targets for touch unless `touch` is explicitly `false` — the
+  standalone host omits the field entirely, so absent is the common case, and
+  a strict equality check would leave a touch device with hidden controls.
+  `@media (hover: hover)` and `(pointer: coarse)` cover the same ground in CSS
+  when no signal arrives at all.
 - The app must not paint its own outer card, border, or shadow. The frame is
   the card. The app's outermost element is a plain padded region on
   `--color-background-primary`.
@@ -210,7 +217,6 @@ Apps must derive them rather than wait for a key:
 | --- | --- |
 | Hover / active surface | `color-mix(in srgb, var(--color-text-primary) 8%, transparent)` over the surface |
 | Link | `--color-text-info` |
-
 | Selection | `color-mix()` from the ring color |
 | Chart series | The four status hues plus the text tiers |
 | Accent | App-owned; see Branding |
