@@ -172,12 +172,13 @@ capabilities entirely, so absent is a normal case rather than an error.
 | Wide pane | above ~720px | Multi-column permitted |
 
 - Treat absent capabilities as the more accessible case rather than the
-  default one. Reveal an affordance unless `hover` is explicitly `true`, and
-  size hit targets for touch unless `touch` is explicitly `false` — the
-  standalone host omits the field entirely, so absent is the common case, and
-  a strict equality check would leave a touch device with hidden controls.
-  `@media (hover: hover)` and `(pointer: coarse)` cover the same ground in CSS
-  when no signal arrives at all.
+  default one. Hide an affordance behind hover only when `hover === true` and
+  `touch === false`; a hybrid laptop reports both, and its touch users would
+  lose the control. Size hit targets for touch unless `touch` is explicitly
+  `false`. The standalone host omits capabilities entirely, so absent is the
+  common case. In CSS the equivalent guard is
+  `@media (hover: hover) and (pointer: fine)` — `(hover: hover)` alone matches
+  the same hybrid devices.
 - The app must not paint its own outer card, border, or shadow. The frame is
   the card. The app's outermost element is a plain padded region on
   `--color-background-primary`.
