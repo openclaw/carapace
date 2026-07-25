@@ -184,9 +184,16 @@ the payload matter.
 - Draw `isError: true` inside the app's own surface with
   `--color-text-danger` on `--color-background-danger`. The host frame does not
   render an app's tool errors.
-- Route `resource_link` and `resource` blocks through the host's open-link and
-  download requests. The sandbox blocks direct navigation and downloads, so a
-  bare anchor silently does nothing.
+- Resolve resource blocks by kind, and check the host capability before
+  reaching for a request:
+  - A `resource` block already carries its payload. Render it directly.
+  - A `resource_link` is a URI to fetch, not a URL to navigate to. Read it back
+    through the server-resources capability rather than linking to it.
+  - An external `http`/`https` URL goes through the host's open-link request.
+    The sandbox blocks direct navigation, so a bare anchor silently does
+    nothing.
+  - Downloads are a separate capability the host may not advertise. OpenClaw
+    does not today, so offer a download only when the host negotiated one.
 - Between tool input and tool result, show a skeleton sized like the result,
   not a spinner. Streaming partial input is provisional; never render it as
   final.
