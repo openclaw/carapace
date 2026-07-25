@@ -4,7 +4,7 @@
   --oc-status-warning-bg: rgb(251 191 36 / 0.12);
   --oc-status-warning-fg: #fbbf24;
   --oc-status-error-bg: rgb(239 68 68 / 0.12);
-  --oc-status-error-fg: #ef4444;
+  --oc-status-error-fg: #f87171;
   --oc-status-info-bg: rgb(59 130 246 / 0.14);
   --oc-status-info-fg: #60a5fa;
 
@@ -23,13 +23,13 @@
 html[data-theme="light"],
 [data-theme-family="claw"][data-theme-resolved="light"] {
   --oc-status-success-bg: rgb(34 197 94 / 0.1);
-  --oc-status-success-fg: #16a34a;
+  --oc-status-success-fg: #146c37;
   --oc-status-warning-bg: rgb(245 158 11 / 0.1);
-  --oc-status-warning-fg: #d97706;
+  --oc-status-warning-fg: #8f5100;
   --oc-status-error-bg: rgb(239 68 68 / 0.1);
-  --oc-status-error-fg: #dc2626;
+  --oc-status-error-fg: #b91c1c;
   --oc-status-info-bg: rgb(37 99 235 / 0.1);
-  --oc-status-info-fg: #2563eb;
+  --oc-status-info-fg: #1d4ed8;
 
   --oc-diff-added: #16a34a;
   --oc-diff-added-strong: #15803d;
@@ -40,13 +40,13 @@ html[data-theme="light"],
 @media (prefers-color-scheme: light) {
   [data-theme-family="claw"][data-theme-mode="system"] {
     --oc-status-success-bg: rgb(34 197 94 / 0.1);
-    --oc-status-success-fg: #16a34a;
+    --oc-status-success-fg: #146c37;
     --oc-status-warning-bg: rgb(245 158 11 / 0.1);
-    --oc-status-warning-fg: #d97706;
+    --oc-status-warning-fg: #8f5100;
     --oc-status-error-bg: rgb(239 68 68 / 0.1);
-    --oc-status-error-fg: #dc2626;
+    --oc-status-error-fg: #b91c1c;
     --oc-status-info-bg: rgb(37 99 235 / 0.1);
-    --oc-status-info-fg: #2563eb;
+    --oc-status-info-fg: #1d4ed8;
     --oc-diff-added: #16a34a;
     --oc-diff-added-strong: #15803d;
     --oc-diff-removed: #e57373;

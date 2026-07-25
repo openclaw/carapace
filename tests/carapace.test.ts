@@ -560,6 +560,116 @@ describe("CSS contract", () => {
     }
   });
 
+  test("status foreground and background pairs clear AA in both themes", async () => {
+    const [tokens, themes, product] = await Promise.all([
+      readFile("styles/tokens.css", "utf8"),
+      readFile("styles/themes.css", "utf8"),
+      readFile("styles/themes/product.css", "utf8"),
+    ]);
+
+    const palette = new Map(
+      [...tokens.matchAll(/(--oc-palette-[\w-]+):\s*(#[0-9a-f]{6})/gi)].map(([, name, value]) => [
+        name,
+        value,
+      ]),
+    );
+    const surfaceFor = (block: string, token: string) => {
+      const reference = ruleDeclarations(themes, block).match(
+        new RegExp(`${token}:\\s*var\\((--oc-palette-[\\w-]+)\\)`),
+      )?.[1];
+      const value = reference ? palette.get(reference) : undefined;
+      if (!value) throw new Error(`unresolved ${token} in ${block}`);
+      return value;
+    };
+    const rgb = (hex: string) => [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16));
+    const channel = (value: number) => {
+      const n = value / 255;
+      return n <= 0.03928 ? n / 12.92 : ((n + 0.055) / 1.055) ** 2.4;
+    };
+    const luminance = (parts: number[]) =>
+      0.2126 * channel(parts[0]!) + 0.7152 * channel(parts[1]!) + 0.0722 * channel(parts[2]!);
+    const contrast = (fg: number[], bg: number[]) => {
+      const [hi, lo] = [luminance(fg), luminance(bg)].sort((a, b) => b - a);
+      return (hi! + 0.05) / (lo! + 0.05);
+    };
+
+    // Status backgrounds are translucent, so the pair is only meaningful once
+    // the tint is composited over the surface it sits on. Both documented
+    // surfaces are checked because a badge on a card is the tighter case.
+    const themeCases = [
+      // themes.css groups the dark rule as `:root, html[data-theme="dark"]`,
+      // so match the attribute selector rather than the bare `:root`.
+      { label: "dark", statusBlock: ":root", surfaceBlock: 'html[data-theme="dark"]' },
+      {
+        label: "light",
+        statusBlock: '[data-theme-family="claw"][data-theme-resolved="light"]',
+        surfaceBlock: 'html[data-theme="light"]',
+      },
+    ];
+
+    for (const { label, statusBlock, surfaceBlock } of themeCases) {
+      const declarations = ruleDeclarations(product, statusBlock);
+      const surfaces = [
+        surfaceFor(surfaceBlock, "--oc-bg-page"),
+        surfaceFor(surfaceBlock, "--oc-bg-surface"),
+      ].map(rgb);
+
+      for (const role of ["success", "warning", "error", "info"]) {
+        const foreground = declarations.match(
+          new RegExp(`--oc-status-${role}-fg:\\s*(#[0-9a-f]{6})`, "i"),
+        )?.[1];
+        const tint = declarations
+          .match(new RegExp(`--oc-status-${role}-bg:\\s*rgb\\(([^)]+)\\)`, "i"))?.[1]
+          ?.split("/");
+        expect(foreground, `${label} ${role} foreground`).toBeTruthy();
+        expect(tint, `${label} ${role} background`).toBeTruthy();
+
+        const parts = tint![0]!.trim().split(/\s+/).map(Number);
+        const alpha = Number(tint![1]);
+        for (const surface of surfaces) {
+          const composited = parts.map((part, index) => part * alpha + surface[index]! * (1 - alpha));
+          expect(
+            contrast(rgb(foreground!), composited),
+            `${label} ${role} on its own background`,
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    }
+  });
+
+  test("embed fallbacks match the tokens they fall back from", async () => {
+    const [product, embed] = await Promise.all([
+      readFile("styles/themes/product.css", "utf8"),
+      readFile("styles/candidate/embed.css", "utf8"),
+    ]);
+
+    // The status foregrounds were duplicated into three files with nothing
+    // holding them together, which is how they drifted out of contrast. Assert
+    // each light-dark() fallback still equals the token it stands in for.
+    const valueOf = (source: string, block: string, token: string) =>
+      ruleDeclarations(source, block)
+        .match(new RegExp(`${token}:\\s*([^;]+);`))?.[1]
+        ?.trim();
+
+    // Restricted to the foreground roles: their fallbacks are plain hex, and
+    // they are the values that actually drifted. The translucent background
+    // fallbacks nest rgb() inside light-dark() and need no such guard.
+    const pairs = [
+      ...embed.matchAll(/(--[\w-]+):\s*var\(\s*(--oc-[\w-]+),\s*light-dark\((#[0-9a-f]{6}),\s*(#[0-9a-f]{6})\)\s*\)/gi),
+    ];
+    const statusPairs = pairs.filter(
+      ([, , token]) => token!.startsWith("--oc-status-") && token!.endsWith("-fg"),
+    );
+    expect(statusPairs.length).toBeGreaterThanOrEqual(12);
+
+    for (const [, , token, lightFallback, darkFallback] of statusPairs) {
+      expect(valueOf(product, '[data-theme-family="claw"][data-theme-resolved="light"]', token!)).toBe(
+        lightFallback!.trim(),
+      );
+      expect(valueOf(product, ":root", token!)).toBe(darkFallback!.trim());
+    }
+  });
+
   test("embed contract maps the MCP Apps vocabulary onto semantic tokens", async () => {
     const embed = await readFile("styles/candidate/embed.css", "utf8");
     const scope = ruleDeclarations(embed, ".oc-embed-tokens");
