@@ -29,12 +29,15 @@
 
 :root {
   /*
-   * Sandboxed MCP app documents cannot load web fonts: the host content
-   * security policy starts at `default-src 'none'`, `font-src` is limited to
-   * the app's own declared resource domains, and `@font-face` does not cross
-   * into the srcdoc iframe's opaque origin. The brand faces therefore never
-   * resolve inside an embedded app, so the embed stacks stay system
-   * resolvable and are sent in place of `--oc-font-body` and `--oc-font-mono`.
+   * Embed stacks stay system resolvable and are sent in place of
+   * `--oc-font-body` and `--oc-font-mono`. MCP Apps does define a font
+   * channel — a host may send `@font-face` or `@import` CSS through
+   * `hostContext.styles.css.fonts` for the app to inject — but a host cannot
+   * guarantee it arrives, because font loading is gated by policy the app
+   * owns: `font-src` allows only the resource domains the app declares, and
+   * is absent entirely when the app declares no policy, leaving
+   * `default-src 'none'` to block the request. A brand face sent blind
+   * therefore fails silently onto an arbitrary system font.
    */
   --oc-font-embed-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --oc-font-embed-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;

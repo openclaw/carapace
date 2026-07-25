@@ -575,8 +575,8 @@ describe("CSS contract", () => {
       expect(scope).toContain(collision);
     }
 
-    // Sandboxed app documents cannot load web fonts, so the embed stacks must
-    // stay system resolvable; a brand face would silently fall back instead.
+    // A host cannot guarantee a brand face resolves inside the sandbox, so the
+    // embed stacks stay system resolvable rather than failing silently.
     expect(root).toContain("--oc-font-embed-sans:");
     expect(root).toContain("--oc-font-embed-mono:");
     for (const face of ["Switzer", "Sentient", "Inter"]) {

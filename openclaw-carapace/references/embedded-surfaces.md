@@ -49,14 +49,20 @@ at 2rem so an embedded app cannot out-scale the host chrome around it.
 
 ## Fonts
 
-Embedded apps cannot load web fonts. The host content security policy starts at
-`default-src 'none'`, `font-src` is limited to the app's own declared resource
-domains, and `@font-face` does not cross into the srcdoc iframe's opaque
-origin. Brand faces never resolve inside an app.
+Send `--oc-font-embed-sans` and `--oc-font-embed-mono` for `--font-sans` and
+`--font-mono`. They contain system-resolvable families only. Do not send
+`--oc-font-body`: a brand face is not guaranteed to resolve inside a sandbox,
+and it fails silently onto an arbitrary system font rather than erroring.
 
-Hosts send `--oc-font-embed-sans` and `--oc-font-embed-mono`, which contain
-system-resolvable families only. Do not send `--oc-font-body`; the brand face
-fails silently and the app lands on an arbitrary system font.
+MCP Apps does define a font channel. A host may send `@font-face` or `@import`
+CSS through `hostContext.styles.css.fonts`, which the app injects with the SDK
+helper. Delivery is not guaranteed, because font loading is gated by policy the
+app owns rather than the host: `font-src` allows only the resource domains the
+app declares, and is absent entirely when the app declares no policy, leaving
+`default-src 'none'` to block the request.
+
+Use the channel for an app that declares the font origin. Keep the system
+stacks as the default for everything else.
 
 ## Host Integration
 
