@@ -83,11 +83,19 @@ channel.
 
 Branding lives in two places instead:
 
-- The app owns its own accent inside its own document. It already knows its
-  brand and needs nothing from the host to render it.
-- The host owns the frame around the app and may tint that chrome from the
-  app's declared metadata, validated and contrast-clamped against the current
-  surfaces before use.
+- The app owns its accent inside its own document. It already knows its brand
+  and needs nothing from the host to render it.
+- The frame reserves `--oc-app-accent` and `--oc-app-accent-contrast` as the
+  host-side seam for tinting chrome. The pair travels together: an accent the
+  host cannot put a legible foreground on is unusable, so a host that
+  overrides one overrides both, and validates contrast against the current
+  surfaces before applying either.
+
+Where a host reads an app's accent from is not settled. The MCP Apps resource
+metadata carries CSP, sandbox permissions, domain, and a border preference,
+but no brand color, so nothing in the protocol supplies one today. Until an
+OpenClaw contract defines that source, leave host chrome unbranded and let the
+slot fall back to the OpenClaw accent rather than inventing a private field.
 
 An app spends its accent on primary actions and identity moments. Backgrounds,
 body text, borders, and focus rings stay on host tokens, which is what keeps
