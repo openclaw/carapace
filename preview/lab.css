@@ -3917,6 +3917,237 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
   line-height: 1.6;
 }
 
+/* MCP app frame: host chrome around a sandboxed embedded app. The host owns
+   this frame so every installed app reads as one system; the app owns only
+   what renders inside the body. */
+
+.oc-mcp-app {
+  /* Branding slot: the host-side seam for tinting chrome to an app's accent.
+     It lives on the frame because the transported MCP style record is a closed
+     key set that cannot carry an OpenClaw name. The pair travels together: an
+     accent the host cannot put a legible foreground on is unusable, so a host
+     that overrides one overrides both. No protocol field supplies an app
+     accent today, so the default is the OpenClaw accent and unbranded chrome;
+     see the embed reference before wiring a source. */
+  --oc-app-accent: var(--oc-accent-primary);
+  --oc-app-accent-contrast: var(--oc-text-on-accent);
+
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-elevated);
+}
+
+.oc-mcp-app-header {
+  display: grid;
+  min-height: 2.5rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-2) var(--oc-space-3);
+  border-bottom: 1px solid var(--oc-border-subtle);
+}
+
+.oc-mcp-app-identity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--oc-space-2);
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+  font-weight: 600;
+}
+
+.oc-mcp-app-mark {
+  display: grid;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: var(--oc-radius-inset);
+  background: color-mix(in srgb, var(--oc-app-accent) 16%, transparent);
+  color: var(--oc-app-accent);
+}
+
+.oc-mcp-app-mark svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.oc-mcp-app-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Provenance is the trust signal: which server produced this surface. */
+.oc-mcp-app-origin {
+  overflow: hidden;
+  flex: 0 1 auto;
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oc-mcp-app-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--oc-space-1);
+}
+
+.oc-mcp-app-actions button {
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-text-muted);
+  cursor: pointer;
+}
+
+.oc-mcp-app-actions button:hover {
+  background: var(--oc-surface-interactive-hover);
+  color: var(--oc-text-primary);
+}
+
+.oc-mcp-app-actions svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* The body is the sandbox slot. Its background is the surface the app's own
+   --color-background-primary resolves to, so a themed app blends into it. */
+.oc-mcp-app-body {
+  min-height: 10rem;
+  background: var(--oc-bg-surface);
+}
+
+/* Lifecycle states share one block so loading, failure, expiry, and consent
+   present identically. The block fills whatever height the body already has,
+   because a state that shrinks to its own content would collapse a tall app
+   and reflow the transcript around it. CSS cannot know that height on its
+   own: the consumer holds the last measured body height while it swaps the
+   sandbox out, and the minimum below only covers the case with none yet. */
+.oc-mcp-app-state {
+  display: grid;
+  block-size: 100%;
+  min-height: 10rem;
+  align-content: center;
+  justify-items: center;
+  padding: var(--oc-space-5);
+  gap: var(--oc-space-2);
+  color: var(--oc-text-muted);
+  text-align: center;
+}
+
+.oc-mcp-app-state svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.oc-mcp-app-state-title {
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-base);
+  font-weight: 600;
+}
+
+.oc-mcp-app-state-copy {
+  max-width: 32rem;
+  font-size: var(--oc-font-size-sm);
+  line-height: 1.5;
+}
+
+.oc-mcp-app-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--oc-space-2);
+  margin-top: var(--oc-space-1);
+}
+
+.oc-mcp-app-state[data-state="error"] {
+  color: var(--oc-status-error-fg);
+}
+
+.oc-mcp-app-state[data-state="blocked"] {
+  color: var(--oc-status-warning-fg);
+}
+
+.oc-mcp-app-state[data-state="loading"] svg {
+  animation: oc-mcp-app-spin 1s linear infinite;
+}
+
+@keyframes oc-mcp-app-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-mcp-app-state[data-state="loading"] svg {
+    animation: none;
+  }
+}
+
+/* Specimen only: a miniature embedded app painted through the embed contract
+   variables plus the branding slot it inherits from the frame, so the frame
+   demonstrates what a themed app takes from the host and what stays its own. */
+
+.oc-mcp-app-demo {
+  display: grid;
+  gap: var(--oc-space-2);
+  padding: var(--oc-space-4);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--font-text-md-size);
+  line-height: var(--font-text-md-line-height);
+}
+
+.oc-mcp-app-demo-title {
+  font-size: var(--font-heading-sm-size);
+  font-weight: var(--font-weight-semibold);
+}
+
+.oc-mcp-app-demo-copy {
+  color: var(--color-text-secondary);
+  font-size: var(--font-text-sm-size);
+}
+
+.oc-mcp-app-demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--oc-space-2);
+  margin-top: var(--oc-space-1);
+}
+
+.oc-mcp-app-demo-actions button {
+  border: var(--border-width-regular) solid var(--color-border-primary);
+  border-radius: var(--border-radius-md);
+  padding: var(--oc-space-2) var(--oc-space-3);
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-text-sm-size);
+  font-weight: var(--font-weight-medium);
+}
+
+/* The one place an embedded app spends its own identity. */
+.oc-mcp-app-demo-actions button.is-brand {
+  border-color: transparent;
+  background: var(--oc-app-accent);
+  color: var(--oc-app-accent-contrast);
+}
+
 /* Bash tool */
 
 .oc-agent-bash-tool-row {

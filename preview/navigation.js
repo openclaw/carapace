@@ -523,6 +523,12 @@ export const referenceAreas = [
         keywords: "oc-agent-mcp-tool server connector capability call",
       },
       {
+        id: "mcp-app",
+        label: "MCP App",
+        path: "agent-components/mcp-app/",
+        keywords: "oc-mcp-app embedded sandbox iframe frame provenance branding lifecycle",
+      },
+      {
         id: "input-bar",
         label: "Composer",
         path: "agent-components/input-bar/",
