@@ -132,9 +132,16 @@ The size contract is the most common source of embedded breakage.
   app reports nothing. OpenClaw clamps to 160–1200px and defaults to 600px.
   Design for the narrow end; do not assume the default.
 - The body slot supplies no padding. The app owns its own inset.
-- Do not set `height: 100%` on `html` or `body` while the SDK's `autoResize` is
-  on. The app measures itself while the host sizes the frame from that
-  measurement, and the two chase each other.
+- Which way height flows depends on the container, and the two modes want
+  opposite CSS:
+  - **Host-sized** (`containerDimensions.height` is fixed). The host owns the
+    height and ignores what the app reports, so fill it — `height: 100%` on
+    `html` and `body` — and scroll inside. That bounded region is what makes
+    the internal scroll below work.
+  - **App-sized** (a `maxHeight`, or neither field). The host sizes the frame
+    from what the app reports. Let content determine height and never set
+    `height: 100%` while `autoResize` is on: the app would measure a height the
+    host just set from the app's own measurement, and the two chase each other.
 - `containerDimensions` is optional, and each axis independently arrives as a
   fixed value, a maximum, or neither. The maximum branches are themselves
   optional, so an axis with no fields means unbounded, and an absent
@@ -145,8 +152,9 @@ The size contract is the most common source of embedded breakage.
   sizes only height today. Where the host gave a `maxWidth` or left width
   unbounded, the app's reported width is what the host sizes from, so an app
   that reports height alone can sit at a stale width.
-- In a fixed-height container the app scrolls inside its own region so the
-  frame's border and radius are never crossed by a scrollbar.
+- When scrolling inside a host-sized container, keep the scroll boundary
+  within the app's own region so the frame's border and radius are never
+  crossed by a scrollbar.
 
 ## Density and Container Adaptation
 
