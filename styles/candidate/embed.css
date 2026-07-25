@@ -80,10 +80,10 @@
     --oc-text-inactive,
     light-dark(rgb(99 99 108 / 0.62), rgb(154 154 162 / 0.62))
   );
-  --color-text-info: var(--oc-status-info-fg, light-dark(#2563eb, #60a5fa));
-  --color-text-danger: var(--oc-status-error-fg, light-dark(#dc2626, #ef4444));
-  --color-text-success: var(--oc-status-success-fg, light-dark(#16a34a, #22c55e));
-  --color-text-warning: var(--oc-status-warning-fg, light-dark(#d97706, #fbbf24));
+  --color-text-info: var(--oc-status-info-fg, light-dark(#1d4ed8, #60a5fa));
+  --color-text-danger: var(--oc-status-error-fg, light-dark(#b91c1c, #f87171));
+  --color-text-success: var(--oc-status-success-fg, light-dark(#146c37, #22c55e));
+  --color-text-warning: var(--oc-status-warning-fg, light-dark(#8f5100, #fbbf24));
   --color-text-disabled: var(
     --oc-text-inactive,
     light-dark(rgb(99 99 108 / 0.62), rgb(154 154 162 / 0.62))
@@ -113,10 +113,10 @@
      own color and make them vanish. */
   --color-border-inverse: var(--oc-text-inverse, light-dark(#f6f5f3, #101012));
   --color-border-ghost: transparent;
-  --color-border-info: var(--oc-status-info-fg, light-dark(#2563eb, #60a5fa));
-  --color-border-danger: var(--oc-status-error-fg, light-dark(#dc2626, #ef4444));
-  --color-border-success: var(--oc-status-success-fg, light-dark(#16a34a, #22c55e));
-  --color-border-warning: var(--oc-status-warning-fg, light-dark(#d97706, #fbbf24));
+  --color-border-info: var(--oc-status-info-fg, light-dark(#1d4ed8, #60a5fa));
+  --color-border-danger: var(--oc-status-error-fg, light-dark(#b91c1c, #f87171));
+  --color-border-success: var(--oc-status-success-fg, light-dark(#146c37, #22c55e));
+  --color-border-warning: var(--oc-status-warning-fg, light-dark(#8f5100, #fbbf24));
   --color-border-disabled: var(
     --oc-border-subtle,
     light-dark(rgb(23 23 26 / 0.14), rgb(154 154 162 / 0.18))
@@ -132,10 +132,10 @@
     light-dark(rgb(216 74 49 / 0.42), rgb(245 101 74 / 0.4))
   );
   --color-ring-inverse: var(--oc-text-inverse, light-dark(#f6f5f3, #101012));
-  --color-ring-info: var(--oc-status-info-fg, light-dark(#2563eb, #60a5fa));
-  --color-ring-danger: var(--oc-status-error-fg, light-dark(#dc2626, #ef4444));
-  --color-ring-success: var(--oc-status-success-fg, light-dark(#16a34a, #22c55e));
-  --color-ring-warning: var(--oc-status-warning-fg, light-dark(#d97706, #fbbf24));
+  --color-ring-info: var(--oc-status-info-fg, light-dark(#1d4ed8, #60a5fa));
+  --color-ring-danger: var(--oc-status-error-fg, light-dark(#b91c1c, #f87171));
+  --color-ring-success: var(--oc-status-success-fg, light-dark(#146c37, #22c55e));
+  --color-ring-warning: var(--oc-status-warning-fg, light-dark(#8f5100, #fbbf24));
 
   /* Typography. Embed stacks only; see the font note on :root above. */
   --font-sans: var(--oc-font-embed-sans, system-ui, sans-serif);
