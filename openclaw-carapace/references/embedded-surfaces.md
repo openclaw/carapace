@@ -48,10 +48,10 @@ Larger heading roles clamp to `--oc-font-size-3xl`. The product type scale caps
 at 2rem so an embedded app cannot out-scale the host chrome around it.
 
 Status colors travel as pairs. Each `--color-text-*` clears AA on its matching
-`--color-background-*` **when that background sits on
-`--color-background-primary`** — the status backgrounds are translucent, so the
-guarantee is only as good as what the app paints behind them. An app that
-repaints its surface owns re-checking the pair.
+`--color-background-*` over the host's own page and surface values, which the
+token contract asserts in both themes. The backgrounds are translucent, so the
+guarantee reaches only as far as what sits behind them: an app that paints its
+own surface under a status tint owns re-checking that pair.
 
 ## Fonts
 
@@ -63,9 +63,10 @@ and it fails silently onto an arbitrary system font rather than erroring.
 MCP Apps does define a font channel. A host may send `@font-face` or `@import`
 CSS through `hostContext.styles.css.fonts`, which the app injects with the SDK
 helper. Delivery is not guaranteed, because font loading is gated by policy the
-app owns rather than the host: `font-src` allows only the resource domains the
-app declares, and is absent entirely when the app declares no policy, leaving
-`default-src 'none'` to block the request.
+app owns rather than the host: `font-src` allows the sandbox origin, which
+serves no fonts, plus the resource domains the app declares — and it is absent
+entirely when the app declares no policy, leaving `default-src 'none'` to block
+the request.
 
 Use the channel for an app that declares the font origin. Keep the system
 stacks as the default for everything else.
@@ -132,34 +133,35 @@ The size contract is the most common source of embedded breakage.
   app reports nothing. OpenClaw clamps to 160–1200px and defaults to 600px.
   Design for the narrow end; do not assume the default.
 - The body slot supplies no padding. The app owns its own inset.
-- Which way height flows depends on the container, and the two modes want
-  opposite CSS:
-  - **Host-sized** (`containerDimensions.height` is fixed). The host owns the
-    height and ignores what the app reports, so fill it — `height: 100%` on
-    `html` and `body` — and scroll inside. That bounded region is what makes
-    the internal scroll below work.
-  - **App-sized** (a `maxHeight`, or neither field). The host sizes the frame
-    from what the app reports. Let content determine height and never set
-    `height: 100%` while `autoResize` is on: the app would measure a height the
-    host just set from the app's own measurement, and the two chase each other.
+- A fixed `containerDimensions.height` does **not** mean the host ignores what
+  the app reports. OpenClaw sends a fixed number from both of its hosts while
+  still resizing the frame from the reported height, so the field cannot be
+  used to detect who owns sizing. Treat `containerDimensions` as a hint about
+  the space available, never as a mode signal.
+- Default to letting content determine height, and do not set `height: 100%`
+  on `html` or `body` while `autoResize` is on. The app would measure a height
+  the host just set from the app's own measurement, and the two chase each
+  other — against a host that reports a fixed height and still auto-resizes,
+  that pins the app at the reported value forever.
+- When the app genuinely needs a scrolling region, give that region its own
+  `max-height` and scroll it, rather than making the document fill the frame.
 - `containerDimensions` is optional, and each axis independently arrives as a
   fixed value, a maximum, or neither. The maximum branches are themselves
   optional, so an axis with no fields means unbounded, and an absent
   `containerDimensions` means the app knows nothing about its container. Handle
   all three per axis; do not assume one field is always present.
-- Report both dimensions and let the host decide. Where the host gave a fixed
-  `width` the reported width is advisory and it will be ignored — OpenClaw
-  sizes only height today. Where the host gave a `maxWidth` or left width
-  unbounded, the app's reported width is what the host sizes from, so an app
-  that reports height alone can sit at a stale width.
-- When scrolling inside a host-sized container, keep the scroll boundary
-  within the app's own region so the frame's border and radius are never
-  crossed by a scrollbar.
+- Report both dimensions and let the host decide what to use. OpenClaw sizes
+  only height today and ignores the reported width; a host that sizes width
+  from the app has nothing to work from if the app reports height alone.
+- Keep any scroll boundary inside the app's own region so the frame's border
+  and radius are never crossed by a scrollbar.
 
 ## Density and Container Adaptation
 
 The same app renders in a chat card, a fixed-height board cell, and a wide
-pane. The host publishes what is needed to adapt, on every resize.
+pane. Read these signals defensively: the Control UI republishes them on every
+resize, but the standalone host sends host context once and omits device
+capabilities entirely, so absent is a normal case rather than an error.
 
 | Container | Width | Behavior |
 | --- | --- | --- |
@@ -178,8 +180,9 @@ pane. The host publishes what is needed to adapt, on every resize.
 Presenting a tool result is the app's whole job, so the presentation signals in
 the payload matter.
 
-- Skip content blocks whose `annotations.audience` excludes `"user"`. That is
-  the payload saying a block is not for the reader.
+- Skip content blocks whose `annotations.audience` is present and does not
+  include `"user"`. That is the payload saying a block is not for the reader.
+  An omitted `audience` means every audience — do not treat it as a filter.
 - Prefer `structuredContent` over re-parsing text blocks.
 - Draw `isError: true` inside the app's own surface with
   `--color-text-danger` on `--color-background-danger`. The host frame does not
@@ -207,6 +210,7 @@ Apps must derive them rather than wait for a key:
 | --- | --- |
 | Hover / active surface | `color-mix(in srgb, var(--color-text-primary) 8%, transparent)` over the surface |
 | Link | `--color-text-info` |
+
 | Selection | `color-mix()` from the ring color |
 | Chart series | The four status hues plus the text tiers |
 | Accent | App-owned; see Branding |
@@ -217,7 +221,7 @@ has no hover treatment from the vocabulary alone — use the recipe above.
 
 A host may publish any subset. Treat these as the set worth relying on, each
 still written with a fallback: the surface, text, border, and ring primaries;
-the four status triples; `--font-mono`; the four `--font-text-*-size`; the
+the four status roles across background, text, border, and ring; `--font-mono`; the four `--font-text-*-size`; the
 radius ladder; and `--border-width-regular`.
 
 ## App Lifecycle
