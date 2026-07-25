@@ -176,9 +176,12 @@ capabilities entirely, so absent is a normal case rather than an error.
   `touch === false`; a hybrid laptop reports both, and its touch users would
   lose the control. Size hit targets for touch unless `touch` is explicitly
   `false`. The standalone host omits capabilities entirely, so absent is the
-  common case. In CSS the equivalent guard is
-  `@media (hover: hover) and (pointer: fine)` — `(hover: hover)` alone matches
-  the same hybrid devices.
+  common case. Prefer the host capability when it arrives; there is no exact
+  CSS equivalent, because `pointer` describes only the primary pointer and a
+  hybrid matches `(pointer: fine)` while still having a touchscreen. The
+  closest conservative guard is
+  `@media (hover: hover) and (not (any-pointer: coarse))`, which holds only
+  when no coarse pointer exists at all.
 - The app must not paint its own outer card, border, or shadow. The frame is
   the card. The app's outermost element is a plain padded region on
   `--color-background-primary`.
