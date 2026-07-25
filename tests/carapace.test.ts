@@ -565,7 +565,9 @@ describe("CSS contract", () => {
     const scope = ruleDeclarations(embed, ".oc-embed-tokens");
     const root = ruleDeclarations(embed, ":root");
 
-    expect(embed).not.toContain("@import");
+    // Match an import statement rather than the word, which also appears in
+    // prose describing the specification's own font channel.
+    expect(embed).not.toMatch(/^\s*@import/m);
     expectClasses(embed, [".oc-embed-tokens"]);
 
     // The specification vocabulary is unprefixed and collides with names the

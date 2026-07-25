@@ -134,7 +134,7 @@
   --color-ring-success: var(--oc-status-success-fg, light-dark(#16a34a, #22c55e));
   --color-ring-warning: var(--oc-status-warning-fg, light-dark(#d97706, #fbbf24));
 
-  /* Typography. Embedded stacks only; brand faces cannot load in a sandbox. */
+  /* Typography. Embed stacks only; see the font note on :root above. */
   --font-sans: var(--oc-font-embed-sans, system-ui, sans-serif);
   --font-mono: var(--oc-font-embed-mono, ui-monospace, monospace);
   --font-weight-normal: 400;
