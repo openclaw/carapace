@@ -108,7 +108,10 @@
     --oc-chart-line,
     light-dark(rgb(23 23 26 / 0.12), rgb(237 237 237 / 0.09))
   );
-  --color-border-inverse: var(--oc-bg-contrast, light-dark(#17171a, #ededed));
+  /* Inverse borders and rings sit on --color-background-inverse, so they take
+     the inverse foreground; taking the inverse surface would draw them in its
+     own color and make them vanish. */
+  --color-border-inverse: var(--oc-text-inverse, light-dark(#f6f5f3, #101012));
   --color-border-ghost: transparent;
   --color-border-info: var(--oc-status-info-fg, light-dark(#2563eb, #60a5fa));
   --color-border-danger: var(--oc-status-error-fg, light-dark(#dc2626, #ef4444));
@@ -128,7 +131,7 @@
     --oc-border-accent,
     light-dark(rgb(216 74 49 / 0.42), rgb(245 101 74 / 0.4))
   );
-  --color-ring-inverse: var(--oc-bg-contrast, light-dark(#17171a, #ededed));
+  --color-ring-inverse: var(--oc-text-inverse, light-dark(#f6f5f3, #101012));
   --color-ring-info: var(--oc-status-info-fg, light-dark(#2563eb, #60a5fa));
   --color-ring-danger: var(--oc-status-error-fg, light-dark(#dc2626, #ef4444));
   --color-ring-success: var(--oc-status-success-fg, light-dark(#16a34a, #22c55e));
