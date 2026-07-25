@@ -135,10 +135,16 @@ The size contract is the most common source of embedded breakage.
 - Do not set `height: 100%` on `html` or `body` while the SDK's `autoResize` is
   on. The app measures itself while the host sizes the frame from that
   measurement, and the two chase each other.
-- `containerDimensions` is a union: it carries either a fixed `height` or a
-  `maxHeight`, and either a fixed `width` or a `maxWidth`. Branch on which
-  shape arrived rather than reading one field.
-- Width is host-owned. Report height changes; do not try to widen the frame.
+- `containerDimensions` is optional, and each axis independently arrives as a
+  fixed value, a maximum, or neither. The maximum branches are themselves
+  optional, so an axis with no fields means unbounded, and an absent
+  `containerDimensions` means the app knows nothing about its container. Handle
+  all three per axis; do not assume one field is always present.
+- Report both dimensions and let the host decide. Where the host gave a fixed
+  `width` the reported width is advisory and it will be ignored — OpenClaw
+  sizes only height today. Where the host gave a `maxWidth` or left width
+  unbounded, the app's reported width is what the host sizes from, so an app
+  that reports height alone can sit at a stale width.
 - In a fixed-height container the app scrolls inside its own region so the
   frame's border and radius are never crossed by a scrollbar.
 
