@@ -4018,6 +4018,12 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
   color: var(--oc-text-primary);
 }
 
+/* These are the frame's only controls, so they cannot be hover-only. */
+.oc-mcp-app-actions button:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 2px;
+}
+
 .oc-mcp-app-actions svg {
   width: 0.875rem;
   height: 0.875rem;
