@@ -200,8 +200,12 @@ the payload matter.
   - A `resource_link` is a URI to fetch, not a URL to navigate to. Read it back
     through the server-resources capability rather than linking to it.
   - An external `http`/`https` URL goes through the host's open-link request.
-    The sandbox blocks direct navigation, so a bare anchor silently does
-    nothing.
+    Do not reach for a bare anchor: the sandbox attribute alone only stops the
+    app navigating the *top-level* page, so depending on the host an anchor
+    either replaces the app inside its own frame — the app appears to vanish —
+    or is blocked outright. OpenClaw blocks it, because the trusted outer
+    document's `frame-src` also governs replacement navigations of the inner
+    frame. Neither outcome is the one the author wanted.
   - Downloads are a separate capability the host may not advertise. OpenClaw
     does not today, so offer a download only when the host negotiated one.
 - Between tool input and tool result, show a skeleton sized like the result,
