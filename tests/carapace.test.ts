@@ -605,6 +605,14 @@ describe("CSS contract", () => {
         statusBlock: '[data-theme-family="claw"][data-theme-resolved="light"]',
         surfaceBlock: 'html[data-theme="light"]',
       },
+      // The system-preference path is a separate copy of the same values and is
+      // the one an unconfigured consumer actually lands on, so it needs its own
+      // assertion rather than riding on the explicit light rule.
+      {
+        label: "light (system preference)",
+        statusBlock: '[data-theme-family="claw"][data-theme-mode="system"]',
+        surfaceBlock: 'html[data-theme="light"]',
+      },
     ];
 
     for (const { label, statusBlock, surfaceBlock } of themeCases) {
@@ -638,14 +646,15 @@ describe("CSS contract", () => {
   });
 
   test("embed fallbacks match the tokens they fall back from", async () => {
-    const [product, embed] = await Promise.all([
+    const [product, embed, preview] = await Promise.all([
       readFile("styles/themes/product.css", "utf8"),
       readFile("styles/candidate/embed.css", "utf8"),
+      readFile("preview/preview.css", "utf8"),
     ]);
 
-    // The status foregrounds were duplicated into three files with nothing
+    // The status foregrounds are duplicated into four files with nothing
     // holding them together, which is how they drifted out of contrast. Assert
-    // each light-dark() fallback still equals the token it stands in for.
+    // each copy still equals the token it stands in for.
     const valueOf = (source: string, block: string, token: string) =>
       ruleDeclarations(source, block)
         .match(new RegExp(`${token}:\\s*([^;]+);`))?.[1]
@@ -667,6 +676,23 @@ describe("CSS contract", () => {
         lightFallback!.trim(),
       );
       expect(valueOf(product, ":root", token!)).toBe(darkFallback!.trim());
+    }
+
+    // preview.css re-declares the whole theme for the workbench canvas and is
+    // covered by neither the frozen contract nor the fallback check above, so
+    // the reference site could drift back on its own.
+    for (const role of ["success", "warning", "error", "info"]) {
+      const token = `--oc-status-${role}-fg`;
+      for (const theme of ["light", "dark"] as const) {
+        const block =
+          theme === "light" ? '[data-theme-family="claw"][data-theme-resolved="light"]' : ":root";
+        const expected = valueOf(product, block, token);
+        const found = [...preview.matchAll(new RegExp(`${token}:\\s*(#[0-9a-f]{6})`, "gi"))].map(
+          (match) => match[1],
+        );
+        expect(found, `${token} missing from preview.css`).not.toHaveLength(0);
+        expect(found, `${theme} ${token} drifted in preview.css`).toContain(expected);
+      }
     }
   });
 
