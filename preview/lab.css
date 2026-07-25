@@ -4031,9 +4031,14 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
 }
 
 /* Lifecycle states share one block so loading, failure, expiry, and consent
-   stay dimensionally stable and never reflow the frame around them. */
+   present identically. The block fills whatever height the body already has,
+   because a state that shrinks to its own content would collapse a tall app
+   and reflow the transcript around it. CSS cannot know that height on its
+   own: the consumer holds the last measured body height while it swaps the
+   sandbox out, and the minimum below only covers the case with none yet. */
 .oc-mcp-app-state {
   display: grid;
+  block-size: 100%;
   min-height: 10rem;
   align-content: center;
   justify-items: center;

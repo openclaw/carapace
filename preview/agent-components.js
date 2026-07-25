@@ -404,7 +404,7 @@ const components = {
   <div class="oc-mcp-app-body oc-embed-tokens"><!-- sandboxed app document --></div>
 </section>
 
-<!-- Lifecycle states replace the body and keep the frame dimensionally stable. -->
+<!-- Lifecycle states replace the body at its last measured height. -->
 <div class="oc-mcp-app-state" data-state="blocked" role="status">
   <span aria-hidden="true">…</span>
   <span class="oc-mcp-app-state-title">Let this app run?</span>
@@ -415,7 +415,7 @@ const components = {
       "Keep the frame, header, provenance, and lifecycle states host-owned so every installed app reads as one system.",
       "Name the originating server in the header; provenance is the trust signal for a surface the host did not author.",
       "Let an app spend its brand accent on primary actions and identity only, and validate its contrast against host surfaces before applying it to chrome.",
-      "Replace the body for loading, failure, expiry, and consent rather than resizing the frame, so a transcript never reflows around a recovering app.",
+      "Replace the body for loading, failure, expiry, and consent, and hold the last measured body height while swapping, so a transcript does not reflow around a recovering app.",
       "The consumer owns sandboxing, iframe permissions, lease renewal, consent persistence, and destructive-action approval.",
     ],
   },
