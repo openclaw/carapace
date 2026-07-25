@@ -3922,12 +3922,13 @@ details.oc-agent-tool-row[open] > .oc-agent-tool-row-summary .oc-agent-tool-row-
    what renders inside the body. */
 
 .oc-mcp-app {
-  /* Branding slot. The embedded app declares an accent, the host validates it
-     and sets these properties on the frame. They stay on the chrome because
-     the transported MCP style record is a closed key set that cannot carry an
-     OpenClaw name. The pair travels together: an accent the host cannot put a
-     legible foreground on is unusable, so a host that overrides one overrides
-     both. Unbranded apps fall back to the OpenClaw accent. */
+  /* Branding slot: the host-side seam for tinting chrome to an app's accent.
+     It lives on the frame because the transported MCP style record is a closed
+     key set that cannot carry an OpenClaw name. The pair travels together: an
+     accent the host cannot put a legible foreground on is unusable, so a host
+     that overrides one overrides both. No protocol field supplies an app
+     accent today, so the default is the OpenClaw accent and unbranded chrome;
+     see the embed reference before wiring a source. */
   --oc-app-accent: var(--oc-accent-primary);
   --oc-app-accent-contrast: var(--oc-text-on-accent);
 
