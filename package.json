@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "lightningcss": "1.33.0",
-    "lucide": "1.26.0",
+    "lucide": "1.27.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "tailwindcss": "4.3.3",
