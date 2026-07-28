@@ -1,16 +1,30 @@
 # Terminal UI
 
-Carapace documents a semantic terminal design language and reference specimens.
-The terminal consumer keeps runtime behavior, ANSI rendering, keybindings,
+Carapace documents terminal translations of its existing design language. The
+terminal consumer keeps runtime behavior, ANSI rendering, keybindings,
 commands, session state, and framework adapters.
 
-The current reference is OpenClaw's conversation TUI on
-`@earendil-works/pi-tui@0.81.1`. Re-audit the consumer and Pi source before
-treating version-specific behavior as current.
+The current reference covers both OpenClaw terminal compositions:
+
+- the retained agent TUI on `@earendil-works/pi-tui@0.81.1`
+- onboarding and command setup on `@clack/prompts@1.7.0`
+
+Re-audit OpenClaw, Pi, and Clack before treating version-specific behavior as
+current.
+
+## Reuse first
+
+Use existing Carapace Colors, Typography, Layout, Motion, Base styles, inputs,
+selections, approvals, loaders, flows, and Agent Components. Terminal UI adds
+only terminal-specific constraints: ANSI and cell width, the host foreground
+and font, focus and cursor ownership, scrollback/history, and row/column limits.
+
+Do not create a TUI palette, typography scale, CSS export, component package, or
+second renderer.
 
 ## Structure
 
-Model the terminal as one vertical conversation buffer:
+Model the agent TUI as one vertical conversation buffer:
 
 1. header identity
 2. transcript rows and work cards
@@ -21,6 +35,10 @@ Model the terminal as one vertical conversation buffer:
 Pickers, settings, consent, approvals, and task suggestions are transient
 focus-capturing overlays. Help, command feedback, local-shell output, and most
 errors return to the transcript; do not present them as separate screens.
+
+Model setup as one append-only guide with a single active prompt. Completed
+ordinary answers collapse into history; notes and progress preserve context;
+intro, outro, and cancellation visibly close the guide.
 
 ## Visual roles
 
@@ -52,6 +70,27 @@ theme API.
 - Treat exact current limits as audited reference values, not universal design
   tokens.
 
+## Setup prompts
+
+- Keep text, sensitive text, select, multiselect, searchable variants, confirm,
+  and progress within one connected guide.
+- Keep validation next to the active value or list.
+- Mask sensitive input, omit it from submitted history, and never cache it for
+  replay.
+- Preserve the focused option when clipping long lists. Remove descriptions
+  before labels, selection markers, or actions.
+- Keep option anatomy explicit: marker, human label, stable value, annotation,
+  optional description, and availability reason. `current`, `default`,
+  `selected`, `recommended`, and `configured` are separate meanings; do not
+  collapse them into one state.
+- At wide widths, concise metadata may follow the label. At narrow widths, move
+  metadata to a second line and remove optional description before identity or
+  status.
+- Show Back and Next only when available. Next accepts a remembered answer
+  without replaying output or side effects.
+- Disable Back after irreversible work instead of rerunning unsafe steps.
+- Use notes for framed human context and plain output for raw disclosure.
+
 ## Input and decisions
 
 - The focused surface owns Enter, Escape, arrows, paging, and confirmation.
@@ -65,6 +104,11 @@ theme API.
   outcomes.
 - Keep one active decision at a time even when the runtime can stack overlays.
 
+Simple setup confirmation can render inline or vertically. Detailed agent
+approvals may use overlays and an explicit arm-then-commit sequence. Label
+specimens by renderer instead of implying that Pi and Clack are one component
+implementation.
+
 ## Ownership
 
 Use the existing terminal runtime. Do not introduce a second renderer, copy its
@@ -72,10 +116,9 @@ width or focus algorithms into Carapace, import browser CSS into an ANSI
 surface, or publish a terminal component API from one consumer's implementation.
 
 Keep the Carapace Terminal UI area in Lab until a second terminal consumer
-proves a shared reusable interface. Cross-link Agent Components for
-medium-neutral message, tool, composer, and approval semantics; Terminal UI
-owns only the translation into cells, terminal focus, ANSI, and the vertical
-buffer composition.
+proves a shared reusable interface. Cross-link existing Carapace pages for
+medium-neutral semantics; Terminal UI owns only the translation into cells,
+terminal focus, ANSI, scrollback/history, and terminal compositions.
 
 ## Validation
 
@@ -83,6 +126,10 @@ buffer composition.
 - Verify light and dark theme relationships.
 - Verify idle, streaming, tool success/error, approval, task suggestion, and
   picker states.
+- Verify onboarding intro/outro/cancel, ordinary and sensitive fields,
+  validation, select/multiselect/searchable variants, inline/vertical confirm,
+  progress, remembered answers, replay suppression, and irreversible
+  boundaries.
 - Verify Enter and Escape precedence across editor, inline result, active run,
   filter, and overlay scopes.
 - Verify state remains understandable without color.

@@ -16,20 +16,30 @@ describe("Terminal UI reference", () => {
     expect(area).toBeDefined();
     expect(area?.label).toBe("Terminal UI");
     expect(area?.path).toBe("terminal-ui/");
-    expect(area?.pages).toHaveLength(13);
+    expect(area?.pages).toHaveLength(11);
     expect(area?.pages[0]).toMatchObject({
       id: "terminal-ui",
       label: "Overview",
+      hiddenFromSidebar: true,
     });
-    expect(area?.pages[0].group).toBeUndefined();
-    expect(new Set(area?.pages.slice(1).map(({ group }) => group))).toEqual(
-      new Set(["Foundations", "Patterns", "Compositions", "Resources"]),
-    );
+    expect(area?.pages.every(({ group }) => group === undefined)).toBe(true);
+    expect(area?.pages.slice(1).map(({ label }) => label)).toEqual([
+      "Agent shell",
+      "Composer",
+      "Confirmation",
+      "Field input",
+      "Onboarding",
+      "Prompt flow",
+      "Selection",
+      "Status and progress",
+      "Tool execution",
+      "Transcript",
+    ]);
     for (const page of area?.pages ?? []) expect(getReferenceMaturity(page.id)).toBe("Lab");
   });
 
   test("renders content for every Terminal UI route", () => {
-    expect(terminalUiContentIds).toHaveLength(13);
+    expect(terminalUiContentIds).toHaveLength(11);
     for (const id of terminalUiContentIds) {
       const content = getTerminalUiContent(id);
       expect(content).toContain('class="reference-intro"');
@@ -138,19 +148,22 @@ describe("Terminal UI reference", () => {
     expect(
       terminalShellMarkup({ scenario: "session", filter: "", selection: "1" }),
     ).toContain('<span aria-hidden="true">›</span><strong>Release verification</strong>');
-    expect(getTerminalUiContent("terminal-input-selection")).toContain(
+    expect(getTerminalUiContent("terminal-selection")).toContain(
       '<small><mark>GPT</mark>-5.5</small>',
     );
-    expect(getTerminalUiContent("terminal-overlays-decisions")).not.toContain(
+    expect(getTerminalUiContent("terminal-confirmation")).not.toContain(
       "data-terminal-decision",
     );
   });
 
-  test("documents audit corrections without inventing exported runtime API", async () => {
+  test("includes the audited onboarding wizard without inventing exported runtime API", async () => {
     const transcript = getTerminalUiContent("terminal-transcript");
-    const decisions = getTerminalUiContent("terminal-overlays-decisions");
-    const workStatus = getTerminalUiContent("terminal-work-status");
-    const reference = getTerminalUiContent("terminal-openclaw-reference");
+    const decisions = getTerminalUiContent("terminal-confirmation");
+    const status = getTerminalUiContent("terminal-status-progress");
+    const onboarding = getTerminalUiContent("terminal-onboarding");
+    const promptFlow = getTerminalUiContent("terminal-prompt-flow");
+    const fieldInput = getTerminalUiContent("terminal-field-input");
+    const selection = getTerminalUiContent("terminal-selection");
     const packageJson = JSON.parse(await readFile("package.json", "utf8"));
 
     expect(transcript).toContain("Attachment-only user turn");
@@ -158,10 +171,25 @@ describe("Terminal UI reference", () => {
     expect(transcript).not.toContain("Attached image:");
     expect(transcript).toContain("Pairing QR");
     expect(transcript).toContain("(no output)");
-    expect(decisions).toContain("Dismiss when available");
-    expect(decisions).toContain("severity remains textual metadata");
-    expect(reference).toContain("180 transcript components");
-    expect(workStatus).toContain("local stopped");
+    expect(decisions).toContain("Setup flow (Clack)");
+    expect(decisions).toContain("Agent TUI (Pi)");
+    expect(onboarding).toContain("Guided first run");
+    expect(onboarding).toContain("Classic");
+    expect(onboarding).toContain("Remote");
+    expect(promptFlow).toContain("replay");
+    expect(promptFlow).toContain("irreversible");
+    expect(fieldInput).toContain("Sensitive");
+    expect(fieldInput).toContain("Validation");
+    expect(selection).toContain("Option anatomy");
+    expect(selection).toContain("current · recommended");
+    expect(selection).toContain("Default names the initial selection");
+    expect(selection).toContain("Discovery summary");
+    expect(selection).toContain("already configured · recommended");
+    expect(selection).toContain("Searchable multiselect");
+    expect(status).toContain("Determinate");
+    expect(status).toContain("OpenClaw CLI reporter");
+    expect(status).toContain("75%");
+    expect(status).toContain("local stopped");
     expect(Object.keys(packageJson.exports)).not.toContain("./terminal.css");
     expect(Object.keys(packageJson.exports)).not.toContain("./terminal-ui");
   });
