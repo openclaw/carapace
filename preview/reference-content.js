@@ -26,6 +26,7 @@ import {
 import { renderComponentWorkbench } from "./component-workbench.js";
 import { icon } from "./icons.js";
 import { getReferenceMaturity } from "./navigation.js";
+import { getTerminalUiContent, terminalUiContentIds } from "./terminal-ui.js";
 
 const brandMarkHoverUrl = new URL("./assets/openclaw-mark-hover.png", import.meta.url).href;
 const brandMarkUrl = new URL("./assets/openclaw-mark.png", import.meta.url).href;
@@ -1538,10 +1539,14 @@ Retry-After: 12s · request id req_8f31</span></div>
     <section aria-labelledby="release-consumer"><div class="section-heading"><div><p class="eyebrow">Consumers</p><h2 id="release-consumer">Migration remains explicit</h2></div></div>${guidanceList(["Pin an immutable semantic tag.", "Review compatibility surfaces and focused imports before updating.", "Validate rendered routes at desktop and mobile sizes.", "Check light and dark themes where supported."])}</section>`,
 };
 
-export const referenceContentIds = [...Object.keys(contents), ...agentReferenceContentIds];
+export const referenceContentIds = [
+  ...Object.keys(contents),
+  ...agentReferenceContentIds,
+  ...terminalUiContentIds,
+];
 
 export function getReferenceContent(id) {
-  return contents[id]?.() ?? getAgentReferenceContent(id);
+  return contents[id]?.() ?? getTerminalUiContent(id) ?? getAgentReferenceContent(id);
 }
 
 export function renderReferenceContent(root = globalThis.document, pageId) {

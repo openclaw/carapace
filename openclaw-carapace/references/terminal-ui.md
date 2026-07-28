@@ -1,0 +1,90 @@
+# Terminal UI
+
+Carapace documents a semantic terminal design language and reference specimens.
+The terminal consumer keeps runtime behavior, ANSI rendering, keybindings,
+commands, session state, and framework adapters.
+
+The current reference is OpenClaw's conversation TUI on
+`@earendil-works/pi-tui@0.81.1`. Re-audit the consumer and Pi source before
+treating version-specific behavior as current.
+
+## Structure
+
+Model the terminal as one vertical conversation buffer:
+
+1. header identity
+2. transcript rows and work cards
+3. connection and activity status
+4. session footer
+5. focused editor
+
+Pickers, settings, consent, approvals, and task suggestions are transient
+focus-capturing overlays. Help, command feedback, local-shell output, and most
+errors return to the transcript; do not present them as separate screens.
+
+## Visual roles
+
+- Preserve assistant prose in the terminal's default foreground.
+- Use a neutral inset surface for user-authored turns.
+- Keep system notices muted and inline.
+- Use primary accent for the active choice or explicit confirmation.
+- Use secondary accent for focus, connection, and current context.
+- Reserve success, warning, and error colors for outcomes.
+- Pair every colored state with text, a glyph, ordering, or another non-color
+  signal.
+- Do not infer severity colors when the consumer currently renders severity as
+  text metadata.
+
+Carapace's browser specimens may map these relationships to coral, sea, and
+semantic status roles. That mapping is documentation, not an exported ANSI
+theme API.
+
+## Cells and width
+
+- Design and test in terminal columns and rows, not browser pixels.
+- Ensure every rendered line fits its supplied width after ANSI sequences are
+  ignored.
+- Preserve grapheme clusters, ANSI styles, and OSC 8 links when wrapping or
+  truncating.
+- Remove optional descriptions before labels, selection prefixes, or actions.
+- Bound long output and name omitted content; expansion behavior stays in the
+  consumer.
+- Treat exact current limits as audited reference values, not universal design
+  tokens.
+
+## Input and decisions
+
+- The focused surface owns Enter, Escape, arrows, paging, and confirmation.
+- Propagate focus to embedded text inputs so hardware-cursor and IME placement
+  remain correct.
+- Keep a conservative action selected first when one is available.
+- Require an explicit second commit for privileged or costly actions.
+- Changing selection disarms confirmation.
+- Name the consequence in the confirmation sentence.
+- Preserve visible stale, expired, denied, accepted, dismissed, and failed
+  outcomes.
+- Keep one active decision at a time even when the runtime can stack overlays.
+
+## Ownership
+
+Use the existing terminal runtime. Do not introduce a second renderer, copy its
+width or focus algorithms into Carapace, import browser CSS into an ANSI
+surface, or publish a terminal component API from one consumer's implementation.
+
+Keep the Carapace Terminal UI area in Lab until a second terminal consumer
+proves a shared reusable interface. Cross-link Agent Components for
+medium-neutral message, tool, composer, and approval semantics; Terminal UI
+owns only the translation into cells, terminal focus, ANSI, and the vertical
+buffer composition.
+
+## Validation
+
+- Verify comfortable, narrow, and short terminal sizes with real PTY proof.
+- Verify light and dark theme relationships.
+- Verify idle, streaming, tool success/error, approval, task suggestion, and
+  picker states.
+- Verify Enter and Escape precedence across editor, inline result, active run,
+  filter, and overlay scopes.
+- Verify state remains understandable without color.
+- Use browser screenshots to validate Carapace reference pages, not as proof of
+  the terminal runtime.

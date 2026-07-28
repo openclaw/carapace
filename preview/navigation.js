@@ -791,6 +791,104 @@ export const referenceAreas = [
     ],
   },
   {
+    id: "terminal-ui",
+    label: "Terminal UI",
+    description: "Cell-first foundations, patterns, and compositions for terminal interfaces",
+    path: "terminal-ui/",
+    pages: [
+      {
+        id: "terminal-ui",
+        label: "Overview",
+        path: "terminal-ui/",
+        keywords: "terminal tui overview openclaw pi cells ansi patterns shell",
+      },
+      {
+        id: "terminal-color",
+        label: "Color and contrast",
+        path: "terminal-ui/foundations/color-and-contrast/",
+        group: "Foundations",
+        keywords: "terminal color contrast ansi theme light dark semantic roles",
+      },
+      {
+        id: "terminal-cells",
+        label: "Cells, spacing, and glyphs",
+        path: "terminal-ui/foundations/cells-spacing-and-glyphs/",
+        group: "Foundations",
+        keywords: "terminal cells columns ansi grapheme spacing glyph emoji ellipsis",
+      },
+      {
+        id: "terminal-width",
+        label: "Width, viewport, and density",
+        path: "terminal-ui/foundations/width-viewport-and-density/",
+        group: "Foundations",
+        keywords: "terminal width height viewport density responsive columns rows overlay",
+      },
+      {
+        id: "terminal-transcript",
+        label: "Transcript",
+        path: "terminal-ui/patterns/transcript/",
+        group: "Patterns",
+        keywords: "terminal transcript user assistant system btw markdown streaming attachment",
+      },
+      {
+        id: "terminal-work-status",
+        label: "Work and status",
+        path: "terminal-ui/patterns/work-and-status/",
+        group: "Patterns",
+        keywords: "terminal status activity run tool pending success error output disclosure",
+      },
+      {
+        id: "terminal-input-selection",
+        label: "Input and selection",
+        path: "terminal-ui/patterns/input-and-selection/",
+        group: "Patterns",
+        keywords: "terminal editor autocomplete picker settings focus cursor ime keyboard",
+      },
+      {
+        id: "terminal-overlays-decisions",
+        label: "Overlays and decisions",
+        path: "terminal-ui/patterns/overlays-and-decisions/",
+        group: "Patterns",
+        keywords: "terminal overlay approval consent decision safe default confirm task suggestion",
+      },
+      {
+        id: "terminal-agent-shell",
+        label: "Agent shell",
+        path: "terminal-ui/compositions/agent-shell/",
+        group: "Compositions",
+        keywords: "terminal agent shell header transcript status footer editor composition",
+      },
+      {
+        id: "terminal-responsive",
+        label: "Responsive terminals",
+        path: "terminal-ui/compositions/responsive-terminals/",
+        group: "Compositions",
+        keywords: "terminal responsive compact 100x30 80x20 64x18 20x18 workbench",
+      },
+      {
+        id: "terminal-pi-adapter",
+        label: "Pi TUI adapter",
+        path: "terminal-ui/resources/pi-tui-adapter/",
+        group: "Resources",
+        keywords: "terminal pi tui adapter runtime component overlay focus markdown editor",
+      },
+      {
+        id: "terminal-testing",
+        label: "Testing",
+        path: "terminal-ui/resources/testing/",
+        group: "Resources",
+        keywords: "terminal testing pty width state keyboard visual proof",
+      },
+      {
+        id: "terminal-openclaw-reference",
+        label: "OpenClaw reference",
+        path: "terminal-ui/resources/openclaw-reference/",
+        group: "Resources",
+        keywords: "openclaw terminal tui source audit surface reference gateway local",
+      },
+    ],
+  },
+  {
     id: "resources",
     label: "Resources",
     description: "Adoption, adapters, skills, and release guidance",
@@ -929,6 +1027,7 @@ const labAreaIds = new Set([
   "charts",
   "blocks",
   "applications",
+  "terminal-ui",
 ]);
 
 export function getReferenceMaturity(id) {
@@ -945,6 +1044,7 @@ const sequencedAreaIds = new Set([
   "charts",
   "blocks",
   "applications",
+  "terminal-ui",
 ]);
 
 const adjacentReferenceSequences = referenceAreas

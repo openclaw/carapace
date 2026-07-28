@@ -591,6 +591,13 @@ export function mountPage(
   const reportFeedback = showFeedback || feedback.show;
   const stopCopy = bindCopyActions(root, reportFeedback);
   let active = true;
+  let stopTerminalUi = () => {};
+  if (root.querySelector("[data-terminal-workbench]")) {
+    void import("./terminal-ui-interactions.js").then(({ bindTerminalUi }) => {
+      if (!active || root.isConnected === false) return;
+      stopTerminalUi = bindTerminalUi(root);
+    });
+  }
 
   return {
     cleanup() {
@@ -598,6 +605,7 @@ export function mountPage(
       active = false;
       tokenCatalog.cleanup();
       stopPageInteractions();
+      stopTerminalUi();
       stopIcons();
       stopObservingSections();
       stopCopy();
