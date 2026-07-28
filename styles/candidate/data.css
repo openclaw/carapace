@@ -432,3 +432,63 @@ th[aria-sort] .oc-table-sort-icon {
   font: inherit;
   font-size: var(--oc-font-size-xs);
 }
+/* Sparkline: a stepped micro-trend beside a metric. The consumer computes the
+   series and emits the stepped path at build time; the component owns size,
+   stroke, and tone. Crisp segments, not splines: trend marks stay siblings of
+   the pixel identity rather than imports from a charting kit. */
+.oc-sparkline {
+  display: block;
+  width: 100%;
+  max-width: 8.5rem;
+  height: 1.5rem;
+}
+
+.oc-sparkline-line {
+  fill: none;
+  stroke: var(--oc-text-muted);
+  stroke-width: 1.5;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  /* preserveAspectRatio="none" stretches the viewBox; keep the stroke true. */
+  vector-effect: non-scaling-stroke;
+}
+
+.oc-sparkline[data-tone="accent"] .oc-sparkline-line {
+  stroke: var(--oc-accent-primary);
+}
+
+.oc-sparkline-fill {
+  fill: color-mix(in srgb, var(--oc-accent-primary) 12%, transparent);
+  stroke: none;
+}
+
+.oc-sparkline-endpoint {
+  fill: var(--oc-accent-primary);
+  stroke: none;
+}
+
+/* Delta: period-over-period change beside a metric. Neutral by default --
+   activity direction is not a value judgment; reserve the status tones for
+   metrics with a genuinely good or bad direction. */
+.oc-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.oc-delta-arrow {
+  font-size: 0.625rem;
+  line-height: 1;
+}
+
+.oc-delta[data-tone="positive"] {
+  color: var(--oc-status-success-fg);
+}
+
+.oc-delta[data-tone="negative"] {
+  color: var(--oc-status-error-fg);
+}
