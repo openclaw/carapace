@@ -25,11 +25,60 @@ function describeState(state) {
   return `${columns} by ${rows}, ${state.theme}, ${state.scenario}${armed}${filter}${notice}`;
 }
 
+function applySessionPickerState(stage, state) {
+  if (state.scenario !== "session") return;
+
+  const filter = state.filter ?? "car";
+  const normalizedFilter = filter.toLowerCase();
+  const filterInput = stage?.querySelector("[data-terminal-filter-input]");
+  if (filterInput) filterInput.value = filter;
+
+  const rows = [...(stage?.querySelectorAll(".terminal-picker-row") ?? [])];
+  const visibleRows = rows.filter((row) => {
+    const label = row.querySelector("strong")?.textContent || "";
+    const description = row.querySelector("small")?.textContent || "";
+    const matches =
+      !normalizedFilter || `${label} ${description}`.toLowerCase().includes(normalizedFilter);
+    row.hidden = !matches;
+    row.classList.remove("is-selected");
+    const marker = row.querySelector("span");
+    if (marker) marker.textContent = " ";
+    return matches;
+  });
+  const selection = Number.isInteger(Number(state.selection)) ? Number(state.selection) : 0;
+  const selectedRow = visibleRows[selection];
+  selectedRow?.classList.add("is-selected");
+  const selectedMarker = selectedRow?.querySelector("span");
+  if (selectedMarker) selectedMarker.textContent = "›";
+
+  const empty = stage?.querySelector(".terminal-picker-empty");
+  if (empty) empty.hidden = visibleRows.length > 0;
+}
+
+function applyRenderedState(stage, state) {
+  const noticeRow = stage?.querySelector(".terminal-system-row");
+  if (state.scenario === "idle" && state.notice && noticeRow) {
+    noticeRow.textContent = state.notice;
+  }
+  applySessionPickerState(stage, state);
+}
+
 function renderWorkbench(workbench, { focusFrame = false } = {}) {
   const stage = workbench.querySelector("[data-terminal-stage]");
   const status = workbench.querySelector("[data-terminal-status]");
   const state = readState(workbench);
-  if (stage) stage.innerHTML = terminalShellMarkup(state);
+  if (stage) {
+    stage.innerHTML = terminalShellMarkup({
+      width: state.width,
+      theme: state.theme,
+      scenario: state.scenario,
+      expanded: state.expanded,
+      armed: state.armed,
+      filter: state.scenario === "session" ? "" : undefined,
+      selection: state.scenario === "session" ? undefined : state.selection,
+    });
+    applyRenderedState(stage, state);
+  }
   if (status) status.textContent = describeState(state);
   if (focusFrame) {
     const focusTarget =
@@ -178,7 +227,7 @@ export function bindTerminalUi(root = globalThis.document) {
           workbench,
           state.scenario,
           action === "previous" ? -1 : 1,
-          frame.querySelectorAll(".terminal-picker-row").length,
+          frame.querySelectorAll(".terminal-picker-row:not([hidden])").length,
         );
       } else if (action === "open-session") {
         setScenario(workbench, "idle");

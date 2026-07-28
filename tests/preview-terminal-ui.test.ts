@@ -133,6 +133,9 @@ describe("Terminal UI reference", () => {
     expect(terminalShellMarkup({ scenario: "session", filter: "" })).toContain(
       'data-terminal-filter-input aria-label="Filter sessions"',
     );
+    expect(terminalShellMarkup({ scenario: "session", filter: "" })).toContain(
+      '<div class="terminal-picker-empty" hidden>No matches</div>',
+    );
     expect(terminalShellMarkup({ scenario: "session" })).not.toContain(
       "Release verification",
     );

@@ -116,12 +116,12 @@ function pickerMarkup(
     <div class="terminal-picker-divider" aria-hidden="true"></div>
     ${
       visibleRows.length
-        ? visibleRows
+        ? `${visibleRows
             .map(
               ([label, description], index) =>
                 `<div class="terminal-picker-row${index === selectedIndex ? " is-selected" : ""}"><span aria-hidden="true">${index === selectedIndex ? "›" : " "}</span><strong>${emphasizeMatch(label, query)}</strong><small>${emphasizeMatch(description, query)}</small></div>`,
             )
-            .join("")
+            .join("")}${interactive && kind === "session" ? '<div class="terminal-picker-empty" hidden>No matches</div>' : ""}`
         : '<div class="terminal-picker-empty">No matches</div>'
     }
   </div>`;
@@ -190,7 +190,7 @@ export function terminalShellMarkup({
         <div class="terminal-turn is-user">Audit every current screen before extracting the design system.</div>
         <div class="terminal-turn is-assistant">The current product is one shell with transcript rows, work cards, and focus-capturing overlays.${scenario === "streaming" ? '<span class="terminal-cursor" aria-hidden="true">▋</span>' : ""}</div>
         ${["tool", "error", "streaming"].includes(scenario) ? toolCardMarkup(toolState, expanded) : ""}
-        ${scenario === "idle" ? `<div class="terminal-system-row">${notice || "session history loaded"}</div>` : ""}
+        ${scenario === "idle" ? `<div class="terminal-system-row">${escapeHtml(notice || "session history loaded")}</div>` : ""}
         <div class="terminal-shell-status" data-state="${scenario}">${activity}</div>
         <div class="terminal-shell-footer">main | carapace | openai/gpt-5.5 | tools ${expanded ? "expanded" : "collapsed"} | 18k tokens</div>
         <div class="terminal-editor"><span aria-hidden="true">›</span><span class="terminal-editor-copy">${overlay === "none" ? "Message OpenClaw" : ""}</span><i aria-hidden="true">▋</i></div>
