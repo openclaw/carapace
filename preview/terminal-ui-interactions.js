@@ -1,11 +1,48 @@
 import { terminalShellMarkup } from "./terminal-ui.js";
 
+function readTerminalWidth(workbench) {
+  switch (workbench.querySelector('[data-terminal-control="width"]')?.value) {
+    case "80x20":
+      return "80x20";
+    case "64x18":
+      return "64x18";
+    case "20x18":
+      return "20x18";
+    default:
+      return "100x30";
+  }
+}
+
+function readTerminalTheme(workbench) {
+  return workbench.querySelector('[data-terminal-control="theme"]')?.value === "light"
+    ? "light"
+    : "dark";
+}
+
+function readTerminalScenario(workbench) {
+  switch (workbench.querySelector('[data-terminal-control="scenario"]')?.value) {
+    case "idle":
+      return "idle";
+    case "tool":
+      return "tool";
+    case "error":
+      return "error";
+    case "approval":
+      return "approval";
+    case "task":
+      return "task";
+    case "session":
+      return "session";
+    default:
+      return "streaming";
+  }
+}
+
 function readState(workbench) {
   return {
-    width: workbench.querySelector('[data-terminal-control="width"]')?.value || "100x30",
-    theme: workbench.querySelector('[data-terminal-control="theme"]')?.value || "dark",
-    scenario:
-      workbench.querySelector('[data-terminal-control="scenario"]')?.value || "streaming",
+    width: readTerminalWidth(workbench),
+    theme: readTerminalTheme(workbench),
+    scenario: readTerminalScenario(workbench),
     expanded: Boolean(
       workbench.querySelector('[data-terminal-control="expanded"]')?.checked,
     ),
