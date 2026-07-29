@@ -492,3 +492,13 @@ th[aria-sort] .oc-table-sort-icon {
 .oc-delta[data-tone="negative"] {
   color: var(--oc-status-error-fg);
 }
+
+/* Direction tints the arrow only: a scannable up/down cue without painting
+   the whole delta as a judgment. An explicit data-tone still wins. */
+.oc-delta:not([data-tone])[data-direction="up"] .oc-delta-arrow {
+  color: var(--oc-status-success-fg);
+}
+
+.oc-delta:not([data-tone])[data-direction="down"] .oc-delta-arrow {
+  color: var(--oc-status-error-fg);
+}
