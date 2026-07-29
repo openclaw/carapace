@@ -143,6 +143,16 @@ function agentShellContent() {
     ${markupSection("terminal-shell-markup", "Replay this capture", "agent-shell")}`;
 }
 
+function approvalContent() {
+  return `${pageIntro("Approval", "A plugin approval interrupts the active agent session so a person can review one bounded mutation before it runs.")}
+    ${liveSection("terminal-approval-live", "Workspace skill approval", "The deny action starts focused. Move to Allow once and commit, or press Escape to deny the request.", "approval", "↑/↓ move focus · Enter commit · Escape deny · R restart", { rows: 13 })}
+    ${specimenSection("terminal-approval-specimen", "Runtime proof", "Metadata, request context, and conservative actions", "The capture is the real OpenClaw Pi overlay for applying a pending workspace skill proposal.", ["agent-approval"])}
+    <section aria-labelledby="terminal-approval-anatomy">${sectionIntro("terminal-approval-anatomy", "Anatomy", "Name the request before asking for a decision")}${referenceTable(["Part", "Rule"], [["Surface and title", "Identify the approval family and the exact requested action"], ["Severity", "Render Info, Warning, or Critical as text; do not infer a color-only treatment"], ["Owner metadata", "Show the tool and plugin when the request provides them"], ["Request context", "State the bounded consequence without exposing secrets or untrusted control sequences"], ["Decision list", "Render only the decisions allowed by the request"], ["Outcome", "Return allowed, denied, dismissed, expired, stale, and failed results to the transcript"]])}</section>
+    <section aria-labelledby="terminal-approval-decisions">${sectionIntro("terminal-approval-decisions", "Decisions", "Scope authorization explicitly")}${referenceTable(["Decision", "Meaning"], [["Allow once", "Authorize only the pending request"], ["Always allow", "Authorize matching future requests; show only when the owner supplies a persistent policy"], ["Deny", "Reject the request; focus this first whenever it is available"], ["Dismiss", "Close an allow-only prompt without authorizing it; the request remains pending"]])}</section>
+    <section data-section-kind="guidance" aria-labelledby="terminal-approval-guidance">${sectionIntro("terminal-approval-guidance", "Guidance", "Keep authorization narrow and recoverable")}${guidanceList(["Do not turn a generic confirmation into an approval by changing its title; approvals require request identity, scope, and terminal outcomes.", "Use the request's allowed-decision list as the complete action set; never synthesize Always allow.", "Resolve Escape as Deny when Deny is available. Otherwise dismiss without authorizing and keep the request pending.", "Require a visible second Enter when an allow action starts focused; changing selection clears that confirmation.", "Sanitize untrusted title and request text before rendering it into the terminal.", "Expire requests visibly and preserve stale, denied, accepted, dismissed, and failed outcomes in transcript history."])}<p class="terminal-source-note">Sources: ${sourceLink("src/tui/tui-plugin-approvals.ts", "Pi approval overlay")} and ${sourceLink("src/skills/workshop/policy.ts", "workspace skill approval policy")}.</p></section>
+    ${markupSection("terminal-approval-markup", "Replay the workspace skill approval", "agent-approval")}`;
+}
+
 function composerContent() {
   return `${pageIntro("Composer", "The focused editor at the bottom of the agent shell owns text entry, cursor behavior, history, paste, and completion.")}
     ${liveSection("terminal-composer-live", "Send a message", "Type into the composer and press Enter; the turn joins the transcript and the input clears.", "composer", "Type · Enter send · R restart", { rows: 10 })}
@@ -152,11 +162,11 @@ function composerContent() {
 }
 
 function confirmationContent() {
-  return `${pageIntro("Confirmation", "Simple setup confirmations and detailed agent approvals share decision semantics but keep their native renderer and density.")}
+  return `${pageIntro("Confirmation", "A setup confirmation asks for a compact yes or no decision inside the connected Clack guide.")}
     ${liveSection("terminal-confirmation-live", "Vertical confirmation", "The conservative answer starts focused; arrows or Y/N move it, Enter commits.", "confirm", "↑/↓ or Y/N · Enter confirm · R restart", { rows: 8 })}
-    ${specimenSection("terminal-confirmation-specimens", "Runtime proof", "Simple confirmation and detailed approval", "Setup uses Clack’s connected guide. Agent approvals appear within the Pi shell.", ["setup-confirm", "agent-approval"])}
-    <section data-section-kind="guidance" aria-labelledby="terminal-confirmation-guidance">${sectionIntro("terminal-confirmation-guidance", "Guidance", "Make the consequence and safe default explicit")}${guidanceList(["Select the conservative action first when one exists.", "Keep a simple yes/no confirmation compact; use detail only when the decision needs context.", "Name the consequence in the prompt, not only in surrounding prose.", "Preserve denied, accepted, expired, and failed outcomes in terminal history."])}<p class="terminal-source-note">Sources: ${sourceLink("src/wizard/clack-prompter.ts", "setup confirmation adapter")} and ${sourceLink("src/tui/tui-plugin-approvals.ts", "agent approval overlay")}.</p></section>
-    ${markupSection("terminal-confirmation-markup", "Replay the approval capture", "agent-approval")}`;
+    ${specimenSection("terminal-confirmation-specimens", "Runtime proof", "Vertical setup confirmation", "The decision stays inside Clack’s connected setup guide.", ["setup-confirm"])}
+    <section data-section-kind="guidance" aria-labelledby="terminal-confirmation-guidance">${sectionIntro("terminal-confirmation-guidance", "Guidance", "Make the consequence and safe default explicit")}${guidanceList(["Select the conservative action first when one exists.", "Keep a simple yes/no confirmation compact; use detail only when the decision needs context.", "Name the consequence in the prompt, not only in surrounding prose.", "Preserve the chosen answer in the connected guide."])}<p class="terminal-source-note">Source: ${sourceLink("src/wizard/clack-prompter.ts", "setup confirmation adapter")}.</p></section>
+    ${markupSection("terminal-confirmation-markup", "Replay the confirmation capture", "setup-confirm")}`;
 }
 
 function fieldInputContent() {
@@ -217,6 +227,7 @@ function transcriptContent() {
 const terminalContents = {
   "terminal-ui": overviewContent,
   "terminal-agent-shell": agentShellContent,
+  "terminal-approval": approvalContent,
   "terminal-composer": composerContent,
   "terminal-confirmation": confirmationContent,
   "terminal-field-input": fieldInputContent,

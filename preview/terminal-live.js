@@ -187,6 +187,72 @@ const widgets = {
     };
   },
 
+  approval: () => {
+    const decisions = [
+      { value: "allow-once", label: "Allow once", hint: "Approve this change" },
+      { value: "deny", label: "Deny", hint: "Do not apply this change" },
+    ];
+    let index = decisions.length - 1;
+    let allowArmed = false;
+    let confirmation = "";
+    let outcome = "";
+    const reset = () => {
+      index = decisions.length - 1;
+      allowArmed = false;
+      confirmation = "";
+      outcome = "";
+    };
+    return {
+      frame() {
+        if (outcome) {
+          return `${CLEAR}${INK.muted}workspace skill approval: ${outcome}${INK.reset}\r\n\r\n${INK.muted}Press R to restart.${INK.reset}`;
+        }
+        const rows = decisions.map(
+          (decision, optionIndex) =>
+            `${radio(optionIndex === index)} ${focusLabel(decision.label, optionIndex === index)} ${INK.muted}${decision.hint}${INK.reset}`,
+        );
+        return `${CLEAR}${[
+          `${INK.accent}${INK.bold}workspace skill approval: Apply workspace skill proposal${INK.reset}`,
+          `${INK.muted}Severity: Warning${INK.reset}`,
+          `${INK.muted}Tool: skill_workshop${INK.reset}`,
+          `${INK.muted}Plugin: workspace-skills${INK.reset}`,
+          `${INK.muted}Request: Apply a pending workspace skill proposal into live workspace skills.${INK.reset}`,
+          "",
+          ...(confirmation ? [`${INK.accent}${confirmation}${INK.reset}`, ""] : []),
+          ...rows,
+        ].join("\r\n")}`;
+      },
+      handle(k) {
+        if (k.name === "char" && k.value.toLowerCase() === "r") {
+          reset();
+          return;
+        }
+        if (outcome) {
+          return;
+        }
+        if (k.name === "up" || k.name === "down") {
+          const delta = k.name === "up" ? -1 : 1;
+          index = (index + decisions.length + delta) % decisions.length;
+          allowArmed = false;
+          confirmation = "";
+          return;
+        }
+        if (k.name === "cancel") {
+          outcome = "denied";
+          return;
+        }
+        if (k.name !== "enter") return;
+        const decision = decisions[index];
+        if (decision.value !== "deny" && !allowArmed) {
+          allowArmed = true;
+          confirmation = `Press Enter again to confirm ${decision.label}.`;
+          return;
+        }
+        outcome = decision.value === "deny" ? "denied" : "allowed once";
+      },
+    };
+  },
+
   composer: () => {
     const transcript = [];
     let value = "";
@@ -326,10 +392,13 @@ const widgets = {
   },
 };
 
+export function createTerminalLiveWidget(widgetId) {
+  return widgets[widgetId]?.();
+}
+
 async function mountTerminalLive(host, widgetId, signal) {
-  const factory = widgets[widgetId];
-  if (!factory) return undefined;
-  const widget = factory();
+  const widget = createTerminalLiveWidget(widgetId);
+  if (!widget) return undefined;
   host.dataset.terminalLiveState = "loading";
   try {
     const siteRoot = resolvePreviewSiteRoot(host.ownerDocument.location.href);
