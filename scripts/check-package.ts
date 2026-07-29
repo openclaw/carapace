@@ -64,6 +64,7 @@ for (const required of [
   "styles/candidate/embed.css",
   "styles/tailwind.css",
   "styles/compat/clawhub.css",
+  "js/charts.js",
 ]) {
   if (!output.includes(required)) {
     throw new Error(`Packed package is missing ${required}`);

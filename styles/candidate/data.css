@@ -586,3 +586,37 @@ th[aria-sort] .oc-table-sort-icon {
   border-radius: 2px;
   background: var(--oc-chart-color, var(--oc-accent-primary));
 }
+
+/* Hover readout shell for sparkline/bars bands. The cursor and tip are
+   injected by the optional charts.js module; the CSS ships so consumers
+   opting in get the identical readout everywhere. */
+.oc-chart-hover {
+  position: relative;
+  display: block;
+}
+
+.oc-chart-tip {
+  position: absolute;
+  top: -6px;
+  z-index: 2;
+  padding: var(--oc-space-1) var(--oc-space-2);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: var(--oc-bg-elevated);
+  box-shadow: var(--oc-shadow-sm, 0 2px 8px rgb(0 0 0 / 0.2));
+  color: var(--oc-text-primary);
+  font-family: var(--oc-font-mono);
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+}
+
+.oc-chart-cursor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--oc-border-strong);
+  pointer-events: none;
+}
