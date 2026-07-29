@@ -54,15 +54,26 @@ describe("Terminal UI reference", () => {
     expect(overview).toContain("Validation profiles, not forced component widths");
   });
 
-  test("links to the owning runtime instead of presenting local excerpts as reusable markup", () => {
+  test("links to the owning runtime and ships replay embed code, not OpenClaw internals", () => {
     for (const id of terminalUiContentIds.filter((id) => id !== "terminal-ui")) {
       const content = getTerminalUiContent(id);
       expect(content).toContain('class="terminal-source-note"');
+      // Markup sections show how to replay captures via libterminal -- real
+      // consumer code -- never OpenClaw component internals as if reusable.
+      expect(content).toContain('data-section-kind="markup"');
+      expect(content).toContain("@openclaw/libterminal/browser");
       expect(content).not.toContain("data-terminal-implementation");
-      expect(content).not.toContain("data-section-kind=\"markup\"");
-      expect(content).not.toContain("data-copy-code");
       expect(content).not.toContain("@openclaw/carapace/terminal");
     }
+  });
+
+  test("decision pages carry interactive simulations beside their runtime proof", () => {
+    expect(getTerminalUiContent("terminal-selection")).toContain('data-terminal-live="select"');
+    expect(getTerminalUiContent("terminal-selection")).toContain('data-terminal-live="multiselect"');
+    expect(getTerminalUiContent("terminal-confirmation")).toContain('data-terminal-live="confirm"');
+    expect(getTerminalUiContent("terminal-field-input")).toContain('data-terminal-live="text"');
+    // Simulations are labeled as such; captures stay the canonical proof.
+    expect(getTerminalUiContent("terminal-selection")).toContain("Interactive · simulation");
   });
 
   test("publishes a flat top-level area with the reviewed information architecture", () => {
@@ -132,9 +143,11 @@ describe("Terminal UI reference", () => {
     expect(getTerminalUiContent("terminal-onboarding")).toBeUndefined();
     expect(confirmation).toContain('data-terminal-replay="setup-confirm"');
     expect(confirmation).toContain('data-terminal-replay="agent-approval"');
+    // Captures render in the ~700px content column; the 80-column standard
+    // viewport keeps them legible where reference-width captures were not.
     expect(
       Object.values(terminalUiFixtureManifest).every(
-        ({ columns }) => columns === terminalTokens.viewports.reference.value,
+        ({ columns }) => columns === terminalTokens.viewports.standard.value,
       ),
     ).toBe(true);
     expect(fields).toContain('data-terminal-replay="setup-field-error"');

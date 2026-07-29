@@ -88,15 +88,100 @@ body[data-preview-route="terminal-ui"] .reference-intro {
   position: relative;
   width: 100%;
   min-width: 0;
-  min-height: 7rem;
   overflow: hidden;
-  background: #0e1015;
+  background: var(--terminal-capture-bg, #0d0d0f);
   pointer-events: none;
   user-select: none;
 }
 
-.terminal-replay-host[data-terminal-replay^="agent-"] {
-  min-height: 16rem;
+/* The renderer draws at a fixed cell size; scaling the canvas to the content
+   column keeps 80-column captures legible edge to edge with no dead gutter. */
+.terminal-replay-host canvas,
+.terminal-live-host canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Live prompts: same capture surface, but interactive. */
+.terminal-live-figure {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-surface);
+}
+
+.terminal-live-figure figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--oc-space-4);
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border-bottom: 1px solid var(--oc-border-subtle);
+}
+
+.terminal-live-figure figcaption span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.terminal-live-figure figcaption small {
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.terminal-live-figure figcaption strong {
+  overflow: hidden;
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.terminal-live-figure figcaption code {
+  flex: 0 0 auto;
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+}
+
+.terminal-live-viewport {
+  --terminal-capture-bg: color-mix(in oklch, var(--oc-palette-ink-950) 86%, oklch(0 0 0));
+  --terminal-capture-fg: var(--oc-palette-ink-50);
+  --terminal-capture-cursor: var(--oc-palette-coral-dark-bright);
+  max-width: 100%;
+  overflow: hidden;
+  padding: var(--oc-space-2);
+  background: var(--terminal-capture-bg);
+}
+
+.terminal-live-host {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--terminal-capture-bg, #0d0d0f);
+  cursor: text;
+}
+
+.terminal-live-host:focus-within {
+  outline: 2px solid var(--oc-accent-primary);
+  outline-offset: 2px;
+}
+
+.terminal-live-hint {
+  margin: 0;
+  padding: var(--oc-space-2) var(--oc-space-4);
+  border-top: 1px solid var(--oc-border-subtle);
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
 }
 
 .terminal-replay-host[data-terminal-replay-state="loading"]::before {

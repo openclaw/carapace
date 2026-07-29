@@ -598,6 +598,13 @@ export function mountPage(
       stopTerminalReplays = bindTerminalReplays(root);
     });
   }
+  let stopTerminalLive = () => {};
+  if (root.querySelector("[data-terminal-live]")) {
+    void import("./terminal-live.js").then(({ bindTerminalLive }) => {
+      if (!active || root.isConnected === false) return;
+      stopTerminalLive = bindTerminalLive(root);
+    });
+  }
 
   return {
     cleanup() {
@@ -606,6 +613,7 @@ export function mountPage(
       tokenCatalog.cleanup();
       stopPageInteractions();
       stopTerminalReplays();
+      stopTerminalLive();
       stopIcons();
       stopObservingSections();
       stopCopy();
