@@ -683,6 +683,12 @@ export const referenceAreas = [
         keywords: "oc-chart-colors series palette semantic data visualization",
       },
       {
+        id: "chart-sparkline",
+        label: "Sparkline & Delta",
+        path: "interface/charts/sparkline/",
+        keywords: "oc-sparkline oc-delta trend micro chart change period metric",
+      },
+      {
         id: "chart-timeseries",
         label: "Timeseries",
         path: "interface/charts/timeseries/",
