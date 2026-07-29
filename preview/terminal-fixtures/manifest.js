@@ -4,7 +4,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Five-region agent shell",
     "renderer": "OpenClaw agent TUI · Pi",
-    "columns": 80,
+    "columns": 120,
     "rows": 24,
     "summary": "OpenClaw agent shell with transcript, status, footer, and editor."
   },
@@ -12,7 +12,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Active multiline composer",
     "renderer": "OpenClaw agent TUI · Pi",
-    "columns": 80,
+    "columns": 120,
     "rows": 24,
     "summary": "Agent composer containing an unfinished prompt and the terminal cursor."
   },
@@ -20,7 +20,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Workspace skill approval",
     "renderer": "OpenClaw agent TUI · Pi",
-    "columns": 80,
+    "columns": 120,
     "rows": 24,
     "summary": "Detailed approval with severity, request context, and conservative actions."
   },
@@ -28,7 +28,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Model picker overlay",
     "renderer": "OpenClaw agent TUI · Pi",
-    "columns": 80,
+    "columns": 120,
     "rows": 24,
     "summary": "Searchable model picker overlay with the current row retained."
   },
@@ -36,7 +36,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Tool execution in transcript",
     "renderer": "OpenClaw agent TUI · Pi",
-    "columns": 80,
+    "columns": 120,
     "rows": 24,
     "summary": "Assistant text before and after a completed Read File tool row."
   },
@@ -44,7 +44,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "User and assistant transcript",
     "renderer": "OpenClaw agent TUI · Pi",
-    "columns": 80,
+    "columns": 120,
     "rows": 24,
     "summary": "User prompt followed by a completed assistant response in the transcript."
   },
@@ -60,7 +60,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Validated field input",
     "renderer": "OpenClaw setup · Clack",
-    "columns": 72,
+    "columns": 120,
     "rows": 12,
     "summary": "Gateway port field retaining an invalid value beside its validation message."
   },
@@ -68,7 +68,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Sensitive field input",
     "renderer": "OpenClaw setup · Clack",
-    "columns": 72,
+    "columns": 120,
     "rows": 12,
     "summary": "Provider API key input with the entered value masked from terminal output."
   },
@@ -76,7 +76,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Notes and plain output",
     "renderer": "OpenClaw setup · Clack",
-    "columns": 72,
+    "columns": 120,
     "rows": 16,
     "summary": "Flow intro, titled QuickStart note, unframed disclosure, and outro."
   },
@@ -84,7 +84,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Prompt flow with history",
     "renderer": "OpenClaw setup · Clack",
-    "columns": 72,
+    "columns": 120,
     "rows": 16,
     "summary": "Intro and note above an active setup prompt with Back and Next navigation."
   },
@@ -92,7 +92,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Single selection with hints",
     "renderer": "OpenClaw setup · Clack",
-    "columns": 72,
+    "columns": 120,
     "rows": 14,
     "summary": "Setup mode options with initial selection, recommendation copy, and descriptions."
   },
@@ -100,7 +100,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Searchable multiple selection",
     "renderer": "OpenClaw setup · Clack",
-    "columns": 72,
+    "columns": 120,
     "rows": 16,
     "summary": "Searchable hook multiselect with selected values, hints, and filtering."
   },
@@ -108,7 +108,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Active setup progress",
     "renderer": "OpenClaw setup · Clack",
-    "columns": 72,
+    "columns": 120,
     "rows": 10,
     "summary": "Animated setup progress after its activity label has been updated."
   }

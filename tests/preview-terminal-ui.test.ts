@@ -74,7 +74,9 @@ describe("Terminal UI reference", () => {
     expect(getTerminalUiContent("terminal-onboarding")).toBeUndefined();
     expect(confirmation).toContain('data-terminal-replay="setup-confirm"');
     expect(confirmation).toContain('data-terminal-replay="agent-approval"');
-    expect(terminalUiFixtureManifest["setup-confirm"].columns).toBe(120);
+    expect(
+      Object.values(terminalUiFixtureManifest).every(({ columns }) => columns === 120),
+    ).toBe(true);
     expect(fields).toContain('data-terminal-replay="setup-field-error"');
     expect(fields).toContain('data-terminal-replay="setup-field-sensitive"');
     expect(notices).toContain('data-terminal-replay="setup-notices"');
