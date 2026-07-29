@@ -85,6 +85,15 @@ describe("CSS contract", () => {
     }
     expect(themes).toContain('html[data-theme="light"]');
     expect(themes).toContain('html[data-theme="dark"]');
+    expect(ruleDeclarations(themes, 'html:root[data-theme="light"]')).toContain(
+      "--oc-bg-page: oklch(0.985 0 0)",
+    );
+    expect(themes).toContain("--oc-bg-page: oklch(0.135 0 0)");
+
+    const preview = await readFile("preview/preview.css", "utf8");
+    const previewLightTheme = ruleDeclarations(preview, 'html[data-theme="light"]');
+    expect(previewLightTheme).not.toContain("--oc-bg-page:");
+    expect(previewLightTheme).not.toContain("--oc-input-bg:");
   });
 
   test("the evidence-backed control minimum remains additive", async () => {
@@ -601,12 +610,23 @@ describe("CSS contract", () => {
       ]),
     );
     const surfaceFor = (block: string, token: string) => {
-      const reference = ruleDeclarations(themes, block).match(
+      const declarations = ruleDeclarations(themes, block);
+      const reference = declarations.match(
         new RegExp(`${token}:\\s*var\\((--oc-palette-[\\w-]+)\\)`),
       )?.[1];
-      const value = reference ? palette.get(reference) : undefined;
-      if (!value) throw new Error(`unresolved ${token} in ${block}`);
-      return value;
+      const paletteValue = reference ? palette.get(reference) : undefined;
+      if (paletteValue) return paletteValue;
+
+      const lightness = declarations.match(
+        new RegExp(`${token}:\\s*oklch\\(([\\d.]+)\\s+0\\s+0(?:\\s*\\/[^)]*)?\\)`),
+      )?.[1];
+      if (!lightness) throw new Error(`unresolved ${token} in ${block}`);
+      const linear = Number(lightness) ** 3;
+      const srgb = linear <= 0.0031308 ? 12.92 * linear : 1.055 * linear ** (1 / 2.4) - 0.055;
+      const channel = Math.round(Math.min(1, Math.max(0, srgb)) * 255)
+        .toString(16)
+        .padStart(2, "0");
+      return `#${channel}${channel}${channel}`;
     };
     const rgb = (hex: string) => [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16));
     const channel = (value: number) => {
