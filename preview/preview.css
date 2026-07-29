@@ -11,6 +11,7 @@
 @import "../styles/candidate/agent.css";
 @import "../styles/candidate/embed.css";
 @import "./lab.css";
+@import "./terminal-ui.css";
 
 :root {
   --preview-content: 1040px;

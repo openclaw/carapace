@@ -1,0 +1,141 @@
+body[data-preview-route="terminal-ui"] .reference-intro {
+  max-width: 52rem;
+}
+
+.terminal-source-note {
+  margin: var(--oc-space-4) 0 0;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-sm);
+}
+
+.terminal-source-note a {
+  color: var(--oc-text-link);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.terminal-reference-table code {
+  font-family: var(--oc-font-mono);
+}
+
+.terminal-capture-stack {
+  display: grid;
+  gap: var(--oc-space-5);
+}
+
+.terminal-runtime-capture {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-surface);
+}
+
+.terminal-runtime-capture figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border-bottom: 1px solid var(--oc-border-subtle);
+  gap: var(--oc-space-3);
+}
+
+.terminal-runtime-capture figcaption > span {
+  display: grid;
+  min-width: 0;
+  gap: 0.1rem;
+}
+
+.terminal-runtime-capture figcaption small {
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.terminal-runtime-capture figcaption strong {
+  overflow: hidden;
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.terminal-runtime-capture figcaption code {
+  flex: 0 0 auto;
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+}
+
+.terminal-replay-viewport {
+  /* Captures are dark-authored ANSI byte streams; the capture surface stays
+     the canonical dark palette in both host themes, built from palette
+     primitives (not themed roles) so it tracks palette changes without
+     flipping light. The replay canvas resolves these same properties. */
+  --terminal-capture-bg: color-mix(in oklch, var(--oc-palette-ink-950) 86%, oklch(0 0 0));
+  --terminal-capture-fg: var(--oc-palette-ink-50);
+  --terminal-capture-cursor: var(--oc-palette-coral-dark-bright);
+  max-width: 100%;
+  overflow: hidden;
+  padding: var(--oc-space-2);
+  background: var(--terminal-capture-bg);
+}
+
+.terminal-replay-host {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 7rem;
+  overflow: hidden;
+  background: #0e1015;
+  pointer-events: none;
+  user-select: none;
+}
+
+.terminal-replay-host[data-terminal-replay^="agent-"] {
+  min-height: 16rem;
+}
+
+.terminal-replay-host[data-terminal-replay-state="loading"]::before {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #8b7f77;
+  content: "Loading terminal capture…";
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+}
+
+.terminal-replay-host canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.terminal-replay-error {
+  margin: 0;
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border-top: 1px solid var(--oc-status-error-border);
+  background: var(--oc-status-error-bg);
+  color: var(--oc-status-error-fg);
+  font-size: var(--oc-font-size-sm);
+}
+
+@media (max-width: 620px) {
+  .terminal-runtime-capture figcaption {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .terminal-runtime-capture figcaption code {
+    white-space: normal;
+  }
+
+  .terminal-replay-viewport {
+    padding: var(--oc-space-1);
+  }
+}

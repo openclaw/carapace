@@ -591,6 +591,13 @@ export function mountPage(
   const reportFeedback = showFeedback || feedback.show;
   const stopCopy = bindCopyActions(root, reportFeedback);
   let active = true;
+  let stopTerminalReplays = () => {};
+  if (root.querySelector("[data-terminal-replay]")) {
+    void import("./terminal-replay.js").then(({ bindTerminalReplays }) => {
+      if (!active || root.isConnected === false) return;
+      stopTerminalReplays = bindTerminalReplays(root);
+    });
+  }
 
   return {
     cleanup() {
@@ -598,6 +605,7 @@ export function mountPage(
       active = false;
       tokenCatalog.cleanup();
       stopPageInteractions();
+      stopTerminalReplays();
       stopIcons();
       stopObservingSections();
       stopCopy();

@@ -803,6 +803,81 @@ export const referenceAreas = [
     ],
   },
   {
+    id: "terminal-ui",
+    label: "Terminal UI",
+    description: "Terminal translations of shared components, grounded in OpenClaw",
+    path: "terminal-ui/",
+    pages: [
+      {
+        id: "terminal-ui",
+        label: "Overview",
+        path: "terminal-ui/",
+        hiddenFromSidebar: true,
+        keywords: "terminal tui overview openclaw pi clack cells ansi setup shell",
+      },
+      {
+        id: "terminal-agent-shell",
+        label: "Agent shell",
+        path: "terminal-ui/agent-shell/",
+        keywords: "terminal agent shell header transcript status footer editor composition viewport",
+      },
+      {
+        id: "terminal-composer",
+        label: "Composer",
+        path: "terminal-ui/composer/",
+        keywords: "terminal composer editor multiline autocomplete history paste cursor ime keyboard",
+      },
+      {
+        id: "terminal-confirmation",
+        label: "Confirmation",
+        path: "terminal-ui/confirmation/",
+        keywords: "terminal confirm approval consent yes no inline vertical safe default decision",
+      },
+      {
+        id: "terminal-field-input",
+        label: "Field input",
+        path: "terminal-ui/field-input/",
+        keywords: "terminal setup input text password sensitive validation placeholder submitted",
+      },
+      {
+        id: "terminal-notices-output",
+        label: "Notices and output",
+        path: "terminal-ui/notices-and-output/",
+        keywords: "terminal notice note plain output disclosure setup intro outro",
+      },
+      {
+        id: "terminal-prompt-flow",
+        label: "Prompt flow",
+        path: "terminal-ui/prompt-flow/",
+        keywords: "terminal prompt flow intro outro note cancel back next history replay irreversible",
+      },
+      {
+        id: "terminal-selection",
+        label: "Selection",
+        path: "terminal-ui/selection/",
+        keywords: "terminal selection select multiselect searchable picker filter checkbox radio clipping",
+      },
+      {
+        id: "terminal-status-progress",
+        label: "Status and progress",
+        path: "terminal-ui/status-and-progress/",
+        keywords: "terminal status activity progress spinner determinate connected stopped error",
+      },
+      {
+        id: "terminal-tool-execution",
+        label: "Tool execution",
+        path: "terminal-ui/tool-execution/",
+        keywords: "terminal tool execution running partial success error expanded collapsed output",
+      },
+      {
+        id: "terminal-transcript",
+        label: "Transcript",
+        path: "terminal-ui/transcript/",
+        keywords: "terminal transcript user assistant system output notice btw markdown streaming attachment",
+      },
+    ],
+  },
+  {
     id: "resources",
     label: "Resources",
     description: "Adoption, adapters, skills, and release guidance",
@@ -941,6 +1016,7 @@ const labAreaIds = new Set([
   "charts",
   "blocks",
   "applications",
+  "terminal-ui",
 ]);
 
 export function getReferenceMaturity(id) {
@@ -957,6 +1033,7 @@ const sequencedAreaIds = new Set([
   "charts",
   "blocks",
   "applications",
+  "terminal-ui",
 ]);
 
 const adjacentReferenceSequences = referenceAreas
