@@ -24,19 +24,29 @@ const INK = {
 
 const CLEAR = `${ESC}[2J${ESC}[3J${ESC}[H${ESC}[?25l`;
 
-function key(bytes) {
-  const text = new TextDecoder().decode(bytes);
-  if (text === `${ESC}[A`) return { name: "up" };
-  if (text === `${ESC}[B`) return { name: "down" };
-  if (text === `${ESC}[C`) return { name: "right" };
-  if (text === `${ESC}[D`) return { name: "left" };
-  if (text === "\r" || text === "\n") return { name: "enter" };
-  if (text === "\t") return { name: "tab" };
-  if (text === "\u007f" || text === "\b") return { name: "backspace" };
-  if (text === "\u0003" || text === ESC) return { name: "cancel" };
-  if (text === " ") return { name: "space" };
-  if (text.length === 1 && text >= " " && text <= "~") return { name: "char", value: text };
-  return { name: "unknown" };
+// Decode a DOM keydown. event.key is authoritative; event.code covers
+// environments that deliver keydown with an empty key string.
+const CODE_KEYS = {
+  ArrowUp: "up",
+  ArrowDown: "down",
+  ArrowLeft: "left",
+  ArrowRight: "right",
+  Enter: "enter",
+  NumpadEnter: "enter",
+  Tab: "tab",
+  Backspace: "backspace",
+  Escape: "cancel",
+  Space: "space",
+};
+
+function keyFromEvent(event) {
+  const named = CODE_KEYS[event.key] ?? CODE_KEYS[event.code];
+  if (named) return { name: named };
+  if (event.key === " ") return { name: "space" };
+  if (event.key?.length === 1 && event.key >= " " && event.key <= "~" && !event.metaKey && !event.ctrlKey && !event.altKey) {
+    return { name: "char", value: event.key };
+  }
+  return null;
 }
 
 function guide(lines, { state = "active", footer = "", error = "" } = {}) {
@@ -340,15 +350,46 @@ async function mountTerminalLive(host, widgetId, signal) {
       autoFit: false,
       readOnly: false,
       signal,
-      onData: (bytes) => {
-        widget.handle(key(bytes));
-        controller.write(encoder.encode(widget.frame()));
-      },
     });
     controller.write(encoder.encode(widget.frame()));
     host.dataset.terminalLiveState = "ready";
-    // Keystrokes land in the renderer's hidden textarea; clicking anywhere on
-    // the surface must focus it or the prompt looks dead.
+    const apply = (decoded) => {
+      widget.handle(decoded);
+      controller.write(encoder.encode(widget.frame()));
+    };
+    // The widget owns input directly: keydown for real keyboards (with a
+    // code fallback for degenerate events), beforeinput for text insertion
+    // paths (IME, synthetic typing). Capture phase runs before the
+    // renderer's own listeners, and stopPropagation keeps each event from
+    // being interpreted twice.
+    host.addEventListener(
+      "keydown",
+      (event) => {
+        const decoded = keyFromEvent(event);
+        if (!decoded) return;
+        event.preventDefault();
+        event.stopPropagation();
+        apply(decoded);
+      },
+      { capture: true, signal },
+    );
+    host.addEventListener(
+      "beforeinput",
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.inputType === "insertText" && event.data) {
+          for (const character of event.data) {
+            apply(character === " " ? { name: "space" } : { name: "char", value: character });
+          }
+        }
+        if (event.inputType === "insertLineBreak" || event.inputType === "insertParagraph") apply({ name: "enter" });
+        if (event.inputType === "deleteContentBackward") apply({ name: "backspace" });
+      },
+      { capture: true, signal },
+    );
+    // Clicking anywhere on the surface focuses the renderer's hidden
+    // textarea so the prompt never looks dead.
     const focusInput = () => (host.querySelector("textarea") ?? host).focus();
     host.addEventListener("mousedown", (event) => {
       event.preventDefault();
