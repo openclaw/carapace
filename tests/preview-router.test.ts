@@ -54,7 +54,7 @@ describe("preview router", () => {
     ).toBe("https://openclaw.github.io/design-system/");
     expect(
       resolvePreviewSiteRoot(
-        "http://127.0.0.1:4173/terminal-ui/onboarding//terminal-ui/onboarding/",
+        "http://127.0.0.1:4173/terminal-ui/notices-and-output//terminal-ui/notices-and-output/",
       ),
     ).toBe("http://127.0.0.1:4173/");
     expect(
@@ -94,13 +94,13 @@ describe("preview router", () => {
     });
     expect(
       resolvePreviewRoute(
-        `${siteRoot}terminal-ui/onboarding//terminal-ui/onboarding/`,
+        `${siteRoot}terminal-ui/notices-and-output//terminal-ui/notices-and-output/`,
         siteRoot,
       ),
     ).toMatchObject({
-      pageId: "terminal-onboarding",
-      path: "terminal-ui/onboarding/",
-      href: `${siteRoot}terminal-ui/onboarding/`,
+      pageId: "terminal-notices-output",
+      path: "terminal-ui/notices-and-output/",
+      href: `${siteRoot}terminal-ui/notices-and-output/`,
     });
     expect(resolvePreviewRoute(`${siteRoot}#home`, siteRoot)).toMatchObject({
       pageId: "overview",

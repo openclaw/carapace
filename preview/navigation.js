@@ -828,10 +828,10 @@ export const referenceAreas = [
         keywords: "terminal setup input text password sensitive validation placeholder submitted",
       },
       {
-        id: "terminal-onboarding",
-        label: "Onboarding",
-        path: "terminal-ui/onboarding/",
-        keywords: "terminal onboarding guided classic remote setup wizard provider channel plugin handoff",
+        id: "terminal-notices-output",
+        label: "Notices and output",
+        path: "terminal-ui/notices-and-output/",
+        keywords: "terminal notice note plain output disclosure setup intro outro",
       },
       {
         id: "terminal-prompt-flow",

@@ -41,6 +41,7 @@
     "check": "bun run test && bun run contract:check && bun run skills:check && bun run pack:check",
     "preview:build": "vite build --config preview/vite.config.ts",
     "preview:dev": "vite --config preview/vite.config.ts --host 127.0.0.1 --port 4173",
+    "terminal-ui:capture": "node scripts/capture-terminal-ui.mjs",
     "candidate:pack": "bun scripts/pack-candidate.ts",
     "test": "bun test",
     "contract:check": "bun scripts/check-contract.ts",

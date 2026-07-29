@@ -4,6 +4,12 @@ Carapace documents terminal translations of its existing design language. The
 terminal consumer keeps runtime behavior, ANSI rendering, keybindings,
 commands, session state, and framework adapters.
 
+Browser specimens use the runtime as their source of truth. Run the real
+OpenClaw Pi or Clack component in a fixed-size PTY, capture its output bytes
+with `@openclaw/libterminal`, and replay those bytes through libterminal's
+Ghostty WASM renderer. Use HTML only for documentation around the terminal.
+Never redraw a terminal specimen with HTML elements or browser controls.
+
 The current reference covers both OpenClaw terminal compositions:
 
 - the retained agent TUI on `@earendil-works/pi-tui@0.81.1`
@@ -133,5 +139,7 @@ terminal focus, ANSI, scrollback/history, and terminal compositions.
 - Verify Enter and Escape precedence across editor, inline result, active run,
   filter, and overlay scopes.
 - Verify state remains understandable without color.
+- Regenerate the libterminal fixtures from the audited OpenClaw revision before
+  updating a specimen.
 - Use browser screenshots to validate Carapace reference pages, not as proof of
-  the terminal runtime.
+  the terminal runtime; the captured PTY bytes are the runtime evidence.

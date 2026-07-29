@@ -1,8 +1,6 @@
 import { createGhosttyTerminal } from "@openclaw/libterminal/browser";
 import { resolvePreviewSiteRoot } from "./router.js";
-import { onboardingSetupModeFixture } from "./terminal-fixtures/onboarding-setup-mode.js";
-
-const fixtures = new Map([["onboarding-setup-mode", onboardingSetupModeFixture]]);
+import { terminalUiFixtures } from "./terminal-fixtures/terminal-ui-fixtures.js";
 
 function decodeBase64(value) {
   const binary = globalThis.atob(value);
@@ -62,7 +60,7 @@ export function bindTerminalReplays(root = globalThis.document) {
   const hosts = [...root.querySelectorAll("[data-terminal-replay]")];
 
   for (const host of hosts) {
-    const fixture = fixtures.get(host.dataset.terminalReplay);
+    const fixture = terminalUiFixtures[host.dataset.terminalReplay];
     if (!fixture) {
       host.dataset.terminalReplayState = "error";
       continue;

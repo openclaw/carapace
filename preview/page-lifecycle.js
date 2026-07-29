@@ -591,14 +591,7 @@ export function mountPage(
   const reportFeedback = showFeedback || feedback.show;
   const stopCopy = bindCopyActions(root, reportFeedback);
   let active = true;
-  let stopTerminalUi = () => {};
   let stopTerminalReplays = () => {};
-  if (root.querySelector("[data-terminal-workbench]")) {
-    void import("./terminal-ui-interactions.js").then(({ bindTerminalUi }) => {
-      if (!active || root.isConnected === false) return;
-      stopTerminalUi = bindTerminalUi(root);
-    });
-  }
   if (root.querySelector("[data-terminal-replay]")) {
     void import("./terminal-replay.js").then(({ bindTerminalReplays }) => {
       if (!active || root.isConnected === false) return;
@@ -612,7 +605,6 @@ export function mountPage(
       active = false;
       tokenCatalog.cleanup();
       stopPageInteractions();
-      stopTerminalUi();
       stopTerminalReplays();
       stopIcons();
       stopObservingSections();
