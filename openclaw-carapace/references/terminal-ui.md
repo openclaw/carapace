@@ -63,6 +63,25 @@ Carapace's browser specimens may map these relationships to coral, sea, and
 semantic status roles. That mapping is documentation, not an exported ANSI
 theme API.
 
+## Reference tokens
+
+The Terminal UI Lab keeps a small reference token map for relationships shared
+by the audited Clack and Pi surfaces. It is design guidance and preview input,
+not a published component or token package.
+
+- Terminal color roles alias the existing Carapace background, text, accent,
+  status, and monospace-font variables. Do not add terminal-only colors.
+- `terminal.space.marker-label` is the one-cell gap between a marker and label.
+- `terminal.space.leading-prefix` is the two-cell guide, focus, or selection
+  prefix before content.
+- `terminal.viewport.compact` is 40 columns.
+- `terminal.viewport.standard` is 80 columns.
+- `terminal.viewport.reference` is 120 columns and drives canonical captures.
+
+The viewport values are validation profiles, not component dimensions. A
+terminal implementation must still fit the column count supplied by its
+runtime.
+
 ## Cells and width
 
 - Design and test in terminal columns and rows, not browser pixels.
@@ -73,8 +92,8 @@ theme API.
 - Remove optional descriptions before labels, selection prefixes, or actions.
 - Bound long output and name omitted content; expansion behavior stays in the
   consumer.
-- Treat exact current limits as audited reference values, not universal design
-  tokens.
+- Treat consumer-specific line, item, and output limits as audited facts, not
+  Terminal UI tokens.
 
 ## Setup prompts
 

@@ -4,9 +4,66 @@ import { getReferenceMaturity, referenceAreas } from "../preview/navigation.js";
 import { getReferenceContent } from "../preview/reference-content.js";
 import { terminalUiFixtureManifest } from "../preview/terminal-fixtures/manifest.js";
 import { terminalUiFixtures } from "../preview/terminal-fixtures/terminal-ui-fixtures.js";
+import { terminalTokens } from "../preview/terminal-tokens.js";
 import { getTerminalUiContent, terminalUiContentIds } from "../preview/terminal-ui.js";
 
 describe("Terminal UI reference", () => {
+  test("publishes shared cell geometry and validation width tokens", () => {
+    expect(terminalTokens.spacing.markerLabel).toEqual({
+      name: "terminal.space.marker-label",
+      value: 1,
+      unit: "cell",
+    });
+    expect(terminalTokens.spacing.leadingPrefix).toEqual({
+      name: "terminal.space.leading-prefix",
+      value: 2,
+      unit: "cells",
+    });
+    expect(terminalTokens.viewports).toEqual({
+      compact: { name: "terminal.viewport.compact", value: 40, unit: "columns" },
+      standard: { name: "terminal.viewport.standard", value: 80, unit: "columns" },
+      reference: { name: "terminal.viewport.reference", value: 120, unit: "columns" },
+    });
+  });
+
+  test("maps terminal roles onto existing Carapace semantics", () => {
+    expect(terminalTokens.colors).toEqual({
+      background: "--oc-bg-recessed",
+      foreground: "--oc-text-primary",
+      muted: "--oc-text-muted",
+      active: "--oc-accent-primary",
+      focus: "--oc-accent-secondary",
+      cursor: "--oc-accent-primary",
+      success: "--oc-status-success-fg",
+      warning: "--oc-status-warning-fg",
+      error: "--oc-status-error-fg",
+    });
+    expect(terminalTokens.font).toEqual({ family: "--oc-font-mono" });
+  });
+
+  test("documents terminal token aliases and validation profiles", () => {
+    const overview = getTerminalUiContent("terminal-ui");
+
+    expect(overview).toContain("Semantic aliases");
+    expect(overview).toContain("--oc-accent-primary");
+    expect(overview).toContain("terminal.space.marker-label");
+    expect(overview).toContain("terminal.space.leading-prefix");
+    expect(overview).toContain("terminal.viewport.compact");
+    expect(overview).toContain("terminal.viewport.standard");
+    expect(overview).toContain("terminal.viewport.reference");
+    expect(overview).toContain("Validation profiles, not forced component widths");
+  });
+
+  test("pairs each component reference with copyable existing-runtime TypeScript", () => {
+    for (const id of terminalUiContentIds.filter((id) => id !== "terminal-ui")) {
+      const content = getTerminalUiContent(id);
+      expect(content).toContain("data-terminal-implementation");
+      expect(content).toContain("<span>TypeScript</span>");
+      expect(content).toContain("data-copy-code");
+      expect(content).not.toContain("@openclaw/carapace/terminal");
+    }
+  });
+
   test("publishes a flat top-level area with the reviewed information architecture", () => {
     const area = referenceAreas.find(({ id }) => id === "terminal-ui");
     expect(area).toBeDefined();
@@ -75,7 +132,9 @@ describe("Terminal UI reference", () => {
     expect(confirmation).toContain('data-terminal-replay="setup-confirm"');
     expect(confirmation).toContain('data-terminal-replay="agent-approval"');
     expect(
-      Object.values(terminalUiFixtureManifest).every(({ columns }) => columns === 120),
+      Object.values(terminalUiFixtureManifest).every(
+        ({ columns }) => columns === terminalTokens.viewports.reference.value,
+      ),
     ).toBe(true);
     expect(fields).toContain('data-terminal-replay="setup-field-error"');
     expect(fields).toContain('data-terminal-replay="setup-field-sensitive"');
@@ -127,5 +186,10 @@ describe("Terminal UI reference", () => {
     expect(guidance).toContain("Keep the Carapace Terminal UI area in Lab");
     expect(guidance).toContain("libterminal");
     expect(guidance).toContain("Ghostty");
+    expect(guidance).toContain("terminal.space.marker-label");
+    expect(guidance).toContain("terminal.space.leading-prefix");
+    expect(guidance).toContain("terminal.viewport.compact");
+    expect(guidance).toContain("validation profiles, not component dimensions");
+    expect(guidance).toContain("not a published component or token package");
   });
 });

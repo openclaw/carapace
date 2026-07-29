@@ -6,6 +6,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 import { spawnLocalPty } from "@openclaw/libterminal/node";
+import { terminalTokens } from "../preview/terminal-tokens.js";
 
 const execFileAsync = promisify(execFile);
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -15,6 +16,7 @@ const openclawRoot = resolve(
 const requireFromOpenClaw = createRequire(join(openclawRoot, "package.json"));
 const nodePty = requireFromOpenClaw("@lydell/node-pty");
 const encoder = new TextEncoder();
+const referenceColumns = terminalTokens.viewports.reference.value;
 
 const driver = {
   spawn(command, args, options) {
@@ -34,7 +36,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Five-region agent shell",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: 120,
+    columns: referenceColumns,
     rows: 24,
     stopAfter: "local ready | idle",
     summary: "OpenClaw agent shell with transcript, status, footer, and editor.",
@@ -44,7 +46,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Active multiline composer",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: 120,
+    columns: referenceColumns,
     rows: 24,
     steps: [{ waitFor: "local ready | idle", write: "Compare the picker at 20 columns" }],
     stopAfter: "Compare the picker at 20 columns",
@@ -55,7 +57,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Workspace skill approval",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: 120,
+    columns: referenceColumns,
     rows: 24,
     steps: [{ waitFor: "local ready | idle", write: "skill approval proof\r" }],
     stopAfter: "Apply workspace skill proposal",
@@ -66,7 +68,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Model picker overlay",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: 120,
+    columns: referenceColumns,
     rows: 24,
     env: { OPENCLAW_TUI_PTY_PICKER_FIXTURE: "1" },
     steps: [{ waitFor: "local ready | idle", write: "\u000c" }],
@@ -78,7 +80,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Tool execution in transcript",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: 120,
+    columns: referenceColumns,
     rows: 24,
     env: { OPENCLAW_TUI_PTY_VERBOSE_LEVEL: "on" },
     steps: [{ waitFor: "local ready | idle", write: "tool chronology proof\r" }],
@@ -90,7 +92,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "User and assistant transcript",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: 120,
+    columns: referenceColumns,
     rows: 24,
     steps: [{ waitFor: "local ready | idle", write: "Hello from Carapace\r" }],
     stopAfter: "PTY_RESPONSE: Hello from Carapace",
@@ -102,7 +104,7 @@ const fixtureDefinitions = [
     scenario: "confirm",
     label: "Vertical setup confirmation",
     renderer: "OpenClaw setup · Clack",
-    columns: 120,
+    columns: referenceColumns,
     rows: 12,
     stopAfter: "Continue?",
     summary: "Security acknowledgement with No initially selected and Back available.",
@@ -113,7 +115,7 @@ const fixtureDefinitions = [
     scenario: "field-error",
     label: "Validated field input",
     renderer: "OpenClaw setup · Clack",
-    columns: 120,
+    columns: referenceColumns,
     rows: 12,
     steps: [{ waitFor: "Gateway port", write: "\r" }],
     stopAfter: "Enter a port from 1 to 65535",
@@ -125,7 +127,7 @@ const fixtureDefinitions = [
     scenario: "field-sensitive",
     label: "Sensitive field input",
     renderer: "OpenClaw setup · Clack",
-    columns: 120,
+    columns: referenceColumns,
     rows: 12,
     steps: [{ waitFor: "Provider API key", write: "sk-example" }],
     finishAfterSteps: true,
@@ -137,7 +139,7 @@ const fixtureDefinitions = [
     scenario: "notices",
     label: "Notes and plain output",
     renderer: "OpenClaw setup · Clack",
-    columns: 120,
+    columns: referenceColumns,
     rows: 16,
     stopAfter: "Ready to continue.",
     summary: "Flow intro, titled QuickStart note, unframed disclosure, and outro.",
@@ -148,7 +150,7 @@ const fixtureDefinitions = [
     scenario: "flow",
     label: "Prompt flow with history",
     renderer: "OpenClaw setup · Clack",
-    columns: 120,
+    columns: referenceColumns,
     rows: 16,
     stopAfter: "→ next",
     summary: "Intro and note above an active setup prompt with Back and Next navigation.",
@@ -159,7 +161,7 @@ const fixtureDefinitions = [
     scenario: "selection",
     label: "Single selection with hints",
     renderer: "OpenClaw setup · Clack",
-    columns: 120,
+    columns: referenceColumns,
     rows: 14,
     stopAfter: "Recommended local setup",
     summary: "Setup mode options with initial selection, recommendation copy, and descriptions.",
@@ -170,7 +172,7 @@ const fixtureDefinitions = [
     scenario: "multiselect",
     label: "Searchable multiple selection",
     renderer: "OpenClaw setup · Clack",
-    columns: 120,
+    columns: referenceColumns,
     rows: 16,
     steps: [{ waitFor: "Enable hooks?", write: "mem" }],
     finishAfterSteps: true,
@@ -182,7 +184,7 @@ const fixtureDefinitions = [
     scenario: "progress",
     label: "Active setup progress",
     renderer: "OpenClaw setup · Clack",
-    columns: 120,
+    columns: referenceColumns,
     rows: 10,
     stopAfter: "Verifying gateway reachability",
     summary: "Animated setup progress after its activity label has been updated.",
