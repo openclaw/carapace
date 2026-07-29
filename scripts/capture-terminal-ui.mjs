@@ -356,13 +356,13 @@ switch (process.env.CARAPACE_CAPTURE_SCENARIO) {
   case "flow":
     await prompter.intro("Configure OpenClaw");
     await prompter.note("Local gateway detected.", "Gateway");
-    await prompter.select({ message: "Setup mode", options: [{ value: "quickstart", label: "QuickStart (recommended)", hint: "Recommended local setup. Change details later with openclaw configure." }, { value: "advanced", label: "Advanced" }], initialValue: "quickstart", navigation });
+    await prompter.select({ message: "Setup mode", options: [{ value: "quickstart", label: "QuickStart (recommended)", hint: "Recommended local setup." }, { value: "advanced", label: "Advanced" }], initialValue: "quickstart", navigation });
     break;
   case "selection":
-    await prompter.select({ message: "Setup mode", options: [{ value: "quickstart", label: "QuickStart (recommended)", hint: "Recommended local setup. Change details later with openclaw configure." }, { value: "advanced", label: "Advanced", hint: "Choose every gateway, model, and channel setting." }, { value: "import", label: "Import from Claude", hint: "~/.claude" }], initialValue: "quickstart", navigation });
+    await prompter.select({ message: "Setup mode", options: [{ value: "quickstart", label: "QuickStart (recommended)", hint: "Recommended local setup." }, { value: "advanced", label: "Advanced", hint: "Choose every setting." }, { value: "import", label: "Import from Claude", hint: "~/.claude" }], initialValue: "quickstart", navigation });
     break;
   case "multiselect":
-    await prompter.multiselect({ message: "Enable hooks?", options: [{ value: "session-memory", label: "session-memory", hint: "Save session context on /new or /reset" }, { value: "command-logger", label: "command-logger", hint: "Log command events" }, { value: "bootstrap-extra-files", label: "bootstrap-extra-files", hint: "Inject additional workspace files" }], initialValues: ["session-memory"], searchable: true, navigation });
+    await prompter.multiselect({ message: "Enable hooks?", options: [{ value: "session-memory", label: "session-memory", hint: "Save context on /new" }, { value: "command-logger", label: "command-logger", hint: "Log command events" }, { value: "bootstrap-extra-files", label: "bootstrap-extra-files", hint: "Add workspace files" }], initialValues: ["session-memory"], searchable: true, navigation });
     break;
   case "progress": {
     const progress = prompter.progress("Checking local gateway");

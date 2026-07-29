@@ -39,7 +39,7 @@ function replayFigure(id) {
   const fixture = terminalUiFixtureManifest[id];
   if (!fixture) throw new Error(`Unknown terminal fixture: ${id}`);
   return `<figure class="terminal-runtime-capture">
-    <figcaption><span><small>${fixture.renderer}</small><strong>${fixture.label}</strong></span><code>OpenClaw ${fixture.sourceSha.slice(0, 8)} · ${fixture.columns} × ${fixture.rows}</code></figcaption>
+    <figcaption><span><small>${fixture.renderer}</small><strong>${fixture.label}</strong></span><span class="terminal-replay-controls"><button class="terminal-replay-again" type="button" data-terminal-replay-again hidden>Replay</button><code>OpenClaw ${fixture.sourceSha.slice(0, 8)} · ${fixture.columns} × ${fixture.rows}</code></span></figcaption>
     <div class="terminal-replay-viewport" aria-label="${fixture.label}, terminal capture at ${fixture.columns} columns by ${fixture.rows} rows">
       <div class="terminal-replay-host" data-terminal-replay="${id}" aria-hidden="true" inert></div>
     </div>
@@ -145,6 +145,7 @@ function agentShellContent() {
 
 function composerContent() {
   return `${pageIntro("Composer", "The focused editor at the bottom of the agent shell owns text entry, cursor behavior, history, paste, and completion.")}
+    ${liveSection("terminal-composer-live", "Send a message", "Type into the composer and press Enter; the turn joins the transcript and the input clears.", "composer", "Type · Enter send · R restart", { rows: 10 })}
     ${specimenSection("terminal-composer-specimen", "Primary specimen", "Active multiline input", "The specimen retains the real terminal cursor and editor wrapping.", ["agent-composer"])}
     <section data-section-kind="guidance" aria-labelledby="terminal-composer-guidance">${sectionIntro("terminal-composer-guidance", "Guidance", "Let the terminal editor own input")}${guidanceList(["Treat visible columns, not browser pixels, as the wrapping boundary.", "Keep cursor and IME placement inside the terminal runtime.", "Do not restyle the composer as a browser text area.", "Preserve Escape and Enter precedence across completion, overlays, and submission."])}<p class="terminal-source-note">Source: ${sourceLink("src/tui/tui.ts", "composer wiring")}.</p></section>
     ${markupSection("terminal-composer-markup", "Replay this capture", "agent-composer")}`;
@@ -175,6 +176,7 @@ function noticesOutputContent() {
 
 function promptFlowContent() {
   return `${pageIntro("Prompt flow", "A setup flow is an append-only guide with visible context, one active prompt, and navigation derived from remembered answers.")}
+    ${liveSection("terminal-flow-live", "Two steps with history", "Confirm the mode, watch it collapse into history, then use ← to walk back to the remembered answer.", "flow", "↑/↓ option · Enter/→ next · ← back · R restart", { rows: 11 })}
     ${specimenSection("terminal-flow-specimen", "Primary specimen", "History, note, active prompt, Back, and Next", "The active prompt remains connected to earlier context instead of replacing the screen.", ["setup-flow"])}
     <section data-section-kind="guidance" aria-labelledby="terminal-flow-guidance">${sectionIntro("terminal-flow-guidance", "Guidance", "Preserve sequence without replaying side effects")}${guidanceList(["Collapse completed ordinary answers into history; never retain sensitive answers.", "Show Back and Next only when their destination is valid.", "Next may reuse a remembered answer without replaying output or side effects.", "Disable backward navigation across irreversible work."])}<p class="terminal-source-note">Source: ${sourceLink("src/wizard/navigation-prompter.ts", "prompt navigation")}.</p></section>
     ${markupSection("terminal-flow-markup", "Replay this capture", "setup-flow")}`;
@@ -192,6 +194,7 @@ function selectionContent() {
 
 function statusProgressContent() {
   return `${pageIntro("Status and progress", "Agent status is persistent shell context; setup progress is a transient step in the connected guide.")}
+    ${liveSection("terminal-status-live", "Animated progress", "The spinner runs until the work ends; complete it, fail it, and restart it.", "progress", "C complete · F fail · R restart", { rows: 7 })}
     ${specimenSection("terminal-status-specimens", "Variants", "Persistent status and transient progress", "Both specimens retain their native terminal composition and state vocabulary.", ["agent-shell", "setup-progress"])}
     <section data-section-kind="guidance" aria-labelledby="terminal-status-guidance">${sectionIntro("terminal-status-guidance", "Guidance", "State what is happening and how it ended")}${guidanceList(["Pair animation with a changing activity label.", "Clamp labels to terminal width without splitting graphemes.", "Stop meaningful work with a completion or failure message; clear only truly transient work.", "Reuse Carapace status semantics instead of inventing TUI-only colors."])}<p class="terminal-source-note">Sources: ${sourceLink("src/tui/tui.ts", "agent status rendering")} and ${sourceLink("src/wizard/clack-prompter.ts", "setup progress adapter")}.</p></section>
     ${markupSection("terminal-shell-markup", "Replay this capture", "agent-shell")}`;

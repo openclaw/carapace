@@ -63,6 +63,29 @@ body[data-preview-route="terminal-ui"] .reference-intro {
   white-space: nowrap;
 }
 
+.terminal-replay-controls {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--oc-space-3);
+}
+
+.terminal-replay-again {
+  padding: 2px var(--oc-space-2);
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-text-secondary);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+  cursor: pointer;
+}
+
+.terminal-replay-again:hover {
+  border-color: var(--oc-border-strong);
+  color: var(--oc-text-primary);
+}
+
 .terminal-runtime-capture figcaption code {
   flex: 0 0 auto;
   color: var(--oc-text-muted);
