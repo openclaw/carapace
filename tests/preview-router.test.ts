@@ -53,6 +53,11 @@ describe("preview router", () => {
       ),
     ).toBe("https://openclaw.github.io/design-system/");
     expect(
+      resolvePreviewSiteRoot(
+        "http://127.0.0.1:4173/terminal-ui/onboarding//terminal-ui/onboarding/",
+      ),
+    ).toBe("http://127.0.0.1:4173/");
+    expect(
       resolvePreviewSiteRoot("https://openclaw.github.io/design-system/index.html"),
     ).toBe("https://openclaw.github.io/design-system/");
   });
@@ -86,6 +91,16 @@ describe("preview router", () => {
       pageId: "primitive-action",
       path: "interface/primitives/action/",
       hash: "#usage",
+    });
+    expect(
+      resolvePreviewRoute(
+        `${siteRoot}terminal-ui/onboarding//terminal-ui/onboarding/`,
+        siteRoot,
+      ),
+    ).toMatchObject({
+      pageId: "terminal-onboarding",
+      path: "terminal-ui/onboarding/",
+      href: `${siteRoot}terminal-ui/onboarding/`,
     });
     expect(resolvePreviewRoute(`${siteRoot}#home`, siteRoot)).toMatchObject({
       pageId: "overview",

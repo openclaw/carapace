@@ -57,20 +57,31 @@ export function resolvePreviewSiteRoot(locationHref, previewRoot) {
     return rootHref(hintedRoot, directoryPath(hintedRoot.pathname));
   }
 
-  const currentPath = directoryPath(location.pathname);
+  const currentPath = directoryPath(location.pathname).replace(/\/{2,}/g, "/");
   const routePath = previewPathsByLength.find((path) => currentPath.endsWith(`/${path}`));
   if (!routePath) return rootHref(location, currentPath);
 
-  return rootHref(location, currentPath.slice(0, -routePath.length));
+  let rootPath = currentPath.slice(0, -routePath.length);
+  // Recover a route accidentally appended to itself before deriving asset URLs.
+  while (rootPath.endsWith(`/${routePath}`)) {
+    rootPath = rootPath.slice(0, -routePath.length);
+  }
+  return rootHref(location, rootPath);
 }
 
 function relativePreviewPath(pathname, rootPathname) {
   if (!pathname.startsWith(rootPathname)) return null;
 
-  const relativePath = withoutIndex(pathname.slice(rootPathname.length)).replace(/^\/+/, "");
+  const relativePath = withoutIndex(pathname.slice(rootPathname.length))
+    .replace(/^\/+/, "")
+    .replace(/\/{2,}/g, "/");
   if (!relativePath) return "";
   if (/\.[a-z0-9]+$/i.test(relativePath)) return null;
   return relativePath.endsWith("/") ? relativePath : `${relativePath}/`;
+}
+
+function collapseRepeatedPreviewPath(path) {
+  return previewPathsByLength.find((candidate) => path === `${candidate}${candidate}`) ?? path;
 }
 
 export function resolvePreviewRoute(targetHref, siteRoot) {
@@ -79,8 +90,9 @@ export function resolvePreviewRoute(targetHref, siteRoot) {
   if (!root || !target || target.origin !== root.origin) return null;
 
   const path = relativePreviewPath(target.pathname, directoryPath(root.pathname));
-  const aliasId = path === null ? undefined : previewAliasesByPath.get(path);
-  const page = aliasId ? previewPagesById.get(aliasId) : previewPagesByPath.get(path);
+  const resolvedPath = path === null ? null : collapseRepeatedPreviewPath(path);
+  const aliasId = resolvedPath === null ? undefined : previewAliasesByPath.get(resolvedPath);
+  const page = aliasId ? previewPagesById.get(aliasId) : previewPagesByPath.get(resolvedPath);
   if (!page) return null;
 
   const canonicalPath = page.path;
