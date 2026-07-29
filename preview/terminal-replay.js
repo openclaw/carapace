@@ -17,6 +17,33 @@ function terminalFontFamily(host) {
   );
 }
 
+// Resolve a capture-surface property to a concrete color via a probe inside
+// the host, so color-mix() values come back as usable rgb() strings. The
+// canvas theme reads the same custom properties the viewport chrome paints
+// with -- a hand-copied hex palette drifts the moment the palette moves.
+function resolveCaptureColor(host, property, fallback) {
+  const document = host.ownerDocument;
+  const view = document.defaultView;
+  if (!view) return fallback;
+  const probe = document.createElement("span");
+  probe.style.color = `var(${property}, ${fallback})`;
+  probe.style.display = "none";
+  host.append(probe);
+  const value = view.getComputedStyle(probe).color;
+  probe.remove();
+  return value || fallback;
+}
+
+function terminalTheme(host) {
+  const background = resolveCaptureColor(host, "--terminal-capture-bg", "#0d0d0f");
+  return {
+    background,
+    foreground: resolveCaptureColor(host, "--terminal-capture-fg", "#ededed"),
+    cursor: resolveCaptureColor(host, "--terminal-capture-cursor", "#f5654a"),
+    cursorAccent: background,
+  };
+}
+
 async function mountTerminalReplay(host, fixture, signal) {
   host.dataset.terminalReplayState = "loading";
   try {
@@ -30,12 +57,7 @@ async function mountTerminalReplay(host, fixture, signal) {
         fontFamily: terminalFontFamily(host),
         fontSize: 20,
         scrollback: 0,
-        theme: {
-          background: "#0e1015",
-          foreground: "#e8e3d5",
-          cursor: "#ff5a2d",
-          cursorAccent: "#0e1015",
-        },
+        theme: terminalTheme(host),
       },
       size: { columns: fixture.columns, rows: fixture.rows },
       autoFit: false,

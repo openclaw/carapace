@@ -71,10 +71,17 @@ body[data-preview-route="terminal-ui"] .reference-intro {
 }
 
 .terminal-replay-viewport {
+  /* Captures are dark-authored ANSI byte streams; the capture surface stays
+     the canonical dark palette in both host themes, built from palette
+     primitives (not themed roles) so it tracks palette changes without
+     flipping light. The replay canvas resolves these same properties. */
+  --terminal-capture-bg: color-mix(in oklch, var(--oc-palette-ink-950) 86%, oklch(0 0 0));
+  --terminal-capture-fg: var(--oc-palette-ink-50);
+  --terminal-capture-cursor: var(--oc-palette-coral-dark-bright);
   max-width: 100%;
   overflow: hidden;
   padding: var(--oc-space-2);
-  background: var(--oc-bg-recessed);
+  background: var(--terminal-capture-bg);
 }
 
 .terminal-replay-host {
