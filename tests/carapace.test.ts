@@ -233,6 +233,9 @@ describe("CSS contract", () => {
       ".oc-loader-spinner",
       ".oc-skeleton-line",
       ".oc-skeleton-line-short",
+      ".oc-tooltip",
+      ".oc-tooltip-content",
+      ".oc-tooltip-trigger",
     ]);
     expectClasses(data, [
       ".oc-code-block",
