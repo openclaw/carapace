@@ -828,6 +828,12 @@ export const referenceAreas = [
         keywords: "terminal agent shell header transcript status footer editor composition viewport",
       },
       {
+        id: "terminal-approval",
+        label: "Approval",
+        path: "terminal-ui/approval/",
+        keywords: "terminal approval plugin skill allow once always deny severity metadata safe default expiry",
+      },
+      {
         id: "terminal-composer",
         label: "Composer",
         path: "terminal-ui/composer/",

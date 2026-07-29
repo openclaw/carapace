@@ -134,16 +134,40 @@ approvals may use overlays and an explicit arm-then-commit sequence. Label
 specimens by renderer instead of implying that Pi and Clack are one component
 implementation.
 
+## Approvals
+
+Treat an approval as a bounded authorization surface, not a verbose
+confirmation. Show the approval family and requested action first, then
+severity, owner metadata, request context, the allowed decision set, and the
+eventual outcome.
+
+- Render only decisions supplied by the request. Never invent persistent
+  authorization when `allow-always` is unavailable.
+- Focus Deny first whenever it is available. Escape resolves Deny in that
+  case; an allow-only prompt dismisses without authorizing and remains pending.
+- `Allow once` authorizes the current request. `Always allow` authorizes only
+  the matching future scope defined by the owner and must name that persistence
+  clearly.
+- Require a visible second commit when an allow action starts focused. Moving
+  to another decision clears the armed state.
+- Sanitize untrusted title, description, tool, and plugin text before terminal
+  rendering. Preserve bidi, ANSI, OSC, and control-sequence defenses.
+- Return allowed, denied, dismissed, expired, stale, and failed outcomes to the
+  transcript. Do not silently close the overlay or imply that dismissal denied
+  an allow-only request.
+- Queue one session-matching request at a time. Resolution from another client
+  closes the local overlay and records that the request is no longer pending.
+
 ## Ownership
 
 Use the existing terminal runtime. Do not introduce a second renderer, copy its
 width or focus algorithms into Carapace, import browser CSS into an ANSI
 surface, or publish a terminal component API from one consumer's implementation.
 
-Do not add a Markup section for a Terminal UI reference until Carapace owns a
-standalone copy-and-paste interface for it. Link to the audited OpenClaw source
-instead. Local Pi classes, WizardPrompter calls, and partial Clack excerpts are
-implementation evidence, not reusable Carapace examples.
+Markup sections may show Carapace's standalone copy-and-paste libterminal
+replay interface. They must not present local Pi classes, WizardPrompter calls,
+or partial Clack excerpts as reusable Carapace components. Link those audited
+OpenClaw sources as implementation evidence instead.
 
 Keep the Carapace Terminal UI area in Lab until a second terminal consumer
 proves a shared reusable interface. Cross-link existing Carapace pages for

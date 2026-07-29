@@ -5,6 +5,7 @@ import { getReferenceContent } from "../preview/reference-content.js";
 import { terminalUiFixtureManifest } from "../preview/terminal-fixtures/manifest.js";
 import { terminalUiFixtures } from "../preview/terminal-fixtures/terminal-ui-fixtures.js";
 import { terminalTokens } from "../preview/terminal-tokens.js";
+import { createTerminalLiveWidget } from "../preview/terminal-live.js";
 import { getTerminalUiContent, terminalUiContentIds } from "../preview/terminal-ui.js";
 
 describe("Terminal UI reference", () => {
@@ -68,6 +69,7 @@ describe("Terminal UI reference", () => {
   });
 
   test("decision pages carry interactive simulations beside their runtime proof", () => {
+    expect(getTerminalUiContent("terminal-approval")).toContain('data-terminal-live="approval"');
     expect(getTerminalUiContent("terminal-selection")).toContain('data-terminal-live="select"');
     expect(getTerminalUiContent("terminal-selection")).toContain('data-terminal-live="multiselect"');
     expect(getTerminalUiContent("terminal-confirmation")).toContain('data-terminal-live="confirm"');
@@ -76,12 +78,30 @@ describe("Terminal UI reference", () => {
     expect(getTerminalUiContent("terminal-selection")).toContain("Interactive · simulation");
   });
 
+  test("requires a visible second commit before an approval allows a request", () => {
+    const approval = createTerminalLiveWidget("approval");
+    expect(approval).toBeDefined();
+
+    approval?.handle({ name: "up" });
+    approval?.handle({ name: "enter" });
+    expect(approval?.frame()).toContain("Press Enter again to confirm Allow once.");
+    expect(approval?.frame()).not.toContain("workspace skill approval: allowed once");
+
+    approval?.handle({ name: "char", value: "r" });
+    expect(approval?.frame()).not.toContain("Press Enter again");
+
+    approval?.handle({ name: "up" });
+    approval?.handle({ name: "enter" });
+    approval?.handle({ name: "enter" });
+    expect(approval?.frame()).toContain("workspace skill approval: allowed once");
+  });
+
   test("publishes a flat top-level area with the reviewed information architecture", () => {
     const area = referenceAreas.find(({ id }) => id === "terminal-ui");
     expect(area).toBeDefined();
     expect(area?.label).toBe("Terminal UI");
     expect(area?.path).toBe("terminal-ui/");
-    expect(area?.pages).toHaveLength(11);
+    expect(area?.pages).toHaveLength(12);
     expect(area?.pages[0]).toMatchObject({
       id: "terminal-ui",
       label: "Overview",
@@ -90,6 +110,7 @@ describe("Terminal UI reference", () => {
     expect(area?.pages.every(({ group }) => group === undefined)).toBe(true);
     expect(area?.pages.slice(1).map(({ label }) => label)).toEqual([
       "Agent shell",
+      "Approval",
       "Composer",
       "Confirmation",
       "Field input",
@@ -104,7 +125,7 @@ describe("Terminal UI reference", () => {
   });
 
   test("renders content and libterminal replay hooks for every route", () => {
-    expect(terminalUiContentIds).toHaveLength(11);
+    expect(terminalUiContentIds).toHaveLength(12);
     for (const id of terminalUiContentIds) {
       const content = getTerminalUiContent(id);
       expect(content).toContain('class="reference-intro"');
@@ -133,6 +154,7 @@ describe("Terminal UI reference", () => {
   });
 
   test("documents rich onboarding primitives without a composite onboarding screen", () => {
+    const approval = getTerminalUiContent("terminal-approval");
     const confirmation = getTerminalUiContent("terminal-confirmation");
     const fields = getTerminalUiContent("terminal-field-input");
     const notices = getTerminalUiContent("terminal-notices-output");
@@ -142,7 +164,13 @@ describe("Terminal UI reference", () => {
 
     expect(getTerminalUiContent("terminal-onboarding")).toBeUndefined();
     expect(confirmation).toContain('data-terminal-replay="setup-confirm"');
-    expect(confirmation).toContain('data-terminal-replay="agent-approval"');
+    expect(confirmation).not.toContain('data-terminal-replay="agent-approval"');
+    expect(approval).toContain('data-terminal-replay="agent-approval"');
+    expect(approval).toContain("Allow once");
+    expect(approval).toContain("Always allow");
+    expect(approval).toContain("Deny");
+    expect(approval).toContain("Dismiss");
+    expect(approval).toContain("focus this first");
     // Captures render in the ~700px content column; the 80-column standard
     // viewport keeps them legible where reference-width captures were not.
     expect(
@@ -205,7 +233,8 @@ describe("Terminal UI reference", () => {
     expect(guidance).toContain("terminal.viewport.compact");
     expect(guidance).toContain("validation profiles, not component dimensions");
     expect(guidance).toContain("not a published component or token package");
-    expect(guidance).toContain("Do not add a Markup section");
-    expect(guidance).toContain("standalone copy-and-paste interface");
+    expect(guidance).toContain("standalone copy-and-paste libterminal");
+    expect(guidance).toContain("Never invent persistent");
+    expect(guidance).toContain("Focus Deny first");
   });
 });
