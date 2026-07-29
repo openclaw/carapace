@@ -4,6 +4,19 @@ Releases are Git tags (`vX.Y.Z`) matching `package.json`; each tag also gets
 auto-generated notes on its GitHub release. This file summarizes the
 user-facing arc per release.
 
+## 0.6.0 — 2026-07-29
+
+Shared utility primitives and canonical application themes.
+
+### Changes
+
+- Added the plain badge and theme-toggle primitives for consumer identity and appearance controls.
+- Promoted the preview site's neutral OKLCH light and dark roles into `themes.css`, including input roles, so consumers no longer need to copy a local palette overlay.
+
+### Fixes
+
+- Removed the preview-only semantic theme overrides so the reference site now proves the same exported contract consumers receive.
+
 ## 0.2.0 — 2026-07-24
 
 Application-surface parity ([#30](https://github.com/openclaw/carapace/pull/30)).
