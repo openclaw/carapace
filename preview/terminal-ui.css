@@ -762,6 +762,90 @@ button.terminal-decision-action {
   text-transform: uppercase;
 }
 
+.terminal-runtime-capture {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--oc-border-subtle);
+  border-radius: var(--oc-radius-surface);
+  background: var(--oc-bg-surface);
+}
+
+.terminal-runtime-capture figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border-bottom: 1px solid var(--oc-border-subtle);
+  gap: var(--oc-space-3);
+}
+
+.terminal-runtime-capture figcaption > span {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.terminal-runtime-capture figcaption small {
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.terminal-runtime-capture figcaption strong {
+  color: var(--oc-text-primary);
+  font-size: var(--oc-font-size-sm);
+}
+
+.terminal-runtime-capture figcaption code {
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+}
+
+.terminal-replay-viewport {
+  overflow: auto;
+  padding: var(--oc-space-2);
+  background: var(--oc-bg-recessed);
+}
+
+.terminal-replay-viewport:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: -2px;
+}
+
+.terminal-replay-host {
+  position: relative;
+  width: max-content;
+  min-height: 9rem;
+  overflow: hidden;
+  background: #0e1015;
+}
+
+.terminal-replay-host[data-terminal-replay-state="loading"]::before {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #8b7f77;
+  content: "Loading terminal capture…";
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+}
+
+.terminal-replay-host canvas {
+  display: block;
+}
+
+.terminal-replay-error {
+  margin: 0;
+  padding: var(--oc-space-3) var(--oc-space-4);
+  border-top: 1px solid var(--oc-status-error-border);
+  background: var(--oc-status-error-bg);
+  color: var(--oc-status-error-fg);
+  font-size: var(--oc-font-size-sm);
+}
+
 .terminal-overview-pair,
 .terminal-confirm-grid,
 .terminal-field-grid,
@@ -1148,5 +1232,10 @@ button.terminal-decision-action {
 
   .terminal-baseline > div:last-child {
     border-bottom: 0;
+  }
+
+  .terminal-runtime-capture figcaption {
+    align-items: start;
+    flex-direction: column;
   }
 }

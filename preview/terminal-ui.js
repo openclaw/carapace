@@ -1,4 +1,4 @@
-const openClawSha = "e1e1c1879bf4924e070463b499f3f3b264092f4a";
+const openClawSha = "de5e09ac27317626e5101fada406f308f4d8f4ae";
 const piSha = "20be4b18d4c57487f8993d2762bace129f0cf7c6";
 const clackSha = "dc5bce8aae84a57b5863124adfaa839c1db1fa23";
 
@@ -223,6 +223,21 @@ function setupFrameMarkup(content, label = "OpenClaw setup", renderer = "Setup f
   return `<div class="terminal-setup-frame" aria-label="${label}"><div class="terminal-setup-bar"><strong>${label}</strong><span>${renderer}</span></div><div class="terminal-setup-screen">${content}</div></div>`;
 }
 
+function onboardingRuntimeCaptureMarkup() {
+  return `<figure class="terminal-runtime-capture">
+    <figcaption><span><small>Runtime capture</small><strong>Setup mode picker</strong></span><code>OpenClaw ${openClawSha.slice(0, 8)} · Clack 1.7.0 · 72 × 10</code></figcaption>
+    <div class="terminal-replay-viewport" tabindex="0" aria-label="Scrollable terminal capture at 72 columns by 10 rows">
+      <div class="terminal-replay-host" data-terminal-replay="onboarding-setup-mode" aria-hidden="true"></div>
+    </div>
+    <pre class="sr-only">Setup mode
+● QuickStart (recommended) — Recommended local setup. Change details later with openclaw configure.
+○ Manual setup
+… more options
+← back · ↑/↓ option</pre>
+    <p class="terminal-replay-error" data-terminal-replay-error hidden>The terminal renderer could not load. Reload the page to try again.</p>
+  </figure>`;
+}
+
 function setupPromptMarkup({
   message,
   value = "",
@@ -352,9 +367,8 @@ function fieldInputContent() {
 }
 
 function onboardingContent() {
-  const flow = `<div class="terminal-setup-message is-intro"><span>┌</span><strong>OpenClaw guided setup</strong></div><div class="terminal-setup-note"><span>│</span><div><strong>Welcome</strong><p>We’ll detect a working provider, configure your workspace, and hand off to chat.</p></div></div><div class="terminal-setup-history"><span>◇</span><p>Continue with guided setup? <strong>Yes</strong></p></div>${setupProgressMarkup()}${setupSelectionMarkup()}<div class="terminal-setup-footer">← back · ↑/↓ move · enter select</div>`;
   return `${pageIntro("Onboarding", "OpenClaw's end-to-end setup composition, built from the prompt components documented in this section.")}
-    <section aria-labelledby="terminal-onboarding-guided">${sectionIntro("terminal-onboarding-guided", "Primary specimen", "Guided first run")}${rendererLabel("Setup flow (Clack)")}${setupFrameMarkup(flow, "OpenClaw guided setup")}</section>
+    <section aria-labelledby="terminal-onboarding-guided">${sectionIntro("terminal-onboarding-guided", "Primary specimen", "Real setup output, replayed by a terminal", "This is the current OpenClaw prompt rendered from captured PTY bytes through libterminal and Ghostty WASM. Carapace supplies only the surrounding documentation.")}${onboardingRuntimeCaptureMarkup()}<p class="terminal-source-note">Captured from ${sourceLink("src/wizard/setup.ts", "the current setup-mode flow", "#L147-L220")} through ${sourceLink("src/wizard/clack-prompter.ts", "OpenClaw's production Clack adapter", "#L167-L219")}.</p></section>
     <section aria-labelledby="terminal-onboarding-sequence">${sectionIntro("terminal-onboarding-sequence", "Sequence", "Orient, decide, verify, apply, hand off")}${referenceTable(["Stage", "Components", "What remains visible"], [
       ["Orient", "Intro · welcome note · risk note", "Purpose and escape hatch"],
       ["Choose", "Confirm · select · sensitive input", "Submitted, non-secret answers"],

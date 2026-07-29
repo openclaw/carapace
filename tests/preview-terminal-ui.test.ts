@@ -176,7 +176,9 @@ describe("Terminal UI reference", () => {
     expect(transcript).toContain("(no output)");
     expect(decisions).toContain("Setup flow (Clack)");
     expect(decisions).toContain("Agent TUI (Pi)");
-    expect(onboarding).toContain("Guided first run");
+    expect(onboarding).toContain("Real setup output, replayed by a terminal");
+    expect(onboarding).toContain('data-terminal-replay="onboarding-setup-mode"');
+    expect(onboarding).toContain("OpenClaw de5e09ac · Clack 1.7.0 · 72 × 10");
     expect(onboarding).toContain("Classic");
     expect(onboarding).toContain("Remote");
     expect(promptFlow).toContain("replay");
