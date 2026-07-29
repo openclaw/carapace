@@ -738,6 +738,20 @@ resolveAvatarUrl(session.ownerName);`, "js")}
     )}</section>
     <section data-section-kind="guidance" aria-labelledby="switch-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="switch-guidance">Apply changes immediately</h2></div></div>${guidanceList(["Use a switch for a setting that takes effect immediately.", "Use a checkbox when the choice is submitted with a larger form.", "Write the label as the setting name, not as an action.", "Expose pending or failed persistence in the consuming application."])}</section>`,
 
+  "primitive-theme-toggle": () =>
+    `${pageIntro("Interface primitive", "Theme toggle", "One quiet icon button cycling color modes; the icon shows the current mode and the accessible name announces the next.")}
+    <section data-section-kind="preview" aria-labelledby="theme-toggle-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="theme-toggle-preview">Mode states</h2></div><span class="oc-pill">.oc-theme-toggle</span></div>
+      <div class="specimen-frame oc-app-surface"><div class="primitive-variant-list"><button class="oc-theme-toggle" type="button" aria-label="Color theme: Light. Activate to switch to dark." title="Light theme"><span class="oc-theme-toggle-icon"><i data-lucide="sun" aria-hidden="true"></i></span></button><button class="oc-theme-toggle" type="button" aria-label="Color theme: Dark. Activate to switch to system." title="Dark theme"><span class="oc-theme-toggle-icon"><i data-lucide="moon" aria-hidden="true"></i></span></button><button class="oc-theme-toggle" type="button" aria-label="Color theme: System. Activate to switch to light." title="System theme"><span class="oc-theme-toggle-icon"><i data-lucide="monitor" aria-hidden="true"></i></span></button></div></div>
+    </section>
+    <section data-section-kind="markup" aria-labelledby="theme-toggle-markup"><div class="section-heading"><div><p class="eyebrow">Markup</p><h2 id="theme-toggle-markup">Announce the next mode</h2></div></div>${codeBlock(
+      `<button class="oc-theme-toggle" type="button"
+  aria-label="Color theme: Dark. Activate to switch to system.">
+  <span class="oc-theme-toggle-icon"><i data-lucide="moon" aria-hidden="true"></i></span>
+</button>`,
+      "html",
+    )}</section>
+    <section data-section-kind="guidance" aria-labelledby="theme-toggle-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="theme-toggle-guidance">Cycle, don't enumerate</h2></div></div>${guidanceList(["Cycle light → dark → system on activation; the icon always shows the current mode.", "Announce the next mode in the accessible name so the cycle is discoverable without sight.", "Persist the choice per browser and resolve system with prefers-color-scheme.", "Offer an explicit three-way picker in settings when discoverability matters more than density."])}</section>`,
+
   "primitive-select": () =>
     `${pageIntro("Interface primitive", "Select", "A native compact selector for choosing one value from a known list.")}
     <section data-section-kind="preview" aria-labelledby="select-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="select-preview">Native options</h2></div><span class="oc-pill">.oc-select</span></div>

@@ -65,6 +65,7 @@ import MessagesSquare from "lucide/dist/esm/icons/messages-square.mjs";
 import Mic from "lucide/dist/esm/icons/mic.mjs";
 import Minus from "lucide/dist/esm/icons/minus.mjs";
 import Monitor from "lucide/dist/esm/icons/monitor.mjs";
+import Sun from "lucide/dist/esm/icons/sun.mjs";
 import Moon from "lucide/dist/esm/icons/moon.mjs";
 import MousePointer2 from "lucide/dist/esm/icons/mouse-pointer-2.mjs";
 import Newspaper from "lucide/dist/esm/icons/newspaper.mjs";
@@ -169,6 +170,7 @@ const icons = {
   mic: Mic,
   minus: Minus,
   monitor: Monitor,
+  sun: Sun,
   moon: Moon,
   "mouse-pointer-2": MousePointer2,
   newspaper: Newspaper,

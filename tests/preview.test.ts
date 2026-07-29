@@ -359,6 +359,7 @@ describe("preview contracts", () => {
         "primitive-split-pane",
         "primitive-switch",
         "primitive-table",
+        "primitive-theme-toggle",
       ].sort(),
     );
   });

@@ -199,6 +199,8 @@ describe("CSS contract", () => {
       ".oc-select",
       ".oc-select-wrap",
       ".oc-textarea",
+      ".oc-theme-toggle",
+      ".oc-theme-toggle-icon",
       ".oc-label",
       ".oc-label-required",
       ".oc-label-optional",

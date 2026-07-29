@@ -399,6 +399,12 @@ export const referenceAreas = [
         keywords: "oc-switch-label oc-switch settings immediate toggle",
       },
       {
+        id: "primitive-theme-toggle",
+        label: "Theme toggle",
+        path: "interface/primitives/theme-toggle/",
+        keywords: "oc-theme-toggle color mode light dark system cycle",
+      },
+      {
         id: "primitive-select",
         label: "Select",
         path: "interface/primitives/select/",
@@ -1002,6 +1008,7 @@ const candidateReferenceIds = new Set([
   "primitive-skeleton-line",
   "primitive-switch",
   "primitive-table",
+  "primitive-theme-toggle",
   "application-settings",
   "application-operations",
   "application-workspace",

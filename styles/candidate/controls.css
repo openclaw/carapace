@@ -475,3 +475,43 @@
 .oc-field > .oc-label-description {
   margin-top: 0;
 }
+
+/* Theme toggle: one quiet icon button cycling color modes (light → dark →
+   system). The icon shows the CURRENT mode; the accessible name announces
+   the next one. Sized to sit in rails and toolbars without chrome. */
+.oc-theme-toggle {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--oc-radius-control);
+  background: transparent;
+  color: var(--oc-text-muted);
+  cursor: pointer;
+}
+
+.oc-theme-toggle:hover {
+  background: var(--oc-surface-interactive-hover);
+  color: var(--oc-text-primary);
+}
+
+.oc-theme-toggle:focus-visible {
+  outline: 2px solid var(--oc-focus-ring);
+  outline-offset: 1px;
+}
+
+.oc-theme-toggle-icon {
+  display: grid;
+  width: 1rem;
+  height: 1rem;
+  place-items: center;
+  line-height: 0;
+}
+
+.oc-theme-toggle-icon svg {
+  width: 100%;
+  height: 100%;
+}
