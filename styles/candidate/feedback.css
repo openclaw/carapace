@@ -62,6 +62,16 @@
   color: var(--oc-status-info-fg);
 }
 
+/* Plain badge: identity, not state. Keeps the tone dot and colored text but
+   drops the pill chrome — for markers that repeat on every row (environment
+   names, roles), where a bordered pill next to real buttons reads as one. */
+.oc-badge-plain {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
 .oc-banner {
   display: grid;
   box-sizing: border-box;

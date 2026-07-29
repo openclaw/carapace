@@ -209,6 +209,7 @@ describe("CSS contract", () => {
       ".oc-badge-error",
       ".oc-badge-info",
       ".oc-badge-neutral",
+      ".oc-badge-plain",
       ".oc-badge-success",
       ".oc-badge-warning",
       ".oc-banner",
