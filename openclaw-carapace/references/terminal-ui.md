@@ -140,6 +140,11 @@ Use the existing terminal runtime. Do not introduce a second renderer, copy its
 width or focus algorithms into Carapace, import browser CSS into an ANSI
 surface, or publish a terminal component API from one consumer's implementation.
 
+Do not add a Markup section for a Terminal UI reference until Carapace owns a
+standalone copy-and-paste interface for it. Link to the audited OpenClaw source
+instead. Local Pi classes, WizardPrompter calls, and partial Clack excerpts are
+implementation evidence, not reusable Carapace examples.
+
 Keep the Carapace Terminal UI area in Lab until a second terminal consumer
 proves a shared reusable interface. Cross-link existing Carapace pages for
 medium-neutral semantics; Terminal UI owns only the translation into cells,

@@ -54,12 +54,13 @@ describe("Terminal UI reference", () => {
     expect(overview).toContain("Validation profiles, not forced component widths");
   });
 
-  test("pairs each component reference with copyable existing-runtime TypeScript", () => {
+  test("links to the owning runtime instead of presenting local excerpts as reusable markup", () => {
     for (const id of terminalUiContentIds.filter((id) => id !== "terminal-ui")) {
       const content = getTerminalUiContent(id);
-      expect(content).toContain("data-terminal-implementation");
-      expect(content).toContain("<span>TypeScript</span>");
-      expect(content).toContain("data-copy-code");
+      expect(content).toContain('class="terminal-source-note"');
+      expect(content).not.toContain("data-terminal-implementation");
+      expect(content).not.toContain("data-section-kind=\"markup\"");
+      expect(content).not.toContain("data-copy-code");
       expect(content).not.toContain("@openclaw/carapace/terminal");
     }
   });
@@ -191,5 +192,7 @@ describe("Terminal UI reference", () => {
     expect(guidance).toContain("terminal.viewport.compact");
     expect(guidance).toContain("validation profiles, not component dimensions");
     expect(guidance).toContain("not a published component or token package");
+    expect(guidance).toContain("Do not add a Markup section");
+    expect(guidance).toContain("standalone copy-and-paste interface");
   });
 });
