@@ -15,6 +15,7 @@
   ],
   "files": [
     "styles",
+    "js",
     "README.md",
     "LICENSE"
   ],
@@ -35,7 +36,8 @@
     "./candidate/embed.css": "./styles/candidate/embed.css",
     "./tailwind.css": "./styles/tailwind.css",
     "./compat/clawhub.css": "./styles/compat/clawhub.css",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./charts.js": "./js/charts.js"
   },
   "scripts": {
     "check": "bun run test && bun run contract:check && bun run skills:check && bun run pack:check",

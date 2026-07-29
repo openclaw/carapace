@@ -2705,6 +2705,7 @@ a.oc-layer-card-primary:hover {
 
 .oc-chart-caption {
   color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
   font-size: var(--oc-font-size-xs);
 }
 
@@ -2717,16 +2718,16 @@ a.oc-layer-card-primary:hover {
 }
 
 .oc-chart-grid-line {
-  stroke: var(--oc-border-subtle);
+  stroke: var(--oc-chart-line, var(--oc-border-subtle));
   stroke-width: 1;
 }
 
 .oc-chart-series {
   fill: none;
   stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 3;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-width: 2;
 }
 
 .oc-chart-axis-labels {
@@ -2815,7 +2816,7 @@ a.oc-layer-card-primary:hover {
   gap: var(--oc-space-2) var(--oc-space-4);
   margin: 0;
   padding: 0;
-  color: var(--oc-text-secondary);
+  color: var(--oc-text-muted);
   font-size: var(--oc-font-size-xs);
   list-style: none;
 }
@@ -2839,15 +2840,15 @@ a.oc-layer-card-primary:hover {
 
 .oc-timeseries-axis {
   fill: none;
-  stroke: var(--oc-border-subtle);
+  stroke: var(--oc-chart-line, var(--oc-border-subtle));
   stroke-width: 1;
 }
 
 .oc-timeseries-series {
   fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 3;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-width: 2;
 }
 
 .oc-timeseries-series-primary {
@@ -2877,11 +2878,11 @@ a.oc-layer-card-primary:hover {
   width: var(--oc-space-4);
   height: var(--oc-space-3);
   border: 1px solid var(--oc-border-subtle);
-  background: var(--oc-surface-interactive);
+  background: color-mix(in srgb, var(--oc-accent-primary) 14%, var(--oc-surface-card));
 }
 
 .oc-map-scale i:nth-of-type(2) {
-  background: var(--oc-accent-secondary);
+  background: color-mix(in srgb, var(--oc-accent-primary) 48%, var(--oc-surface-card));
 }
 
 .oc-map-scale i:nth-of-type(3) {
@@ -2902,11 +2903,11 @@ a.oc-layer-card-primary:hover {
 }
 
 .oc-map-region-low {
-  fill: var(--oc-surface-interactive);
+  fill: color-mix(in srgb, var(--oc-accent-primary) 14%, var(--oc-surface-card));
 }
 
 .oc-map-region-medium {
-  fill: var(--oc-accent-secondary);
+  fill: color-mix(in srgb, var(--oc-accent-primary) 48%, var(--oc-surface-card));
 }
 
 .oc-map-region-high {
@@ -2915,7 +2916,7 @@ a.oc-layer-card-primary:hover {
 
 .oc-map-label {
   fill: var(--oc-text-primary);
-  font-family: var(--oc-font-body);
+  font-family: var(--oc-font-mono);
   font-size: var(--oc-font-size-xs);
   font-weight: 700;
   pointer-events: none;
