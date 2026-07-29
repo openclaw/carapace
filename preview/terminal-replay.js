@@ -77,6 +77,19 @@ async function mountTerminalReplay(host, fixture, signal) {
   }
 }
 
+// Re-streams the capture in small timed slices so the reader can watch the
+// runtime paint the frame instead of receiving it as a still image.
+async function animateReplay(controller, fixture, signal) {
+  const bytes = decodeBase64(fixture.data);
+  controller.write(new TextEncoder().encode("\u001b[2J\u001b[3J\u001b[H"));
+  const slice = Math.max(256, Math.ceil(bytes.byteLength / 48));
+  for (let offset = 0; offset < bytes.byteLength; offset += slice) {
+    if (signal.aborted) return;
+    controller.write(bytes.subarray(offset, offset + slice));
+    await new Promise((resolve) => setTimeout(resolve, 28));
+  }
+}
+
 export function bindTerminalReplays(root = globalThis.document) {
   const abortController = new AbortController();
   const controllers = new Set();
@@ -95,6 +108,18 @@ export function bindTerminalReplays(root = globalThis.document) {
         return;
       }
       controllers.add(controller);
+      const button = host.closest(".terminal-runtime-capture")?.querySelector("[data-terminal-replay-again]");
+      if (button) {
+        let playing = false;
+        button.hidden = false;
+        button.addEventListener("click", () => {
+          if (playing) return;
+          playing = true;
+          void animateReplay(controller, fixture, abortController.signal).finally(() => {
+            playing = false;
+          });
+        });
+      }
     });
   }
 
