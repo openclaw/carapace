@@ -47,7 +47,7 @@ import GitBranch from "lucide/dist/esm/icons/git-branch.mjs";
 import Globe from "lucide/dist/esm/icons/globe.mjs";
 import Hash from "lucide/dist/esm/icons/hash.mjs";
 import HeartPulse from "lucide/dist/esm/icons/heart-pulse.mjs";
-import History from "lucide/dist/esm/icons/history.mjs";
+import History from "lucide/dist/esm/icons/rotate-ccw-clock.mjs";
 import Image from "lucide/dist/esm/icons/image.mjs";
 import Inbox from "lucide/dist/esm/icons/inbox.mjs";
 import Italic from "lucide/dist/esm/icons/italic.mjs";
