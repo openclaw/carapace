@@ -432,3 +432,157 @@ th[aria-sort] .oc-table-sort-icon {
   font: inherit;
   font-size: var(--oc-font-size-xs);
 }
+/* Sparkline: a stepped micro-trend beside a metric. The consumer computes the
+   series and emits the stepped path at build time; the component owns size,
+   stroke, and tone. Crisp segments, not splines: trend marks stay siblings of
+   the pixel identity rather than imports from a charting kit. */
+.oc-sparkline {
+  display: block;
+  width: 100%;
+  max-width: 8.5rem;
+  height: 1.5rem;
+}
+
+.oc-sparkline-line {
+  fill: none;
+  stroke: var(--oc-text-muted);
+  stroke-width: 1.5;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  /* preserveAspectRatio="none" stretches the viewBox; keep the stroke true. */
+  vector-effect: non-scaling-stroke;
+}
+
+.oc-sparkline[data-tone="accent"] .oc-sparkline-line {
+  stroke: var(--oc-accent-primary);
+}
+
+.oc-sparkline-fill {
+  fill: color-mix(in srgb, var(--oc-accent-primary) 12%, transparent);
+  stroke: none;
+}
+
+.oc-sparkline-endpoint {
+  fill: var(--oc-accent-primary);
+  stroke: none;
+}
+
+/* Delta: period-over-period change beside a metric. Neutral by default --
+   activity direction is not a value judgment; reserve the status tones for
+   metrics with a genuinely good or bad direction. */
+.oc-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.oc-delta-arrow {
+  font-size: 0.625rem;
+  line-height: 1;
+}
+
+.oc-delta[data-tone="positive"] {
+  color: var(--oc-status-success-fg);
+}
+
+.oc-delta[data-tone="negative"] {
+  color: var(--oc-status-error-fg);
+}
+
+/* Direction tints the arrow only: a scannable up/down cue without painting
+   the whole delta as a judgment. An explicit data-tone still wins. */
+.oc-delta:not([data-tone])[data-direction="up"] .oc-delta-arrow {
+  color: var(--oc-status-success-fg);
+}
+
+.oc-delta:not([data-tone])[data-direction="down"] .oc-delta-arrow {
+  color: var(--oc-status-error-fg);
+}
+
+/* Band-size sparkline for datelines and section headers: same stepped
+   geometry, full width, taller stroke room. */
+.oc-sparkline[data-size="lg"] {
+  max-width: none;
+  height: 3rem;
+}
+
+/* Mini column chart: one precomputed rect per period, same contract as
+   the sparkline -- the consumer computes geometry, the component owns
+   color. Columns stay quiet; only the newest period carries the accent. */
+.oc-bars {
+  display: block;
+  width: 100%;
+  max-width: 8.5rem;
+  height: 1.5rem;
+}
+
+.oc-bars-bar {
+  fill: var(--oc-border-strong);
+}
+
+.oc-bars-current {
+  fill: var(--oc-accent-primary);
+}
+
+/* Composition bar: segments share one row and sum to the viewBox width.
+   Roles follow the chart color guidance -- accents for neutral series,
+   status colors only when a segment genuinely carries that meaning. */
+.oc-split {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 0.5rem;
+  border-radius: 2px;
+}
+
+.oc-split-segment {
+  fill: var(--oc-chart-color, var(--oc-accent-primary));
+}
+
+.oc-split-secondary {
+  --oc-chart-color: var(--oc-accent-secondary);
+}
+
+.oc-split-success {
+  --oc-chart-color: var(--oc-status-success-fg);
+}
+
+.oc-split-warning {
+  --oc-chart-color: var(--oc-status-warning-fg);
+}
+
+.oc-split-error {
+  --oc-chart-color: var(--oc-status-error-fg);
+}
+
+.oc-split-muted {
+  --oc-chart-color: var(--oc-border-strong);
+}
+
+.oc-split-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--oc-space-1) var(--oc-space-3);
+  margin: 0;
+  padding: 0;
+  color: var(--oc-text-muted);
+  font-size: var(--oc-font-size-xs);
+  list-style: none;
+}
+
+.oc-split-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--oc-space-1);
+}
+
+.oc-split-key {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 2px;
+  background: var(--oc-chart-color, var(--oc-accent-primary));
+}

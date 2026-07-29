@@ -70,6 +70,8 @@ const pageKinds = {
   "primitive-tooltip": "reference",
   "chart-base": "reference",
   "chart-colors": "reference",
+  "chart-sparkline": "reference",
+  "chart-bars": "reference",
   "chart-timeseries": "reference",
   "chart-maps": "reference",
   "chart-sankey": "reference",
