@@ -16,7 +16,7 @@ const openclawRoot = resolve(
 const requireFromOpenClaw = createRequire(join(openclawRoot, "package.json"));
 const nodePty = requireFromOpenClaw("@lydell/node-pty");
 const encoder = new TextEncoder();
-const referenceColumns = terminalTokens.viewports.reference.value;
+const captureColumns = terminalTokens.viewports.standard.value;
 
 const driver = {
   spawn(command, args, options) {
@@ -36,7 +36,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Five-region agent shell",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 24,
     stopAfter: "local ready | idle",
     summary: "OpenClaw agent shell with transcript, status, footer, and editor.",
@@ -46,7 +46,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Active multiline composer",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 24,
     steps: [{ waitFor: "local ready | idle", write: "Compare the picker at 20 columns" }],
     stopAfter: "Compare the picker at 20 columns",
@@ -57,7 +57,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Workspace skill approval",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 24,
     steps: [{ waitFor: "local ready | idle", write: "skill approval proof\r" }],
     stopAfter: "Apply workspace skill proposal",
@@ -68,7 +68,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Model picker overlay",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 24,
     env: { OPENCLAW_TUI_PTY_PICKER_FIXTURE: "1" },
     steps: [{ waitFor: "local ready | idle", write: "\u000c" }],
@@ -80,7 +80,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "Tool execution in transcript",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 24,
     env: { OPENCLAW_TUI_PTY_VERBOSE_LEVEL: "on" },
     steps: [{ waitFor: "local ready | idle", write: "tool chronology proof\r" }],
@@ -92,7 +92,7 @@ const fixtureDefinitions = [
     kind: "agent",
     label: "User and assistant transcript",
     renderer: "OpenClaw agent TUI · Pi",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 24,
     steps: [{ waitFor: "local ready | idle", write: "Hello from Carapace\r" }],
     stopAfter: "PTY_RESPONSE: Hello from Carapace",
@@ -104,7 +104,7 @@ const fixtureDefinitions = [
     scenario: "confirm",
     label: "Vertical setup confirmation",
     renderer: "OpenClaw setup · Clack",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 12,
     stopAfter: "Continue?",
     summary: "Security acknowledgement with No initially selected and Back available.",
@@ -115,7 +115,7 @@ const fixtureDefinitions = [
     scenario: "field-error",
     label: "Validated field input",
     renderer: "OpenClaw setup · Clack",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 12,
     steps: [{ waitFor: "Gateway port", write: "\r" }],
     stopAfter: "Enter a port from 1 to 65535",
@@ -127,7 +127,7 @@ const fixtureDefinitions = [
     scenario: "field-sensitive",
     label: "Sensitive field input",
     renderer: "OpenClaw setup · Clack",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 12,
     steps: [{ waitFor: "Provider API key", write: "sk-example" }],
     finishAfterSteps: true,
@@ -139,7 +139,7 @@ const fixtureDefinitions = [
     scenario: "notices",
     label: "Notes and plain output",
     renderer: "OpenClaw setup · Clack",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 16,
     stopAfter: "Ready to continue.",
     summary: "Flow intro, titled QuickStart note, unframed disclosure, and outro.",
@@ -150,7 +150,7 @@ const fixtureDefinitions = [
     scenario: "flow",
     label: "Prompt flow with history",
     renderer: "OpenClaw setup · Clack",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 16,
     stopAfter: "→ next",
     summary: "Intro and note above an active setup prompt with Back and Next navigation.",
@@ -161,7 +161,7 @@ const fixtureDefinitions = [
     scenario: "selection",
     label: "Single selection with hints",
     renderer: "OpenClaw setup · Clack",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 14,
     stopAfter: "Recommended local setup",
     summary: "Setup mode options with initial selection, recommendation copy, and descriptions.",
@@ -172,7 +172,7 @@ const fixtureDefinitions = [
     scenario: "multiselect",
     label: "Searchable multiple selection",
     renderer: "OpenClaw setup · Clack",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 16,
     steps: [{ waitFor: "Enable hooks?", write: "mem" }],
     finishAfterSteps: true,
@@ -184,7 +184,7 @@ const fixtureDefinitions = [
     scenario: "progress",
     label: "Active setup progress",
     renderer: "OpenClaw setup · Clack",
-    columns: referenceColumns,
+    columns: captureColumns,
     rows: 10,
     stopAfter: "Verifying gateway reachability",
     summary: "Animated setup progress after its activity label has been updated.",
@@ -236,15 +236,24 @@ async function capturePty(definition, command) {
   let observed = "";
   let stepIndex = 0;
   let completed = false;
+  // Bytes emitted after this deadline are the app painting past the capture
+  // point -- and, once killed, its shutdown cleanup (alt-screen exit, screen
+  // clear), which used to wipe the final frame on replay. Collect a short
+  // grace window so the capture-point frame finishes painting, then cut.
+  let collectUntil = Infinity;
   let killTimer;
   const finish = () => {
     if (completed) return;
     completed = true;
-    killTimer = setTimeout(() => session.kill(), 300);
+    collectUntil = Date.now() + 200;
+    // The kill also ends the output stream for apps that go quiet after the
+    // capture point; its cleanup bytes arrive past collectUntil and are dropped.
+    killTimer = setTimeout(() => session.kill(), 350);
   };
 
   try {
     for await (const chunk of session.output) {
+      if (Date.now() > collectUntil) continue;
       chunks.push(chunk);
       observed += decoder.decode(chunk, { stream: true });
       const plain = stripTerminalControls(observed);
@@ -258,7 +267,6 @@ async function capturePty(definition, command) {
         finish();
       }
     }
-    await session.exit;
   } finally {
     if (killTimer) clearTimeout(killTimer);
     if (!completed) session.kill();
