@@ -17,6 +17,30 @@ function terminalFontFamily(host) {
   );
 }
 
+function fitTerminalToViewport(host, controller) {
+  const viewport = host.parentElement;
+  const view = host.ownerDocument.defaultView;
+  const canvas = host.querySelector("canvas");
+  if (!viewport || !view || !canvas) return;
+
+  const viewportStyle = view.getComputedStyle(viewport);
+  const horizontalPadding =
+    (Number.parseFloat(viewportStyle.paddingLeft) || 0) +
+    (Number.parseFloat(viewportStyle.paddingRight) || 0);
+  const availableWidth = viewport.clientWidth - horizontalPadding;
+  const renderedWidth = canvas.getBoundingClientRect().width;
+  const currentFontSize = controller.terminal.options.fontSize;
+  if (availableWidth <= 0 || renderedWidth <= 0) return;
+
+  const fittedFontSize = Math.floor(
+    (currentFontSize * availableWidth) / renderedWidth,
+  );
+  const nextFontSize = Math.max(11, Math.min(20, fittedFontSize));
+  if (nextFontSize !== currentFontSize) {
+    controller.terminal.options.fontSize = nextFontSize;
+  }
+}
+
 async function mountTerminalReplay(host, fixture, signal) {
   host.dataset.terminalReplayState = "loading";
   try {
@@ -42,8 +66,16 @@ async function mountTerminalReplay(host, fixture, signal) {
       signal,
     });
     controller.write(decodeBase64(fixture.data));
+    fitTerminalToViewport(host, controller);
+    const ResizeObserver = host.ownerDocument.defaultView?.ResizeObserver;
+    const resizeObserver = ResizeObserver
+      ? new ResizeObserver(() => fitTerminalToViewport(host, controller))
+      : undefined;
+    if (resizeObserver && host.parentElement) {
+      resizeObserver.observe(host.parentElement);
+    }
     host.dataset.terminalReplayState = "ready";
-    return controller;
+    return { controller, resizeObserver };
   } catch (error) {
     if (signal.aborted) return undefined;
     host.dataset.terminalReplayState = "error";
@@ -65,19 +97,23 @@ export function bindTerminalReplays(root = globalThis.document) {
       host.dataset.terminalReplayState = "error";
       continue;
     }
-    void mountTerminalReplay(host, fixture, abortController.signal).then((controller) => {
-      if (!controller) return;
+    void mountTerminalReplay(host, fixture, abortController.signal).then((mounted) => {
+      if (!mounted) return;
       if (abortController.signal.aborted) {
-        controller.dispose();
+        mounted.resizeObserver?.disconnect();
+        mounted.controller.dispose();
         return;
       }
-      controllers.add(controller);
+      controllers.add(mounted);
     });
   }
 
   return () => {
     abortController.abort();
-    for (const controller of controllers) controller.dispose();
+    for (const mounted of controllers) {
+      mounted.resizeObserver?.disconnect();
+      mounted.controller.dispose();
+    }
     controllers.clear();
   };
 }

@@ -86,7 +86,7 @@ body[data-preview-route="terminal-ui"] .reference-intro {
 .terminal-replay-host {
   position: relative;
   width: max-content;
-  min-width: 20rem;
+  min-width: 100%;
   min-height: 7rem;
   overflow: hidden;
   background: #0e1015;

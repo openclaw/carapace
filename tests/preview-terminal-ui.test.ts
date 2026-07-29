@@ -94,6 +94,8 @@ describe("Terminal UI reference", () => {
     expect(replay).toContain('from "@openclaw/libterminal/browser"');
     expect(replay).toContain("createGhosttyTerminal");
     expect(replay).toContain("terminalUiFixtures");
+    expect(replay).toContain("fitTerminalToViewport");
+    expect(replay).toContain("ResizeObserver");
     expect(terminalUi).not.toContain("terminalShellMarkup");
     expect(terminalUi).not.toContain("setupFrameMarkup");
     expect(Object.keys(packageJson.exports)).not.toContain("./terminal.css");
@@ -111,6 +113,7 @@ describe("Terminal UI reference", () => {
 
     expect(previewCss).toContain('@import "./terminal-ui.css"');
     expect(terminalCss).toContain(".terminal-replay-host");
+    expect(terminalCss).toContain("min-width: 100%");
     expect(terminalCss).not.toContain(".terminal-frame");
     expect(skill).toContain("references/terminal-ui.md");
     expect(guidance).toContain("Keep the Carapace Terminal UI area in Lab");
