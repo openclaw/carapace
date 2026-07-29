@@ -35,8 +35,8 @@ function replayFigure(id) {
   if (!fixture) throw new Error(`Unknown terminal fixture: ${id}`);
   return `<figure class="terminal-runtime-capture">
     <figcaption><span><small>${fixture.renderer}</small><strong>${fixture.label}</strong></span><code>OpenClaw ${fixture.sourceSha.slice(0, 8)} · ${fixture.columns} × ${fixture.rows}</code></figcaption>
-    <div class="terminal-replay-viewport" tabindex="0" aria-label="${fixture.label}, terminal capture at ${fixture.columns} columns by ${fixture.rows} rows">
-      <div class="terminal-replay-host" data-terminal-replay="${id}" aria-hidden="true"></div>
+    <div class="terminal-replay-viewport" aria-label="${fixture.label}, terminal capture at ${fixture.columns} columns by ${fixture.rows} rows">
+      <div class="terminal-replay-host" data-terminal-replay="${id}" aria-hidden="true" inert></div>
     </div>
     <p class="sr-only">${fixture.summary}</p>
     <p class="terminal-replay-error" data-terminal-replay-error hidden>The terminal renderer could not load. Reload the page to try again.</p>

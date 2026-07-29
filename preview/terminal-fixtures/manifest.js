@@ -52,7 +52,7 @@ export const terminalUiFixtureManifest = Object.freeze({
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
     "label": "Vertical setup confirmation",
     "renderer": "OpenClaw setup · Clack",
-    "columns": 72,
+    "columns": 120,
     "rows": 12,
     "summary": "Security acknowledgement with No initially selected and Back available."
   },

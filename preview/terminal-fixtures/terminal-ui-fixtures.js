@@ -50,11 +50,11 @@ export const terminalUiFixtures = Object.freeze({
   },
   "setup-confirm": {
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",
-    "columns": 72,
+    "columns": 120,
     "rows": 12,
-    "bytes": 322,
+    "bytes": 305,
     "encoding": "base64",
-    "data": "G1s/MjVsG1s5MG3ilIIbWzM5bQ0KG1szNm3il4YbWzM5bSAgG1szODsyOzI1NTs5MDs0NW1JIHVuZGVyc3RhbmQgdGhpcyBpcyBwZXJzb25hbC1ieS1kZWZhdWx0IGFuZCANChtbOTBt4pSCG1szOW0gIHNoYXJlZC9tdWx0aS11c2VyIHVzZSByZXF1aXJlcyBsb2NrLWRvd24uIENvbnRpbnVlPxtbMzltDQobWzM2beKUghtbMzltICAbWzJt4peLG1syMm0gG1sybVllcxtbMjJtDQobWzM2beKUghtbMzltICAbWzMybeKXjxtbMzltIE5vDQobWzM2beKUghtbMzltICAbWzJt4oaQIGJhY2sbWzIybSAgG1sybeKGkS/ihpMgb3B0aW9uG1syMm0NChtbMzZt4pSUG1szOW0NCg=="
+    "data": "G1s/MjVsG1s5MG3ilIIbWzM5bQ0KG1szNm3il4YbWzM5bSAgG1szODsyOzI1NTs5MDs0NW1JIHVuZGVyc3RhbmQgdGhpcyBpcyBwZXJzb25hbC1ieS1kZWZhdWx0IGFuZCBzaGFyZWQvbXVsdGktdXNlciB1c2UgcmVxdWlyZXMgbG9jay1kb3duLiBDb250aW51ZT8bWzM5bQ0KG1szNm3ilIIbWzM5bSAgG1sybeKXixtbMjJtIBtbMm1ZZXMbWzIybQ0KG1szNm3ilIIbWzM5bSAgG1szMm3il48bWzM5bSBObw0KG1szNm3ilIIbWzM5bSAgG1sybeKGkCBiYWNrG1syMm0gIBtbMm3ihpEv4oaTIG9wdGlvbhtbMjJtDQobWzM2beKUlBtbMzltDQo="
   },
   "setup-field-error": {
     "sourceSha": "25909ef5da7323e56c101b1f25307ccfcc889976",

@@ -74,6 +74,7 @@ describe("Terminal UI reference", () => {
     expect(getTerminalUiContent("terminal-onboarding")).toBeUndefined();
     expect(confirmation).toContain('data-terminal-replay="setup-confirm"');
     expect(confirmation).toContain('data-terminal-replay="agent-approval"');
+    expect(terminalUiFixtureManifest["setup-confirm"].columns).toBe(120);
     expect(fields).toContain('data-terminal-replay="setup-field-error"');
     expect(fields).toContain('data-terminal-replay="setup-field-sensitive"');
     expect(notices).toContain('data-terminal-replay="setup-notices"');
@@ -94,8 +95,11 @@ describe("Terminal UI reference", () => {
     expect(replay).toContain('from "@openclaw/libterminal/browser"');
     expect(replay).toContain("createGhosttyTerminal");
     expect(replay).toContain("terminalUiFixtures");
-    expect(replay).toContain("fitTerminalToViewport");
-    expect(replay).toContain("ResizeObserver");
+    expect(replay).toContain("scrollback: 0");
+    expect(replay).not.toContain("fitTerminalToViewport");
+    expect(replay).not.toContain("ResizeObserver");
+    expect(terminalUi).toContain("inert");
+    expect(terminalUi).not.toContain('class="terminal-replay-viewport" tabindex="0"');
     expect(terminalUi).not.toContain("terminalShellMarkup");
     expect(terminalUi).not.toContain("setupFrameMarkup");
     expect(Object.keys(packageJson.exports)).not.toContain("./terminal.css");
@@ -113,7 +117,9 @@ describe("Terminal UI reference", () => {
 
     expect(previewCss).toContain('@import "./terminal-ui.css"');
     expect(terminalCss).toContain(".terminal-replay-host");
-    expect(terminalCss).toContain("min-width: 100%");
+    expect(terminalCss).toContain("overflow: hidden");
+    expect(terminalCss).toContain("pointer-events: none");
+    expect(terminalCss).toContain("width: 100% !important");
     expect(terminalCss).not.toContain(".terminal-frame");
     expect(skill).toContain("references/terminal-ui.md");
     expect(guidance).toContain("Keep the Carapace Terminal UI area in Lab");

@@ -102,7 +102,7 @@ const fixtureDefinitions = [
     scenario: "confirm",
     label: "Vertical setup confirmation",
     renderer: "OpenClaw setup · Clack",
-    columns: 72,
+    columns: 120,
     rows: 12,
     stopAfter: "Continue?",
     summary: "Security acknowledgement with No initially selected and Back available.",
