@@ -689,6 +689,12 @@ export const referenceAreas = [
         keywords: "oc-sparkline oc-delta trend micro chart change period metric",
       },
       {
+        id: "chart-bars",
+        label: "Bars & Split",
+        path: "interface/charts/bars/",
+        keywords: "oc-bars oc-split columns composition proportion share mix mini chart",
+      },
+      {
         id: "chart-timeseries",
         label: "Timeseries",
         path: "interface/charts/timeseries/",
