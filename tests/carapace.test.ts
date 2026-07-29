@@ -199,6 +199,8 @@ describe("CSS contract", () => {
       ".oc-select",
       ".oc-select-wrap",
       ".oc-textarea",
+      ".oc-theme-toggle",
+      ".oc-theme-toggle-icon",
       ".oc-label",
       ".oc-label-required",
       ".oc-label-optional",
@@ -209,6 +211,7 @@ describe("CSS contract", () => {
       ".oc-badge-error",
       ".oc-badge-info",
       ".oc-badge-neutral",
+      ".oc-badge-plain",
       ".oc-badge-success",
       ".oc-badge-warning",
       ".oc-banner",
@@ -233,6 +236,9 @@ describe("CSS contract", () => {
       ".oc-loader-spinner",
       ".oc-skeleton-line",
       ".oc-skeleton-line-short",
+      ".oc-tooltip",
+      ".oc-tooltip-content",
+      ".oc-tooltip-trigger",
     ]);
     expectClasses(data, [
       ".oc-code-block",

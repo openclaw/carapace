@@ -4536,6 +4536,13 @@
     0 12px 32px -10px color-mix(in srgb, var(--oc-palette-ink-950) 22%, transparent);
 }
 
+/* A closed dialog must stay hidden: display:flex above outranks the UA's
+   dialog:not([open]) { display: none }, so without this a dismissed palette
+   renders inline as a stray strip. */
+.oc-command-palette:not([open]) {
+  display: none;
+}
+
 .oc-command-palette::backdrop {
   background: color-mix(in srgb, var(--oc-bg-page) 78%, transparent);
   backdrop-filter: blur(6px);
