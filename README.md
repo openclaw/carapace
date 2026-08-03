@@ -1,170 +1,102 @@
-# Carapace
+# Carapace 🦀 — one shell, many surfaces
 
-Carapace is the shared visual foundation for OpenClaw public sites and
-products: canonical tokens, CSS foundations, and agent guidance.
+[![CI](https://img.shields.io/github/actions/workflow/status/openclaw/carapace/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/openclaw/carapace/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/v/release/openclaw/carapace?style=flat-square)](https://github.com/openclaw/carapace/releases/latest)
+[![Bun](https://img.shields.io/badge/Bun-%E2%89%A51.3.0-fbf0df?style=flat-square&logo=bun&logoColor=black)](https://bun.sh/)
+[![License](https://img.shields.io/github/license/openclaw/carapace?style=flat-square)](LICENSE)
+[![Preview](https://img.shields.io/badge/preview-carapace.design-f5654a?style=flat-square)](https://carapace.design/)
 
-A carapace is the protective outer shell of a crustacean. The name fits this
-project because it gives OpenClaw products a consistent, durable surface while
-the applications beneath it keep their own behavior.
-
-The initial contract was extracted from `openclaw/openclaw.ai` at
-`b94b43b24f728c902ebb4c09ca3f89aa21e4f1d5` and checked against
-`openclaw/clawhub` at `0e898b1dfd309728a031416cd57fa1262af0d064` and
-`openclaw/docs` at `2a10e88b244232f9a91d7c9a97f2816297eb2eb4`.
-This repository became canonical with `v0.0.1`. The Carapace name and package
-begin with `v0.1.0`. Latest tagged release: `v0.1.0`.
-
-## Install
-
-Install an immutable GitHub release without publishing to npm:
-
-```bash
-bun add "git+https://github.com/openclaw/carapace.git#v0.1.0"
-```
-
-The package is distributed through immutable Git tags rather than npm. Its
-`private` package field prevents accidental npm publication; it does not limit
-access to this public repository.
-
-Import the complete CSS contract:
+Carapace is the shared visual foundation for OpenClaw public sites and products. It provides framework-neutral CSS tokens, themes, primitives, a Tailwind adapter, and agent guidance while each consumer retains its own behavior and layout.
 
 ```css
 @import "@openclaw/carapace";
 ```
 
-Consumers can instead import focused entry points:
+```html
+<button class="oc-action oc-action-primary" type="button">Continue</button>
+```
+
+The package owns the visual contract; the consumer owns the product.
+
+## Install
+
+Carapace is distributed through immutable GitHub release tags, not npm. Install the current release with Bun:
+
+```bash
+bun add "git+https://github.com/openclaw/carapace.git#v0.6.1"
+```
+
+The package is public, but its `private` manifest field prevents accidental npm publication. Use the [latest release](https://github.com/openclaw/carapace/releases/latest) when updating the pinned tag.
+
+## Quick start
+
+Import the complete contract from your application stylesheet:
 
 ```css
-@import "@openclaw/carapace/tokens.css";
-@import "@openclaw/carapace/themes.css";
-@import "@openclaw/carapace/typography.css";
-@import "@openclaw/carapace/base.css";
-@import "@openclaw/carapace/components.css";
-@import "@openclaw/carapace/themes/product.css";
-@import "@openclaw/carapace/candidate/controls.css";
-@import "@openclaw/carapace/candidate/feedback.css";
-@import "@openclaw/carapace/candidate/data.css";
-@import "@openclaw/carapace/candidate/application.css";
-@import "@openclaw/carapace/candidate/agent.css";
-@import "@openclaw/carapace/candidate/embed.css";
-@import "@openclaw/carapace/compat/clawhub.css";
-@import "@openclaw/carapace/tailwind.css";
+/* app.css */
+@import "@openclaw/carapace";
 ```
 
-The Tailwind entry point only maps canonical custom properties into Tailwind
-4. Applications continue to own their components and product-specific layout.
-The product theme and ClawHub compatibility entry points are transitional,
-opt-in adapters rather than a second shared visual layer.
+Bundle the stylesheet with Bun or your existing CSS-aware build tool:
 
-`components.css` provides framework-neutral primitives for shared heroes,
-section headings, cards, actions, pills, and segmented controls. Consumers keep
-their own content and behavior while composing the same visual implementation:
+```bash
+bun build app.css --outdir=dist
+```
+
+Carapace defaults to its dark theme. Select the light theme on the document element when needed:
 
 ```html
-<section class="oc-section">
-  <header class="oc-section-header">
-    <div class="oc-section-heading">
-      <p class="oc-eyebrow">Featured</p>
-      <h2 class="oc-section-title">Build with OpenClaw</h2>
-      <p class="oc-section-copy">Shared copy and surface styling across products.</p>
-    </div>
-    <a class="oc-action oc-action-secondary" href="/skills">Browse skills</a>
-  </header>
-</section>
+<html data-theme="light">
 ```
 
-Candidate entry points are additive and opt-in. They are excluded from both
-`components.css` and the complete default import until their selectors and
-behavior have been validated in multiple consumers. Preview-only Lab work is
-not included in package exports.
+## What Carapace owns
 
-The candidate application entry point supplies compact navigation, pane,
-settings, chat, model-control, session-table, Quick Chat, and status anatomy,
-plus split panes, log streams, menu panels, option cards, the command
-palette, and collection indicators. The candidate agent entry point owns
-approval prompts and transcript anatomy such as tool parameter rows,
-payload disclosures, work groups, and compaction markers. Both compose
-existing Carapace controls while leaving routes, data, persistence, native
-window behavior, and framework state inside each consumer.
+Carapace supplies semantic design tokens, light and dark themes, typography and base styles, and framework-neutral primitives such as sections, cards, actions, pills, and segmented controls. Product-specific routes, state, persistence, content, and layout composition stay in consumer repositories.
 
-The candidate embed entry point is the contract for surfaces that render inside
-a host frame, such as MCP apps. It translates the MCP Apps style vocabulary
-into semantic tokens under `.oc-embed-tokens` and supplies system-resolvable
-font stacks for sandboxed documents, where a host cannot guarantee a brand face
-resolves. An embedded app inherits host surfaces, text, borders, and geometry
-while keeping its own content and identity.
+Candidate styles are additive and opt-in. They do not enter the complete default import until their selectors and behavior are proven across multiple consumers. Preview-only Lab styles are never package exports.
 
-OpenClaw surfaces and controls default to a Kumo-aligned radius profile
-(`surface`/`control` = `--oc-radius-md` / 8px, `inset` = `--oc-radius-sm` / 4px).
-Use the semantic `--oc-radius-surface`, `--oc-radius-control`, and
-`--oc-radius-inset` roles instead of choosing from the raw radius scale.
-Reserve `--oc-radius-round` for genuinely circular avatars, status dots, and
-similar indicators.
+## Entry points
 
-## Skills
+Use the complete import by default and choose a focused entry point when the consumer needs a narrower contract.
 
-Install all five project skills from the repository's moving default branch:
+| Need | Entry point |
+| --- | --- |
+| Complete stable contract | `@openclaw/carapace` |
+| Tokens and themes | `@openclaw/carapace/tokens.css`, `themes.css` |
+| Typography and base styles | `@openclaw/carapace/typography.css`, `base.css` |
+| Shared primitives | `@openclaw/carapace/components.css` |
+| Tailwind 4 token mapping | `@openclaw/carapace/tailwind.css` |
+| Opt-in candidate surfaces | `@openclaw/carapace/candidate/*.css` |
 
-```bash
-npx skills@1.5.16 add \
-  "openclaw/carapace" \
-  --skill \
-    openclaw-design \
-    openclaw-brand \
-    openclaw-carapace \
-    openclaw-marketing-pages \
-    openclaw-design-audit \
-  --agent codex \
-  --copy \
-  --yes
-```
+See the [package reference](docs/package-reference.md) for every exported entry point, candidate ownership boundaries, semantic radii, and asset policy.
 
-Refresh every project skill recorded in `skills-lock.json`, including these
-design skills, with the standard updater:
+## Agent guidance
 
-```bash
-npx skills@1.5.16 update --project --yes
-```
+The repository also contains skills for OpenClaw brand, product-interface, marketing-page, and design-audit work. Runtime CSS stays pinned to a release tag; agent guidance follows the default branch so the skills updater can refresh it.
 
-The `openclaw-design` router skill routes work to:
-
-- `openclaw-brand`
-- `openclaw-carapace`
-- `openclaw-marketing-pages`
-- `openclaw-design-audit`
-
-All five skills live in sibling top-level directories so the skills CLI can
-discover and update the complete set without repository-specific flags.
-
-## Development
-
-```bash
-bun install
-bun run check
-```
-
-Runtime assets ship under a semantic Git tag and GitHub Release. A release tag
-must match the version in `package.json`. Agent guidance follows the repository
-default branch so consumer repositories can use the standard skills updater.
-
-Font binaries, logos, mascot artwork, and site-specific media are not included.
-Consumers must load licensed assets locally.
+See [Agent skills](docs/agent-skills.md) for installation and routing.
 
 ## Preview
 
-Run Carapace reference surface locally:
+The [Carapace reference surface](https://carapace.design/) shows the stable primitives and opt-in application, agent, embedded, and terminal surfaces.
+
+Run it locally:
 
 ```bash
 bun run preview:dev
 ```
 
-Build the static preview:
+## Development
+
+Carapace requires Bun 1.3.0 or newer. Use the version pinned in `package.json` for normal development.
 
 ```bash
-bun run preview:build
+bun install --frozen-lockfile
+bun run check
 ```
 
-The Pages workflow publishes the preview at `https://carapace.design/`.
-The Applications area contains interactive settings, operations, workspace,
-Sessions, and Quick Chat screens with model, state, theme, and viewport
-controls.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution and compatibility rules.
+
+## License
+
+Carapace is available under the [MIT License](LICENSE).
