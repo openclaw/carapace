@@ -3916,6 +3916,31 @@ body[data-preview-page="primitive-collapsible"]
   border: 0;
 }
 
+.component-workbench-dialog-demo {
+  display: grid;
+  width: 100%;
+  min-height: 20rem;
+  place-items: center;
+}
+
+.component-workbench-canvas[data-viewport="mobile"]:has(.oc-dialog[data-workbench-full-screen="true"]) {
+  padding: 0;
+}
+
+.component-workbench-canvas[data-viewport="mobile"]
+  .component-workbench-dialog-demo:has(.oc-dialog[data-workbench-full-screen="true"]) {
+  height: 100%;
+  min-height: 0;
+}
+
+.component-workbench-canvas[data-viewport="mobile"] .oc-dialog[data-workbench-full-screen="true"] {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  border-radius: 0;
+}
+
 .component-workbench-frame .oc-empty {
   width: min(100%, 32rem);
   min-height: 260px;

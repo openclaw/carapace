@@ -537,6 +537,29 @@ export function bannerWorkbenchMarkup({ tone = "warning", action = true, dismiss
 </div>`;
 }
 
+export function dialogWorkbenchMarkup({ fullScreenNarrow = false } = {}) {
+  const fullScreen = fullScreenNarrow ? ' data-workbench-full-screen="true"' : "";
+
+  return `<div class="component-workbench-dialog-demo">
+  <dialog class="oc-dialog" open${fullScreen} aria-labelledby="workbench-dialog-title" aria-describedby="workbench-dialog-description">
+    <header class="oc-dialog-header">
+      <div>
+        <h3 class="oc-dialog-title" id="workbench-dialog-title">Apply changes?</h3>
+        <p class="oc-dialog-summary" id="workbench-dialog-description">Review the update before applying it to this workspace.</p>
+      </div>
+      <button class="oc-dialog-close" type="button" aria-label="Close dialog"><i data-lucide="x"></i></button>
+    </header>
+    <div class="oc-dialog-body">
+      <div class="oc-dialog-change"><i data-lucide="settings-2" aria-hidden="true"></i><span><strong>Workspace settings</strong><small>Theme and component preferences</small></span></div>
+    </div>
+    <footer class="oc-dialog-footer">
+      <button class="oc-button oc-button-ghost" type="button">Cancel</button>
+      <button class="oc-button oc-button-primary" type="button">Apply changes</button>
+    </footer>
+  </dialog>
+</div>`;
+}
+
 export function tableWorkbenchMarkup({ interactive = false, chrome = false, selected = false, expandable = false } = {}) {
   const records = [
     { component: "Button", status: "Stable", updated: "Today" },

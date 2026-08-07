@@ -162,6 +162,28 @@ describe("workbench shell contracts", () => {
       supportsViewport: false,
     });
   });
+  test("applies opt-in Dialog full-screen styling only in the simulated narrow viewport", async () => {
+    const [previewStyles, stableFeedback] = await Promise.all([
+      readFile("preview/preview.css", "utf8"),
+      readFile("styles/candidate/feedback.css", "utf8"),
+    ]);
+
+    expect(getWorkbenchViewportModes("primitive-dialog").map(({ id }) => id)).toEqual([
+      "desktop",
+      "mobile",
+    ]);
+    expect(getWorkbenchShellProfile("primitive-dialog")).toEqual({
+      canvasPreset: "viewport",
+      supportsViewport: true,
+    });
+    expect(previewStyles).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"]:has(.oc-dialog[data-workbench-full-screen="true"])',
+    );
+    expect(previewStyles).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-dialog[data-workbench-full-screen="true"]',
+    );
+    expect(stableFeedback).not.toContain("data-workbench-full-screen");
+  });
   test("preserves page position while choice controls update the specimen", () => {
     const scroller = { scrollLeft: 18, scrollTop: 640 };
     const result = preserveWorkbenchScrollPosition(scroller, () => {
