@@ -4903,6 +4903,18 @@
   color: var(--oc-text-primary);
 }
 
+.oc-panel-tab:hover:not(:disabled):not([aria-disabled="true"]):not([aria-selected="true"]):not(
+    [aria-current="true"]
+  ) {
+  background: var(--oc-surface-interactive-hover);
+  color: var(--oc-text-primary);
+}
+
+.oc-panel-tab:is(:disabled, [aria-disabled="true"]) {
+  color: var(--oc-text-inactive);
+  cursor: not-allowed;
+}
+
 .oc-panel-tab:focus-visible {
   outline: 2px solid var(--oc-focus-ring);
   outline-offset: -2px;
