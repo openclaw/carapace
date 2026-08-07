@@ -809,6 +809,7 @@ resolveAvatarUrl(session.ownerName);`, "js")}
           <div class="oc-panel-tab-strip" role="tablist" aria-label="Terminal sessions">
             <button class="oc-panel-tab" type="button" role="tab" aria-selected="true">carapace<span class="oc-panel-tab-close" aria-hidden="true"><i data-lucide="x" aria-hidden="true"></i></span></button>
             <button class="oc-panel-tab" type="button" role="tab" aria-selected="false">gateway</button>
+            <button class="oc-panel-tab" type="button" role="tab" aria-selected="false" disabled>archive</button>
             <button class="oc-action oc-action-icon oc-action-ghost" type="button" aria-label="New terminal"><i data-lucide="plus" aria-hidden="true"></i></button>
           </div>
           <div class="oc-split-pane-body" style="padding: var(--oc-space-3); font-family: var(--oc-font-mono); font-size: var(--oc-font-size-xs); color: var(--oc-text-secondary);">bun run check<br />193 pass · 0 fail</div>
