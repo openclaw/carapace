@@ -142,6 +142,19 @@ html:root[data-theme="dark"] {
 }
 
 html:root[data-theme="light"] {
+  /* The source coral stays available as palette data, while interactive and
+     brand roles resolve to AA-safe mixtures on every documented light surface. */
+  --oc-accent-primary: color-mix(
+    in srgb,
+    var(--oc-palette-coral-light-mid) 60%,
+    var(--oc-palette-coral-light-deep) 40%
+  );
+  --oc-accent-primary-hover: color-mix(
+    in srgb,
+    var(--oc-palette-coral-light-mid) 30%,
+    var(--oc-palette-coral-light-deep) 70%
+  );
+  --oc-accent-primary-deep: var(--oc-palette-coral-light-deep);
   --oc-bg-page: oklch(0.985 0 0);
   --oc-bg-surface: oklch(0.97 0 0);
   --oc-bg-elevated: oklch(1 0 0);
