@@ -185,6 +185,35 @@ describe("application surface behavior", () => {
       ["thinking", "medium", { render: false }],
     ]);
   });
+  test("reversibly disables only the retained reasoning range owned by lock state", () => {
+    const thinking = Object.assign(new EventTarget(), {
+      dataset: { thinkingValues: "auto,low,medium,high,xhigh" },
+      disabled: false,
+    });
+    const specimen = {
+      dataset: { locked: "true" },
+      querySelector: (selector) =>
+        selector === "[data-workbench-model-thinking]" ? thinking : null,
+      querySelectorAll: () => [],
+    };
+
+    bindApplicationModelControls(specimen, {}, () => {});
+
+    expect(thinking.disabled).toBe(true);
+    expect(thinking.dataset.workbenchLockDisabled).toBe("true");
+
+    specimen.dataset.locked = "false";
+    bindApplicationModelControls(specimen, {}, () => {});
+    expect(thinking.disabled).toBe(false);
+    expect(thinking.dataset.workbenchLockDisabled).toBeUndefined();
+
+    thinking.disabled = true;
+    specimen.dataset.locked = "true";
+    bindApplicationModelControls(specimen, {}, () => {});
+    specimen.dataset.locked = "false";
+    bindApplicationModelControls(specimen, {}, () => {});
+    expect(thinking.disabled).toBe(true);
+  });
   test("renders Sessions as a compact collection with ready, loading, and empty states", () => {
     const ready = sessionsApplicationMarkup();
     const loading = sessionsApplicationMarkup({ state: "loading" });
