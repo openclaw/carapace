@@ -75,6 +75,30 @@ describe("preview contracts", () => {
       }),
     ).not.toThrow();
   });
+  test("documents primitive ownership and one component-token tier", async () => {
+    const index = getReferenceContent("interface-primitives");
+    expect(index).toContain("stable and candidate package entry points");
+    expect(index).not.toContain("Every page below documents classes already exported by components.css");
+
+    const examples = [
+      getReferenceContent("interface-examples"),
+      getReferenceContent("composition-product"),
+    ].join("\n");
+    expect(examples).not.toContain('class="badge');
+    expect(examples).toContain('class="oc-badge oc-badge-success"');
+
+    const previewCss = await readFile("preview/preview.css", "utf8");
+    expect(previewCss).not.toMatch(/^\.badge(?:[-\s,{:.])/m);
+
+    for (const path of [
+      "openclaw-carapace/references/tokens.md",
+      "openclaw-design-system/references/tokens.md",
+    ]) {
+      const guide = await readFile(path, "utf8");
+      expect(guide).toMatch(/Component-scoped\s+tokens are the third tier/);
+      expect(guide).toContain("`--oc-component-*`");
+    }
+  });
   test("keeps the route manifest and rendered content aligned", async () => {
     expect(new Set(referencePages.map(({ id }) => id)).size).toBe(referencePages.length);
     expect(new Set(referencePages.map(({ path }) => path)).size).toBe(referencePages.length);

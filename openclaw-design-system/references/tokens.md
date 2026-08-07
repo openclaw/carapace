@@ -16,6 +16,12 @@ to `@openclaw/carapace`.
 | Product | `--oc-status-*`, `--oc-input-*`, `--oc-diff-*` | Opt-in operational UI |
 | Consumer alias | Unprefixed legacy names | Migration compatibility only |
 
+Runtime styling resolves through three tiers: fixed palette and scale values,
+theme-aware semantic roles, then component-local aliases. Component-scoped
+tokens are the third tier. Use `--oc-component-*` on a component root to map
+its anatomy to semantic roles while preserving a narrow consumer override
+point; do not make those aliases a second global palette.
+
 ## Semantic Choices
 
 - Page background: `--oc-bg-page`
