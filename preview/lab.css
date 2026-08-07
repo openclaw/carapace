@@ -2529,7 +2529,7 @@ a.oc-layer-card-primary:hover {
 
 .oc-toast {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: start;
   gap: var(--oc-space-4);
   padding: var(--oc-space-4);

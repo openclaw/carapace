@@ -374,12 +374,44 @@ describe("workbench schema contracts", () => {
 
     expect(definition?.controls).toMatchObject([
       { id: "visible", type: "toggle" },
+      {
+        id: "tone",
+        type: "choice",
+        options: [
+          { label: "Neutral", value: "neutral" },
+          { label: "Success", value: "success" },
+          { label: "Warning", value: "warning" },
+          { label: "Error", value: "error" },
+          { label: "Information", value: "info" },
+        ],
+      },
+      {
+        id: "lifecycle",
+        type: "choice",
+        options: [
+          { label: "Timed", value: "timed" },
+          { label: "Persistent", value: "persistent" },
+        ],
+      },
       { id: "dismissible", type: "toggle" },
     ]);
     expect(normalizeWorkbenchState(definition, { visible: true, dismissible: false })).toEqual({
       visible: true,
+      tone: "neutral",
+      lifecycle: "timed",
       dismissible: false,
     });
+    const error = definition?.markup({
+      visible: true,
+      tone: "error",
+      lifecycle: "timed",
+      dismissible: false,
+    });
+    expect(error).toContain('data-toast-tone="error"');
+    expect(error).toContain('data-toast-lifecycle="persistent"');
+    expect(error).toContain('data-lucide="circle-alert"');
+    expect(error).toContain("Update failed");
+    expect(error).toContain("oc-toast-close");
   });
   test("models the Composer status and disabled states documented by the component", () => {
     const definition = getWorkbenchDefinition("input-bar");

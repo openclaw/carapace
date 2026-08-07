@@ -17,6 +17,11 @@ import { avatarFixtureUrl, clawAvatarUrl } from "./avatar-fixtures.js";
 import {
   buttonWorkbenchExamples,
 } from "./component-reference.js";
+import {
+  getToastPresentation,
+  resolveToastLifecycle,
+  resolveToastTone,
+} from "./toast.js";
 
 export const interactiveArtifactUrl = new URL("./assets/carapace-home-artwork.avif", import.meta.url).href;
 const bannerCrustaceanUrls = {
@@ -1035,71 +1040,35 @@ ${options}
 </div>`;
 }
 
-export function toastWorkbenchMarkup({ dismissible = true, stack = "single" } = {}) {
-  const messages =
-    stack === "multiple"
-      ? [
-          ["Changes saved", "The component reference is up to date."],
-          ["Build complete", "All preview routes compiled successfully."],
-          ["Connection restored", "Live updates are available again."],
-        ]
-      : [["Changes saved", "The component reference is up to date."]];
-  const toasts = messages
-    .map(([title, message], index) => {
-      const close = dismissible
-        ? '\n    <button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-workbench-toast-dismiss><i data-lucide="x"></i></button>'
-        : "";
-      return `<div class="oc-toast" data-toast-index="${index}">
+export function toastWorkbenchMarkup({
+  dismissible = true,
+  lifecycle = "timed",
+  stack = "single",
+  tone = "neutral",
+} = {}) {
+  const selectedTone = resolveToastTone(tone);
+  const selectedLifecycle = resolveToastLifecycle(selectedTone, lifecycle);
+  const presentation = getToastPresentation(selectedTone);
+  const canDismiss = dismissible || selectedTone === "error";
+  const focusAttribute = selectedLifecycle === "timed" && !canDismiss ? ' tabindex="0"' : "";
+  const count = stack === "multiple" ? 3 : 1;
+  const toasts = Array.from({ length: count }, (_, index) => {
+    const close = canDismiss
+      ? '\n    <button class="oc-toast-close" type="button" aria-label="Dismiss notification" data-workbench-toast-dismiss><i data-lucide="x"></i></button>'
+      : "";
+    return `<div class="oc-toast" data-toast data-toast-index="${index}" data-toast-tone="${selectedTone}" data-toast-lifecycle="${selectedLifecycle}"${focusAttribute}>
+    <span class="oc-toast-status-icon" aria-hidden="true"><i data-lucide="${presentation.icon}"></i></span>
     <div class="oc-toast-content">
-      <p class="oc-toast-title">${title}</p>
-      <p class="oc-toast-message">${message}</p>
+      <p class="oc-toast-title">${presentation.title}</p>
+      <p class="oc-toast-message">${presentation.message}</p>
     </div>${close}
   </div>`;
-    })
+  })
     .join("\n");
 
   return `<div class="oc-toast-region" data-toast-stack="${stack}" aria-label="Notifications" aria-live="polite" aria-relevant="additions removals">
   ${toasts}
 </div>`;
-}
-
-export const workbenchToastMessages = [
-  ["Toast created", "This is a toast notification."],
-  ["Changes saved", "The component reference is up to date."],
-  ["Build complete", "All preview routes compiled successfully."],
-];
-
-export function createWorkbenchToast(document, dismissible, sequence) {
-  const template = document.createElement("template");
-  template.innerHTML = toastWorkbenchMarkup({ dismissible });
-  const toast = template.content.querySelector(".oc-toast");
-  const [title, message] = workbenchToastMessages[sequence % workbenchToastMessages.length];
-  toast.querySelector(".oc-toast-title").textContent = title;
-  toast.querySelector(".oc-toast-message").textContent = message;
-  return toast;
-}
-
-export function animateWorkbenchToast(toast, opening) {
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  return toast.animate(
-    reduced
-      ? opening
-        ? [{ opacity: 0 }, { opacity: 1 }]
-        : [{ opacity: 1 }, { opacity: 0 }]
-      : opening
-        ? [
-            { opacity: 0, transform: "translateY(150%)" },
-            { opacity: 1, transform: "translateY(0)" },
-          ]
-        : [
-            { opacity: 1, transform: "translateY(0)" },
-            { opacity: 0, transform: "translateY(150%)" },
-          ],
-    {
-      duration: reduced ? 100 : 500,
-      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-    },
-  );
 }
 
 export function sendButtonWorkbenchMarkup({ state = "idle" } = {}) {
