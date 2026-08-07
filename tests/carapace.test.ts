@@ -990,8 +990,6 @@ describe("CSS contract", () => {
           !path.startsWith("dist/") &&
           path !== "preview/assets/openclaw-mark.png" &&
           path !== "preview/assets/openclaw-mark-hover.png" &&
-          path !== "preview/assets/user-vincentkoc.png" &&
-          path !== "preview/assets/user-steipete.png" &&
           path !== "preview/assets/carapace-lobster-artwork.avif" &&
           path !== "preview/assets/carapace-shrimp-artwork.avif" &&
           path !== "preview/assets/carapace-hermit-artwork.avif" &&
