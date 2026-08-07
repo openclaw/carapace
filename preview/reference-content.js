@@ -30,7 +30,6 @@ import { getTerminalUiContent, terminalUiContentIds } from "./terminal-ui.js";
 
 const brandMarkHoverUrl = new URL("./assets/openclaw-mark-hover.png", import.meta.url).href;
 const brandMarkUrl = new URL("./assets/openclaw-mark.png", import.meta.url).href;
-const userAvatarUrl = new URL("./assets/user-vincentkoc.png", import.meta.url).href;
 const pairQrUrl = new URL("./assets/pair-qr.svg", import.meta.url).href;
 const homeArtworkUrl = new URL("./assets/carapace-home-artwork.avif", import.meta.url).href;
 const brandFaviconUrl = new URL("./assets/openclaw-favicon.svg", import.meta.url).href;
@@ -360,7 +359,7 @@ const contents = {
     <section data-section-kind="preview" aria-labelledby="effect-interaction-preview"><div class="section-heading"><div><p class="eyebrow">Preview</p><h2 id="effect-interaction-preview">Responsive emphasis</h2></div><span class="oc-pill">State driven</span></div>
       <div class="specimen-frame"><div class="effect-interaction-demo"><span class="effect-interaction-item"><button class="oc-avatar-button" type="button" aria-label="Open agent profile"><span class="oc-avatar oc-avatar-pixel"><img class="oc-avatar-image" src="${avatarFixtureUrl("Interaction")}" alt="" /></span></button><small>Hover or focus: the avatar lifts and ringlights</small></span><span class="effect-interaction-item"><button class="oc-provider-logo" data-brand-color style="--provider-brand-color:#ff6b45" type="button"><span class="oc-provider-logo-mark" aria-hidden="true"><i data-lucide="sparkles" aria-hidden="true"></i></span><span>Provider identity</span></button><small>Hover: the mark takes its brand color</small></span><span class="effect-interaction-item"><a class="oc-link oc-link-standalone" href="../" data-workbench-inert-link>Continue <i data-lucide="arrow-right" aria-hidden="true"></i></a><small>Hover: the arrow steps forward</small></span></div></div>
     </section>
-    <section data-section-kind="markup" aria-labelledby="effect-interaction-markup"><div class="section-heading"><div><p class="eyebrow">Contract</p><h2 id="effect-interaction-markup">Animate the changed property</h2></div></div>${codeBlock(`<button class="oc-avatar-button">\n  <span class="oc-avatar">…</span>\n</button>`, "html")}</section>
+    <section data-section-kind="markup" aria-labelledby="effect-interaction-markup"><div class="section-heading"><div><p class="eyebrow">Contract</p><h2 id="effect-interaction-markup">Animate the changed property</h2></div></div>${codeBlock(`<button class="oc-avatar-button" type="button" aria-label="Open agent profile">\n  <span class="oc-avatar">…</span>\n</button>`, "html")}</section>
     <section data-section-kind="guidance" aria-labelledby="effect-interaction-guidance"><div class="section-heading"><div><p class="eyebrow">Guidance</p><h2 id="effect-interaction-guidance">Feedback stays close to the input</h2></div></div>${guidanceList(["Prefer color, border, and small transform changes under 200ms.", "Focus feedback must remain visible without animation.", "Never use hover-only disclosure for required information."])}</section>`,
 
   "effect-loading": () =>
