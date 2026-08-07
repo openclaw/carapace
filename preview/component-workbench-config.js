@@ -120,6 +120,7 @@ import {
   subagentTaskTitles,
   suggestionsWorkbenchMarkup,
   tableWorkbenchMarkup,
+  tableSearchStates,
   textShimmerExamples,
   textShimmerWorkbenchMarkup,
   toastWorkbenchMarkup,
@@ -1088,7 +1089,14 @@ ${appSurfaceWorkbenchMarkup(state)}
     },
   },
   "primitive-table": {
-    defaults: { interactive: false, chrome: false, selected: false, expandable: false },
+    defaults: {
+      interactive: false,
+      chrome: false,
+      selected: false,
+      expandable: false,
+      bounded: false,
+      searchState: "default",
+    },
     controls: [
       {
         id: "interactive",
@@ -1109,6 +1117,17 @@ ${appSurfaceWorkbenchMarkup(state)}
         id: "expandable",
         label: "Expandable rows",
         type: "toggle",
+      },
+      {
+        id: "bounded",
+        label: "Bounded viewport",
+        type: "toggle",
+      },
+      {
+        id: "searchState",
+        label: "Search state",
+        type: "choice",
+        options: tableSearchStates,
       },
     ],
     markup: tableWorkbenchMarkup,

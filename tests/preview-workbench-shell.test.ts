@@ -958,4 +958,20 @@ describe("workbench shell contracts", () => {
     expect(lightCanvas).toContain("--oc-bg-elevated: oklch(1 0 0);");
     expect(lightCanvas).not.toContain("--oc-bg-page: var(--oc-palette-paper-100);");
   });
+  test("keeps bounded Table behavior in the Lab instead of the Candidate export", async () => {
+    const lab = await readFile("preview/lab.css", "utf8");
+    const candidate = await readFile("styles/candidate/data.css", "utf8");
+    const bounded = lab.match(
+      /\.oc-table-wrap\[data-workbench-table-bounded\]\s*\{([^}]*)\}/,
+    )?.[1] ?? "";
+    const sticky = lab.match(
+      /\.oc-table-wrap\[data-workbench-table-bounded\] \.oc-table thead th\s*\{([^}]*)\}/,
+    )?.[1] ?? "";
+
+    expect(bounded).toContain("max-height:");
+    expect(bounded).toContain("overflow: auto");
+    expect(sticky).toContain("position: sticky");
+    expect(sticky).toContain("top: 0");
+    expect(candidate).not.toContain("data-workbench-table-bounded");
+  });
 });

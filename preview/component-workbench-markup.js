@@ -55,6 +55,12 @@ export const selectOptions = [
   { label: "Deep", value: "deep" },
 ];
 
+export const tableSearchStates = [
+  { label: "Default", value: "default" },
+  { label: "Disabled", value: "disabled" },
+  { label: "Loading", value: "loading" },
+];
+
 export const inputAreaStates = [
   { label: "Default", value: "default" },
   { label: "Invalid", value: "invalid" },
@@ -537,14 +543,28 @@ export function bannerWorkbenchMarkup({ tone = "warning", action = true, dismiss
 </div>`;
 }
 
-export function tableWorkbenchMarkup({ interactive = false, chrome = false, selected = false, expandable = false } = {}) {
+export function tableWorkbenchMarkup({
+  interactive = false,
+  chrome = false,
+  selected = false,
+  expandable = false,
+  bounded = false,
+  searchState = "default",
+} = {}) {
   const records = [
     { component: "Button", status: "Stable", updated: "Today" },
     { component: "Dialog", status: "Stable", updated: "Yesterday" },
     { component: "Table", status: "Draft", updated: "Now" },
+    { component: "Input", status: "Candidate", updated: "Monday" },
+    { component: "Badge", status: "Candidate", updated: "Friday" },
+    { component: "Action", status: "Stable", updated: "Last week" },
   ];
+  const visibleRecords = bounded ? records : records.slice(0, 3);
+  const normalizedSearchState = tableSearchStates.some(({ value }) => value === searchState)
+    ? searchState
+    : "default";
   const actionHeader = interactive ? '<th scope="col">Action</th>' : "";
-  const rows = records
+  const rows = visibleRecords
     .map(({ component, status, updated }, index) => {
       const action = interactive
         ? `<td><button class="oc-action oc-action-ghost" type="button" aria-label="Open ${component}">Open</button></td>`
@@ -562,22 +582,26 @@ export function tableWorkbenchMarkup({ interactive = false, chrome = false, sele
   const caption = interactive
     ? "Component status, most recent update, and available actions"
     : "Component status and most recent update";
+  const searchStatus =
+    normalizedSearchState === "loading"
+      ? '<span class="sr-only" id="table-search-status" role="status">Searching components…</span>'
+      : "";
 
   const toolbar = !chrome
     ? ""
     : selected
-      ? `<div class="oc-table-toolbar oc-table-bulk-bar"><span class="oc-table-bulk-count">2 selected</span><span>of ${records.length} components</span><div class="oc-table-bulk-actions"><button class="oc-action oc-action-ghost" type="button">Archive</button><button class="oc-action oc-action-secondary" type="button">Export</button></div></div>`
-      : `<div class="oc-table-toolbar"><label class="oc-search-field"><span class="sr-only">Search components</span><input type="search" placeholder="Search components" /></label><div class="oc-table-filters" role="group" aria-label="Active filters"><span class="oc-table-filter-chip">Status: Stable<button type="button" aria-label="Remove status filter"><i data-lucide="x" aria-hidden="true"></i></button></span><span class="oc-table-filter-chip">Updated: This week<button type="button" aria-label="Remove updated filter"><i data-lucide="x" aria-hidden="true"></i></button></span><button class="oc-table-filter-add" type="button">+ Add filter</button></div><button class="oc-action oc-action-ghost" type="button"><i data-lucide="list-filter" aria-hidden="true"></i> Filters</button></div>`;
+      ? `<div class="oc-table-toolbar oc-table-bulk-bar"><span class="oc-table-bulk-count">2 selected</span><span>of ${visibleRecords.length} components</span><div class="oc-table-bulk-actions"><button class="oc-action oc-action-ghost" type="button">Archive</button><button class="oc-action oc-action-secondary" type="button">Export</button></div></div>`
+      : `<div class="oc-table-toolbar"><label class="oc-search-field"${normalizedSearchState === "loading" ? ' aria-busy="true"' : ""}><span class="sr-only">Search components</span>${normalizedSearchState === "loading" ? '<span class="oc-loader-spinner" aria-hidden="true"></span>' : '<i data-lucide="search" aria-hidden="true"></i>'}<input class="oc-input" type="search" placeholder="Search components"${normalizedSearchState === "default" ? "" : " disabled"}${normalizedSearchState === "loading" ? ' aria-describedby="table-search-status"' : ""} /></label>${searchStatus}<div class="oc-table-filters" role="group" aria-label="Active filters"><span class="oc-table-filter-chip">Status: Stable<button type="button" aria-label="Remove status filter"><i data-lucide="x" aria-hidden="true"></i></button></span><span class="oc-table-filter-chip">Updated: This week<button type="button" aria-label="Remove updated filter"><i data-lucide="x" aria-hidden="true"></i></button></span><button class="oc-table-filter-add" type="button">+ Add filter</button></div><button class="oc-action oc-action-ghost" type="button"><i data-lucide="list-filter" aria-hidden="true"></i> Filters</button></div>`;
   const sortableHeader = chrome
     ? `<th scope="col" aria-sort="ascending"><button class="oc-table-sort" type="button">Component<span class="oc-table-sort-icon" aria-hidden="true">↑</span></button></th>`
     : '<th scope="col">Component</th>';
   const footer = chrome
-    ? `<div class="oc-table-footer"><span>${records.length} of 24 components</span><nav class="oc-pagination" aria-label="Table pages"><ol class="oc-pagination-list"><li><a class="oc-pagination-link" href="?page=1" aria-current="page" data-workbench-inert-link>1</a></li><li><a class="oc-pagination-link" href="?page=2" data-workbench-inert-link>2</a></li></ol></nav></div>`
+    ? `<div class="oc-table-footer"><span>${visibleRecords.length} of 24 components</span><nav class="oc-pagination" aria-label="Table pages"><ol class="oc-pagination-list"><li><a class="oc-pagination-link" href="?page=1" aria-current="page" data-workbench-inert-link>1</a></li><li><a class="oc-pagination-link" href="?page=2" data-workbench-inert-link>2</a></li></ol></nav></div>`
     : "";
   const expanderHeader = expandable ? '<th scope="col"><span class="sr-only">Details</span></th>' : "";
   const open_shell = chrome ? `<div class="oc-table-shell">` : "";
   const close_shell = chrome ? `</div>` : "";
-  return `${open_shell}${toolbar}<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0">
+  return `${open_shell}${toolbar}<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0"${bounded ? " data-workbench-table-bounded" : ""}>
   <table class="oc-table${modifier}">
     <caption class="sr-only">${caption}</caption>
     <thead><tr>${expanderHeader}${sortableHeader}<th scope="col">Status</th><th scope="col">Updated</th>${actionHeader}</tr></thead>
