@@ -92,6 +92,7 @@
   background: var(--oc-input-bg);
   cursor: inherit;
   touch-action: manipulation;
+  transition: transform var(--oc-duration-fast) var(--oc-ease-out);
 }
 
 .oc-checkbox::before {
@@ -107,8 +108,12 @@
   transform: translate(-50%, -62%) rotate(-45deg);
 }
 
-.oc-checkbox:hover:not(:disabled) {
+.oc-checkbox:hover:not(:disabled):not([aria-invalid="true"]) {
   border-color: var(--oc-border-strong);
+}
+
+.oc-checkbox:active:not(:disabled) {
+  transform: scale(0.96);
 }
 
 .oc-checkbox:checked {
@@ -139,6 +144,14 @@
 .oc-checkbox:focus-visible {
   outline: 2px solid var(--oc-focus-ring);
   outline-offset: 2px;
+}
+
+.oc-checkbox[aria-invalid="true"] {
+  border-color: var(--oc-status-error-fg);
+}
+
+.oc-field:has(.oc-checkbox[aria-invalid="true"]) > .oc-field-message {
+  color: var(--oc-status-error-fg);
 }
 
 .oc-check:has(.oc-checkbox:disabled) {
@@ -217,7 +230,7 @@
   transition: transform var(--oc-duration-fast) var(--oc-ease-out);
 }
 
-.oc-radio:hover:not(:disabled) {
+.oc-radio:hover:not(:disabled):not([aria-invalid="true"]) {
   border-color: var(--oc-border-strong);
 }
 
@@ -232,6 +245,19 @@
 .oc-radio:focus-visible {
   outline: 2px solid var(--oc-focus-ring);
   outline-offset: 2px;
+}
+
+.oc-radio[aria-invalid="true"],
+.oc-radio-group[aria-invalid="true"] .oc-radio {
+  border-color: var(--oc-status-error-fg);
+}
+
+.oc-radio-group[aria-invalid="true"] .oc-radio:hover:not(:disabled) {
+  border-color: var(--oc-status-error-fg);
+}
+
+.oc-field:has(.oc-radio-group[aria-invalid="true"]) > .oc-field-message {
+  color: var(--oc-status-error-fg);
 }
 
 .oc-radio-option:has(.oc-radio:disabled) {
