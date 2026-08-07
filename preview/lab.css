@@ -1047,24 +1047,46 @@
 }
 
 .oc-dropdown-menu {
+  --oc-dropdown-max-width: calc(100vw - 16px);
+  --oc-dropdown-max-height: calc(100dvh - 16px);
+  --oc-dropdown-offset-x: 0px;
+
   position: absolute;
   z-index: 20;
   top: calc(100% + var(--oc-space-2));
   right: 0;
   display: grid;
   width: max-content;
-  min-width: 12rem;
+  min-width: min(12rem, var(--oc-dropdown-max-width));
+  max-width: var(--oc-dropdown-max-width);
+  max-height: var(--oc-dropdown-max-height);
+  overflow-y: auto;
   gap: 2px;
   margin: 0;
   padding: var(--oc-space-1);
   border: 1px solid var(--oc-border-strong);
   border-radius: var(--oc-radius-surface);
   background: var(--oc-surface-card-strong);
-  box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.04),
-    0 8px 20px -8px rgb(0 0 0 / 0.14);
+  box-shadow: var(--oc-shadow-md);
   list-style: none;
   color: var(--oc-text-primary);
+  overscroll-behavior: contain;
+  translate: var(--oc-dropdown-offset-x) 0;
+  transform-origin: top right;
+}
+
+.oc-dropdown-menu[data-placement="top"] {
+  top: auto;
+  bottom: calc(100% + var(--oc-space-2));
+  transform-origin: bottom right;
+}
+
+.oc-dropdown-menu[data-align="start"] {
+  transform-origin: top left;
+}
+
+.oc-dropdown-menu[data-placement="top"][data-align="start"] {
+  transform-origin: bottom left;
 }
 
 .oc-dropdown-menu[hidden] {
@@ -1090,11 +1112,25 @@
   cursor: pointer;
 }
 
-.oc-dropdown-item:hover,
-.oc-dropdown-item:focus-visible {
+.oc-dropdown-item:hover:not(:disabled):not([aria-disabled="true"]),
+.oc-dropdown-item:focus-visible:not(:disabled):not([aria-disabled="true"]) {
   outline: 0;
   background: var(--oc-surface-interactive-hover);
   color: var(--oc-text-primary);
+}
+
+.oc-dropdown-item:is(:disabled, [aria-disabled="true"]) {
+  color: var(--oc-text-inactive);
+  cursor: not-allowed;
+}
+
+.oc-dropdown-shortcut {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: var(--oc-text-muted);
+  font-family: var(--oc-font-mono);
+  font-size: var(--oc-font-size-xs);
+  font-weight: 500;
 }
 
 .oc-dropdown-separator {
@@ -1107,8 +1143,8 @@
   color: var(--oc-status-error-fg);
 }
 
-.oc-dropdown-item-danger:hover,
-.oc-dropdown-item-danger:focus-visible {
+.oc-dropdown-item-danger:hover:not(:disabled):not([aria-disabled="true"]),
+.oc-dropdown-item-danger:focus-visible:not(:disabled):not([aria-disabled="true"]) {
   background: color-mix(in oklab, var(--oc-status-error-fg) 10%, transparent);
   color: var(--oc-status-error-fg);
 }

@@ -651,6 +651,9 @@ describe("interaction widget behavior", () => {
       setAttribute(name, value) {
         this.attributes.set(name, value);
       }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
       getAttribute(name) {
         return this.attributes.get(name);
       }
@@ -660,12 +663,35 @@ describe("interaction widget behavior", () => {
       focus() {
         this.focused = true;
       }
+      click() {
+        this.dispatchEvent(new Event("click"));
+      }
     }
 
     const trigger = new Element();
+    trigger.getBoundingClientRect = () => ({ top: 100, right: 100, bottom: 124, left: 0 });
     const menu = new Element();
     menu.hidden = true;
+    menu.setAttribute("role", "menu");
+    const menuStyles = new Map();
+    menu.style = {
+      setProperty: (name, value) => menuStyles.set(name, value),
+      removeProperty: (name) => menuStyles.delete(name),
+    };
+    menu.scrollHeight = 128;
+    let menuRectReads = 0;
+    menu.getBoundingClientRect = () => {
+      menuRectReads += 1;
+      return {
+        top: 132,
+        right: 180,
+        bottom: 170,
+        left: -40,
+        height: 38,
+      };
+    };
     const items = [new Element(), new Element(), new Element()];
+    items[0].setAttribute("aria-keyshortcuts", "Meta+D");
     const disabledItem = new Element();
     disabledItem.setAttribute("aria-disabled", "true");
     menu.querySelectorAll = () => [...items, disabledItem];
@@ -677,17 +703,38 @@ describe("interaction widget behavior", () => {
       })[selector];
     dropdown.contains = (target) => [trigger, menu, ...items].includes(target);
     const rootHandlers = {};
+    const viewHandlers = { resize: [], scroll: [] };
+    const view = {
+      innerWidth: 240,
+      innerHeight: 180,
+      addEventListener(type, handler) {
+        viewHandlers[type].push(handler);
+      },
+    };
     const root = {
+      defaultView: view,
       querySelectorAll: () => [dropdown],
       addEventListener: (type, handler) => {
         rootHandlers[type] = handler;
       },
     };
+    view.document = root;
 
     expect(bindDropdowns(root)).toBe(1);
     trigger.dispatchEvent(new Event("click"));
     expect(menu.hidden).toBe(false);
     expect(items[0].focused).toBe(true);
+    expect(disabledItem.tabIndex).toBe(-1);
+    expect(menu.getAttribute("data-placement")).toBe("top");
+    expect(menu.getAttribute("data-align")).toBe("start");
+    expect(menuStyles.get("--oc-dropdown-max-width")).toBe("224px");
+    expect(menuStyles.get("--oc-dropdown-max-height")).toBe("84px");
+    expect(menuStyles.get("--oc-dropdown-offset-x")).toBe("48px");
+    expect(viewHandlers.resize).toHaveLength(1);
+    expect(viewHandlers.scroll).toHaveLength(1);
+    const readsBeforeMenuScroll = menuRectReads;
+    viewHandlers.scroll[0]({ type: "scroll", target: menu });
+    expect(menuRectReads).toBe(readsBeforeMenuScroll);
 
     items[0].dispatchEvent(keyboardEvent("ArrowDown"));
     expect(items[1].focused).toBe(true);
@@ -734,6 +781,16 @@ describe("interaction widget behavior", () => {
     dropdown.handlers.click({ target: disabledItem });
     expect(menu.hidden).toBe(false);
     dropdown.handlers.click({ target: items[0] });
+    expect(menu.hidden).toBe(true);
+
+    let duplicateCount = 0;
+    items[0].addEventListener("click", () => duplicateCount += 1);
+    trigger.dispatchEvent(new Event("click"));
+    const duplicate = keyboardEvent("d");
+    Object.defineProperty(duplicate, "metaKey", { value: true });
+    dropdown.dispatchEvent(duplicate);
+    expect(duplicate.defaultPrevented).toBe(true);
+    expect(duplicateCount).toBe(1);
     expect(menu.hidden).toBe(true);
   });
   test("roves across menu bar items and opens their menus", () => {
