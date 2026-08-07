@@ -1,6 +1,7 @@
 const boundTooltips = new WeakSet();
 const tooltipPositions = new WeakMap();
 const registeredViews = new WeakSet();
+const activeTooltips = new WeakMap();
 
 function registerView(view) {
   if (!view?.document?.querySelectorAll || registeredViews.has(view)) return;
@@ -20,6 +21,7 @@ export function bindTooltips(root = document) {
   const tooltips = [...root.querySelectorAll("[data-tooltip]")];
   if (tooltips.length === 0) return 0;
   const view = root.defaultView || globalThis.window;
+  const activeScope = view || root;
   registerView(view);
 
   for (const tooltip of tooltips) {
@@ -30,6 +32,7 @@ export function bindTooltips(root = document) {
 
     let hovered = false;
     let focused = false;
+    let escapeSuppressed = false;
 
     const position = () => {
       if (!content.getBoundingClientRect || !view) return;
@@ -42,16 +45,27 @@ export function bindTooltips(root = document) {
       else content.setAttribute("data-align", "center");
     };
     const show = () => {
-      if (tooltip.getAttribute("data-suppressed") != null) return;
+      if (escapeSuppressed) return;
+      tooltip.removeAttribute("data-suppressed");
+      const active = activeTooltips.get(activeScope);
+      if (active?.tooltip !== tooltip) active?.hide({ suppress: true });
       position();
       content.setAttribute("data-open", "");
+      activeTooltips.set(activeScope, { tooltip, hide });
     };
-    const hide = () => content.removeAttribute("data-open");
+    const hide = ({ suppress = false } = {}) => {
+      if (suppress) tooltip.setAttribute("data-suppressed", "");
+      content.removeAttribute("data-open");
+      if (activeTooltips.get(activeScope)?.tooltip === tooltip) {
+        activeTooltips.delete(activeScope);
+      }
+    };
     const repositionIfOpen = () => {
       if (content.getAttribute("data-open") != null) position();
     };
     const reset = () => {
       if (hovered || focused) return;
+      escapeSuppressed = false;
       tooltip.removeAttribute("data-suppressed");
       hide();
     };
@@ -76,6 +90,7 @@ export function bindTooltips(root = document) {
     tooltip.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") return;
       event.preventDefault();
+      escapeSuppressed = true;
       tooltip.setAttribute("data-suppressed", "");
       hide();
     });
