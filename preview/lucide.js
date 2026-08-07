@@ -28,6 +28,7 @@ import ChevronRight from "lucide/dist/esm/icons/chevron-right.mjs";
 import ChevronUp from "lucide/dist/esm/icons/chevron-up.mjs";
 import ChevronsDown from "lucide/dist/esm/icons/chevrons-down.mjs";
 import ChevronsUpDown from "lucide/dist/esm/icons/chevrons-up-down.mjs";
+import CircleAlert from "lucide/dist/esm/icons/circle-alert.mjs";
 import CircleCheck from "lucide/dist/esm/icons/circle-check.mjs";
 import CircleHelp from "lucide/dist/esm/icons/circle-question-mark.mjs";
 import Code2 from "lucide/dist/esm/icons/code-xml.mjs";
@@ -49,6 +50,7 @@ import Hash from "lucide/dist/esm/icons/hash.mjs";
 import HeartPulse from "lucide/dist/esm/icons/heart-pulse.mjs";
 import History from "lucide/dist/esm/icons/rotate-ccw-clock.mjs";
 import Image from "lucide/dist/esm/icons/image.mjs";
+import Info from "lucide/dist/esm/icons/info.mjs";
 import Inbox from "lucide/dist/esm/icons/inbox.mjs";
 import Italic from "lucide/dist/esm/icons/italic.mjs";
 import LayoutDashboard from "lucide/dist/esm/icons/layout-dashboard.mjs";
@@ -133,6 +135,7 @@ const icons = {
   "chevron-up": ChevronUp,
   "chevrons-down": ChevronsDown,
   "chevrons-up-down": ChevronsUpDown,
+  "circle-alert": CircleAlert,
   "circle-check": CircleCheck,
   "circle-help": CircleHelp,
   "code-2": Code2,
@@ -154,6 +157,7 @@ const icons = {
   "heart-pulse": HeartPulse,
   history: History,
   image: Image,
+  info: Info,
   inbox: Inbox,
   italic: Italic,
   "layout-dashboard": LayoutDashboard,
