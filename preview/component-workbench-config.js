@@ -62,6 +62,7 @@ import {
   composerStatuses,
   composerWorkbenchMarkup,
   createWorkbenchToast,
+  dialogWorkbenchMarkup,
   emptyStates,
   emptyWorkbenchMarkup,
   errorMessageExamples,
@@ -953,6 +954,20 @@ ${appSurfaceWorkbenchMarkup(state)}
     markup: clipboardTextWorkbenchMarkup,
     render(specimen, state) {
       specimen.innerHTML = clipboardTextWorkbenchMarkup(state);
+    },
+  },
+  "primitive-dialog": {
+    defaults: { fullScreenNarrow: false },
+    controls: [
+      {
+        id: "fullScreenNarrow",
+        label: "Full screen on narrow viewport",
+        type: "toggle",
+      },
+    ],
+    markup: dialogWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = dialogWorkbenchMarkup(state);
     },
   },
   "primitive-empty": {

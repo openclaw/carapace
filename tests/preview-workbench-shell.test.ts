@@ -162,6 +162,43 @@ describe("workbench shell contracts", () => {
       supportsViewport: false,
     });
   });
+  test("applies opt-in Dialog full-screen styling only in the simulated narrow viewport", async () => {
+    const [previewStyles, stableFeedback] = await Promise.all([
+      readFile("preview/preview.css", "utf8"),
+      readFile("styles/candidate/feedback.css", "utf8"),
+    ]);
+
+    expect(getWorkbenchViewportModes("primitive-dialog").map(({ id }) => id)).toEqual([
+      "desktop",
+      "mobile",
+    ]);
+    expect(getWorkbenchShellProfile("primitive-dialog")).toEqual({
+      canvasPreset: "viewport",
+      supportsViewport: true,
+    });
+    expect(previewStyles).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"]:has(.oc-dialog[data-workbench-full-screen="true"])',
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-dialog-demo > \.oc-dialog\s*\{[^}]*position: static;[^}]*inset: auto;/,
+    );
+    expect(previewStyles).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-dialog[data-workbench-full-screen="true"]',
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-canvas\[data-viewport="mobile"\]:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\)\s*\{[^}]*grid-template-rows: minmax\(0, 1fr\);[^}]*place-items: stretch;/,
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-canvas\[data-viewport="mobile"\]:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\) \.component-workbench-frame\s*\{[^}]*display: grid;[^}]*height: auto;[^}]*grid-template-rows: minmax\(0, 1fr\);/,
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-dialog-demo:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\)\s*\{[^}]*display: grid;[^}]*height: auto;[^}]*min-height: 0;[^}]*place-items: stretch;/,
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-canvas\[data-viewport="mobile"\] \.oc-dialog\[data-workbench-full-screen="true"\]\s*\{[^}]*position: static;[^}]*inset: auto;[^}]*display: flex;[^}]*height: auto;[^}]*min-height: 0;[^}]*align-self: stretch;/,
+    );
+    expect(stableFeedback).not.toContain("data-workbench-full-screen");
+  });
   test("preserves page position while choice controls update the specimen", () => {
     const scroller = { scrollLeft: 18, scrollTop: 640 };
     const result = preserveWorkbenchScrollPosition(scroller, () => {

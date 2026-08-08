@@ -3916,6 +3916,61 @@ body[data-preview-page="primitive-collapsible"]
   border: 0;
 }
 
+.component-workbench-dialog-demo {
+  display: grid;
+  width: 100%;
+  min-height: 20rem;
+  place-items: center;
+}
+
+.component-workbench-dialog-demo > .oc-dialog {
+  position: static;
+  inset: auto;
+}
+
+.component-workbench-canvas[data-viewport="mobile"]:has(.oc-dialog[data-workbench-full-screen="true"]) {
+  grid-template-rows: minmax(0, 1fr);
+  padding: 0;
+  place-items: stretch;
+}
+
+.component-workbench-canvas[data-viewport="mobile"]:has(.oc-dialog[data-workbench-full-screen="true"]) .component-workbench-frame {
+  display: grid;
+  height: auto;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.component-workbench-canvas[data-viewport="mobile"]
+  .component-workbench-dialog-demo:has(.oc-dialog[data-workbench-full-screen="true"]) {
+  display: grid;
+  height: auto;
+  min-height: 0;
+  place-items: stretch;
+}
+
+.component-workbench-canvas[data-viewport="mobile"] .oc-dialog[data-workbench-full-screen="true"] {
+  position: static;
+  inset: auto;
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-width: none;
+  max-height: none;
+  align-self: stretch;
+  flex-direction: column;
+  margin: 0;
+  border-radius: 0;
+}
+
+.component-workbench-canvas[data-viewport="mobile"]
+  .oc-dialog[data-workbench-full-screen="true"]
+  .oc-dialog-body {
+  flex: 1 1 auto;
+}
+
 .component-workbench-frame .oc-empty {
   width: min(100%, 32rem);
   min-height: 260px;
