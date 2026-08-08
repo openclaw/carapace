@@ -1056,6 +1056,15 @@ ${appSurfaceWorkbenchMarkup(state)}
     render(specimen, state) {
       specimen.innerHTML = bannerWorkbenchMarkup(state);
     },
+    bind(specimen) {
+      specimen
+        .querySelector("[data-workbench-banner-dismiss]")
+        ?.addEventListener("click", (event) => {
+          event.currentTarget.closest(".oc-banner")?.remove();
+          specimen.tabIndex = -1;
+          specimen.focus({ preventScroll: true });
+        });
+    },
   },
   "primitive-collapsible": {
     defaults: { open: true },
