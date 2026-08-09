@@ -657,6 +657,9 @@ describe("interaction widget behavior", () => {
       setAttribute(name, value) {
         this.attributes.set(name, value);
       }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
       getAttribute(name) {
         return this.attributes.get(name);
       }
@@ -666,12 +669,35 @@ describe("interaction widget behavior", () => {
       focus() {
         this.focused = true;
       }
+      click() {
+        this.dispatchEvent(new Event("click"));
+      }
     }
 
     const trigger = new Element();
+    trigger.getBoundingClientRect = () => ({ top: 100, right: 100, bottom: 124, left: 0 });
     const menu = new Element();
     menu.hidden = true;
+    menu.setAttribute("role", "menu");
+    const menuStyles = new Map();
+    menu.style = {
+      setProperty: (name, value) => menuStyles.set(name, value),
+      removeProperty: (name) => menuStyles.delete(name),
+    };
+    menu.scrollHeight = 128;
+    let menuRectReads = 0;
+    menu.getBoundingClientRect = () => {
+      menuRectReads += 1;
+      return {
+        top: 132,
+        right: 180,
+        bottom: 170,
+        left: -40,
+        height: 38,
+      };
+    };
     const items = [new Element(), new Element(), new Element()];
+    items[0].setAttribute("aria-keyshortcuts", "Meta+D");
     const disabledItem = new Element();
     disabledItem.setAttribute("aria-disabled", "true");
     menu.querySelectorAll = () => [...items, disabledItem];
@@ -683,17 +709,38 @@ describe("interaction widget behavior", () => {
       })[selector];
     dropdown.contains = (target) => [trigger, menu, ...items].includes(target);
     const rootHandlers = {};
+    const viewHandlers = { resize: [], scroll: [] };
+    const view = {
+      innerWidth: 240,
+      innerHeight: 180,
+      addEventListener(type, handler) {
+        viewHandlers[type].push(handler);
+      },
+    };
     const root = {
+      defaultView: view,
       querySelectorAll: () => [dropdown],
       addEventListener: (type, handler) => {
         rootHandlers[type] = handler;
       },
     };
+    view.document = root;
 
     expect(bindDropdowns(root)).toBe(1);
     trigger.dispatchEvent(new Event("click"));
     expect(menu.hidden).toBe(false);
     expect(items[0].focused).toBe(true);
+    expect(disabledItem.tabIndex).toBe(-1);
+    expect(menu.getAttribute("data-placement")).toBe("top");
+    expect(menu.getAttribute("data-align")).toBe("start");
+    expect(menuStyles.get("--oc-dropdown-max-width")).toBe("224px");
+    expect(menuStyles.get("--oc-dropdown-max-height")).toBe("84px");
+    expect(menuStyles.get("--oc-dropdown-offset-x")).toBe("48px");
+    expect(viewHandlers.resize).toHaveLength(1);
+    expect(viewHandlers.scroll).toHaveLength(1);
+    const readsBeforeMenuScroll = menuRectReads;
+    viewHandlers.scroll[0]({ type: "scroll", target: menu });
+    expect(menuRectReads).toBe(readsBeforeMenuScroll);
 
     items[0].dispatchEvent(keyboardEvent("ArrowDown"));
     expect(items[1].focused).toBe(true);
@@ -741,6 +788,16 @@ describe("interaction widget behavior", () => {
     expect(menu.hidden).toBe(false);
     dropdown.handlers.click({ target: items[0] });
     expect(menu.hidden).toBe(true);
+
+    let duplicateCount = 0;
+    items[0].addEventListener("click", () => duplicateCount += 1);
+    trigger.dispatchEvent(new Event("click"));
+    const duplicate = keyboardEvent("d");
+    Object.defineProperty(duplicate, "metaKey", { value: true });
+    dropdown.dispatchEvent(duplicate);
+    expect(duplicate.defaultPrevented).toBe(true);
+    expect(duplicateCount).toBe(1);
+    expect(menu.hidden).toBe(true);
   });
   test("roves across menu bar items and opens their menus", () => {
     class Element extends EventTarget {
@@ -750,6 +807,9 @@ describe("interaction widget behavior", () => {
       tabIndex = 0;
       setAttribute(name, value) {
         this.attributes.set(name, value);
+      }
+      removeAttribute(name) {
+        this.attributes.delete(name);
       }
       getAttribute(name) {
         return this.attributes.get(name);
@@ -762,14 +822,24 @@ describe("interaction widget behavior", () => {
     const menuItems = [new Element(), new Element()];
     const menu = new Element();
     menu.hidden = true;
+    menu.scrollHeight = 160;
+    menu.style = { setProperty() {} };
+    menu.getBoundingClientRect = () => ({ top: 124, right: 220, bottom: 164, left: 40, height: 40 });
     menu.querySelectorAll = () => menuItems;
     const dropdown = { querySelector: () => menu };
     const first = new Element();
     first.closest = () => dropdown;
+    first.getBoundingClientRect = () => ({ top: 110, right: 120, bottom: 134, left: 40 });
     const second = new Element();
     second.closest = () => null;
     const menubar = { querySelectorAll: () => [first, second] };
-    const root = { querySelectorAll: () => [menubar] };
+    const view = {
+      innerWidth: 240,
+      innerHeight: 180,
+      addEventListener() {},
+    };
+    const root = { defaultView: view, querySelectorAll: () => [menubar] };
+    view.document = { querySelectorAll: () => [dropdown] };
 
     expect(bindMenuBars(root)).toBe(1);
     expect([first.tabIndex, second.tabIndex]).toEqual([0, -1]);
@@ -783,6 +853,7 @@ describe("interaction widget behavior", () => {
     first.dispatchEvent(keyboardEvent("ArrowDown"));
     expect(menu.hidden).toBe(false);
     expect(first.getAttribute("aria-expanded")).toBe("true");
+    expect(menu.getAttribute("data-placement")).toBe("top");
     expect(menuItems[0].focused).toBe(true);
   });
   test("roves through toolbar controls and toggles pressed state", () => {
@@ -1222,6 +1293,15 @@ describe("interaction widget behavior", () => {
         "[data-tooltip-trigger]": trigger,
         "[data-tooltip-content]": content,
       })[selector];
+    const triggerTwo = new Element();
+    const contentTwo = new Element();
+    contentTwo.getBoundingClientRect = () => ({ top: 20, left: 20, right: 120 });
+    const tooltipTwo = new Element();
+    tooltipTwo.querySelector = (selector) =>
+      ({
+        "[data-tooltip-trigger]": triggerTwo,
+        "[data-tooltip-content]": contentTwo,
+      })[selector];
     const viewHandlers = { resize: [], scroll: [] };
     const view = {
       innerWidth: 300,
@@ -1231,7 +1311,7 @@ describe("interaction widget behavior", () => {
     };
     const root = {
       defaultView: view,
-      querySelectorAll: () => [tooltip],
+      querySelectorAll: () => [tooltip, tooltipTwo],
     };
     view.document = root;
 
@@ -1246,8 +1326,8 @@ describe("interaction widget behavior", () => {
     })).toBe(0);
     expect(emptyViewListeners).toBe(0);
 
-    expect(bindTooltips(root)).toBe(1);
-    expect(bindTooltips(root)).toBe(1);
+    expect(bindTooltips(root)).toBe(2);
+    expect(bindTooltips(root)).toBe(2);
     expect(viewHandlers.resize).toHaveLength(1);
     expect(viewHandlers.scroll).toHaveLength(1);
     tooltip.dispatchEvent(new Event("pointerenter"));
@@ -1259,10 +1339,29 @@ describe("interaction widget behavior", () => {
     viewHandlers.resize[0]();
     expect(measurementCount).toBe(2);
 
+    tooltip.dispatchEvent(new Event("focusin"));
+    tooltipTwo.dispatchEvent(new Event("pointerenter"));
+    expect(content.getAttribute("data-open")).toBeUndefined();
+    expect(tooltip.getAttribute("data-suppressed")).toBe("");
+    expect(contentTwo.getAttribute("data-open")).toBe("");
+    tooltipTwo.dispatchEvent(new Event("pointerleave"));
+    expect(contentTwo.getAttribute("data-open")).toBeUndefined();
+    expect(tooltip.getAttribute("data-suppressed")).toBeUndefined();
+    expect(content.getAttribute("data-open")).toBe("");
+
+    tooltipTwo.dispatchEvent(new Event("pointerenter"));
+    tooltip.dispatchEvent(new Event("focusin"));
+    expect(contentTwo.getAttribute("data-open")).toBeUndefined();
+    expect(tooltipTwo.getAttribute("data-suppressed")).toBe("");
+    expect(tooltip.getAttribute("data-suppressed")).toBeUndefined();
+    expect(content.getAttribute("data-open")).toBe("");
+
     tooltip.dispatchEvent(keyboardEvent("Escape"));
     expect(content.getAttribute("data-open")).toBeUndefined();
     expect(tooltip.getAttribute("data-suppressed")).toBe("");
     tooltip.dispatchEvent(new Event("pointerleave"));
+    expect(tooltip.getAttribute("data-suppressed")).toBe("");
+    tooltip.dispatchEvent(new Event("focusout"));
     expect(tooltip.getAttribute("data-suppressed")).toBeUndefined();
 
     tooltip.dispatchEvent(new Event("pointerenter"));

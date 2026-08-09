@@ -362,6 +362,38 @@ describe("preview behavior", () => {
       expect(markup).toContain('scope="col"');
     }
   });
+  test("renders bounded Table and literal Search states without synthetic form outcomes", () => {
+    const defaultTable = tableWorkbenchMarkup({ chrome: true });
+    const boundedTable = tableWorkbenchMarkup({ bounded: true });
+    const disabledSearch = tableWorkbenchMarkup({ chrome: true, searchState: "disabled" });
+    const loadingSearch = tableWorkbenchMarkup({ chrome: true, searchState: "loading" });
+
+    expect(defaultTable).toContain('<input class="oc-input" type="search"');
+    expect(defaultTable).not.toContain("data-workbench-table-bounded");
+    expect(boundedTable).toContain("data-workbench-table-bounded");
+    expect((boundedTable.match(/<tr>/g) ?? []).length).toBeGreaterThan(4);
+    expect(disabledSearch).toContain(
+      '<input class="oc-input" type="search" placeholder="Search components" disabled',
+    );
+    expect(disabledSearch).not.toContain("oc-loader-spinner");
+    expect(loadingSearch).toContain('class="oc-search-field" aria-busy="true"');
+    expect(loadingSearch).toContain(
+      'class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0" aria-busy="true"',
+    );
+    expect(loadingSearch).toContain("oc-loader-spinner");
+    expect(loadingSearch).toContain(
+      '</label><span class="sr-only" id="table-search-status" role="status">Searching components…</span>',
+    );
+    expect(loadingSearch).toContain(
+      '<input class="oc-input" type="search" placeholder="Search components" disabled',
+    );
+    for (const markup of [defaultTable, disabledSearch, loadingSearch]) {
+      expect(markup).not.toContain('<form');
+      expect(markup).not.toContain('type="submit"');
+      expect(markup).not.toContain("aria-invalid");
+      expect(markup).not.toContain("error");
+    }
+  });
   test("serializes the selected native option and disabled state", () => {
     expect(selectWorkbenchMarkup({ value: "fast", disabled: true })).toContain(
       '<select class="oc-select" id="workbench-select-model" name="model" disabled>',

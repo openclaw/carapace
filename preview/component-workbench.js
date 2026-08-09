@@ -38,6 +38,7 @@ const workbenchViewportPageModes = new Map([
   ["application-quick-chat", ["desktop", "tablet", "mobile"]],
   ["primitive-grid", ["desktop", "tablet", "mobile"]],
   ["primitive-table", ["desktop", "mobile"]],
+  ["primitive-dialog", ["desktop", "mobile"]],
 ]);
 
 export function getWorkbenchViewportModes(pageId) {
@@ -121,6 +122,7 @@ const viewportWorkbenchPages = new Set([
   "application-quick-chat",
   "primitive-app-surface",
   "primitive-sidebar",
+  "primitive-dialog",
 ]);
 
 export function getWorkbenchShellProfile(pageId) {

@@ -162,6 +162,46 @@ describe("workbench shell contracts", () => {
       supportsViewport: false,
     });
   });
+  test("applies opt-in Dialog full-screen styling only in the simulated narrow viewport", async () => {
+    const [previewStyles, stableFeedback] = await Promise.all([
+      readFile("preview/preview.css", "utf8"),
+      readFile("styles/candidate/feedback.css", "utf8"),
+    ]);
+
+    expect(getWorkbenchViewportModes("primitive-dialog").map(({ id }) => id)).toEqual([
+      "desktop",
+      "mobile",
+    ]);
+    expect(getWorkbenchShellProfile("primitive-dialog")).toEqual({
+      canvasPreset: "viewport",
+      supportsViewport: true,
+    });
+    expect(previewStyles).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"]:has(.oc-dialog[data-workbench-full-screen="true"])',
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-dialog-demo > \.oc-dialog\s*\{[^}]*position: static;[^}]*inset: auto;/,
+    );
+    expect(previewStyles).toContain(
+      '.component-workbench-canvas[data-viewport="mobile"] .oc-dialog[data-workbench-full-screen="true"]',
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-canvas\[data-viewport="mobile"\]:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\)\s*\{[^}]*grid-template-rows: minmax\(0, 1fr\);[^}]*place-items: stretch;/,
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-canvas\[data-viewport="mobile"\]:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\) \.component-workbench-frame\s*\{[^}]*display: grid;[^}]*height: 100%;[^}]*grid-template-rows: minmax\(0, 1fr\);/,
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-frame\s*> \.specimen-frame\s*\{[^}]*height: 100%;[^}]*min-height: 0;[^}]*place-items: stretch;/,
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-dialog-demo:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\)\s*\{[^}]*display: grid;[^}]*height: 100%;[^}]*min-height: 0;[^}]*place-items: stretch;/,
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-canvas\[data-viewport="mobile"\] \.oc-dialog\[data-workbench-full-screen="true"\]\s*\{[^}]*position: static;[^}]*inset: auto;[^}]*display: flex;[^}]*height: 100%;[^}]*min-height: 100%;[^}]*align-self: stretch;/,
+    );
+    expect(stableFeedback).not.toContain("data-workbench-full-screen");
+  });
   test("preserves page position while choice controls update the specimen", () => {
     const scroller = { scrollLeft: 18, scrollTop: 640 };
     const result = preserveWorkbenchScrollPosition(scroller, () => {
@@ -957,6 +997,51 @@ describe("workbench shell contracts", () => {
     expect(lightCanvas).toContain("--oc-bg-page: oklch(0.985 0 0);");
     expect(lightCanvas).toContain("--oc-bg-elevated: oklch(1 0 0);");
     expect(lightCanvas).not.toContain("--oc-bg-page: var(--oc-palette-paper-100);");
+
+    const darkCanvas =
+      shell.match(
+        /\.component-workbench-canvas\[data-workbench-theme="dark"\]\s*\{([^}]*)\}/,
+      )?.[1] ?? "";
+    for (const token of [
+      "--oc-input-bg",
+      "--oc-input-border",
+      "--oc-input-placeholder",
+      "--oc-input-focus-border",
+      "--oc-input-focus-ring",
+    ]) {
+      expect(darkCanvas).toContain(`${token}:`);
+      expect(lightCanvas).toContain(`${token}:`);
+    }
+    expect(lightCanvas).toContain("--oc-input-bg: oklch(1 0 0);");
+    expect(lightCanvas).toContain("--oc-input-border: var(--oc-border-subtle);");
+    expect(lightCanvas).toContain(
+      "--oc-input-placeholder: color-mix(in srgb, var(--oc-text-muted) 70%, transparent);",
+    );
+    for (const canvas of [darkCanvas, lightCanvas]) {
+      expect(canvas).toContain(
+        "--oc-input-focus-border: color-mix(in srgb, var(--oc-accent-primary) 58%, transparent);",
+      );
+      expect(canvas).toContain(
+        "--oc-input-focus-ring: color-mix(in srgb, var(--oc-accent-primary) 22%, transparent);",
+      );
+      expect(canvas).not.toContain("--oc-input-focus-border: color-mix(in srgb, var(--oc-text-primary)");
+    }
+  });
+  test("keeps bounded Table behavior in the Lab instead of the Candidate export", async () => {
+    const lab = await readFile("preview/lab.css", "utf8");
+    const candidate = await readFile("styles/candidate/data.css", "utf8");
+    const bounded = lab.match(
+      /\.oc-table-wrap\[data-workbench-table-bounded\]\s*\{([^}]*)\}/,
+    )?.[1] ?? "";
+    const sticky = lab.match(
+      /\.oc-table-wrap\[data-workbench-table-bounded\] \.oc-table thead th\s*\{([^}]*)\}/,
+    )?.[1] ?? "";
+
+    expect(bounded).toContain("max-height:");
+    expect(bounded).toContain("overflow: auto");
+    expect(sticky).toContain("position: sticky");
+    expect(sticky).toContain("top: 0");
+    expect(candidate).not.toContain("data-workbench-table-bounded");
   });
   test("styles semantic Toast variants without undefined color aliases", async () => {
     const css = await readFile("preview/preview.css", "utf8");

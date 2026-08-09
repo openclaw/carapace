@@ -60,6 +60,7 @@ import {
   compactIconMarkup,
   composerStatuses,
   composerWorkbenchMarkup,
+  dialogWorkbenchMarkup,
   emptyStates,
   emptyWorkbenchMarkup,
   errorMessageExamples,
@@ -118,6 +119,7 @@ import {
   subagentTaskTitles,
   suggestionsWorkbenchMarkup,
   tableWorkbenchMarkup,
+  tableSearchStates,
   textShimmerExamples,
   textShimmerWorkbenchMarkup,
   toastWorkbenchMarkup,
@@ -959,6 +961,20 @@ ${appSurfaceWorkbenchMarkup(state)}
       specimen.innerHTML = clipboardTextWorkbenchMarkup(state);
     },
   },
+  "primitive-dialog": {
+    defaults: { fullScreenNarrow: false },
+    controls: [
+      {
+        id: "fullScreenNarrow",
+        label: "Full screen on narrow viewport",
+        type: "toggle",
+      },
+    ],
+    markup: dialogWorkbenchMarkup,
+    render(specimen, state) {
+      specimen.innerHTML = dialogWorkbenchMarkup(state);
+    },
+  },
   "primitive-empty": {
     defaults: { state: "first-use", bordered: false },
     controls: [
@@ -1060,6 +1076,15 @@ ${appSurfaceWorkbenchMarkup(state)}
     render(specimen, state) {
       specimen.innerHTML = bannerWorkbenchMarkup(state);
     },
+    bind(specimen) {
+      specimen
+        .querySelector("[data-workbench-banner-dismiss]")
+        ?.addEventListener("click", (event) => {
+          event.currentTarget.closest(".oc-banner")?.remove();
+          specimen.tabIndex = -1;
+          specimen.focus({ preventScroll: true });
+        });
+    },
   },
   "primitive-collapsible": {
     defaults: { open: true },
@@ -1092,7 +1117,14 @@ ${appSurfaceWorkbenchMarkup(state)}
     },
   },
   "primitive-table": {
-    defaults: { interactive: false, chrome: false, selected: false, expandable: false },
+    defaults: {
+      interactive: false,
+      chrome: false,
+      selected: false,
+      expandable: false,
+      bounded: false,
+      searchState: "default",
+    },
     controls: [
       {
         id: "interactive",
@@ -1113,6 +1145,17 @@ ${appSurfaceWorkbenchMarkup(state)}
         id: "expandable",
         label: "Expandable rows",
         type: "toggle",
+      },
+      {
+        id: "bounded",
+        label: "Bounded viewport",
+        type: "toggle",
+      },
+      {
+        id: "searchState",
+        label: "Search state",
+        type: "choice",
+        options: tableSearchStates,
       },
     ],
     markup: tableWorkbenchMarkup,
