@@ -189,13 +189,16 @@ describe("workbench shell contracts", () => {
       /\.component-workbench-canvas\[data-viewport="mobile"\]:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\)\s*\{[^}]*grid-template-rows: minmax\(0, 1fr\);[^}]*place-items: stretch;/,
     );
     expect(previewStyles).toMatch(
-      /\.component-workbench-canvas\[data-viewport="mobile"\]:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\) \.component-workbench-frame\s*\{[^}]*display: grid;[^}]*height: auto;[^}]*grid-template-rows: minmax\(0, 1fr\);/,
+      /\.component-workbench-canvas\[data-viewport="mobile"\]:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\) \.component-workbench-frame\s*\{[^}]*display: grid;[^}]*height: 100%;[^}]*grid-template-rows: minmax\(0, 1fr\);/,
     );
     expect(previewStyles).toMatch(
-      /\.component-workbench-dialog-demo:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\)\s*\{[^}]*display: grid;[^}]*height: auto;[^}]*min-height: 0;[^}]*place-items: stretch;/,
+      /\.component-workbench-frame\s*> \.specimen-frame\s*\{[^}]*height: 100%;[^}]*min-height: 0;[^}]*place-items: stretch;/,
     );
     expect(previewStyles).toMatch(
-      /\.component-workbench-canvas\[data-viewport="mobile"\] \.oc-dialog\[data-workbench-full-screen="true"\]\s*\{[^}]*position: static;[^}]*inset: auto;[^}]*display: flex;[^}]*height: auto;[^}]*min-height: 0;[^}]*align-self: stretch;/,
+      /\.component-workbench-dialog-demo:has\(\.oc-dialog\[data-workbench-full-screen="true"\]\)\s*\{[^}]*display: grid;[^}]*height: 100%;[^}]*min-height: 0;[^}]*place-items: stretch;/,
+    );
+    expect(previewStyles).toMatch(
+      /\.component-workbench-canvas\[data-viewport="mobile"\] \.oc-dialog\[data-workbench-full-screen="true"\]\s*\{[^}]*position: static;[^}]*inset: auto;[^}]*display: flex;[^}]*height: 100%;[^}]*min-height: 100%;[^}]*align-self: stretch;/,
     );
     expect(stableFeedback).not.toContain("data-workbench-full-screen");
   });

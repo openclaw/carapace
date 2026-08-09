@@ -143,7 +143,6 @@ describe("workbench schema contracts", () => {
     );
   });
   test("dismisses the Banner specimen without leaving focus on the removed control", () => {
-  test("dismisses the Banner specimen without leaving focus on the removed control", () => {
     const definition = getWorkbenchDefinition("primitive-banner");
     const banner = { removed: false, remove() { this.removed = true; } };
     const dismiss = Object.assign(new EventTarget(), {
