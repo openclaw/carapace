@@ -756,6 +756,29 @@ describe("preview contracts", () => {
     expect(css).not.toContain(".component-workbench-code-complete");
     expect(css).not.toContain("component-workbench-code-example-field");
   });
+  test("demonstrates panel tab hover without overriding selected or disabled states", async () => {
+    const application = await readFile("styles/candidate/application.css", "utf8");
+    const hover =
+      application.match(
+        /\.oc-panel-tab:hover:not\(:disabled\):not\(\[aria-disabled="true"\]\):not\(\[aria-selected="true"\]\):not\(\s*\[aria-current="true"\]\s*\)\s*\{([^}]*)\}/,
+      )?.[1] ?? "";
+    expect(hover).toContain("background: var(--oc-surface-interactive-hover);");
+    expect(hover).toContain("color: var(--oc-text-primary);");
+    expect(application).toMatch(
+      /@media \(hover: hover\)[\s\S]*?\.oc-panel-tab:hover:not\(:disabled\)/,
+    );
+    const disabled =
+      application.match(
+        /\.oc-panel-tab:is\(:disabled, \[aria-disabled="true"\]\)\s*\{([^}]*)\}/,
+      )?.[1] ?? "";
+    expect(disabled).toContain("color: var(--oc-text-inactive);");
+    expect(disabled).toContain("cursor: not-allowed;");
+
+    const splitPane = getReferenceContent("primitive-split-pane");
+    expect(splitPane).toContain(
+      'class="oc-panel-tab" type="button" role="tab" aria-selected="false" disabled',
+    );
+  });
   test("associates control errors and demonstrates disabled option cards", async () => {
     const checkbox = getReferenceContent("primitive-checkbox");
     expect(checkbox).toContain(
