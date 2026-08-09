@@ -27,6 +27,7 @@ function tokenProperty(sample, variable) {
   if (sample === "font") return "font-family";
   if (sample === "radius") return "border-radius";
   if (sample === "shadow") return "box-shadow";
+  if (sample === "layer") return "z-index";
   if (sample === "motion") {
     return variable.includes("ease") ? "transition-timing-function" : "transition-duration";
   }
@@ -64,7 +65,7 @@ function createTokenPreview(document, sample, value) {
   preview.style.setProperty("--token-preview-value", value);
   preview.setAttribute("aria-hidden", "true");
 
-  if (sample === "text" || sample === "type-scale" || sample === "font") {
+  if (sample === "text" || sample === "type-scale" || sample === "font" || sample === "layer") {
     preview.textContent = "Ag";
   } else if (sample === "motion") {
     preview.textContent = "↗";
