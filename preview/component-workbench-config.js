@@ -1598,6 +1598,10 @@ ${appSurfaceWorkbenchMarkup(state)}
   },
   "primitive-toast": {
     defaults: { visible: false, tone: "neutral", lifecycle: "timed", dismissible: true },
+    normalizeState(state) {
+      if (state.tone === "error") state.lifecycle = "persistent";
+      return state;
+    },
     controls: [
       {
         id: "visible",
@@ -1922,5 +1926,5 @@ export function normalizeWorkbenchState(definition, candidate = {}) {
     }
   }
 
-  return state;
+  return definition.normalizeState?.(state) ?? state;
 }

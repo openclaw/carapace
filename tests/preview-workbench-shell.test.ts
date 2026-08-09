@@ -1047,6 +1047,9 @@ describe("workbench shell contracts", () => {
     const css = await readFile("preview/preview.css", "utf8");
 
     expect(css).not.toContain("--oc-success");
+    expect(css).toMatch(
+      /\.component-workbench-toast-region\s*\{[^}]*z-index: var\(--oc-layer-notification\)/,
+    );
     for (const [tone, token] of [
       ["success", "--oc-status-success-fg"],
       ["warning", "--oc-status-warning-fg"],

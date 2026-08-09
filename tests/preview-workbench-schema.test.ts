@@ -464,6 +464,9 @@ describe("workbench schema contracts", () => {
       lifecycle: "timed",
       dismissible: false,
     });
+    expect(
+      normalizeWorkbenchState(definition, { tone: "error", lifecycle: "timed" }),
+    ).toMatchObject({ tone: "error", lifecycle: "persistent" });
     const error = definition?.markup({
       visible: true,
       tone: "error",

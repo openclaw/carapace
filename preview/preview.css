@@ -4967,7 +4967,7 @@ html[data-theme="light"] .menubar-app-mark {
   position: fixed;
   right: 32px;
   bottom: 32px;
-  z-index: 100;
+  z-index: var(--oc-layer-notification);
   display: grid;
   width: min(340px, calc(100vw - 32px));
   gap: 12px;

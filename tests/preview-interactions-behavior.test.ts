@@ -1138,11 +1138,13 @@ describe("interaction widget behavior", () => {
     };
 
     const dismissal = dismissToast(region, toast, { restoreFocus: false });
+    const duplicateDismissal = dismissToast(region, toast, { restoreFocus: false });
 
     expect(toast.inert).toBe(true);
     expect(attributes.get("aria-hidden")).toBe("true");
+    expect(await duplicateDismissal).toBe(false);
     finishAnimation();
-    await dismissal;
+    expect(await dismissal).toBe(true);
   });
   test("does not hide the Visible control from a stale Toast portal", () => {
     const visibleControl = { checked: true };

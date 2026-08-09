@@ -40,6 +40,7 @@ const toastPresentations = {
 };
 
 const toastLifetimes = new WeakMap();
+const dismissingToasts = new WeakSet();
 const focusableSelector =
   "[data-toast-dismiss], [data-workbench-toast-dismiss], button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
 
@@ -166,6 +167,8 @@ export async function dismissToast(
   toast,
   { returnFocus, restoreFocus = true, offset = 8 } = {},
 ) {
+  if (dismissingToasts.has(toast)) return false;
+  dismissingToasts.add(toast);
   const toasts = [...region.querySelectorAll("[data-toast], .oc-toast")];
   const index = toasts.indexOf(toast);
   const adjacent = toasts[index + 1] || toasts[index - 1];
