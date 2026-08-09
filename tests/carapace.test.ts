@@ -1077,21 +1077,29 @@ describe("CSS contract", () => {
   test("the release does not include restricted binary assets", async () => {
     const forbiddenExtensions = /\.(otf|ttf|woff2?|png|jpe?g|gif|webp|avif)$/i;
     const files = await readdir(".", { recursive: true });
+    const allowedPreviewAssets = [
+      "preview/assets/openclaw-mark.png",
+      "preview/assets/openclaw-mark-hover.png",
+      "preview/assets/carapace-lobster-artwork.avif",
+      "preview/assets/carapace-shrimp-artwork.avif",
+      "preview/assets/carapace-hermit-artwork.avif",
+      "preview/assets/carapace-home-artwork.avif",
+      "preview/public/carapace-og.png",
+    ];
+    const rights = await readFile("preview/assets/RIGHTS.md", "utf8");
+
+    for (const path of allowedPreviewAssets) {
+      expect(rights).toContain(`\`${path}\``);
+    }
+    expect(rights).toContain("preview/avatar-fixtures.js");
+    expect(rights).toContain("must not be restored");
     expect(
       files.filter(
         (path) =>
           !path.startsWith(".git/") &&
           !path.startsWith("node_modules/") &&
           !path.startsWith("dist/") &&
-          path !== "preview/assets/openclaw-mark.png" &&
-          path !== "preview/assets/openclaw-mark-hover.png" &&
-          path !== "preview/assets/user-vincentkoc.png" &&
-          path !== "preview/assets/user-steipete.png" &&
-          path !== "preview/assets/carapace-lobster-artwork.avif" &&
-          path !== "preview/assets/carapace-shrimp-artwork.avif" &&
-          path !== "preview/assets/carapace-hermit-artwork.avif" &&
-          path !== "preview/assets/carapace-home-artwork.avif" &&
-          path !== "preview/public/carapace-og.png" &&
+          !allowedPreviewAssets.includes(path) &&
           forbiddenExtensions.test(path),
       ),
     ).toEqual([]);
