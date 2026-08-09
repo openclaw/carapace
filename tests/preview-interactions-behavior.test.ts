@@ -1057,6 +1057,15 @@ describe("interaction widget behavior", () => {
         "[data-tooltip-trigger]": trigger,
         "[data-tooltip-content]": content,
       })[selector];
+    const triggerTwo = new Element();
+    const contentTwo = new Element();
+    contentTwo.getBoundingClientRect = () => ({ top: 20, left: 20, right: 120 });
+    const tooltipTwo = new Element();
+    tooltipTwo.querySelector = (selector) =>
+      ({
+        "[data-tooltip-trigger]": triggerTwo,
+        "[data-tooltip-content]": contentTwo,
+      })[selector];
     const viewHandlers = { resize: [], scroll: [] };
     const view = {
       innerWidth: 300,
@@ -1066,7 +1075,7 @@ describe("interaction widget behavior", () => {
     };
     const root = {
       defaultView: view,
-      querySelectorAll: () => [tooltip],
+      querySelectorAll: () => [tooltip, tooltipTwo],
     };
     view.document = root;
 
@@ -1081,8 +1090,8 @@ describe("interaction widget behavior", () => {
     })).toBe(0);
     expect(emptyViewListeners).toBe(0);
 
-    expect(bindTooltips(root)).toBe(1);
-    expect(bindTooltips(root)).toBe(1);
+    expect(bindTooltips(root)).toBe(2);
+    expect(bindTooltips(root)).toBe(2);
     expect(viewHandlers.resize).toHaveLength(1);
     expect(viewHandlers.scroll).toHaveLength(1);
     tooltip.dispatchEvent(new Event("pointerenter"));
@@ -1094,10 +1103,29 @@ describe("interaction widget behavior", () => {
     viewHandlers.resize[0]();
     expect(measurementCount).toBe(2);
 
+    tooltip.dispatchEvent(new Event("focusin"));
+    tooltipTwo.dispatchEvent(new Event("pointerenter"));
+    expect(content.getAttribute("data-open")).toBeUndefined();
+    expect(tooltip.getAttribute("data-suppressed")).toBe("");
+    expect(contentTwo.getAttribute("data-open")).toBe("");
+    tooltipTwo.dispatchEvent(new Event("pointerleave"));
+    expect(contentTwo.getAttribute("data-open")).toBeUndefined();
+    expect(tooltip.getAttribute("data-suppressed")).toBeUndefined();
+    expect(content.getAttribute("data-open")).toBe("");
+
+    tooltipTwo.dispatchEvent(new Event("pointerenter"));
+    tooltip.dispatchEvent(new Event("focusin"));
+    expect(contentTwo.getAttribute("data-open")).toBeUndefined();
+    expect(tooltipTwo.getAttribute("data-suppressed")).toBe("");
+    expect(tooltip.getAttribute("data-suppressed")).toBeUndefined();
+    expect(content.getAttribute("data-open")).toBe("");
+
     tooltip.dispatchEvent(keyboardEvent("Escape"));
     expect(content.getAttribute("data-open")).toBeUndefined();
     expect(tooltip.getAttribute("data-suppressed")).toBe("");
     tooltip.dispatchEvent(new Event("pointerleave"));
+    expect(tooltip.getAttribute("data-suppressed")).toBe("");
+    tooltip.dispatchEvent(new Event("focusout"));
     expect(tooltip.getAttribute("data-suppressed")).toBeUndefined();
 
     tooltip.dispatchEvent(new Event("pointerenter"));

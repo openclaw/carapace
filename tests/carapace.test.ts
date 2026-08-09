@@ -341,6 +341,9 @@ describe("CSS contract", () => {
       ".oc-tooltip-content",
       ".oc-tooltip-trigger",
     ]);
+    expect(ruleDeclarations(feedback, ".oc-tooltip-content")).toContain(
+      "z-index: var(--oc-layer-popover)",
+    );
     expectClasses(data, [
       ".oc-code-block",
       ".oc-code-block-copy",
