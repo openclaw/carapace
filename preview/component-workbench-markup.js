@@ -529,7 +529,7 @@ export function bannerWorkbenchMarkup({ tone = "warning", action = true, dismiss
     ? '\n  <button class="oc-action oc-action-secondary oc-banner-action" type="button">Review</button>'
     : "";
   const dismiss = dismissible
-    ? '\n  <button class="oc-banner-dismiss" type="button" aria-label="Dismiss notice"><i data-lucide="x" aria-hidden="true"></i></button>'
+    ? '\n  <button class="oc-banner-dismiss" type="button" aria-label="Dismiss notice" data-workbench-banner-dismiss><i data-lucide="x" aria-hidden="true"></i></button>'
     : "";
 
   return `<div class="oc-banner${modifier}" role="status">

@@ -1056,6 +1056,25 @@ describe("CSS contract", () => {
     expect(data).toMatch(/\.oc-table-interactive tbody tr:is\(:hover, :focus-within\)/);
   });
 
+  test("keeps Banner actions and dismiss controls in deliberate responsive grid areas", async () => {
+    const feedback = await readFile("styles/candidate/feedback.css", "utf8");
+
+    expect(
+      ruleDeclarations(
+        feedback,
+        ".oc-banner:has(.oc-banner-action):has(.oc-banner-dismiss)",
+      ),
+    ).toContain("grid-template-columns: auto minmax(0, 1fr) auto auto");
+    expect(feedback).toMatch(
+      /@media \(max-width: 42rem\)[\s\S]*?\.oc-banner > :is\(button, a\):not\(\.oc-banner-dismiss\)\s*\{[^}]*grid-column: 2 \/ -1;[^}]*grid-row: 2;/,
+    );
+    expect(feedback).not.toContain(".oc-banner > :last-child");
+    expect(feedback).toMatch(
+      /@media \(max-width: 42rem\)[\s\S]*?\.oc-banner-dismiss\s*\{[^}]*grid-column: 3;[^}]*grid-row: 1;/,
+    );
+    expect(feedback).not.toContain(".oc-banner > :last-child");
+  });
+
   test("the default import graph cannot load candidates or lab styles", async () => {
     const aggregate = await readFile("styles/styles.css", "utf8");
     const packageJson = JSON.parse(await readFile("package.json", "utf8"));
