@@ -25,11 +25,9 @@ const bannerCrustaceanUrls = {
   hermit: new URL("./assets/carapace-hermit-artwork.avif", import.meta.url).href,
 };
 export const interactiveOpenClawMarkUrl = new URL("./assets/openclaw-mark.png", import.meta.url).href;
-const userVincentAvatarUrl = new URL("./assets/user-vincentkoc.png", import.meta.url).href;
-const userSteipeteAvatarUrl = new URL("./assets/user-steipete.png", import.meta.url).href;
 
-function userPhotoAvatarMarkup(url) {
-  return `<span class="oc-avatar oc-avatar-xs" aria-hidden="true"><img class="oc-avatar-image" src="${url}" alt="" width="24" height="24" /></span>`;
+function userFixtureAvatarMarkup(name) {
+  return `<span class="oc-avatar oc-avatar-xs oc-avatar-pixel" aria-hidden="true"><img class="oc-avatar-image" src="${avatarFixtureUrl(name)}" alt="" width="24" height="24" /></span>`;
 }
 
 export const actionVariants = [
@@ -1633,17 +1631,17 @@ export function messageListWorkbenchMarkup({
     const userMessage = `<div class="oc-agent-user-message"><p>Can we make the application panes feel closer to the mac app?</p></div>`;
     const user = attributedMessageMarkup({
       author: "user",
-      name: "vincentkoc",
+      name: "Shelly",
       role: "You",
-      avatar: userPhotoAvatarMarkup(userVincentAvatarUrl),
+      avatar: userFixtureAvatarMarkup("Shelly"),
       content: `${userMessage}${media ? mediaGalleryMarkup(status) : ""}`,
     });
     const secondUser = media
       ? ""
       : attributedMessageMarkup({
           author: "user",
-          name: "Peter Steinberger",
-          avatar: userPhotoAvatarMarkup(userSteipeteAvatarUrl),
+          name: "Barnacle",
+          avatar: userFixtureAvatarMarkup("Barnacle"),
           content: `<div class="oc-agent-user-message"><p>And keep the composer attached to the transcript while you are at it.</p></div>`,
         });
     const agent = attributedMessageMarkup({
@@ -1979,13 +1977,13 @@ export function agentChatWorkbenchMarkup({
   </form>`;
 
   if (isEmpty) {
-    return `<section class="oc-agent-chat oc-agent-chat-empty" data-layout="compact" data-attribution="participants" data-user-name="vincentkoc" aria-label="Agent conversation" data-agent-file-drop>
+    return `<section class="oc-agent-chat oc-agent-chat-empty" data-layout="compact" data-attribution="participants" data-user-name="Shelly" aria-label="Agent conversation" data-agent-file-drop>
   <div class="oc-agent-drop-overlay" aria-hidden="true">${agentIcon("paperclip")}<strong>Drop files to attach</strong><span>Images, video, audio, documents, and code</span></div>
   <div class="oc-agent-chat-center">${composer}${suggestions}</div>
 </section>`;
   }
 
-  return `<section class="oc-agent-chat" data-layout="compact" data-attribution="${transcriptMode === "attributed" ? "participants" : "none"}" data-user-name="vincentkoc" aria-label="Agent conversation" data-agent-file-drop>
+  return `<section class="oc-agent-chat" data-layout="compact" data-attribution="${transcriptMode === "attributed" ? "participants" : "none"}" data-user-name="Shelly" aria-label="Agent conversation" data-agent-file-drop>
   <div class="oc-agent-drop-overlay" aria-hidden="true">${agentIcon("paperclip")}<strong>Drop files to attach</strong><span>Images, video, documents, and code</span></div>
   ${messages}
   <div class="oc-agent-chat-composer">${composer}</div>

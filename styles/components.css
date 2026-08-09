@@ -199,6 +199,11 @@
   color: var(--oc-text-on-accent);
 }
 
+.oc-action-primary:active:not(:disabled):not([aria-disabled="true"]) {
+  border-color: var(--oc-accent-primary-deep);
+  background: var(--oc-accent-primary-deep);
+}
+
 .oc-action-secondary {
   border-color: var(--oc-border-accent);
   background: var(--oc-surface-accent-soft);

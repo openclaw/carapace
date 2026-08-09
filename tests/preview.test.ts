@@ -75,6 +75,33 @@ describe("preview contracts", () => {
       }),
     ).not.toThrow();
   });
+  test("documents primitive ownership without inventing a component-token tier", async () => {
+    const index = getReferenceContent("interface-primitives");
+    expect(index).toContain("stable and candidate package entry points");
+    expect(index).not.toContain("Every page below documents classes already exported by components.css");
+
+    const examples = [
+      getReferenceContent("interface-examples"),
+      getReferenceContent("composition-product"),
+    ].join("\n");
+    expect(examples).not.toContain('class="badge');
+    expect(examples).toContain('class="oc-badge oc-badge-success"');
+    expect(examples).toContain("canonical candidate Badge anatomy");
+
+    const previewCss = await readFile("preview/preview.css", "utf8");
+    expect(previewCss).not.toMatch(/^\.badge(?:[-\s,{:.])/m);
+
+    for (const path of [
+      "openclaw-carapace/references/tokens.md",
+      "openclaw-design-system/references/tokens.md",
+    ]) {
+      const guide = await readFile(path, "utf8");
+      expect(guide).toContain("does not define a global component-token namespace");
+      expect(guide).not.toContain("`--oc-component-*`");
+      expect(guide).toContain("`--oc-surface-modal-backdrop`");
+      expect(guide).toContain("`--oc-input-*`");
+    }
+  });
   test("keeps the route manifest and rendered content aligned", async () => {
     expect(new Set(referencePages.map(({ id }) => id)).size).toBe(referencePages.length);
     expect(new Set(referencePages.map(({ path }) => path)).size).toBe(referencePages.length);
@@ -577,6 +604,22 @@ describe("preview contracts", () => {
     expect(avatar).toContain("Generated pixel identities");
     expect(avatar).toContain("Never rely on the status indicator or animation alone");
   });
+  test("keeps public avatar examples on generated fixtures with named controls", async () => {
+    const sources = await Promise.all(
+      [
+        "preview/agent-components.js",
+        "preview/component-reference.js",
+        "preview/component-workbench-markup.js",
+        "preview/reference-content.js",
+      ].map((path) => readFile(path, "utf8")),
+    );
+    expect(sources.join("\n")).not.toMatch(/assets\/user-(?:steipete|vincentkoc)\.png/);
+
+    const interaction = getReferenceContent("effect-interaction");
+    expect(interaction).toContain(
+      '&lt;button class="oc-avatar-button" type="button" aria-label="Open agent profile"&gt;',
+    );
+  });
   test("keeps Avatar preview, usage, and code variants on one reference model", () => {
     const reference = getComponentWorkbenchReference("primitive-avatar");
     const allCode = formatComponentWorkbenchCode(avatarWorkbenchExamples);
@@ -738,5 +781,51 @@ describe("preview contracts", () => {
     expect(css).toContain("--oc-accent-secondary");
     expect(css).not.toContain(".component-workbench-code-complete");
     expect(css).not.toContain("component-workbench-code-example-field");
+  });
+  test("demonstrates panel tab hover without overriding selected or disabled states", async () => {
+    const application = await readFile("styles/candidate/application.css", "utf8");
+    const hover =
+      application.match(
+        /\.oc-panel-tab:hover:not\(:disabled\):not\(\[aria-disabled="true"\]\):not\(\[aria-selected="true"\]\):not\(\s*\[aria-current="true"\]\s*\)\s*\{([^}]*)\}/,
+      )?.[1] ?? "";
+    expect(hover).toContain("background: var(--oc-surface-interactive-hover);");
+    expect(hover).toContain("color: var(--oc-text-primary);");
+    expect(application).toMatch(
+      /@media \(hover: hover\)[\s\S]*?\.oc-panel-tab:hover:not\(:disabled\)/,
+    );
+    const disabled =
+      application.match(
+        /\.oc-panel-tab:is\(:disabled, \[aria-disabled="true"\]\)\s*\{([^}]*)\}/,
+      )?.[1] ?? "";
+    expect(disabled).toContain("color: var(--oc-text-inactive);");
+    expect(disabled).toContain("cursor: not-allowed;");
+
+    const splitPane = getReferenceContent("primitive-split-pane");
+    expect(splitPane).toContain(
+      'class="oc-panel-tab" type="button" role="tab" aria-selected="false" disabled',
+    );
+  });
+  test("associates control errors and demonstrates disabled option cards", async () => {
+    const checkbox = getReferenceContent("primitive-checkbox");
+    expect(checkbox).toContain(
+      'class="oc-checkbox" type="checkbox" name="notifications" value="true" aria-invalid="true" aria-describedby="checkbox-notifications-error"',
+    );
+    expect(checkbox).toContain('class="oc-field-message" id="checkbox-notifications-error"');
+
+    const radio = getReferenceContent("primitive-radio");
+    expect(radio).toContain(
+      'class="oc-radio-group" aria-invalid="true" aria-describedby="radio-delivery-error"',
+    );
+    expect(radio).toContain('class="oc-field-message" id="radio-delivery-error"');
+
+    const optionCard = getReferenceContent("primitive-option-card");
+    expect(optionCard).toContain('type="radio" name="setup-path" disabled');
+
+    const home = await readFile("preview/index.html", "utf8");
+    expect(home).toContain('<label class="oc-field-label" for="home-email">Email</label>');
+    expect(home).toContain('class="oc-input" id="home-email"');
+    expect(home).not.toContain(
+      '<label class="oc-field home-input-demo"><span class="oc-field-label">Email</span>',
+    );
   });
 });
