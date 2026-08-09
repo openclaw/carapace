@@ -977,5 +977,14 @@ describe("workbench shell contracts", () => {
     expect(lightCanvas).toContain(
       "--oc-input-placeholder: color-mix(in srgb, var(--oc-text-muted) 70%, transparent);",
     );
+    for (const canvas of [darkCanvas, lightCanvas]) {
+      expect(canvas).toContain(
+        "--oc-input-focus-border: color-mix(in srgb, var(--oc-accent-primary) 58%, transparent);",
+      );
+      expect(canvas).toContain(
+        "--oc-input-focus-ring: color-mix(in srgb, var(--oc-accent-primary) 22%, transparent);",
+      );
+      expect(canvas).not.toContain("--oc-input-focus-border: color-mix(in srgb, var(--oc-text-primary)");
+    }
   });
 });

@@ -3446,8 +3446,8 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
   --oc-input-bg: var(--oc-bg-elevated);
   --oc-input-border: var(--oc-border-subtle);
   --oc-input-placeholder: color-mix(in srgb, var(--oc-text-muted) 70%, transparent);
-  --oc-input-focus-border: color-mix(in srgb, var(--oc-text-primary) 62%, transparent);
-  --oc-input-focus-ring: color-mix(in srgb, var(--oc-text-primary) 22%, transparent);
+  --oc-input-focus-border: color-mix(in srgb, var(--oc-accent-primary) 58%, transparent);
+  --oc-input-focus-ring: color-mix(in srgb, var(--oc-accent-primary) 22%, transparent);
   --oc-status-success-bg: rgb(34 197 94 / 0.12);
   --oc-status-success-fg: #22c55e;
   --oc-status-warning-bg: rgb(251 191 36 / 0.12);
@@ -3507,8 +3507,8 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
   --oc-input-bg: oklch(1 0 0);
   --oc-input-border: var(--oc-border-subtle);
   --oc-input-placeholder: color-mix(in srgb, var(--oc-text-muted) 70%, transparent);
-  --oc-input-focus-border: color-mix(in srgb, var(--oc-text-primary) 62%, transparent);
-  --oc-input-focus-ring: color-mix(in srgb, var(--oc-text-primary) 22%, transparent);
+  --oc-input-focus-border: color-mix(in srgb, var(--oc-accent-primary) 58%, transparent);
+  --oc-input-focus-ring: color-mix(in srgb, var(--oc-accent-primary) 22%, transparent);
   --oc-status-success-bg: rgb(34 197 94 / 0.1);
   --oc-status-success-fg: #146c37;
   --oc-status-warning-bg: rgb(245 158 11 / 0.1);
