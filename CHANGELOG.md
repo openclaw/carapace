@@ -8,6 +8,7 @@ user-facing arc per release.
 
 ### Fixes
 
+- Restored AA contrast for light-theme primary actions while keeping modal backdrops visually isolating. Thanks @vyctorbrzezowski.
 - Replaced preview portraits without redistribution records with deterministic generated identities and documented the rights for every remaining preview image. Thanks @vyctorbrzezowski.
 
 ## 0.6.0 — 2026-07-29

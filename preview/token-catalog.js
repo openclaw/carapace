@@ -164,6 +164,7 @@ export const tokenDefinitions = [
   { variable: "--oc-surface-card", group: "surface" },
   { variable: "--oc-surface-card-strong", group: "surface" },
   { variable: "--oc-surface-overlay", group: "surface" },
+  { variable: "--oc-surface-modal-backdrop", group: "surface" },
   { variable: "--oc-surface-interactive", group: "surface" },
   { variable: "--oc-surface-interactive-hover", group: "surface" },
   { variable: "--oc-control-bg", group: "surface" },
