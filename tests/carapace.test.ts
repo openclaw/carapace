@@ -168,7 +168,7 @@ describe("CSS contract", () => {
 
     for (const selector of [
       ".oc-input:hover:not(:disabled)",
-      ".oc-checkbox:hover:not(:disabled)",
+      '.oc-checkbox:hover:not(:disabled):not([aria-invalid="true"])',
       ".oc-radio:hover:not(:disabled)",
       ".oc-switch:hover:not(:disabled)",
       ".oc-select:hover:not(:disabled)",
@@ -892,6 +892,26 @@ describe("CSS contract", () => {
 
     expect(controls).toMatch(/\.oc-input\[aria-invalid="true"\][\s\S]*?--oc-status-error-fg/);
     expect(controls).toMatch(/\.oc-checkbox:indeterminate[\s\S]*?--oc-accent-primary/);
+    expect(ruleDeclarations(controls, ".oc-checkbox:active:not(:disabled)")).toContain(
+      "transform: scale(0.96)",
+    );
+    expect(ruleDeclarations(controls, '.oc-checkbox[aria-invalid="true"]')).toContain(
+      "border-color: var(--oc-status-error-fg)",
+    );
+    expect(controls).toContain(
+      '.oc-checkbox:hover:not(:disabled):not([aria-invalid="true"])',
+    );
+    expect(controls).toMatch(
+      /\.oc-radio-group\[aria-invalid="true"\] \.oc-radio[\s\S]*?--oc-status-error-fg/,
+    );
+    expect(controls).toContain(".oc-radio:hover:not(:disabled)");
+    expect(controls).not.toContain('.oc-radio[aria-invalid="true"]');
+    expect(
+      ruleDeclarations(
+        controls,
+        '.oc-radio-group[aria-invalid="true"] .oc-radio:hover:not(:disabled)',
+      ),
+    ).toContain("border-color: var(--oc-status-error-fg)");
     expect(controls).toMatch(/@media \(forced-colors: active\)[\s\S]*?appearance: auto/);
     expect(controls).toMatch(/\.oc-switch:checked[\s\S]*?--oc-accent-primary/);
     expect(feedback).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?animation: none/);
@@ -915,6 +935,16 @@ describe("CSS contract", () => {
       /data-navigation="compact"[\s\S]*?\.oc-app-navigation-item-label[\s\S]*?clip-path: inset\(50%\)/,
     );
     expect(application).toContain('.oc-model-providers button[aria-pressed="true"]');
+    expect(application).toMatch(
+      /\.oc-option-card:has\(input:disabled\)[\s\S]*?cursor: not-allowed[\s\S]*?opacity: 0\.55/,
+    );
+    expect(application).toMatch(
+      /\.oc-model-reasoning-range:hover:not\(:disabled\)::-[\s\S]*?--oc-surface-interactive-hover/,
+    );
+    expect(application).toMatch(
+      /\.oc-model-reasoning-range:active:not\(:disabled\)::-[\s\S]*?transform: scale\(1\.1\)/,
+    );
+    expect(application).not.toContain(".oc-model-reasoning-range:disabled");
     expect(application).toContain('.oc-model-option[aria-pressed="true"]');
     expect(application).not.toContain('.oc-model-option[aria-selected="true"]');
     expect(application).toMatch(

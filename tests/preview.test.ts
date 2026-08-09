@@ -756,4 +756,27 @@ describe("preview contracts", () => {
     expect(css).not.toContain(".component-workbench-code-complete");
     expect(css).not.toContain("component-workbench-code-example-field");
   });
+  test("associates control errors and demonstrates disabled option cards", async () => {
+    const checkbox = getReferenceContent("primitive-checkbox");
+    expect(checkbox).toContain(
+      'class="oc-checkbox" type="checkbox" name="notifications" value="true" aria-invalid="true" aria-describedby="checkbox-notifications-error"',
+    );
+    expect(checkbox).toContain('class="oc-field-message" id="checkbox-notifications-error"');
+
+    const radio = getReferenceContent("primitive-radio");
+    expect(radio).toContain(
+      'class="oc-radio-group" aria-invalid="true" aria-describedby="radio-delivery-error"',
+    );
+    expect(radio).toContain('class="oc-field-message" id="radio-delivery-error"');
+
+    const optionCard = getReferenceContent("primitive-option-card");
+    expect(optionCard).toContain('type="radio" name="setup-path" disabled');
+
+    const home = await readFile("preview/index.html", "utf8");
+    expect(home).toContain('<label class="oc-field-label" for="home-email">Email</label>');
+    expect(home).toContain('class="oc-input" id="home-email"');
+    expect(home).not.toContain(
+      '<label class="oc-field home-input-demo"><span class="oc-field-label">Email</span>',
+    );
+  });
 });
