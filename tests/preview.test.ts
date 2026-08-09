@@ -407,6 +407,36 @@ describe("preview contracts", () => {
     expect(lab).toContain('.oc-link[aria-disabled="true"]:not([href])');
     expect(lab).toContain('.oc-pagination-link[aria-disabled="true"]:not([href])');
     expect(dropdown).toContain('<ul class="oc-dropdown-menu" role="menu" hidden>');
+    expect(dropdown).toContain('class="oc-dropdown-item" type="button" role="menuitem" disabled');
+    expect(dropdown).toContain('role="menuitem" aria-keyshortcuts="Meta+D"');
+    expect(dropdown).toContain(
+      '<kbd class="oc-dropdown-shortcut" aria-hidden="true">⌘D</kbd>',
+    );
+    expect(dropdown).not.toContain("oc-dropdown-submenu");
+    expect(dropdown).not.toContain('role="menuitem" aria-haspopup="menu"');
+
+    const menu = lab.match(/\.oc-dropdown-menu\s*\{([^}]*)\}/)?.[1] ?? "";
+    expect(menu).toContain("box-shadow: var(--oc-shadow-md);");
+    expect(menu).toContain("max-width: var(--oc-dropdown-max-width);");
+    expect(menu).toContain("max-height: var(--oc-dropdown-max-height);");
+    expect(menu).toContain("min-width: min(12rem, var(--oc-dropdown-max-width));");
+    expect(menu).toContain("translate: var(--oc-dropdown-offset-x) 0;");
+    expect(lab).toContain('.oc-dropdown-item:is(:disabled, [aria-disabled="true"])');
+    expect(lab).toContain(".oc-dropdown-shortcut");
+
+    const shell = await readFile("preview/preview.css", "utf8");
+    const workbenchMenu =
+      shell.match(
+        /\.component-workbench-frame \.oc-combobox-listbox,\s*\.component-workbench-frame \.oc-dropdown-menu\s*\{([^}]*)\}/,
+      )?.[1] ?? "";
+    expect(workbenchMenu).toContain("box-shadow: var(--oc-shadow-md);");
+
+    const candidates = await Promise.all(
+      ["controls", "feedback", "data", "application", "agent", "embed"].map((name) =>
+        readFile(`styles/candidate/${name}.css`, "utf8"),
+      ),
+    );
+    expect(candidates.some((source) => source.includes(".oc-dropdown"))).toBe(false);
   });
   test("documents separate accessible names and descriptions for charts", async () => {
     const customChart = getReferenceContent("chart-custom");

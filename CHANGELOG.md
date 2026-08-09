@@ -8,6 +8,7 @@ user-facing arc per release.
 
 ### Fixes
 
+- Kept Dropdown and Menu Bar actions inside constrained viewports and introduced shared popover/notification layer roles. Thanks @vyctorbrzezowski.
 - Made Banner dismissal return focus safely while preserving generic narrow-screen action layout. Thanks @vyctorbrzezowski.
 - Added bounded Table and disabled/loading Search studies, including a busy state on the updating table region. Thanks @vyctorbrzezowski.
 - Aligned the Button Lab with Action states and kept its accessible icon-only specimen compact. Thanks @vyctorbrzezowski.

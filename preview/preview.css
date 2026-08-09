@@ -4995,6 +4995,9 @@ html[data-theme="light"] .menubar-app-mark {
   background: var(--oc-surface-card-strong);
   border-color: var(--oc-border-strong);
   box-shadow: var(--oc-shadow-md);
+}
+
+.component-workbench-frame .oc-combobox-listbox {
   transform-origin: top center;
 }
 
