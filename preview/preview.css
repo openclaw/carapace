@@ -3469,8 +3469,16 @@ body[data-reference-layout="workbench"][data-page-kind="reference"] .reference-p
   --oc-bg-elevated: oklch(1 0 0);
   --oc-bg-recessed: color-mix(in oklch, var(--oc-bg-page) 94%, var(--oc-text-primary));
   --oc-bg-contrast: var(--oc-text-primary);
-  --oc-accent-primary: var(--oc-palette-coral-light-bright);
-  --oc-accent-primary-hover: var(--oc-palette-coral-light-mid);
+  --oc-accent-primary: color-mix(
+    in srgb,
+    var(--oc-palette-coral-light-mid) 60%,
+    var(--oc-palette-coral-light-deep) 40%
+  );
+  --oc-accent-primary-hover: color-mix(
+    in srgb,
+    var(--oc-palette-coral-light-mid) 30%,
+    var(--oc-palette-coral-light-deep) 70%
+  );
   --oc-accent-primary-deep: var(--oc-palette-coral-light-deep);
   --oc-accent-secondary: var(--oc-palette-sea-light-bright);
   --oc-accent-secondary-deep: var(--oc-palette-sea-light-mid);
@@ -5016,9 +5024,7 @@ html[data-theme="light"] .menubar-app-mark {
   border-radius: 8px;
   background: var(--oc-surface-card-strong);
   border-color: var(--oc-border-strong);
-  box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.04),
-    0 8px 20px -8px rgb(0 0 0 / 0.14);
+  box-shadow: var(--oc-shadow-md);
   transform-origin: top center;
 }
 

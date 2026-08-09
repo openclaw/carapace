@@ -4,6 +4,13 @@ Releases are Git tags (`vX.Y.Z`) matching `package.json`; each tag also gets
 auto-generated notes on its GitHub release. This file summarizes the
 user-facing arc per release.
 
+## Unreleased
+
+### Fixes
+
+- Restored AA contrast for light-theme primary actions while keeping modal backdrops visually isolating. Thanks @vyctorbrzezowski.
+- Replaced preview portraits without redistribution records with deterministic generated identities and documented the rights for every remaining preview image. Thanks @vyctorbrzezowski.
+
 ## 0.6.0 — 2026-07-29
 
 Shared utility primitives and canonical application themes.
