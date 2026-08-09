@@ -957,5 +957,50 @@ describe("workbench shell contracts", () => {
     expect(lightCanvas).toContain("--oc-bg-page: oklch(0.985 0 0);");
     expect(lightCanvas).toContain("--oc-bg-elevated: oklch(1 0 0);");
     expect(lightCanvas).not.toContain("--oc-bg-page: var(--oc-palette-paper-100);");
+
+    const darkCanvas =
+      shell.match(
+        /\.component-workbench-canvas\[data-workbench-theme="dark"\]\s*\{([^}]*)\}/,
+      )?.[1] ?? "";
+    for (const token of [
+      "--oc-input-bg",
+      "--oc-input-border",
+      "--oc-input-placeholder",
+      "--oc-input-focus-border",
+      "--oc-input-focus-ring",
+    ]) {
+      expect(darkCanvas).toContain(`${token}:`);
+      expect(lightCanvas).toContain(`${token}:`);
+    }
+    expect(lightCanvas).toContain("--oc-input-bg: oklch(1 0 0);");
+    expect(lightCanvas).toContain("--oc-input-border: var(--oc-border-subtle);");
+    expect(lightCanvas).toContain(
+      "--oc-input-placeholder: color-mix(in srgb, var(--oc-text-muted) 70%, transparent);",
+    );
+    for (const canvas of [darkCanvas, lightCanvas]) {
+      expect(canvas).toContain(
+        "--oc-input-focus-border: color-mix(in srgb, var(--oc-accent-primary) 58%, transparent);",
+      );
+      expect(canvas).toContain(
+        "--oc-input-focus-ring: color-mix(in srgb, var(--oc-accent-primary) 22%, transparent);",
+      );
+      expect(canvas).not.toContain("--oc-input-focus-border: color-mix(in srgb, var(--oc-text-primary)");
+    }
+  });
+  test("keeps bounded Table behavior in the Lab instead of the Candidate export", async () => {
+    const lab = await readFile("preview/lab.css", "utf8");
+    const candidate = await readFile("styles/candidate/data.css", "utf8");
+    const bounded = lab.match(
+      /\.oc-table-wrap\[data-workbench-table-bounded\]\s*\{([^}]*)\}/,
+    )?.[1] ?? "";
+    const sticky = lab.match(
+      /\.oc-table-wrap\[data-workbench-table-bounded\] \.oc-table thead th\s*\{([^}]*)\}/,
+    )?.[1] ?? "";
+
+    expect(bounded).toContain("max-height:");
+    expect(bounded).toContain("overflow: auto");
+    expect(sticky).toContain("position: sticky");
+    expect(sticky).toContain("top: 0");
+    expect(candidate).not.toContain("data-workbench-table-bounded");
   });
 });

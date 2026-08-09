@@ -511,21 +511,21 @@
   align-items: center;
   justify-content: center;
   gap: var(--oc-space-2);
-  padding: 0 var(--oc-space-4);
+  padding: var(--oc-space-2) var(--oc-space-4);
   border: 1px solid transparent;
   border-radius: var(--oc-radius-control);
   background: transparent;
   color: var(--oc-text-primary);
   font: inherit;
-  font-size: var(--oc-font-size-sm);
-  font-weight: 650;
-  line-height: 1;
+  font-size: var(--oc-font-size-base);
+  font-weight: 700;
+  line-height: 1.2;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
   touch-action: manipulation;
   transition:
-    background-color var(--oc-duration-fast) var(--oc-ease-out),
+    background var(--oc-duration-fast) var(--oc-ease-out),
     border-color var(--oc-duration-fast) var(--oc-ease-out),
     color var(--oc-duration-fast) var(--oc-ease-out),
     transform var(--oc-duration-fast) var(--oc-ease-out);
@@ -557,7 +557,7 @@
 }
 
 .oc-button:active:not(:disabled):not([aria-disabled="true"]) {
-  transform: translateY(1px);
+  transform: scale(0.98);
 }
 
 .oc-button-sm {
@@ -572,9 +572,14 @@
   font-size: var(--oc-font-size-base);
 }
 
+.oc-button-icon {
+  width: 2.5rem;
+  padding: 0;
+}
+
 .oc-button:focus-visible {
   outline: 2px solid var(--oc-focus-ring);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 .oc-button:disabled,
@@ -1060,9 +1065,7 @@
   border: 1px solid var(--oc-border-strong);
   border-radius: var(--oc-radius-surface);
   background: var(--oc-surface-card-strong);
-  box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.04),
-    0 8px 20px -8px rgb(0 0 0 / 0.14);
+  box-shadow: var(--oc-shadow-md);
   list-style: none;
   color: var(--oc-text-primary);
 }
@@ -2359,6 +2362,18 @@ a.oc-layer-card-primary:hover {
   width: min(100%, 18rem);
   padding-left: var(--oc-space-4);
   border-left: 1px solid var(--oc-border-subtle);
+}
+
+.oc-table-wrap[data-workbench-table-bounded] {
+  max-height: 14rem;
+  overflow: auto;
+}
+
+.oc-table-wrap[data-workbench-table-bounded] .oc-table thead th {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  background: var(--oc-bg-elevated);
 }
 
 .oc-table-of-contents-title {
