@@ -14,11 +14,11 @@ exports when the consumer must control reset and adapter order.
 | Product | `--oc-status-*`, `--oc-input-*`, `--oc-diff-*` | Opt-in operational UI |
 | Consumer alias | Unprefixed legacy names | Migration compatibility only |
 
-Runtime styling resolves through three tiers: fixed palette and scale values,
-theme-aware semantic roles, then component-local aliases. Component-scoped
-tokens are the third tier. Use `--oc-component-*` on a component root to map
-its anatomy to semantic roles while preserving a narrow consumer override
-point; do not make those aliases a second global palette.
+Component styles consume semantic and product roles in their owning
+stylesheet; Carapace does not define a global component-token namespace. When
+a component genuinely needs a local custom property, scope it to the component
+root and document the override point beside that component rather than turning
+it into a second palette.
 
 ## Semantic Choices
 
@@ -33,6 +33,10 @@ point; do not make those aliases a second global palette.
   `--oc-accent-primary-hover`
 - Secondary accent: `--oc-accent-secondary`
 - Neutral control backgrounds: `--oc-control-bg`, `--oc-control-bg-hover`
+- Modal isolation: `--oc-surface-modal-backdrop`; ordinary translucent
+  surfaces continue to use `--oc-surface-overlay`
+- Product fields: `--oc-input-*`; status feedback: paired `--oc-status-*-bg`
+  and `--oc-status-*-fg` roles
 - Subtle, strong, and accent borders: `--oc-border-subtle`,
   `--oc-border-strong`, `--oc-border-accent`
 - Focus: `--oc-focus-ring`
