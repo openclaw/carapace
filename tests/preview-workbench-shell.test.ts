@@ -957,5 +957,34 @@ describe("workbench shell contracts", () => {
     expect(lightCanvas).toContain("--oc-bg-page: oklch(0.985 0 0);");
     expect(lightCanvas).toContain("--oc-bg-elevated: oklch(1 0 0);");
     expect(lightCanvas).not.toContain("--oc-bg-page: var(--oc-palette-paper-100);");
+
+    const darkCanvas =
+      shell.match(
+        /\.component-workbench-canvas\[data-workbench-theme="dark"\]\s*\{([^}]*)\}/,
+      )?.[1] ?? "";
+    for (const token of [
+      "--oc-input-bg",
+      "--oc-input-border",
+      "--oc-input-placeholder",
+      "--oc-input-focus-border",
+      "--oc-input-focus-ring",
+    ]) {
+      expect(darkCanvas).toContain(`${token}:`);
+      expect(lightCanvas).toContain(`${token}:`);
+    }
+    expect(lightCanvas).toContain("--oc-input-bg: oklch(1 0 0);");
+    expect(lightCanvas).toContain("--oc-input-border: var(--oc-border-subtle);");
+    expect(lightCanvas).toContain(
+      "--oc-input-placeholder: color-mix(in srgb, var(--oc-text-muted) 70%, transparent);",
+    );
+    for (const canvas of [darkCanvas, lightCanvas]) {
+      expect(canvas).toContain(
+        "--oc-input-focus-border: color-mix(in srgb, var(--oc-accent-primary) 58%, transparent);",
+      );
+      expect(canvas).toContain(
+        "--oc-input-focus-ring: color-mix(in srgb, var(--oc-accent-primary) 22%, transparent);",
+      );
+      expect(canvas).not.toContain("--oc-input-focus-border: color-mix(in srgb, var(--oc-text-primary)");
+    }
   });
 });
