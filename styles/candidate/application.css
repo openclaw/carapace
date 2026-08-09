@@ -2685,11 +2685,6 @@
   transform: scale(1.1);
 }
 
-.oc-model-reasoning-range:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
 .oc-model-reasoning-range:focus-visible {
   outline: 2px solid var(--oc-focus-ring);
   outline-offset: 2px;

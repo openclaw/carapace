@@ -230,7 +230,7 @@
   transition: transform var(--oc-duration-fast) var(--oc-ease-out);
 }
 
-.oc-radio:hover:not(:disabled):not([aria-invalid="true"]) {
+.oc-radio:hover:not(:disabled) {
   border-color: var(--oc-border-strong);
 }
 
@@ -247,7 +247,6 @@
   outline-offset: 2px;
 }
 
-.oc-radio[aria-invalid="true"],
 .oc-radio-group[aria-invalid="true"] .oc-radio {
   border-color: var(--oc-status-error-fg);
 }

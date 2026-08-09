@@ -8,6 +8,7 @@ user-facing arc per release.
 
 ### Fixes
 
+- Completed rendered invalid, active, and disabled form-control states while removing speculative state selectors and binders. Thanks @vyctorbrzezowski.
 - Clarified semantic, product, and component stylesheet ownership and moved preview status labels onto the canonical Badge primitive. Thanks @vyctorbrzezowski.
 - Kept native Date Picker values legible on light preview canvases without losing accent-colored focus feedback. Thanks @vyctorbrzezowski.
 - Restored AA contrast for light-theme primary actions while keeping modal backdrops visually isolating. Thanks @vyctorbrzezowski.

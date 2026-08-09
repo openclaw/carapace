@@ -209,15 +209,6 @@ export function bindApplicationModelControls(specimen, state, update) {
   );
   const reset = specimen.querySelector("[data-workbench-model-reset]");
   const trigger = picker?.querySelector?.(".oc-model-trigger");
-  const locked = specimen.dataset?.locked === "true";
-  const disabledForLock = thinking?.dataset?.workbenchLockDisabled === "true";
-  if (thinking && locked && !thinking.disabled) {
-    thinking.disabled = true;
-    thinking.dataset.workbenchLockDisabled = "true";
-  } else if (thinking && !locked && disabledForLock) {
-    thinking.disabled = false;
-    delete thinking.dataset.workbenchLockDisabled;
-  }
   let activeProvider = state.modelProvider ?? "recent";
 
   /* Closure-tracked selection: update() may not mutate state synchronously,

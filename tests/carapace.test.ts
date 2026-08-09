@@ -169,7 +169,7 @@ describe("CSS contract", () => {
     for (const selector of [
       ".oc-input:hover:not(:disabled)",
       '.oc-checkbox:hover:not(:disabled):not([aria-invalid="true"])',
-      '.oc-radio:hover:not(:disabled):not([aria-invalid="true"])',
+      ".oc-radio:hover:not(:disabled)",
       ".oc-switch:hover:not(:disabled)",
       ".oc-select:hover:not(:disabled)",
       ".oc-textarea:hover:not(:disabled)",
@@ -904,9 +904,8 @@ describe("CSS contract", () => {
     expect(controls).toMatch(
       /\.oc-radio-group\[aria-invalid="true"\] \.oc-radio[\s\S]*?--oc-status-error-fg/,
     );
-    expect(controls).toContain(
-      '.oc-radio:hover:not(:disabled):not([aria-invalid="true"])',
-    );
+    expect(controls).toContain(".oc-radio:hover:not(:disabled)");
+    expect(controls).not.toContain('.oc-radio[aria-invalid="true"]');
     expect(
       ruleDeclarations(
         controls,
@@ -945,9 +944,7 @@ describe("CSS contract", () => {
     expect(application).toMatch(
       /\.oc-model-reasoning-range:active:not\(:disabled\)::-[\s\S]*?transform: scale\(1\.1\)/,
     );
-    expect(application).toMatch(
-      /\.oc-model-reasoning-range:disabled[\s\S]*?cursor: not-allowed[\s\S]*?opacity: 0\.55/,
-    );
+    expect(application).not.toContain(".oc-model-reasoning-range:disabled");
     expect(application).toContain('.oc-model-option[aria-pressed="true"]');
     expect(application).not.toContain('.oc-model-option[aria-selected="true"]');
     expect(application).toMatch(
