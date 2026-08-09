@@ -96,6 +96,64 @@ describe("CSS contract", () => {
     expect(previewLightTheme).not.toContain("--oc-input-bg:");
   });
 
+  test("light accent states meet WCAG AA on documented light surfaces", async () => {
+    const [tokens, themes] = await Promise.all([
+      readFile("styles/tokens.css", "utf8"),
+      readFile("styles/themes.css", "utf8"),
+    ]);
+    const palette = new Map(
+      [...tokens.matchAll(/(--oc-palette-[\w-]+):\s*(#[0-9a-f]{6});/gi)].map((match) => [
+        match[1]!,
+        match[2]!,
+      ]),
+    );
+    const light = ruleDeclarations(themes, 'html:root[data-theme="light"]');
+    const declaration = (token: string) =>
+      light.match(new RegExp(`${token}:\\s*([^;]+);`))?.[1]?.trim().replace(/\s+/g, " ") ?? "";
+    const rgb = (hex: string) => [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16));
+    const resolve = (value: string) => {
+      const direct = value.match(/^var\((--[\w-]+)\)$/)?.[1];
+      if (direct) return rgb(palette.get(direct)!);
+      const mix = value.match(
+        /^color-mix\(\s*in srgb, var\((--[\w-]+)\) (\d+)%, var\((--[\w-]+)\) (\d+)%\s*\)$/,
+      );
+      if (!mix) throw new Error(`unresolved light accent: ${value}`);
+      const first = rgb(palette.get(mix[1]!)!);
+      const second = rgb(palette.get(mix[3]!)!);
+      const firstWeight = Number(mix[2]) / 100;
+      const secondWeight = Number(mix[4]) / 100;
+      return first.map((channel, index) =>
+        Math.round((channel * firstWeight + second[index]! * secondWeight) / (firstWeight + secondWeight)),
+      );
+    };
+    const linear = (channel: number) => {
+      const value = channel / 255;
+      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    };
+    const luminance = (color: number[]) =>
+      0.2126 * linear(color[0]!) + 0.7152 * linear(color[1]!) + 0.0722 * linear(color[2]!);
+    const contrast = (left: number[], right: number[]) => {
+      const [high, low] = [luminance(left), luminance(right)].sort((a, b) => b - a);
+      return (high! + 0.05) / (low! + 0.05);
+    };
+    const surfaces = [
+      palette.get("--oc-palette-paper-50")!,
+      palette.get("--oc-palette-paper-100")!,
+      palette.get("--oc-palette-paper-200")!,
+    ].map(rgb);
+
+    for (const token of [
+      "--oc-accent-primary",
+      "--oc-accent-primary-hover",
+      "--oc-accent-primary-deep",
+    ]) {
+      const accent = resolve(declaration(token));
+      for (const surface of surfaces) {
+        expect(contrast(accent, surface), `${token} on a light surface`).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  });
+
   test("the evidence-backed control minimum remains additive", async () => {
     const tokens = await readFile("styles/tokens.css", "utf8");
     const controls = await readFile("styles/candidate/controls.css", "utf8");
@@ -110,7 +168,7 @@ describe("CSS contract", () => {
 
     for (const selector of [
       ".oc-input:hover:not(:disabled)",
-      ".oc-checkbox:hover:not(:disabled)",
+      '.oc-checkbox:hover:not(:disabled):not([aria-invalid="true"])',
       ".oc-radio:hover:not(:disabled)",
       ".oc-switch:hover:not(:disabled)",
       ".oc-select:hover:not(:disabled)",
@@ -158,6 +216,40 @@ describe("CSS contract", () => {
     expect(components).toContain('html[data-theme-resolved="light"] .oc-action-secondary');
     expect(components).toContain("@media (prefers-reduced-motion: reduce)");
     expect(components).toContain("transform: none");
+    expect(
+      ruleDeclarations(
+        components,
+        '.oc-action-primary:active:not(:disabled):not([aria-disabled="true"])',
+      ),
+    ).toContain("background: var(--oc-accent-primary-deep)");
+  });
+
+  test("modal backdrops and dropdown depth consume their semantic tokens", async () => {
+    const [application, lab, preview, themes] = await Promise.all([
+      readFile("styles/candidate/application.css", "utf8"),
+      readFile("preview/lab.css", "utf8"),
+      readFile("preview/preview.css", "utf8"),
+      readFile("styles/themes.css", "utf8"),
+    ]);
+
+    const backdrop = ruleDeclarations(application, ".oc-lightbox::backdrop");
+    expect(backdrop).toContain("background: var(--oc-surface-modal-backdrop)");
+    expect(backdrop).not.toMatch(/rgb\(/);
+
+    const darkTheme = ruleDeclarations(themes, ':root,\nhtml[data-theme="dark"]');
+    const lightTheme = ruleDeclarations(themes, 'html[data-theme="light"]');
+    expect(darkTheme).toContain("--oc-surface-modal-backdrop: rgb(0 0 0 / 0.6)");
+    expect(lightTheme).toContain("--oc-surface-modal-backdrop: rgb(23 23 26 / 0.6)");
+
+    const dropdown = ruleDeclarations(lab, ".oc-dropdown-menu");
+    expect(dropdown).toContain("box-shadow: var(--oc-shadow-md)");
+    expect(dropdown).not.toMatch(/box-shadow:\s*[\s\S]*?rgb\(/);
+    const workbenchDropdown = ruleDeclarations(
+      preview,
+      ".component-workbench-frame .oc-dropdown-menu",
+    );
+    expect(workbenchDropdown).toContain("box-shadow: var(--oc-shadow-md)");
+    expect(workbenchDropdown).not.toMatch(/rgb\(/);
   });
 
   test("candidate entry points are isolated by responsibility", async () => {
@@ -800,6 +892,26 @@ describe("CSS contract", () => {
 
     expect(controls).toMatch(/\.oc-input\[aria-invalid="true"\][\s\S]*?--oc-status-error-fg/);
     expect(controls).toMatch(/\.oc-checkbox:indeterminate[\s\S]*?--oc-accent-primary/);
+    expect(ruleDeclarations(controls, ".oc-checkbox:active:not(:disabled)")).toContain(
+      "transform: scale(0.96)",
+    );
+    expect(ruleDeclarations(controls, '.oc-checkbox[aria-invalid="true"]')).toContain(
+      "border-color: var(--oc-status-error-fg)",
+    );
+    expect(controls).toContain(
+      '.oc-checkbox:hover:not(:disabled):not([aria-invalid="true"])',
+    );
+    expect(controls).toMatch(
+      /\.oc-radio-group\[aria-invalid="true"\] \.oc-radio[\s\S]*?--oc-status-error-fg/,
+    );
+    expect(controls).toContain(".oc-radio:hover:not(:disabled)");
+    expect(controls).not.toContain('.oc-radio[aria-invalid="true"]');
+    expect(
+      ruleDeclarations(
+        controls,
+        '.oc-radio-group[aria-invalid="true"] .oc-radio:hover:not(:disabled)',
+      ),
+    ).toContain("border-color: var(--oc-status-error-fg)");
     expect(controls).toMatch(/@media \(forced-colors: active\)[\s\S]*?appearance: auto/);
     expect(controls).toMatch(/\.oc-switch:checked[\s\S]*?--oc-accent-primary/);
     expect(feedback).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?animation: none/);
@@ -823,6 +935,16 @@ describe("CSS contract", () => {
       /data-navigation="compact"[\s\S]*?\.oc-app-navigation-item-label[\s\S]*?clip-path: inset\(50%\)/,
     );
     expect(application).toContain('.oc-model-providers button[aria-pressed="true"]');
+    expect(application).toMatch(
+      /\.oc-option-card:has\(input:disabled\)[\s\S]*?cursor: not-allowed[\s\S]*?opacity: 0\.55/,
+    );
+    expect(application).toMatch(
+      /\.oc-model-reasoning-range:hover:not\(:disabled\)::-[\s\S]*?--oc-surface-interactive-hover/,
+    );
+    expect(application).toMatch(
+      /\.oc-model-reasoning-range:active:not\(:disabled\)::-[\s\S]*?transform: scale\(1\.1\)/,
+    );
+    expect(application).not.toContain(".oc-model-reasoning-range:disabled");
     expect(application).toContain('.oc-model-option[aria-pressed="true"]');
     expect(application).not.toContain('.oc-model-option[aria-selected="true"]');
     expect(application).toMatch(
@@ -934,6 +1056,25 @@ describe("CSS contract", () => {
     expect(data).toMatch(/\.oc-table-interactive tbody tr:is\(:hover, :focus-within\)/);
   });
 
+  test("keeps Banner actions and dismiss controls in deliberate responsive grid areas", async () => {
+    const feedback = await readFile("styles/candidate/feedback.css", "utf8");
+
+    expect(
+      ruleDeclarations(
+        feedback,
+        ".oc-banner:has(.oc-banner-action):has(.oc-banner-dismiss)",
+      ),
+    ).toContain("grid-template-columns: auto minmax(0, 1fr) auto auto");
+    expect(feedback).toMatch(
+      /@media \(max-width: 42rem\)[\s\S]*?\.oc-banner > :is\(button, a\):not\(\.oc-banner-dismiss\)\s*\{[^}]*grid-column: 2 \/ -1;[^}]*grid-row: 2;/,
+    );
+    expect(feedback).not.toContain(".oc-banner > :last-child");
+    expect(feedback).toMatch(
+      /@media \(max-width: 42rem\)[\s\S]*?\.oc-banner-dismiss\s*\{[^}]*grid-column: 3;[^}]*grid-row: 1;/,
+    );
+    expect(feedback).not.toContain(".oc-banner > :last-child");
+  });
+
   test("the default import graph cannot load candidates or lab styles", async () => {
     const aggregate = await readFile("styles/styles.css", "utf8");
     const packageJson = JSON.parse(await readFile("package.json", "utf8"));
@@ -979,24 +1120,41 @@ describe("CSS contract", () => {
     expect(output).toContain(".dark\\:bg-bg");
   });
 
+  test("the Tailwind adapter publishes the complete informational status pair", async () => {
+    const adapter = await readFile("styles/tailwind.css", "utf8");
+    const compiler = await compile(`${adapter}\n@tailwind utilities;`);
+    const output = compiler.build(["bg-status-info-bg", "text-status-info-fg"]);
+
+    expect(output).toContain("var(--oc-status-info-bg)");
+    expect(output).toContain("var(--oc-status-info-fg)");
+  });
+
   test("the release does not include restricted binary assets", async () => {
     const forbiddenExtensions = /\.(otf|ttf|woff2?|png|jpe?g|gif|webp|avif)$/i;
     const files = await readdir(".", { recursive: true });
+    const allowedPreviewAssets = [
+      "preview/assets/openclaw-mark.png",
+      "preview/assets/openclaw-mark-hover.png",
+      "preview/assets/carapace-lobster-artwork.avif",
+      "preview/assets/carapace-shrimp-artwork.avif",
+      "preview/assets/carapace-hermit-artwork.avif",
+      "preview/assets/carapace-home-artwork.avif",
+      "preview/public/carapace-og.png",
+    ];
+    const rights = await readFile("preview/assets/RIGHTS.md", "utf8");
+
+    for (const path of allowedPreviewAssets) {
+      expect(rights).toContain(`\`${path}\``);
+    }
+    expect(rights).toContain("preview/avatar-fixtures.js");
+    expect(rights).toContain("must not be restored");
     expect(
       files.filter(
         (path) =>
           !path.startsWith(".git/") &&
           !path.startsWith("node_modules/") &&
           !path.startsWith("dist/") &&
-          path !== "preview/assets/openclaw-mark.png" &&
-          path !== "preview/assets/openclaw-mark-hover.png" &&
-          path !== "preview/assets/user-vincentkoc.png" &&
-          path !== "preview/assets/user-steipete.png" &&
-          path !== "preview/assets/carapace-lobster-artwork.avif" &&
-          path !== "preview/assets/carapace-shrimp-artwork.avif" &&
-          path !== "preview/assets/carapace-hermit-artwork.avif" &&
-          path !== "preview/assets/carapace-home-artwork.avif" &&
-          path !== "preview/public/carapace-og.png" &&
+          !allowedPreviewAssets.includes(path) &&
           forbiddenExtensions.test(path),
       ),
     ).toEqual([]);

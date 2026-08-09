@@ -1,6 +1,5 @@
 import { avatarFixtureUrl, clawAvatarUrl } from "./avatar-fixtures.js";
 
-const userAvatarUrl = new URL("./assets/user-vincentkoc.png", import.meta.url).href;
 import { agentAvatarMarkup } from "./agent-identity.js";
 
 export { avatarFixtureUrl } from "./avatar-fixtures.js";
@@ -72,12 +71,12 @@ export const avatarWorkbenchExamples = [
   {
     id: "user-photo",
     label: "User",
-    purpose: "Photo-backed identity for the signed-in person; falls back to the generator offline.",
-    markup: `<span class="oc-avatar" role="img" aria-label="Vincent">
-  <img class="oc-avatar-image" src="user.png" alt="" width="40" height="40" />
+    purpose: "Generated identity for the signed-in person without a redistributable portrait.",
+    markup: `<span class="oc-avatar oc-avatar-pixel" role="img" aria-label="Shelly">
+  <img class="oc-avatar-image" src="generated-avatar.svg" alt="" width="40" height="40" />
 </span>`,
-    previewMarkup: `<span class="oc-avatar" role="img" aria-label="Vincent">
-  <img class="oc-avatar-image" src="${userAvatarUrl}" alt="" width="40" height="40" />
+    previewMarkup: `<span class="oc-avatar oc-avatar-pixel" role="img" aria-label="Shelly">
+  <img class="oc-avatar-image" src="${avatarFixtureUrl("Shelly")}" alt="" width="40" height="40" />
 </span>`,
   },
   avatarExample(
@@ -184,6 +183,14 @@ export const buttonWorkbenchExamples = [
 </button>`,
   ),
   componentExample(
+    "icon",
+    "Icon",
+    "A compact icon-only action with the same visible states and an accessible name.",
+    `<button class="oc-button oc-button-secondary oc-button-icon" type="button" aria-label="Add item">
+  +
+</button>`,
+  ),
+  componentExample(
     "disabled",
     "Disabled",
     "An unavailable action whose reason is visible or immediately inferable.",
@@ -224,8 +231,8 @@ const componentWorkbenchReferences = {
       {
         title: "When to use",
         items: [
-          "Use Button for in-place actions; use Link when activating the control changes location.",
-          "Keep one primary action in each local decision group.",
+          "Use this Lab study to compare native button semantics with the stable Action hierarchy.",
+          "Use the stable .oc-action contract in consumer code; use links when activation changes location.",
         ],
       },
       {

@@ -87,6 +87,10 @@
   line-height: 1.45;
 }
 
+.oc-banner:has(.oc-banner-action):has(.oc-banner-dismiss) {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+}
+
 .oc-banner-indicator {
   width: 0.375rem;
   height: 0.375rem;
@@ -253,17 +257,6 @@
   to { transform: translateX(225%); }
 }
 
-@media (max-width: 42rem) {
-  .oc-banner {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .oc-banner > :last-child:not(.oc-banner-content) {
-    width: 100%;
-    grid-column: 1 / -1;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .oc-skeleton-line::after {
     animation: none;
@@ -275,8 +268,8 @@
 }
 
 /* Banner variants: an adjacent action and an opt-in dismiss affordance.
-   The dismiss control is last in DOM and visual order so the action
-   stays primary; sticky update banners compose these pieces. */
+   Desktop keeps both controls beside the content; narrow layouts keep
+   dismiss available at the top while moving the action below the copy. */
 .oc-banner-action {
   margin-left: auto;
   flex: 0 0 auto;
@@ -284,8 +277,8 @@
 
 .oc-banner-dismiss {
   display: inline-grid;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   flex: 0 0 auto;
   border: 0;
   border-radius: var(--oc-radius-inset);
@@ -307,6 +300,27 @@
 
 .oc-banner-action + .oc-banner-dismiss {
   margin-left: var(--oc-space-1);
+}
+
+@media (max-width: 42rem) {
+  .oc-banner,
+  .oc-banner:has(.oc-banner-action):has(.oc-banner-dismiss) {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .oc-banner > :is(button, a):not(.oc-banner-dismiss) {
+    grid-column: 2 / -1;
+    grid-row: 2;
+    justify-self: start;
+    margin-left: 0;
+  }
+
+  .oc-banner-dismiss {
+    width: 2.75rem;
+    height: 2.75rem;
+    grid-column: 3;
+    grid-row: 1;
+  }
 }
 
 /* Tooltip: promoted from the preview lab after validation across the
