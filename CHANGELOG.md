@@ -4,6 +4,20 @@ Releases are Git tags (`vX.Y.Z`) matching `package.json`; each tag also gets
 auto-generated notes on its GitHub release. This file summarizes the
 user-facing arc per release.
 
+## Unreleased
+
+### Fixes
+
+- Made Banner dismissal return focus safely while preserving generic narrow-screen action layout. Thanks @vyctorbrzezowski.
+- Added bounded Table and disabled/loading Search studies, including a busy state on the updating table region. Thanks @vyctorbrzezowski.
+- Aligned the Button Lab with Action states and kept its accessible icon-only specimen compact. Thanks @vyctorbrzezowski.
+- Added hover feedback for available panel tabs on hover-capable pointers while preserving selected and disabled states. Thanks @vyctorbrzezowski.
+- Completed rendered invalid, active, and disabled form-control states while removing speculative state selectors and binders. Thanks @vyctorbrzezowski.
+- Clarified semantic, product, and component stylesheet ownership and moved preview status labels onto the canonical Badge primitive. Thanks @vyctorbrzezowski.
+- Kept native Date Picker values legible on light preview canvases without losing accent-colored focus feedback. Thanks @vyctorbrzezowski.
+- Restored AA contrast for light-theme primary actions while keeping modal backdrops visually isolating. Thanks @vyctorbrzezowski.
+- Replaced preview portraits without redistribution records with deterministic generated identities and documented the rights for every remaining preview image. Thanks @vyctorbrzezowski.
+
 ## 0.6.0 — 2026-07-29
 
 Shared utility primitives and canonical application themes.
