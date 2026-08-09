@@ -2364,6 +2364,18 @@ a.oc-layer-card-primary:hover {
   border-left: 1px solid var(--oc-border-subtle);
 }
 
+.oc-table-wrap[data-workbench-table-bounded] {
+  max-height: 14rem;
+  overflow: auto;
+}
+
+.oc-table-wrap[data-workbench-table-bounded] .oc-table thead th {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  background: var(--oc-bg-elevated);
+}
+
 .oc-table-of-contents-title {
   margin: 0 0 var(--oc-space-3);
   color: var(--oc-text-muted);

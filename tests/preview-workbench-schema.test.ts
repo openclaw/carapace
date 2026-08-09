@@ -167,12 +167,25 @@ describe("workbench schema contracts", () => {
       { id: "chrome", label: "Toolbar and footer", type: "toggle" },
       { id: "selected", label: "Rows selected", type: "toggle" },
       { id: "expandable", label: "Expandable rows", type: "toggle" },
+      { id: "bounded", label: "Bounded viewport", type: "toggle" },
+      {
+        id: "searchState",
+        label: "Search state",
+        type: "choice",
+        options: [
+          { label: "Default", value: "default" },
+          { label: "Disabled", value: "disabled" },
+          { label: "Loading", value: "loading" },
+        ],
+      },
     ]);
     expect(normalizeWorkbenchState(definition, { interactive: true })).toEqual({
       interactive: true,
       chrome: false,
       selected: false,
       expandable: false,
+      bounded: false,
+      searchState: "default",
     });
     expect(normalizeWorkbenchState(definition, { interactive: "yes" })).toMatchObject({
       interactive: false,

@@ -8,6 +8,7 @@ user-facing arc per release.
 
 ### Fixes
 
+- Added bounded Table and disabled/loading Search studies, including a busy state on the updating table region. Thanks @vyctorbrzezowski.
 - Aligned the Button Lab with Action states and kept its accessible icon-only specimen compact. Thanks @vyctorbrzezowski.
 - Added hover feedback for available panel tabs on hover-capable pointers while preserving selected and disabled states. Thanks @vyctorbrzezowski.
 - Completed rendered invalid, active, and disabled form-control states while removing speculative state selectors and binders. Thanks @vyctorbrzezowski.
