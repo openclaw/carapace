@@ -599,7 +599,7 @@ export function tableWorkbenchMarkup({
   const expanderHeader = expandable ? '<th scope="col"><span class="sr-only">Details</span></th>' : "";
   const open_shell = chrome ? `<div class="oc-table-shell">` : "";
   const close_shell = chrome ? `</div>` : "";
-  return `${open_shell}${toolbar}<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0"${bounded ? " data-workbench-table-bounded" : ""}>
+  return `${open_shell}${toolbar}<div class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0"${normalizedSearchState === "loading" ? ' aria-busy="true"' : ""}${bounded ? " data-workbench-table-bounded" : ""}>
   <table class="oc-table${modifier}">
     <caption class="sr-only">${caption}</caption>
     <thead><tr>${expanderHeader}${sortableHeader}<th scope="col">Status</th><th scope="col">Updated</th>${actionHeader}</tr></thead>

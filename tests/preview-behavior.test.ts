@@ -377,6 +377,9 @@ describe("preview behavior", () => {
     );
     expect(disabledSearch).not.toContain("oc-loader-spinner");
     expect(loadingSearch).toContain('class="oc-search-field" aria-busy="true"');
+    expect(loadingSearch).toContain(
+      'class="oc-table-wrap" role="region" aria-label="Component status" tabindex="0" aria-busy="true"',
+    );
     expect(loadingSearch).toContain("oc-loader-spinner");
     expect(loadingSearch).toContain(
       '</label><span class="sr-only" id="table-search-status" role="status">Searching components…</span>',
