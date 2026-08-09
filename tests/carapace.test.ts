@@ -1066,8 +1066,9 @@ describe("CSS contract", () => {
       ),
     ).toContain("grid-template-columns: auto minmax(0, 1fr) auto auto");
     expect(feedback).toMatch(
-      /@media \(max-width: 42rem\)[\s\S]*?\.oc-banner-action\s*\{[^}]*grid-column: 2 \/ -1;[^}]*grid-row: 2;/,
+      /@media \(max-width: 42rem\)[\s\S]*?\.oc-banner > :is\(button, a\):not\(\.oc-banner-dismiss\)\s*\{[^}]*grid-column: 2 \/ -1;[^}]*grid-row: 2;/,
     );
+    expect(feedback).not.toContain(".oc-banner > :last-child");
     expect(feedback).toMatch(
       /@media \(max-width: 42rem\)[\s\S]*?\.oc-banner-dismiss\s*\{[^}]*grid-column: 3;[^}]*grid-row: 1;/,
     );

@@ -308,7 +308,7 @@
     grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
-  .oc-banner-action {
+  .oc-banner > :is(button, a):not(.oc-banner-dismiss) {
     grid-column: 2 / -1;
     grid-row: 2;
     justify-self: start;
