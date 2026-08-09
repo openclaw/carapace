@@ -24,10 +24,55 @@ function registerView(view) {
   registeredViews.add(view);
 }
 
+export function positionDropdownMenu(trigger, menu, view = menu?.ownerDocument?.defaultView) {
+  if (!view || menu?.hidden || !trigger?.getBoundingClientRect || !menu.getBoundingClientRect) {
+    return false;
+  }
+  const margin = 8;
+  const gap = 8;
+  const viewportWidth = view.innerWidth;
+  const viewportHeight = view.innerHeight;
+  menu.removeAttribute("data-placement");
+  menu.removeAttribute("data-align");
+  menu.style?.setProperty("--oc-dropdown-offset-x", "0px");
+  menu.style?.setProperty(
+    "--oc-dropdown-max-width",
+    `${Math.max(0, viewportWidth - margin * 2)}px`,
+  );
+
+  const triggerRect = trigger.getBoundingClientRect();
+  const menuRect = menu.getBoundingClientRect();
+  const availableAbove = Math.max(0, triggerRect.top - gap - margin);
+  const availableBelow = Math.max(0, viewportHeight - triggerRect.bottom - gap - margin);
+  const menuHeight = Math.max(menu.scrollHeight || 0, menuRect.height || 0);
+  const placement = menuHeight > availableBelow && availableAbove > availableBelow
+    ? "top"
+    : "bottom";
+  const offsetX = menuRect.left < margin
+    ? margin - menuRect.left
+    : menuRect.right > viewportWidth - margin
+      ? viewportWidth - margin - menuRect.right
+      : 0;
+  menu.setAttribute("data-placement", placement);
+  menu.setAttribute("data-align", offsetX > 0 ? "start" : "end");
+  menu.style?.setProperty("--oc-dropdown-offset-x", `${offsetX}px`);
+  menu.style?.setProperty(
+    "--oc-dropdown-max-height",
+    `${placement === "top" ? availableAbove : availableBelow}px`,
+  );
+  return true;
+}
+
+export function observeDropdownPosition(owner, view, reposition) {
+  if (!owner || !view || typeof reposition !== "function") return false;
+  registerView(view);
+  dropdownPositions.set(owner, reposition);
+  return true;
+}
+
 export function bindDropdowns(root = document) {
   const dropdowns = [...root.querySelectorAll("[data-dropdown]")];
   const view = root.defaultView || globalThis.window;
-  registerView(view);
   const schedule = root.defaultView?.queueMicrotask?.bind(root.defaultView)
     || globalThis.queueMicrotask
     || ((callback) => Promise.resolve().then(callback));
@@ -42,43 +87,7 @@ export function bindDropdowns(root = document) {
     const menuItems = () => allMenuItems()
       .filter((item) => !item.disabled && item.getAttribute?.("aria-disabled") !== "true");
     let closing = false;
-    const position = () => {
-      if (!view || menu.hidden || !trigger.getBoundingClientRect || !menu.getBoundingClientRect) {
-        return;
-      }
-      const margin = 8;
-      const gap = 8;
-      const viewportWidth = view.innerWidth;
-      const viewportHeight = view.innerHeight;
-      menu.removeAttribute("data-placement");
-      menu.removeAttribute("data-align");
-      menu.style?.setProperty("--oc-dropdown-offset-x", "0px");
-      menu.style?.setProperty(
-        "--oc-dropdown-max-width",
-        `${Math.max(0, viewportWidth - margin * 2)}px`,
-      );
-
-      const triggerRect = trigger.getBoundingClientRect();
-      const menuRect = menu.getBoundingClientRect();
-      const availableAbove = Math.max(0, triggerRect.top - gap - margin);
-      const availableBelow = Math.max(0, viewportHeight - triggerRect.bottom - gap - margin);
-      const menuHeight = Math.max(menu.scrollHeight || 0, menuRect.height || 0);
-      const placement = menuHeight > availableBelow && availableAbove > availableBelow
-        ? "top"
-        : "bottom";
-      const offsetX = menuRect.left < margin
-        ? margin - menuRect.left
-        : menuRect.right > viewportWidth - margin
-          ? viewportWidth - margin - menuRect.right
-          : 0;
-      menu.setAttribute("data-placement", placement);
-      menu.setAttribute("data-align", offsetX > 0 ? "start" : "end");
-      menu.style?.setProperty("--oc-dropdown-offset-x", `${offsetX}px`);
-      menu.style?.setProperty(
-        "--oc-dropdown-max-height",
-        `${placement === "top" ? availableAbove : availableBelow}px`,
-      );
-    };
+    const position = () => positionDropdownMenu(trigger, menu, view);
     const repositionIfOpen = () => {
       if (!menu.hidden) position();
     };
@@ -198,7 +207,7 @@ export function bindDropdowns(root = document) {
     root.addEventListener("click", (event) => {
       if (!dropdown.contains(event.target)) close();
     });
-    dropdownPositions.set(dropdown, repositionIfOpen);
+    observeDropdownPosition(dropdown, view, repositionIfOpen);
   }
 
   return dropdowns.length;

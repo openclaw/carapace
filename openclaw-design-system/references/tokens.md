@@ -13,6 +13,7 @@ to `@openclaw/carapace`.
 | Semantic | `--oc-bg-*`, `--oc-text-*`, `--oc-accent-*` | Theme-aware UI intent |
 | Scale | `--oc-space-*`, `--oc-font-size-*`, `--oc-radius-*` | Shared dimensions |
 | Motion | `--oc-duration-*`, `--oc-ease-*` | Shared interaction timing |
+| Layer | `--oc-layer-*` | Popover and non-modal notification stacking roles |
 | Product | `--oc-status-*`, `--oc-input-*`, `--oc-diff-*` | Opt-in operational UI |
 | Consumer alias | Unprefixed legacy names | Migration compatibility only |
 

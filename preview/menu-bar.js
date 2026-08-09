@@ -1,5 +1,8 @@
+import { observeDropdownPosition, positionDropdownMenu } from "./dropdown.js";
+
 export function bindMenuBars(root = document) {
   const menuBars = [...root.querySelectorAll("[data-menubar]")];
+  const view = root.defaultView || globalThis.window;
 
   for (const menuBar of menuBars) {
     const items = [...menuBar.querySelectorAll("[data-menubar-item]")];
@@ -33,6 +36,7 @@ export function bindMenuBars(root = document) {
       closeAll();
       menu.hidden = false;
       item.setAttribute("aria-expanded", "true");
+      positionDropdownMenu(item, menu, view);
       entries[(itemIndex + entries.length) % entries.length].focus();
       return true;
     };
@@ -46,6 +50,7 @@ export function bindMenuBars(root = document) {
     };
 
     items.forEach((item, index) => {
+      const dropdown = item.closest?.("[data-dropdown]");
       item.tabIndex = index === 0 ? 0 : -1;
       item.addEventListener("focus", () => setCurrent(item));
       item.addEventListener("click", () => setCurrent(item));
@@ -76,6 +81,10 @@ export function bindMenuBars(root = document) {
           if (!openItem(next)) next.focus();
         });
       }
+      observeDropdownPosition(dropdown, view, () => {
+        const menu = menuFor(item);
+        if (menu && !menu.hidden) positionDropdownMenu(item, menu, view);
+      });
     });
   }
 

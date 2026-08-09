@@ -802,6 +802,9 @@ describe("interaction widget behavior", () => {
       setAttribute(name, value) {
         this.attributes.set(name, value);
       }
+      removeAttribute(name) {
+        this.attributes.delete(name);
+      }
       getAttribute(name) {
         return this.attributes.get(name);
       }
@@ -813,14 +816,24 @@ describe("interaction widget behavior", () => {
     const menuItems = [new Element(), new Element()];
     const menu = new Element();
     menu.hidden = true;
+    menu.scrollHeight = 160;
+    menu.style = { setProperty() {} };
+    menu.getBoundingClientRect = () => ({ top: 124, right: 220, bottom: 164, left: 40, height: 40 });
     menu.querySelectorAll = () => menuItems;
     const dropdown = { querySelector: () => menu };
     const first = new Element();
     first.closest = () => dropdown;
+    first.getBoundingClientRect = () => ({ top: 110, right: 120, bottom: 134, left: 40 });
     const second = new Element();
     second.closest = () => null;
     const menubar = { querySelectorAll: () => [first, second] };
-    const root = { querySelectorAll: () => [menubar] };
+    const view = {
+      innerWidth: 240,
+      innerHeight: 180,
+      addEventListener() {},
+    };
+    const root = { defaultView: view, querySelectorAll: () => [menubar] };
+    view.document = { querySelectorAll: () => [dropdown] };
 
     expect(bindMenuBars(root)).toBe(1);
     expect([first.tabIndex, second.tabIndex]).toEqual([0, -1]);
@@ -834,6 +847,7 @@ describe("interaction widget behavior", () => {
     first.dispatchEvent(keyboardEvent("ArrowDown"));
     expect(menu.hidden).toBe(false);
     expect(first.getAttribute("aria-expanded")).toBe("true");
+    expect(menu.getAttribute("data-placement")).toBe("top");
     expect(menuItems[0].focused).toBe(true);
   });
   test("roves through toolbar controls and toggles pressed state", () => {

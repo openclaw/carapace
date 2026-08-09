@@ -1057,7 +1057,7 @@
   --oc-dropdown-offset-x: 0px;
 
   position: absolute;
-  z-index: 20;
+  z-index: var(--oc-layer-popover);
   top: calc(100% + var(--oc-space-2));
   right: 0;
   display: grid;

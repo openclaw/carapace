@@ -99,6 +99,12 @@ export const tokenGroups = [
     description: "Three elevation levels for surfaces that genuinely need depth.",
   },
   {
+    id: "layer",
+    label: "Layer",
+    sample: "layer",
+    description: "Shared stacking roles for popovers and non-modal notifications.",
+  },
+  {
     id: "motion",
     label: "Motion",
     sample: "motion",
@@ -223,6 +229,8 @@ export const tokenDefinitions = [
   { variable: "--oc-shadow-sm", group: "shadow" },
   { variable: "--oc-shadow-md", group: "shadow" },
   { variable: "--oc-shadow-lg", group: "shadow" },
+  { variable: "--oc-layer-popover", group: "layer" },
+  { variable: "--oc-layer-notification", group: "layer" },
   { variable: "--oc-duration-fast", group: "motion" },
   { variable: "--oc-duration-ui", group: "motion" },
   { variable: "--oc-ease-out", group: "motion" },
