@@ -118,6 +118,30 @@ describe("workbench schema contracts", () => {
       dismissible: false,
     });
   });
+  test("keeps the Dialog narrow-screen full-screen specimen opt-in", () => {
+    const definition = getWorkbenchDefinition("primitive-dialog");
+
+    expect(definition?.controls).toEqual([
+      {
+        id: "fullScreenNarrow",
+        label: "Full screen on narrow viewport",
+        type: "toggle",
+      },
+    ]);
+    expect(normalizeWorkbenchState(definition, {})).toEqual({ fullScreenNarrow: false });
+    expect(normalizeWorkbenchState(definition, { fullScreenNarrow: true })).toEqual({
+      fullScreenNarrow: true,
+    });
+    expect(definition?.markup({ fullScreenNarrow: false })).not.toContain(
+      "data-workbench-full-screen",
+    );
+    expect(definition?.markup({ fullScreenNarrow: true })).toContain(
+      'data-workbench-full-screen="true"',
+    );
+    expect(definition?.markup({ fullScreenNarrow: true })).toContain(
+      '<dialog class="oc-dialog" open',
+    );
+  });
   test("dismisses the Banner specimen without leaving focus on the removed control", () => {
     const definition = getWorkbenchDefinition("primitive-banner");
     const banner = { removed: false, remove() { this.removed = true; } };
