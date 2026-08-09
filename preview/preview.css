@@ -2357,36 +2357,6 @@ input[type="checkbox"] {
   color: var(--oc-text-primary);
 }
 
-.badge {
-  display: inline-flex;
-  min-height: 24px;
-  align-items: center;
-  padding: 0 8px;
-  border-radius: var(--oc-radius-full);
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.badge-success {
-  background: var(--oc-status-success-bg);
-  color: var(--oc-status-success-fg);
-}
-
-.badge-warning {
-  background: var(--oc-status-warning-bg);
-  color: var(--oc-status-warning-fg);
-}
-
-.badge-error {
-  background: var(--oc-status-error-bg);
-  color: var(--oc-status-error-fg);
-}
-
-.badge-info {
-  background: var(--oc-status-info-bg);
-  color: var(--oc-status-info-fg);
-}
-
 .product-toolbar {
   display: flex;
   justify-content: space-between;
