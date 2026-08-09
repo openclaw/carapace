@@ -8,6 +8,7 @@ user-facing arc per release.
 
 ### Fixes
 
+- Coordinated one active Tooltip per view and restored a still-focused tooltip after a temporary hover competitor closes. Thanks @vyctorbrzezowski.
 - Kept Dropdown and Menu Bar actions inside constrained viewports and introduced shared popover/notification layer roles. Thanks @vyctorbrzezowski.
 - Made Banner dismissal return focus safely while preserving generic narrow-screen action layout. Thanks @vyctorbrzezowski.
 - Added bounded Table and disabled/loading Search studies, including a busy state on the updating table region. Thanks @vyctorbrzezowski.

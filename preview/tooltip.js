@@ -44,20 +44,32 @@ export function bindTooltips(root = document) {
       else if (rect.right > view.innerWidth - 8) content.setAttribute("data-align", "end");
       else content.setAttribute("data-align", "center");
     };
-    const show = () => {
-      if (escapeSuppressed) return;
+    const eligible = () => hovered || focused;
+    const show = ({ previous = null } = {}) => {
+      if (escapeSuppressed || !eligible()) return false;
       tooltip.removeAttribute("data-suppressed");
       const active = activeTooltips.get(activeScope);
-      if (active?.tooltip !== tooltip) active?.hide({ suppress: true });
+      let preempted = previous;
+      if (active?.tooltip !== tooltip) {
+        if (active?.eligible()) preempted = active;
+        active?.hide({ suppress: true, restore: false });
+      }
       position();
       content.setAttribute("data-open", "");
-      activeTooltips.set(activeScope, { tooltip, hide });
+      activeTooltips.set(activeScope, { tooltip, show, hide, eligible, previous: preempted });
+      return true;
     };
-    const hide = ({ suppress = false } = {}) => {
+    const hide = ({ suppress = false, restore = true } = {}) => {
       if (suppress) tooltip.setAttribute("data-suppressed", "");
       content.removeAttribute("data-open");
-      if (activeTooltips.get(activeScope)?.tooltip === tooltip) {
+      const active = activeTooltips.get(activeScope);
+      const previous = active?.tooltip === tooltip ? active.previous : null;
+      if (active?.tooltip === tooltip) {
         activeTooltips.delete(activeScope);
+      }
+      if (restore && previous?.eligible()) {
+        previous.tooltip.removeAttribute("data-suppressed");
+        previous.show({ previous: previous.previous });
       }
     };
     const repositionIfOpen = () => {
@@ -67,7 +79,7 @@ export function bindTooltips(root = document) {
       if (hovered || focused) return;
       escapeSuppressed = false;
       tooltip.removeAttribute("data-suppressed");
-      hide();
+      hide({ restore: true });
     };
 
     tooltip.addEventListener("pointerenter", () => {
@@ -92,7 +104,7 @@ export function bindTooltips(root = document) {
       event.preventDefault();
       escapeSuppressed = true;
       tooltip.setAttribute("data-suppressed", "");
-      hide();
+      hide({ restore: false });
     });
     tooltipPositions.set(tooltip, repositionIfOpen);
     boundTooltips.add(tooltip);

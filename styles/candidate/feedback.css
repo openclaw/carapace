@@ -350,7 +350,7 @@
 
 .oc-tooltip-content {
   position: absolute;
-  z-index: 10;
+  z-index: var(--oc-layer-popover);
   bottom: calc(100% + var(--oc-space-2));
   left: 50%;
   width: max-content;

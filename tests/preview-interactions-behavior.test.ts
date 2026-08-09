@@ -1103,10 +1103,17 @@ describe("interaction widget behavior", () => {
     viewHandlers.resize[0]();
     expect(measurementCount).toBe(2);
 
+    tooltip.dispatchEvent(new Event("focusin"));
     tooltipTwo.dispatchEvent(new Event("pointerenter"));
     expect(content.getAttribute("data-open")).toBeUndefined();
     expect(tooltip.getAttribute("data-suppressed")).toBe("");
     expect(contentTwo.getAttribute("data-open")).toBe("");
+    tooltipTwo.dispatchEvent(new Event("pointerleave"));
+    expect(contentTwo.getAttribute("data-open")).toBeUndefined();
+    expect(tooltip.getAttribute("data-suppressed")).toBeUndefined();
+    expect(content.getAttribute("data-open")).toBe("");
+
+    tooltipTwo.dispatchEvent(new Event("pointerenter"));
     tooltip.dispatchEvent(new Event("focusin"));
     expect(contentTwo.getAttribute("data-open")).toBeUndefined();
     expect(tooltipTwo.getAttribute("data-suppressed")).toBe("");
