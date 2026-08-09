@@ -2648,6 +2648,41 @@
   border-radius: var(--oc-radius-round);
   background: var(--oc-text-primary);
   box-shadow: 0 0 0 1px var(--oc-border-strong);
+  transition:
+    box-shadow var(--oc-duration-fast) var(--oc-ease-out),
+    transform var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-model-reasoning-range::-moz-range-thumb {
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 2px solid var(--oc-bg-elevated);
+  border-radius: var(--oc-radius-round);
+  background: var(--oc-text-primary);
+  box-shadow: 0 0 0 1px var(--oc-border-strong);
+  transition:
+    box-shadow var(--oc-duration-fast) var(--oc-ease-out),
+    transform var(--oc-duration-fast) var(--oc-ease-out);
+}
+
+.oc-model-reasoning-range:hover:not(:disabled)::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 1px var(--oc-border-strong),
+    0 0 0 4px var(--oc-surface-interactive-hover);
+}
+
+.oc-model-reasoning-range:hover:not(:disabled)::-moz-range-thumb {
+  box-shadow:
+    0 0 0 1px var(--oc-border-strong),
+    0 0 0 4px var(--oc-surface-interactive-hover);
+}
+
+.oc-model-reasoning-range:active:not(:disabled)::-webkit-slider-thumb {
+  transform: scale(1.1);
+}
+
+.oc-model-reasoning-range:active:not(:disabled)::-moz-range-thumb {
+  transform: scale(1.1);
 }
 
 .oc-model-reasoning-range:focus-visible {
@@ -5170,8 +5205,13 @@
   cursor: pointer;
 }
 
-.oc-option-card:hover {
+.oc-option-card:hover:not(:has(input:disabled)) {
   border-color: var(--oc-border-strong);
+}
+
+.oc-option-card:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .oc-option-card:has(input:checked) {
@@ -5364,7 +5404,7 @@
 }
 
 .oc-lightbox::backdrop {
-  background: rgb(0 0 0 / 0.6);
+  background: var(--oc-surface-modal-backdrop);
 }
 
 .oc-lightbox-header {
