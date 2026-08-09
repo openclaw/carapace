@@ -764,6 +764,9 @@ describe("preview contracts", () => {
       )?.[1] ?? "";
     expect(hover).toContain("background: var(--oc-surface-interactive-hover);");
     expect(hover).toContain("color: var(--oc-text-primary);");
+    expect(application).toMatch(
+      /@media \(hover: hover\)[\s\S]*?\.oc-panel-tab:hover:not\(:disabled\)/,
+    );
     const disabled =
       application.match(
         /\.oc-panel-tab:is\(:disabled, \[aria-disabled="true"\]\)\s*\{([^}]*)\}/,
@@ -776,7 +779,6 @@ describe("preview contracts", () => {
       'class="oc-panel-tab" type="button" role="tab" aria-selected="false" disabled',
     );
   });
-  test("associates control errors and demonstrates disabled option cards", async () => {
   test("associates control errors and demonstrates disabled option cards", async () => {
     const checkbox = getReferenceContent("primitive-checkbox");
     expect(checkbox).toContain(

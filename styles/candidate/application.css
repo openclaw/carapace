@@ -4938,11 +4938,13 @@
   color: var(--oc-text-primary);
 }
 
-.oc-panel-tab:hover:not(:disabled):not([aria-disabled="true"]):not([aria-selected="true"]):not(
-    [aria-current="true"]
-  ) {
-  background: var(--oc-surface-interactive-hover);
-  color: var(--oc-text-primary);
+@media (hover: hover) {
+  .oc-panel-tab:hover:not(:disabled):not([aria-disabled="true"]):not([aria-selected="true"]):not(
+      [aria-current="true"]
+    ) {
+    background: var(--oc-surface-interactive-hover);
+    color: var(--oc-text-primary);
+  }
 }
 
 .oc-panel-tab:is(:disabled, [aria-disabled="true"]) {
