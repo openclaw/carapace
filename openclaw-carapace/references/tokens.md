@@ -14,6 +14,12 @@ exports when the consumer must control reset and adapter order.
 | Product | `--oc-status-*`, `--oc-input-*`, `--oc-diff-*` | Opt-in operational UI |
 | Consumer alias | Unprefixed legacy names | Migration compatibility only |
 
+Component styles consume semantic and product roles in their owning
+stylesheet; Carapace does not define a global component-token namespace. When
+a component genuinely needs a local custom property, scope it to the component
+root and document the override point beside that component rather than turning
+it into a second palette.
+
 ## Semantic Choices
 
 - Page background: `--oc-bg-page`
@@ -27,6 +33,10 @@ exports when the consumer must control reset and adapter order.
   `--oc-accent-primary-hover`
 - Secondary accent: `--oc-accent-secondary`
 - Neutral control backgrounds: `--oc-control-bg`, `--oc-control-bg-hover`
+- Modal isolation: `--oc-surface-modal-backdrop`; ordinary translucent
+  surfaces continue to use `--oc-surface-overlay`
+- Product fields: `--oc-input-*`; status feedback: paired `--oc-status-*-bg`
+  and `--oc-status-*-fg` roles
 - Subtle, strong, and accent borders: `--oc-border-subtle`,
   `--oc-border-strong`, `--oc-border-accent`
 - Focus: `--oc-focus-ring`

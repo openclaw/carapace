@@ -25,6 +25,8 @@
   --color-status-warning-fg: var(--oc-status-warning-fg);
   --color-status-error-bg: var(--oc-status-error-bg);
   --color-status-error-fg: var(--oc-status-error-fg);
+  --color-status-info-bg: var(--oc-status-info-bg);
+  --color-status-info-fg: var(--oc-status-info-fg);
   --color-input-border: var(--oc-input-border);
   --color-input-bg: var(--oc-input-bg);
   --color-input-placeholder: var(--oc-input-placeholder);
