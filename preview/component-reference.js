@@ -183,6 +183,14 @@ export const buttonWorkbenchExamples = [
 </button>`,
   ),
   componentExample(
+    "icon",
+    "Icon",
+    "A compact icon-only action with the same visible states and an accessible name.",
+    `<button class="oc-button oc-button-secondary oc-button-icon" type="button" aria-label="Add item">
+  +
+</button>`,
+  ),
+  componentExample(
     "disabled",
     "Disabled",
     "An unavailable action whose reason is visible or immediately inferable.",
@@ -223,8 +231,8 @@ const componentWorkbenchReferences = {
       {
         title: "When to use",
         items: [
-          "Use Button for in-place actions; use Link when activating the control changes location.",
-          "Keep one primary action in each local decision group.",
+          "Use this Lab study to compare native button semantics with the stable Action hierarchy.",
+          "Use the stable .oc-action contract in consumer code; use links when activation changes location.",
         ],
       },
       {

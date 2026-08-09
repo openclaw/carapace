@@ -675,6 +675,7 @@ describe("preview contracts", () => {
       "primary",
       "secondary",
       "ghost",
+      "icon",
       "disabled",
     ]);
     expect(reference?.examples).toBe(buttonWorkbenchExamples);
@@ -685,15 +686,45 @@ describe("preview contracts", () => {
         { label: "Primary", state: { variant: "primary" } },
         { label: "Secondary", state: { variant: "secondary" } },
         { label: "Ghost", state: { variant: "ghost" } },
+        { label: "Icon", state: { variant: "icon" } },
         { label: "Disabled", state: { variant: "disabled" } },
       ],
     });
-    expect(allCode.match(/<!-- (Primary|Secondary|Ghost|Disabled) -->/g)).toHaveLength(4);
+    expect(allCode.match(/<!-- (Primary|Secondary|Ghost|Icon|Disabled) -->/g)).toHaveLength(5);
     expect(allCode).not.toContain("...");
     expect(allCode).toContain("oc-button-primary");
     expect(allCode).toContain("oc-button-secondary");
     expect(allCode).toContain("oc-button-ghost");
+    expect(allCode).toContain("oc-button-icon");
+    expect(allCode).toContain('aria-label="Add item"');
     expect(allCode).toContain(" disabled");
+  });
+  test("keeps the Button lab aligned with stable Action without claiming a second contract", async () => {
+    const [lab, preview] = await Promise.all([
+      readFile("preview/lab.css", "utf8"),
+      readFile("preview/preview.css", "utf8"),
+    ]);
+    const content = getReferenceContent("primitive-button");
+    const actionContent = getReferenceContent("primitive-action");
+    const buttonPage = getReferencePage("primitive-button");
+    const base = lab.match(/\.oc-button\s*\{([^}]*)\}/)?.[1] ?? "";
+    const pressed = lab.match(/\.oc-button:active[^\{]*\{([^}]*)\}/)?.[1] ?? "";
+    const iconOnly = lab.match(/\.oc-button-icon\s*\{([^}]*)\}/)?.[1] ?? "";
+
+    expect(base).toContain("padding: var(--oc-space-2) var(--oc-space-4)");
+    expect(base).toContain("font-size: var(--oc-font-size-base)");
+    expect(base).toContain("font-weight: 700");
+    expect(base).toContain("line-height: 1.2");
+    expect(pressed).toContain("transform: scale(0.98)");
+    expect(iconOnly).toContain("width: 2.5rem");
+    expect(iconOnly).toContain("padding: 0");
+    expect(preview).toContain(".primitive-button-list > .oc-button:not(.oc-button-icon)");
+    expect(preview).not.toContain(".primitive-button-list > .oc-button {");
+    expect(buttonPage?.label).toBe("Button");
+    expect(content).toContain("Lab-only button study");
+    expect(content).toContain("Use the stable .oc-action contract in consumer code.");
+    expect(actionContent).toContain("Disabled styling is exported");
+    expect(actionContent).not.toContain("Disabled and loading behavior remain consumer-owned");
   });
   test("renders legacy guidance through the shared Usage contract", async () => {
     const reference = createFallbackComponentWorkbenchReference("Hover, focus, and active", [
