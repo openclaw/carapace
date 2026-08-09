@@ -601,6 +601,22 @@ describe("preview contracts", () => {
     expect(avatar).toContain("Generated pixel identities");
     expect(avatar).toContain("Never rely on the status indicator or animation alone");
   });
+  test("keeps public avatar examples on generated fixtures with named controls", async () => {
+    const sources = await Promise.all(
+      [
+        "preview/agent-components.js",
+        "preview/component-reference.js",
+        "preview/component-workbench-markup.js",
+        "preview/reference-content.js",
+      ].map((path) => readFile(path, "utf8")),
+    );
+    expect(sources.join("\n")).not.toMatch(/assets\/user-(?:steipete|vincentkoc)\.png/);
+
+    const interaction = getReferenceContent("effect-interaction");
+    expect(interaction).toContain(
+      '&lt;button class="oc-avatar-button" type="button" aria-label="Open agent profile"&gt;',
+    );
+  });
   test("keeps Avatar preview, usage, and code variants on one reference model", () => {
     const reference = getComponentWorkbenchReference("primitive-avatar");
     const allCode = formatComponentWorkbenchCode(avatarWorkbenchExamples);

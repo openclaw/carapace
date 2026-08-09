@@ -1060,9 +1060,7 @@
   border: 1px solid var(--oc-border-strong);
   border-radius: var(--oc-radius-surface);
   background: var(--oc-surface-card-strong);
-  box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.04),
-    0 8px 20px -8px rgb(0 0 0 / 0.14);
+  box-shadow: var(--oc-shadow-md);
   list-style: none;
   color: var(--oc-text-primary);
 }
