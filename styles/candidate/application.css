@@ -5352,7 +5352,7 @@
 }
 
 .oc-lightbox::backdrop {
-  background: var(--oc-surface-overlay);
+  background: var(--oc-surface-modal-backdrop);
 }
 
 .oc-lightbox-header {

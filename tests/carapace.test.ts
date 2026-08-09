@@ -224,16 +224,22 @@ describe("CSS contract", () => {
     ).toContain("background: var(--oc-accent-primary-deep)");
   });
 
-  test("candidate overlays and dropdown depth consume semantic tokens", async () => {
-    const [application, lab, preview] = await Promise.all([
+  test("modal backdrops and dropdown depth consume their semantic tokens", async () => {
+    const [application, lab, preview, themes] = await Promise.all([
       readFile("styles/candidate/application.css", "utf8"),
       readFile("preview/lab.css", "utf8"),
       readFile("preview/preview.css", "utf8"),
+      readFile("styles/themes.css", "utf8"),
     ]);
 
     const backdrop = ruleDeclarations(application, ".oc-lightbox::backdrop");
-    expect(backdrop).toContain("background: var(--oc-surface-overlay)");
+    expect(backdrop).toContain("background: var(--oc-surface-modal-backdrop)");
     expect(backdrop).not.toMatch(/rgb\(/);
+
+    const darkTheme = ruleDeclarations(themes, ':root,\nhtml[data-theme="dark"]');
+    const lightTheme = ruleDeclarations(themes, 'html[data-theme="light"]');
+    expect(darkTheme).toContain("--oc-surface-modal-backdrop: rgb(0 0 0 / 0.6)");
+    expect(lightTheme).toContain("--oc-surface-modal-backdrop: rgb(23 23 26 / 0.6)");
 
     const dropdown = ruleDeclarations(lab, ".oc-dropdown-menu");
     expect(dropdown).toContain("box-shadow: var(--oc-shadow-md)");
