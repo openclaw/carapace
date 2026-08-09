@@ -5831,7 +5831,7 @@ body:is([data-preview-page="interface-primitives"], [data-page-kind="example"])
   flex: 0 0 auto;
 }
 
-.primitive-button-list > .oc-button {
+.primitive-button-list > .oc-button:not(.oc-button-icon) {
   width: 100%;
 }
 

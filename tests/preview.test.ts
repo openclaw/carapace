@@ -700,7 +700,10 @@ describe("preview contracts", () => {
     expect(allCode).toContain(" disabled");
   });
   test("keeps the Button lab aligned with stable Action without claiming a second contract", async () => {
-    const lab = await readFile("preview/lab.css", "utf8");
+    const [lab, preview] = await Promise.all([
+      readFile("preview/lab.css", "utf8"),
+      readFile("preview/preview.css", "utf8"),
+    ]);
     const content = getReferenceContent("primitive-button");
     const actionContent = getReferenceContent("primitive-action");
     const buttonPage = getReferencePage("primitive-button");
@@ -715,6 +718,8 @@ describe("preview contracts", () => {
     expect(pressed).toContain("transform: scale(0.98)");
     expect(iconOnly).toContain("width: 2.5rem");
     expect(iconOnly).toContain("padding: 0");
+    expect(preview).toContain(".primitive-button-list > .oc-button:not(.oc-button-icon)");
+    expect(preview).not.toContain(".primitive-button-list > .oc-button {");
     expect(buttonPage?.label).toBe("Button");
     expect(content).toContain("Lab-only button study");
     expect(content).toContain("Use the stable .oc-action contract in consumer code.");

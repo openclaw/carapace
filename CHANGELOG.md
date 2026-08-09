@@ -8,6 +8,7 @@ user-facing arc per release.
 
 ### Fixes
 
+- Aligned the Button Lab with Action states and kept its accessible icon-only specimen compact. Thanks @vyctorbrzezowski.
 - Added hover feedback for available panel tabs on hover-capable pointers while preserving selected and disabled states. Thanks @vyctorbrzezowski.
 - Completed rendered invalid, active, and disabled form-control states while removing speculative state selectors and binders. Thanks @vyctorbrzezowski.
 - Clarified semantic, product, and component stylesheet ownership and moved preview status labels onto the canonical Badge primitive. Thanks @vyctorbrzezowski.
