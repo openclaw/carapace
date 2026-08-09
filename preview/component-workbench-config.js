@@ -31,7 +31,6 @@ import {
   actionWorkbenchMarkup,
   agentChatWorkbenchMarkup,
   agentModes,
-  animateWorkbenchToast,
   appSurfaceWorkbenchMarkup,
   applicationConnectionStates,
   applicationDensities,
@@ -61,7 +60,6 @@ import {
   compactIconMarkup,
   composerStatuses,
   composerWorkbenchMarkup,
-  createWorkbenchToast,
   dialogWorkbenchMarkup,
   emptyStates,
   emptyWorkbenchMarkup,
@@ -132,6 +130,12 @@ import {
   userMessageContent,
   userMessageWorkbenchMarkup,
 } from "./component-workbench-markup.js";
+import {
+  removeWorkbenchToastRegion,
+  showWorkbenchToast,
+  toastLifecycleOptions,
+  toastToneOptions,
+} from "./toast.js";
 
 export const WORKBENCH_ALL_VALUE = "__all__";
 
@@ -1593,12 +1597,28 @@ ${appSurfaceWorkbenchMarkup(state)}
     },
   },
   "primitive-toast": {
-    defaults: { visible: false, dismissible: true },
+    defaults: { visible: false, tone: "neutral", lifecycle: "timed", dismissible: true },
+    normalizeState(state) {
+      if (state.tone === "error") state.lifecycle = "persistent";
+      return state;
+    },
     controls: [
       {
         id: "visible",
         label: "Visible",
         type: "toggle",
+      },
+      {
+        id: "tone",
+        label: "Tone",
+        type: "choice",
+        options: toastToneOptions,
+      },
+      {
+        id: "lifecycle",
+        label: "Lifecycle",
+        type: "choice",
+        options: toastLifecycleOptions,
       },
       {
         id: "dismissible",
@@ -1609,22 +1629,12 @@ ${appSurfaceWorkbenchMarkup(state)}
     markup: toastWorkbenchMarkup,
     render(specimen, state) {
       const workbench = specimen.closest(".component-workbench");
-      workbench?.querySelector(":scope > [data-workbench-toast-portal]")?.remove();
+      removeWorkbenchToastRegion(workbench);
       specimen.innerHTML = `<div class="component-workbench-toast-demo">
-  <button class="oc-button oc-button-secondary" type="button" data-workbench-toast-trigger data-toast-dismissible="${String(state.dismissible)}">Show toast</button>
+  <button class="oc-button oc-button-secondary" type="button" data-workbench-toast-trigger data-toast-dismissible="${String(state.dismissible)}" data-toast-tone="${state.tone}" data-toast-lifecycle="${state.lifecycle}">Show toast</button>
 </div>`;
       if (state.visible && workbench) {
-        const region = document.createElement("div");
-        region.className = "oc-toast-region component-workbench-toast-region";
-        region.dataset.workbenchToastPortal = "";
-        region.dataset.toastStack = "single";
-        region.setAttribute("aria-label", "Notifications");
-        region.setAttribute("aria-live", "polite");
-        region.setAttribute("aria-relevant", "additions removals");
-        const toast = createWorkbenchToast(document, state.dismissible, 0);
-        region.append(toast);
-        workbench.append(region);
-        animateWorkbenchToast(toast, true);
+        showWorkbenchToast(workbench, state);
       }
     },
   },
@@ -1916,5 +1926,5 @@ export function normalizeWorkbenchState(definition, candidate = {}) {
     }
   }
 
-  return state;
+  return definition.normalizeState?.(state) ?? state;
 }

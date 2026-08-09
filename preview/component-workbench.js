@@ -404,6 +404,7 @@ function mountWorkbenchDefinition(workbench, pageId) {
   const update = (id, value, { render = true } = {}) => {
     preserveWorkbenchScrollPosition(document.scrollingElement, () => {
       state[id] = value;
+      definition.normalizeState?.(state, id);
       if (render) {
         apply();
         return;

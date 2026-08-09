@@ -8,6 +8,7 @@ user-facing arc per release.
 
 ### Fixes
 
+- Completed semantic Toast variants with canonical Error persistence, interaction-paused timers, race-safe dismissal, and notification-layer stacking. Thanks @vyctorbrzezowski.
 - Added an opt-in full-height Dialog layout study for the simulated narrow viewport without changing the shared modal runtime. Thanks @vyctorbrzezowski.
 - Coordinated one active Tooltip per view and restored a still-focused tooltip after a temporary hover competitor closes. Thanks @vyctorbrzezowski.
 - Kept Dropdown and Menu Bar actions inside constrained viewports and introduced shared popover/notification layer roles. Thanks @vyctorbrzezowski.

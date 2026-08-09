@@ -491,6 +491,25 @@ describe("preview behavior", () => {
     expect(toastWorkbenchMarkup({ dismissible: true })).toContain('button class="oc-toast-close"');
     expect(toastWorkbenchMarkup({ dismissible: false })).not.toContain("oc-toast-close");
     expect(toastWorkbenchMarkup({ dismissible: false })).toContain('aria-live="polite"');
+    expect(toastWorkbenchMarkup({ dismissible: false, lifecycle: "timed" })).toContain(
+      'data-toast-lifecycle="timed" tabindex="0"',
+    );
+    expect(toastWorkbenchMarkup({ dismissible: false, lifecycle: "persistent" })).not.toContain(
+      'tabindex="0"',
+    );
+    const variants = [
+      ["neutral", "bell", "Notification"],
+      ["success", "circle-check", "Changes saved"],
+      ["warning", "triangle-alert", "Action needed"],
+      ["error", "circle-alert", "Update failed"],
+      ["info", "info", "Reference available"],
+    ];
+    for (const [tone, iconName, title] of variants) {
+      const markup = toastWorkbenchMarkup({ tone, dismissible: true });
+      expect(markup).toContain(`data-toast-tone="${tone}"`);
+      expect(markup).toContain(`data-lucide="${iconName}"`);
+      expect(markup).toContain(title);
+    }
   });
   test("maps Composer ChatStatus and disabled state to its real affordances", () => {
     expect(composerWorkbenchMarkup({ status: "ready", draft: "Review this" })).toContain(

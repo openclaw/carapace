@@ -218,9 +218,9 @@ describe("preview route build", () => {
         expect(entryScript).toBeDefined();
         const entryPath = resolve(dirname(deepRoutePath), entryScript);
         const entryStats = await stat(entryPath);
-        // Guards order-of-magnitude entry bloat; nav metadata for new
-        // reference pages grows this slowly and legitimately.
-        expect(entryStats.size).toBeLessThan(165_000);
+        // Guards order-of-magnitude entry bloat while leaving bounded room for
+        // shared interactive-preview behavior such as Toast lifecycle control.
+        expect(entryStats.size).toBeLessThan(170_000);
         expect(await readFile(entryPath, "utf8")).not.toContain(
           "One visual contract for the OpenClaw product family",
         );

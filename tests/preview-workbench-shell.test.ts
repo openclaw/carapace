@@ -1043,4 +1043,21 @@ describe("workbench shell contracts", () => {
     expect(sticky).toContain("top: 0");
     expect(candidate).not.toContain("data-workbench-table-bounded");
   });
+  test("styles semantic Toast variants without undefined color aliases", async () => {
+    const css = await readFile("preview/preview.css", "utf8");
+
+    expect(css).not.toContain("--oc-success");
+    expect(css).toMatch(
+      /\.component-workbench-toast-region\s*\{[^}]*z-index: var\(--oc-layer-notification\)/,
+    );
+    for (const [tone, token] of [
+      ["success", "--oc-status-success-fg"],
+      ["warning", "--oc-status-warning-fg"],
+      ["error", "--oc-status-error-fg"],
+      ["info", "--oc-status-info-fg"],
+    ]) {
+      expect(css).toContain(`.oc-toast[data-toast-tone="${tone}"] .oc-toast-status-icon`);
+      expect(css).toContain(token);
+    }
+  });
 });

@@ -15,7 +15,13 @@ import {
   bindToolbars,
 } from "../preview/toolbar.js";
 import {
+  animateWorkbenchToast,
+  bindToastLifetime,
   bindToasts,
+  createWorkbenchToast,
+  createWorkbenchToastRegion,
+  dismissToast,
+  syncWorkbenchToastVisibility,
 } from "../preview/toast.js";
 import {
   bindTooltips,
@@ -1027,6 +1033,238 @@ describe("interaction widget behavior", () => {
     expect(dismissedToast.removed).toBe(true);
     expect(region.children).toHaveLength(2);
     expect(region.children[0].dismiss.focused).toBe(true);
+  });
+  test("mounts the workbench Toast portal inside the themed canvas", () => {
+    const canvas = {
+      dataset: { workbenchTheme: "dark" },
+      append(child) {
+        child.parentElement = this;
+      },
+    };
+    const workbench = {
+      querySelector: (selector) => (selector === "[data-workbench-canvas]" ? canvas : null),
+    };
+    const document = {
+      createElement() {
+        return {
+          dataset: {},
+          parentElement: null,
+          attributes: new Map(),
+          setAttribute(name, value) {
+            this.attributes.set(name, value);
+          },
+        };
+      },
+    };
+
+    const region = createWorkbenchToastRegion(document, workbench);
+
+    expect(region.parentElement).toBe(canvas);
+    expect(region.parentElement.dataset.workbenchTheme).toBe("dark");
+    expect(region.getAttribute?.("aria-live") ?? region.attributes.get("aria-live")).toBe("polite");
+  });
+  test("restores workbench Toast focus to an adjacent action, trigger, then region", async () => {
+    class Element {
+      children = [];
+      focused = false;
+      removed = false;
+      tabIndex = 0;
+      querySelector() {
+        return null;
+      }
+      focus() {
+        this.focused = true;
+      }
+      remove() {
+        this.removed = true;
+        this.parentElement.children = this.parentElement.children.filter((child) => child !== this);
+      }
+    }
+
+    const adjacentDismiss = new Element();
+    const adjacent = new Element();
+    adjacent.querySelector = () => adjacentDismiss;
+    const first = new Element();
+    const adjacentRegion = new Element();
+    adjacentRegion.children = [first, adjacent];
+    adjacentRegion.querySelectorAll = () => adjacentRegion.children;
+    first.parentElement = adjacentRegion;
+    adjacent.parentElement = adjacentRegion;
+
+    await dismissToast(adjacentRegion, first, { returnFocus: new Element() });
+    expect(adjacentDismiss.focused).toBe(true);
+
+    const trigger = new Element();
+    const only = new Element();
+    const triggerRegion = new Element();
+    triggerRegion.children = [only];
+    triggerRegion.querySelectorAll = () => triggerRegion.children;
+    only.parentElement = triggerRegion;
+    await dismissToast(triggerRegion, only, { returnFocus: trigger });
+    expect(trigger.focused).toBe(true);
+
+    const fallback = new Element();
+    const fallbackRegion = new Element();
+    fallbackRegion.children = [fallback];
+    fallbackRegion.querySelectorAll = () => fallbackRegion.children;
+    fallback.parentElement = fallbackRegion;
+    await dismissToast(fallbackRegion, fallback);
+    expect(fallbackRegion.focused).toBe(true);
+    expect(fallbackRegion.tabIndex).toBe(-1);
+  });
+  test("makes a Toast non-interactive while its dismissal animation completes", async () => {
+    let finishAnimation;
+    const attributes = new Map();
+    const toast = {
+      inert: false,
+      ownerDocument: {
+        defaultView: { matchMedia: () => ({ matches: false }) },
+      },
+      animate() {
+        return {
+          finished: new Promise((resolve) => {
+            finishAnimation = resolve;
+          }),
+        };
+      },
+      setAttribute(name, value) {
+        attributes.set(name, value);
+      },
+      remove() {},
+    };
+    const region = {
+      dataset: {},
+      querySelectorAll: () => [toast],
+    };
+
+    const dismissal = dismissToast(region, toast, { restoreFocus: false });
+    const duplicateDismissal = dismissToast(region, toast, { restoreFocus: false });
+
+    expect(toast.inert).toBe(true);
+    expect(attributes.get("aria-hidden")).toBe("true");
+    expect(await duplicateDismissal).toBe(false);
+    finishAnimation();
+    expect(await dismissal).toBe(true);
+  });
+  test("does not hide the Visible control from a stale Toast portal", () => {
+    const visibleControl = { checked: true };
+    const activeRegion = { children: [{}] };
+    const staleRegion = { children: [] };
+    const workbench = {
+      querySelector(selector) {
+        if (selector === "[data-workbench-toast-portal]") return activeRegion;
+        if (selector === '[data-workbench-control="visible"]') return visibleControl;
+        return null;
+      },
+    };
+
+    expect(syncWorkbenchToastVisibility(workbench, staleRegion)).toBe(false);
+    expect(visibleControl.checked).toBe(true);
+
+    activeRegion.children = [];
+    expect(syncWorkbenchToastVisibility(workbench, activeRegion)).toBe(true);
+    expect(visibleControl.checked).toBe(false);
+  });
+  test("pauses timed Toasts for hover and focus while errors remain persistent", () => {
+    let now = 0;
+    let nextTimer = 0;
+    const timers = new Map();
+    const view = {
+      performance: { now: () => now },
+      setTimeout(callback, delay) {
+        nextTimer += 1;
+        timers.set(nextTimer, { callback, delay });
+        return nextTimer;
+      },
+      clearTimeout(timer) {
+        timers.delete(timer);
+      },
+    };
+    class Toast extends EventTarget {
+      dataset = {};
+      ownerDocument = { defaultView: view };
+      contains(target) {
+        return target === this;
+      }
+    }
+
+    const timed = new Toast();
+    timed.dataset.toastLifecycle = "timed";
+    let expired = false;
+    bindToastLifetime(timed, () => {
+      expired = true;
+    }, 5000);
+    expect([...timers.values()].at(-1).delay).toBe(5000);
+
+    now = 1200;
+    timed.dispatchEvent(new Event("pointerenter"));
+    expect(timers.size).toBe(0);
+    timed.dispatchEvent(new Event("pointerleave"));
+    expect([...timers.values()].at(-1).delay).toBe(3800);
+
+    now = 1700;
+    timed.dispatchEvent(new Event("focusin"));
+    expect(timers.size).toBe(0);
+    const focusout = new Event("focusout");
+    Object.defineProperty(focusout, "relatedTarget", { value: null });
+    timed.dispatchEvent(focusout);
+    expect([...timers.values()].at(-1).delay).toBe(3300);
+    [...timers.values()].at(-1).callback();
+    expect(expired).toBe(true);
+
+    const error = new Toast();
+    error.dataset.toastTone = "error";
+    error.dataset.toastLifecycle = "timed";
+    expect(bindToastLifetime(error, () => {}, 5000)).toBeNull();
+    expect(error.dataset.toastLifecycle).toBe("persistent");
+
+    timers.clear();
+    const rebound = new Toast();
+    rebound.dataset.toastTone = "neutral";
+    rebound.dataset.toastLifecycle = "timed";
+    bindToastLifetime(rebound, () => {}, 5000);
+    expect(timers.size).toBe(1);
+    rebound.dataset.toastTone = "error";
+    expect(bindToastLifetime(rebound, () => {}, 5000)).toBeNull();
+    expect(timers.size).toBe(0);
+  });
+  test("keeps timed non-dismissible workbench Toasts keyboard-pausable", () => {
+    const document = {
+      createElement() {
+        return { dataset: {}, tabIndex: -1, innerHTML: "", className: "" };
+      },
+    };
+
+    const timed = createWorkbenchToast(document, {
+      dismissible: false,
+      lifecycle: "timed",
+    });
+    const persistent = createWorkbenchToast(document, {
+      dismissible: false,
+      lifecycle: "persistent",
+    });
+
+    expect(timed.tabIndex).toBe(0);
+    expect(persistent.tabIndex).toBe(-1);
+  });
+  test("keeps Toast motion opacity-only when reduced motion is requested", () => {
+    let keyframes;
+    let options;
+    const toast = {
+      ownerDocument: {
+        defaultView: { matchMedia: () => ({ matches: true }) },
+      },
+      animate(frames, animationOptions) {
+        keyframes = frames;
+        options = animationOptions;
+        return { finished: Promise.resolve() };
+      },
+    };
+
+    animateWorkbenchToast(toast, true);
+
+    expect(keyframes).toEqual([{ opacity: 0 }, { opacity: 1 }]);
+    expect(options.duration).toBe(100);
   });
   test("opens, dismisses, and collision-aligns tooltips", () => {
     class Element extends EventTarget {
