@@ -4,6 +4,8 @@ Releases are Git tags (`vX.Y.Z`) matching `package.json`; each tag also gets
 auto-generated notes on its GitHub release. This file summarizes the
 user-facing arc per release.
 
+## Unreleased
+
 ## 0.6.2 — 2026-08-09
 
 **Highlight:** a broad component-quality pass from @vyctorbrzezowski — light-theme
