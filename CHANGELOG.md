@@ -4,23 +4,41 @@ Releases are Git tags (`vX.Y.Z`) matching `package.json`; each tag also gets
 auto-generated notes on its GitHub release. This file summarizes the
 user-facing arc per release.
 
-## Unreleased
+## 0.6.2 — 2026-08-09
 
-### Fixes
+**Highlight:** a broad component-quality pass from @vyctorbrzezowski — light-theme
+contrast now meets AA, every preview image has documented rights, and the
+overlay primitives (Toast, Tooltip, Dropdown, Menu Bar, Banner) behave correctly
+under focus, hover competition and constrained viewports.
+
+### Accessibility and rights
+
+- Restored AA contrast for light-theme primary actions while keeping modal backdrops visually isolating. Thanks @vyctorbrzezowski.
+- Replaced preview portraits without redistribution records with deterministic generated identities, and documented the rights for every remaining preview image. Thanks @vyctorbrzezowski.
+- Made Banner dismissal return focus safely while preserving generic narrow-screen action layout. Thanks @vyctorbrzezowski.
+
+### Overlay and notification behavior
 
 - Completed semantic Toast variants with canonical Error persistence, interaction-paused timers, race-safe dismissal, and notification-layer stacking. Thanks @vyctorbrzezowski.
-- Added an opt-in full-height Dialog layout study for the simulated narrow viewport without changing the shared modal runtime. Thanks @vyctorbrzezowski.
-- Coordinated one active Tooltip per view and restored a still-focused tooltip after a temporary hover competitor closes. Thanks @vyctorbrzezowski.
-- Kept Dropdown and Menu Bar actions inside constrained viewports and introduced shared popover/notification layer roles. Thanks @vyctorbrzezowski.
-- Made Banner dismissal return focus safely while preserving generic narrow-screen action layout. Thanks @vyctorbrzezowski.
-- Added bounded Table and disabled/loading Search studies, including a busy state on the updating table region. Thanks @vyctorbrzezowski.
-- Aligned the Button Lab with Action states and kept its accessible icon-only specimen compact. Thanks @vyctorbrzezowski.
-- Added hover feedback for available panel tabs on hover-capable pointers while preserving selected and disabled states. Thanks @vyctorbrzezowski.
+- Coordinated one active Tooltip per view, and restored a still-focused tooltip after a temporary hover competitor closes. Thanks @vyctorbrzezowski.
+- Kept Dropdown and Menu Bar actions inside constrained viewports, and introduced shared popover/notification layer roles. Thanks @vyctorbrzezowski.
+
+### Component states
+
 - Completed rendered invalid, active, and disabled form-control states while removing speculative state selectors and binders. Thanks @vyctorbrzezowski.
-- Clarified semantic, product, and component stylesheet ownership and moved preview status labels onto the canonical Badge primitive. Thanks @vyctorbrzezowski.
 - Kept native Date Picker values legible on light preview canvases without losing accent-colored focus feedback. Thanks @vyctorbrzezowski.
-- Restored AA contrast for light-theme primary actions while keeping modal backdrops visually isolating. Thanks @vyctorbrzezowski.
-- Replaced preview portraits without redistribution records with deterministic generated identities and documented the rights for every remaining preview image. Thanks @vyctorbrzezowski.
+- Added hover feedback for available panel tabs on hover-capable pointers while preserving selected and disabled states. Thanks @vyctorbrzezowski.
+- Aligned the Button Lab with Action states and kept its accessible icon-only specimen compact. Thanks @vyctorbrzezowski.
+
+### Preview studies and documentation
+
+- Added bounded Table and disabled/loading Search studies, including a busy state on the updating table region. Thanks @vyctorbrzezowski.
+- Added an opt-in full-height Dialog layout study for the simulated narrow viewport without changing the shared modal runtime. Thanks @vyctorbrzezowski.
+- Clarified semantic, product, and component stylesheet ownership, and moved preview status labels onto the canonical Badge primitive. Thanks @vyctorbrzezowski.
+
+### Maintenance
+
+- Update the preview dependency toolchain (lucide, Vite).
 
 ## 0.6.0 — 2026-07-29
 

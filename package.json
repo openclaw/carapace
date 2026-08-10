@@ -1,6 +1,6 @@
 {
   "name": "@openclaw/carapace",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Carapace: canonical web design tokens, styles, and agent guidance for OpenClaw.",
   "license": "MIT",
   "type": "module",

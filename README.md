@@ -23,7 +23,7 @@ The package owns the visual contract; the consumer owns the product.
 Carapace is distributed through immutable GitHub release tags, not npm. Install the current release with Bun:
 
 ```bash
-bun add "git+https://github.com/openclaw/carapace.git#v0.6.1"
+bun add "git+https://github.com/openclaw/carapace.git#v0.6.2"
 ```
 
 The package is public, but its `private` manifest field prevents accidental npm publication. Use the [latest release](https://github.com/openclaw/carapace/releases/latest) when updating the pinned tag.
