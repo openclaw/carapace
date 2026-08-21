@@ -7,7 +7,7 @@
       "devDependencies": {
         "@openclaw/libterminal": "0.3.2",
         "lightningcss": "1.33.0",
-        "lucide": "1.31.0",
+        "lucide": "1.32.0",
         "react": "19.2.8",
         "react-dom": "19.2.8",
         "tailwindcss": "4.3.3",
@@ -95,7 +95,7 @@
 
     "lightningcss-win32-x64-msvc": ["lightningcss-win32-x64-msvc@1.33.0", "", { "os": "win32", "cpu": "x64" }, "sha512-OlEICDx/Xl0FqSp4bry8zFnCvGpig3Gl4gCquvYwHuqJKEC1+n9NgDniFvqHGmMv1ZkqDJrDqKKSykTDX+ehuA=="],
 
-    "lucide": ["lucide@1.31.0", "", {}, "sha512-iPJC7py8o990ZSmvFZlS+4+bNasP+ANDkD0IeDOGgQZjTm3p85F2Ldut7leM1yhYavr1pmoPfigm9MDHyyCOrw=="],
+    "lucide": ["lucide@1.32.0", "", {}, "sha512-CZ/Ff2eVQmK18vtdS8RNZ4ct5Jc1VR02l2F8ojliv4QeO4WxvBaGTqa+254WgfR+81pxtKTV0dqgaEK5fghKyA=="],
 
     "nanoid": ["nanoid@3.3.16", "", { "bin": { "nanoid": "bin/nanoid.cjs" } }, "sha512-bzlKTyNJ7+LdGIIwy8ijFpIqEQIvafahV7eYykJ8Cvh42EdJeODoJ6gUJXpQJvej1BddH8OqTXZNE/KfbWAu8Q=="],
 
