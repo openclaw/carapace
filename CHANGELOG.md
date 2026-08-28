@@ -6,6 +6,8 @@ user-facing arc per release.
 
 ## Unreleased
 
+- Refresh preview dependencies and the Bun toolchain, update CodeQL, and correct the Pages artifact action version labels.
+
 ## 0.6.2 — 2026-08-09
 
 **Highlight:** a broad component-quality pass from @vyctorbrzezowski — light-theme
