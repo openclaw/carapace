@@ -5,9 +5,9 @@
     "": {
       "name": "@openclaw/carapace",
       "devDependencies": {
-        "@openclaw/libterminal": "0.3.2",
+        "@openclaw/libterminal": "0.3.3",
         "lightningcss": "1.33.0",
-        "lucide": "1.34.0",
+        "lucide": "1.38.0",
         "react": "19.2.8",
         "react-dom": "19.2.8",
         "tailwindcss": "4.3.3",
@@ -17,7 +17,7 @@
     },
   },
   "packages": {
-    "@openclaw/libterminal": ["@openclaw/libterminal@0.3.2", "", { "dependencies": { "ghostty-web": "0.4.0" }, "peerDependencies": { "node-pty": ">=1.0.0" }, "optionalPeers": ["node-pty"] }, "sha512-RbxYPG22kuEgvW2Gx8FK2uApYSgDi+yRahfR0lW7pcdMZvAWL9/iLJRVLEMKc1uAA69mAA/IW5AtwQ9LUdHypA=="],
+    "@openclaw/libterminal": ["@openclaw/libterminal@0.3.3", "", { "dependencies": { "ghostty-web": "0.4.0" }, "peerDependencies": { "node-pty": ">=1.0.0" }, "optionalPeers": ["node-pty"] }, "sha512-LbjmH51H2tYYgaMzRnEeYJyihd/m3vCmIv2vIY6Q6xMgM3L0I7kTMkxWlqwk2afgD6AufDe4SCbCNUSGWlWK5g=="],
 
     "@oxc-project/types": ["@oxc-project/types@0.146.0", "", {}, "sha512-XC0QsnnhVe7sLIWmYmdPw7x5P0h4W8vUU3Nv1ySgWXtvCz8NizoAEpGXA0sOYoJQV2Rl13LgURAHQ5cI5ILCSA=="],
 
@@ -85,7 +85,7 @@
 
     "lightningcss-win32-x64-msvc": ["lightningcss-win32-x64-msvc@1.33.0", "", { "os": "win32", "cpu": "x64" }, "sha512-OlEICDx/Xl0FqSp4bry8zFnCvGpig3Gl4gCquvYwHuqJKEC1+n9NgDniFvqHGmMv1ZkqDJrDqKKSykTDX+ehuA=="],
 
-    "lucide": ["lucide@1.34.0", "", {}, "sha512-OOPdNzu3Ocs9lLPOu1sWVIp4sue3HXYjZThAmSXu/NhBJ9ZnfLQhCGfbQRYvsVJvSKwi/KtLE5pNbS4fYl5zrA=="],
+    "lucide": ["lucide@1.38.0", "", {}, "sha512-ks+qlUDBIewXf4eBTSxQhjrKGrTz8SM0VIuHwgniY72HiBTnOe+UnyzSErIwckCUvjJ1TktDNu6+ZRC/9aoijw=="],
 
     "nanoid": ["nanoid@3.3.18", "", { "bin": { "nanoid": "bin/nanoid.cjs" } }, "sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w=="],
 
