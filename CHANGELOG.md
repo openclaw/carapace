@@ -6,6 +6,7 @@ user-facing arc per release.
 
 ## Unreleased
 
+- Prevent malformed chart hover data from throwing during pointer movement, and allow initialization after empty or invalid data is corrected.
 - Refresh preview dependencies and the Bun toolchain, update CodeQL, and correct the Pages artifact action version labels.
 
 ## 0.6.2 — 2026-08-09
