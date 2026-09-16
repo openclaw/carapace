@@ -6,15 +6,21 @@
 export function initChartHover(root = document) {
   for (const band of root.querySelectorAll(".oc-chart-hover[data-oc-hover]")) {
     if (band.dataset.ocHoverBound === "true") continue;
-    band.dataset.ocHoverBound = "true";
-    let points;
+    const unit = band.getAttribute("data-oc-hover-unit") || "";
+    let readouts;
     try {
-      points = JSON.parse(band.getAttribute("data-oc-hover"));
+      const points = JSON.parse(band.getAttribute("data-oc-hover"));
+      if (!Array.isArray(points) || points.length === 0) continue;
+      if (!points.every((point) => Array.isArray(point) && point.length >= 2)) continue;
+      // Prepare every period before binding so malformed data cannot throw on hover
+      // or leave a partially usable chart with shifted period indices.
+      readouts = points.map(([label, value]) =>
+        `${label} · ${Number(value).toLocaleString("en-US")}${unit ? ` ${unit}` : ""}`,
+      );
     } catch {
       continue;
     }
-    if (!Array.isArray(points) || points.length === 0) continue;
-    const unit = band.getAttribute("data-oc-hover-unit") || "";
+    band.dataset.ocHoverBound = "true";
     const tip = document.createElement("div");
     tip.className = "oc-chart-tip";
     tip.hidden = true;
@@ -26,12 +32,11 @@ export function initChartHover(root = document) {
       const rect = band.getBoundingClientRect();
       if (rect.width === 0) return;
       const share = (event.clientX - rect.left) / rect.width;
-      const index = Math.min(points.length - 1, Math.max(0, Math.floor(share * points.length)));
-      const [label, value] = points[index];
+      const index = Math.min(readouts.length - 1, Math.max(0, Math.floor(share * readouts.length)));
       // Cursor sits on the hovered period's center; the tip clamps so it
       // never escapes the band on the first or last periods.
-      const x = ((index + 0.5) / points.length) * rect.width;
-      tip.textContent = `${label} · ${Number(value).toLocaleString("en-US")}${unit ? ` ${unit}` : ""}`;
+      const x = ((index + 0.5) / readouts.length) * rect.width;
+      tip.textContent = readouts[index];
       tip.hidden = false;
       cursor.hidden = false;
       cursor.style.left = `${x.toFixed(1)}px`;

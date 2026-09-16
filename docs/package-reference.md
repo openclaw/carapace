@@ -16,9 +16,15 @@ Carapace is a Git-only Bun package. Stable runtime assets ship under semantic Gi
 | `@openclaw/carapace/components.css` | Framework-neutral sections, headings, cards, actions, pills, and segmented controls |
 | `@openclaw/carapace/tailwind.css` | Tailwind 4 mapping for canonical custom properties |
 | `@openclaw/carapace/compat/clawhub.css` | Opt-in transitional ClawHub compatibility adapter |
-| `@openclaw/carapace/charts.js` | Chart color and style helpers |
+| `@openclaw/carapace/charts.js` | Optional chart hover readouts |
 
 The Tailwind entry point maps tokens only. Components and product-specific layout remain in the consumer.
+
+### Chart hover readouts
+
+Import `initChartHover` from `@openclaw/carapace/charts.js` and call it on the document or a container after rendering `.oc-chart-hover[data-oc-hover]` wrappers. Set `data-oc-hover` to a JSON array of `[label, value]` pairs in the chart's period order; `data-oc-hover-unit` adds an optional unit after each formatted number. Hover styling is included in `candidate/data.css`.
+
+Empty or malformed data is left unbound so the chart remains usable without a readout. After correcting or populating the attribute, call `initChartHover` again. Successfully initialized wrappers are bound once and retain their initial data.
 
 ## Candidate entry points
 
