@@ -52,14 +52,14 @@
     "release:check": "bun scripts/check-release-version.ts"
   },
   "devDependencies": {
-    "@openclaw/libterminal": "0.3.2",
+    "@openclaw/libterminal": "0.3.6",
     "lightningcss": "1.33.0",
-    "lucide": "1.34.0",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
+    "lucide": "1.47.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
     "tailwindcss": "4.3.3",
-    "vite": "8.2.2",
-    "yaml": "2.9.0"
+    "vite": "8.3.0",
+    "yaml": "2.9.1"
   },
   "engines": {
     "bun": ">=1.3.0"
