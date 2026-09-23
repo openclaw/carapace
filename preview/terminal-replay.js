@@ -1,47 +1,11 @@
 import { createGhosttyTerminal } from "@openclaw/libterminal/browser";
 import { resolvePreviewSiteRoot } from "./router.js";
 import { terminalUiFixtures } from "./terminal-fixtures/terminal-ui-fixtures.js";
+import { terminalFontFamily, terminalTheme } from "./terminal-theme.js";
 
 function decodeBase64(value) {
   const binary = globalThis.atob(value);
   return Uint8Array.from(binary, (character) => character.charCodeAt(0));
-}
-
-function terminalFontFamily(host) {
-  const document = host.ownerDocument;
-  return (
-    document.defaultView
-      ?.getComputedStyle(document.documentElement)
-      .getPropertyValue("--oc-font-mono")
-      .trim() || "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-  );
-}
-
-// Resolve a capture-surface property to a concrete color via a probe inside
-// the host, so color-mix() values come back as usable rgb() strings. The
-// canvas theme reads the same custom properties the viewport chrome paints
-// with -- a hand-copied hex palette drifts the moment the palette moves.
-function resolveCaptureColor(host, property, fallback) {
-  const document = host.ownerDocument;
-  const view = document.defaultView;
-  if (!view) return fallback;
-  const probe = document.createElement("span");
-  probe.style.color = `var(${property}, ${fallback})`;
-  probe.style.display = "none";
-  host.append(probe);
-  const value = view.getComputedStyle(probe).color;
-  probe.remove();
-  return value || fallback;
-}
-
-function terminalTheme(host) {
-  const background = resolveCaptureColor(host, "--terminal-capture-bg", "#0d0d0f");
-  return {
-    background,
-    foreground: resolveCaptureColor(host, "--terminal-capture-fg", "#ededed"),
-    cursor: resolveCaptureColor(host, "--terminal-capture-cursor", "#f5654a"),
-    cursorAccent: background,
-  };
 }
 
 async function mountTerminalReplay(host, fixture, signal) {

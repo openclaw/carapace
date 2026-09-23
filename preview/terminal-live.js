@@ -1,5 +1,6 @@
 import { createGhosttyTerminal } from "@openclaw/libterminal/browser";
 import { resolvePreviewSiteRoot } from "./router.js";
+import { terminalFontFamily, terminalTheme } from "./terminal-theme.js";
 
 // Live terminal prompts: real Ghostty terminals accepting real keyboard
 // input, driven by a small client-side engine that renders the exact glyph
@@ -413,7 +414,7 @@ async function mountTerminalLive(host, widgetId, signal) {
         fontFamily: terminalFontFamily(host),
         fontSize: 20,
         scrollback: 0,
-        theme: captureTheme(host),
+        theme: terminalTheme(host),
       },
       size: { columns, rows },
       autoFit: false,
@@ -479,38 +480,6 @@ async function mountTerminalLive(host, widgetId, signal) {
     console.error("Failed to mount live terminal", error);
     return undefined;
   }
-}
-
-function terminalFontFamily(host) {
-  const document = host.ownerDocument;
-  return (
-    document.defaultView
-      ?.getComputedStyle(document.documentElement)
-      .getPropertyValue("--oc-font-mono")
-      .trim() || "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-  );
-}
-
-function captureTheme(host) {
-  const resolve = (property, fallback) => {
-    const document = host.ownerDocument;
-    const view = document.defaultView;
-    if (!view) return fallback;
-    const probe = document.createElement("span");
-    probe.style.color = `var(${property}, ${fallback})`;
-    probe.style.display = "none";
-    host.append(probe);
-    const value = view.getComputedStyle(probe).color;
-    probe.remove();
-    return value || fallback;
-  };
-  const background = resolve("--terminal-capture-bg", "#0d0d0f");
-  return {
-    background,
-    foreground: resolve("--terminal-capture-fg", "#ededed"),
-    cursor: resolve("--terminal-capture-cursor", "#f5654a"),
-    cursorAccent: background,
-  };
 }
 
 export function bindTerminalLive(root = globalThis.document) {
