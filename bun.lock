@@ -5,7 +5,7 @@
     "": {
       "name": "@openclaw/carapace",
       "devDependencies": {
-        "@openclaw/libterminal": "0.3.6",
+        "@openclaw/libterminal": "0.3.7",
         "lightningcss": "1.33.0",
         "lucide": "1.47.0",
         "react": "19.3.0",
@@ -17,7 +17,7 @@
     },
   },
   "packages": {
-    "@openclaw/libterminal": ["@openclaw/libterminal@0.3.6", "", { "dependencies": { "ghostty-web": "0.4.0" }, "peerDependencies": { "node-pty": ">=1.0.0" }, "optionalPeers": ["node-pty"] }, "sha512-lTrj+6t6sVte2S7RAgJS+rjtbRzy9+c6ZE13vfT6VYZhAJ1p6OEHBbXNqKdgKPUCSFmpuMtlzrD4x8HtlfJ2IA=="],
+    "@openclaw/libterminal": ["@openclaw/libterminal@0.3.7", "", { "dependencies": { "ghostty-web": "0.4.0" }, "peerDependencies": { "node-pty": ">=1.0.0" }, "optionalPeers": ["node-pty"] }, "sha512-zK/XiLc3nDFzRNCIAWKuEp1DoeAZr/U3qxV3ID03Wwlv/sq+yHhq4PRMYaaxcW+ZCr4J4jEwbsDuByFOObwBBQ=="],
 
     "@oxc-project/types": ["@oxc-project/types@0.150.0", "", {}, "sha512-rDS5/31E9HfPl/CIzGrn0DOlvBbXFseQ5URJ9sYMfstbKLD/c6Gm9vmRzRGDdAXyOIL4zmO37lc9RIwYqVruZw=="],
 
