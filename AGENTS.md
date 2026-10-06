@@ -46,3 +46,9 @@ until at least two consumers share the same interface and behavior.
 - The tag must match `package.json`.
 - Runtime assets release under semantic tags; agent skills update from `main`.
 - npm publication is not required; consumers install the Git tag.
+
+## Autoreview priority
+
+Use `--max-priority P3` with the shared autoreview helper to preserve this
+repository's existing P0–P3 review gate. Follow the
+[shared skill setup](.agents/skills/autoreview/SKILL.md) before running it.
