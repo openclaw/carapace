@@ -6,6 +6,7 @@ user-facing arc per release.
 
 ## Unreleased
 
+- Update Vite to 8.3.3 for HTML and development-server fixes, and Lucide to 1.53.0. Thanks @dependabot[bot].
 - Update the terminal preview library to 0.3.9, Lucide to 1.52.0, and Vite to 8.3.2. Thanks @dependabot[bot].
 - Refresh the terminal preview, icons, Vite, and CodeQL dependencies. Thanks @dependabot[bot].
 - Prevent malformed chart hover data from throwing during pointer movement, and allow initialization after empty or invalid data is corrected.
