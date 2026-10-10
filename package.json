@@ -54,7 +54,7 @@
   "devDependencies": {
     "@openclaw/libterminal": "0.3.9",
     "lightningcss": "1.33.0",
-    "lucide": "1.52.0",
+    "lucide": "1.53.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "tailwindcss": "4.3.3",
