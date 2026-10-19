@@ -4,14 +4,28 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Validate and pack without publishing (must be true)
+        type: boolean
+        required: true
+        default: true
+      version:
+        description: Current package version without the v prefix
+        type: string
+        required: true
 
 permissions:
   contents: write
 
 jobs:
   release:
+    if: ${{ github.event_name == 'push' || (inputs.dry_run && github.ref == 'refs/heads/main') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    env:
+      RELEASE_TAG: ${{ github.event_name == 'push' && github.ref_name || format('v{0}', inputs.version) }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -26,11 +40,12 @@ jobs:
 
       - run: bun run check
 
-      - run: bun run release:check "${GITHUB_REF_NAME}"
+      - run: bun run release:check "$RELEASE_TAG"
 
       - run: bun pm pack --destination dist
 
       - name: Publish GitHub Release
+        if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

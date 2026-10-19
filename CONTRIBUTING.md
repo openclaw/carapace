@@ -77,3 +77,9 @@ assets that cannot be redistributed.
 Maintainers release from a stable `vX.Y.Z` tag. The tag must match
 `package.json`, and the GitHub Actions release workflow publishes the package
 archive. The package is distributed from GitHub and is not published to npm.
+
+After dependency or build-tooling updates, validate the release pipeline from
+`main` with the Release workflow's manual dispatch: set `dry_run` to `true` and
+`version` to the current `package.json` version (without `v`). This runs the
+checks and packs the archive without creating a tag or publishing a release.
+Publication remains restricted to tag-push events.
