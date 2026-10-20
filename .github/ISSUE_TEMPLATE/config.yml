@@ -3,6 +3,6 @@ contact_links:
   - name: Security report
     url: https://github.com/openclaw/carapace/security/advisories/new
     about: Report vulnerabilities privately.
-  - name: OpenClaw community support
-    url: https://discord.gg/clawd
-    about: Ask usage and integration questions in the OpenClaw community.
+  - name: Support
+    url: https://community.openclaw.ai/
+    about: Get official OpenClaw support for setup, usage, and integrations.
