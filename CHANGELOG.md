@@ -6,13 +6,18 @@ user-facing arc per release.
 
 ## Unreleased
 
+## 0.6.3 — 2026-10-20
+
+**Highlights:** Recover safely from malformed chart hover data, with refreshed preview dependencies and Bun 1.4.3 validation.
+
+- Prevent malformed chart hover data from throwing during pointer movement, and allow initialization after empty or invalid data is corrected.
+- Route official OpenClaw support to the support forum.
 - Update the pinned Bun toolchain to 1.4.3 while retaining Bun 1.3.0 compatibility.
 - Update the terminal preview library to 0.3.10, Lucide to 1.59.0, React to 19.3.1, and CodeQL to 4.39.0; add a manual release validation that packs without publishing. Thanks @dependabot[bot].
 - Update Lucide to 1.57.0 for the preview icon library. Thanks @dependabot[bot].
 - Update Vite to 8.3.3 for HTML and development-server fixes, and Lucide to 1.53.0. Thanks @dependabot[bot].
 - Update the terminal preview library to 0.3.9, Lucide to 1.52.0, and Vite to 8.3.2. Thanks @dependabot[bot].
 - Refresh the terminal preview, icons, Vite, and CodeQL dependencies. Thanks @dependabot[bot].
-- Prevent malformed chart hover data from throwing during pointer movement, and allow initialization after empty or invalid data is corrected.
 - Refresh preview dependencies and the Bun toolchain, update CodeQL, and correct the Pages artifact action version labels.
 
 ## 0.6.2 — 2026-08-09
