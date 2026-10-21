@@ -6,6 +6,7 @@ user-facing arc per release.
 
 ## Unreleased
 
+- Update the pinned Bun toolchain to 1.4.3 while retaining Bun 1.3.0 compatibility.
 - Update the terminal preview library to 0.3.10, Lucide to 1.59.0, React to 19.3.1, and CodeQL to 4.39.0; add a manual release validation that packs without publishing. Thanks @dependabot[bot].
 - Update Lucide to 1.57.0 for the preview icon library. Thanks @dependabot[bot].
 - Update Vite to 8.3.3 for HTML and development-server fixes, and Lucide to 1.53.0. Thanks @dependabot[bot].
