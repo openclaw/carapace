@@ -18,7 +18,7 @@ described in [SECURITY.md](SECURITY.md).
 
 ## Development Setup
 
-Use the exact Bun version declared by the repository. Bun `1.3.0` is the
+Use the exact Bun version declared by the repository. Bun `1.4.4` is the
 supported minimum and is checked separately in CI.
 
 ```bash
