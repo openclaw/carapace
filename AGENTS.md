@@ -14,7 +14,7 @@ until at least two consumers share the same interface and behavior.
 
 ## Commands
 
-- Bun `1.3.0` is the supported minimum; use the exact `packageManager` pin for
+- Bun `1.4.4` is the supported minimum; use the exact `packageManager` pin for
   normal development and release work.
 - `bun install --frozen-lockfile` - install the committed dependency graph.
 - `bun run test` - parse CSS and verify token/theme contracts.
