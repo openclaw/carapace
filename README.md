@@ -2,7 +2,7 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/openclaw/carapace/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/openclaw/carapace/actions/workflows/ci.yml)
 [![GitHub release](https://img.shields.io/github/v/release/openclaw/carapace?style=flat-square)](https://github.com/openclaw/carapace/releases/latest)
-[![Bun](https://img.shields.io/badge/Bun-%E2%89%A51.3.0-fbf0df?style=flat-square&logo=bun&logoColor=black)](https://bun.sh/)
+[![Bun](https://img.shields.io/badge/Bun-%E2%89%A51.4.4-fbf0df?style=flat-square&logo=bun&logoColor=black)](https://bun.sh/)
 [![License](https://img.shields.io/github/license/openclaw/carapace?style=flat-square)](LICENSE)
 [![Preview](https://img.shields.io/badge/preview-carapace.design-f5654a?style=flat-square)](https://carapace.design/)
 
@@ -88,7 +88,7 @@ bun run preview:dev
 
 ## Development
 
-Carapace requires Bun 1.3.0 or newer. Use the version pinned in `package.json` for normal development.
+Carapace requires Bun 1.4.4 or newer. Use the version pinned in `package.json` for normal development.
 
 ```bash
 bun install --frozen-lockfile
