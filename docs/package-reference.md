@@ -59,13 +59,6 @@ Use these semantic roles instead of choosing from the raw radius scale. Reserve 
 
 Font binaries, logos, mascot artwork, and site-specific media are not part of the package. Consumers load licensed assets locally.
 
-The repository's [live brand kit](https://github.com/openclaw/carapace/tree/main/brand-kit)
-is separate from the tagged runtime package and is the continuing OpenClaw and
-Foundation artwork authority. Begin every branding task with upstream `main`
-and its current README's source and rights procedure, then pin selected asset
-commits, paths, and hashes for that task; an installed package or release tag is
-not proof of current artwork. This does not change the semantic-tag pin for CSS.
-
 ## Preview
 
 The Pages workflow publishes the reference surface at `https://carapace.design/`. Its Applications area includes interactive settings, operations, workspace, Sessions, and Quick Chat screens with model, state, theme, and viewport controls.
