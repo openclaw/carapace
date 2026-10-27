@@ -1132,7 +1132,7 @@ describe("CSS contract", () => {
     expect(output).toContain("var(--oc-status-info-fg)");
   });
 
-  test("the release does not include restricted binary assets", async () => {
+  test("binary assets stay in approved preview and reference directories", async () => {
     const forbiddenExtensions = /\.(otf|ttf|woff2?|png|jpe?g|gif|webp|avif)$/i;
     const files = await readdir(".", { recursive: true });
     const allowedPreviewAssets = [
@@ -1157,6 +1157,7 @@ describe("CSS contract", () => {
           !path.startsWith(".git/") &&
           !path.startsWith("node_modules/") &&
           !path.startsWith("dist/") &&
+          !(path.startsWith("brand-kit/") && path.endsWith(".png")) &&
           !allowedPreviewAssets.includes(path) &&
           forbiddenExtensions.test(path),
       ),

@@ -75,4 +75,8 @@ if (output.includes("preview/lab.css")) {
   throw new Error("Packed package must not include preview-only Lab CSS");
 }
 
+if (output.includes("brand-kit/")) {
+  throw new Error("Packed package must not include the reference-only brand kit");
+}
+
 console.log(`Package exports and packed contents are valid for ${packageJson.version}`);
