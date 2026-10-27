@@ -12,6 +12,15 @@ Carapace owns the canonical OpenClaw web design contract:
 Consumer-specific components, routes, and layouts stay in their repositories
 until at least two consumers share the same interface and behavior.
 
+## Artwork source
+
+Begin every OpenClaw or Foundation branding task, including artwork reuse, with
+the live [Carapace brand kit](https://github.com/openclaw/carapace/tree/main/brand-kit).
+Resolve upstream `main` afresh and follow the current [brand-kit README](brand-kit/README.md)
+source procedure and linked rights/usage guidance: record commit/path/hash
+evidence, use current assets in scope, and report unavailable live access. Keep
+UI-token, portrait, subbrand, and publication-approval contracts separate.
+
 ## Commands
 
 - Bun `1.4.4` is the supported minimum; use the exact `packageManager` pin for

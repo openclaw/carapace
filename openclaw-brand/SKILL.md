@@ -9,13 +9,21 @@ Use the canonical identity without turning every surface into a marketing page.
 
 ## Workflow
 
-1. Read [identity.md](references/identity.md) for palette, typography, logo, and voice.
-2. Read [asset-rights.md](references/asset-rights.md) before copying or redistributing assets.
-3. Identify the artifact's audience and whether it is product, documentation, or marketing.
-4. Use semantic design tokens when the artifact is code.
-5. Keep status colors functional; do not use them as arbitrary decoration.
-6. Verify contrast, responsive cropping, and text legibility.
-7. Verify logo clearspace only when approved consumer-local guidance defines it;
+1. Before selecting, reusing, or creating OpenClaw or Foundation artwork, check
+   the live [Carapace brand kit](https://github.com/openclaw/carapace/tree/main/brand-kit).
+   Resolve upstream `main` afresh for every task and follow its current README's
+   source procedure, including linked usage/rights guidance, per-task commit,
+   path and hash evidence, and rechecking if the source may have changed. Report
+   unavailable live access rather than substituting a cached kit. Use current
+   assets within the requested scope, without overriding separate UI, portrait,
+   subbrand, or publication-approval contracts.
+2. Read [identity.md](references/identity.md) for palette, typography, logo, and voice.
+3. Read [asset-rights.md](references/asset-rights.md) before copying or redistributing assets.
+4. Identify the artifact's audience and whether it is product, documentation, or marketing.
+5. Use semantic design tokens when the artifact is code.
+6. Keep status colors functional; do not use them as arbitrary decoration.
+7. Verify contrast, responsive cropping, and text legibility.
+8. Verify logo clearspace only when approved consumer-local guidance defines it;
    otherwise report that check as unavailable rather than inventing a measurement.
 
 ## Rules

@@ -22,6 +22,14 @@ or voice. For a product application, start with `openclaw-carapace` when it is
 installed. Projects upgrading an existing lock may use
 `openclaw-design-system` as the `v0.1.x` compatibility alias.
 
+Selecting or reusing OpenClaw or Foundation artwork, even without an identity
+redesign, also requires the live [Carapace brand kit](https://github.com/openclaw/carapace/tree/main/brand-kit)
+check at task start. Resolve upstream `main` afresh and follow its current README's
+source procedure and relevant usage/rights guidance, recording the commit, paths,
+and hashes; report unavailable live access rather than substituting cached
+assets. Routing to a UI or marketing branch cannot bypass this check, and current
+artwork does not override separate UI-token, portrait, subbrand, or approval rules.
+
 ## Shared Contract
 
 - Install agent guidance from this repository's default branch and refresh it with

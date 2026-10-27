@@ -35,6 +35,14 @@ and novelty language that obscures what the product does.
 
 ## Marks And Imagery
 
+- Start every artwork task, including reuse, with the live
+  [Carapace brand kit](https://github.com/openclaw/carapace/tree/main/brand-kit)
+  and its current README's source procedure. Resolve upstream `main` afresh,
+  read relevant usage/rights guidance, and record the selected commit, paths,
+  and hashes. Current kit artwork takes precedence over cached or website
+  variants; report unavailable live access or conflicting guidance. This artwork
+  authority does not replace the UI-token palette above or separate portrait,
+  subbrand, and approval rules.
 - Preserve the supplied logo's aspect ratio and colors. Apply clearspace only
   from approved consumer-local guidance; do not invent a measurement.
 - Do not reconstruct the logo from screenshots.
