@@ -2,6 +2,8 @@
 
 Browse and download the OpenClaw and OpenClaw Foundation artwork below.
 
+This README is the single reference for OpenClaw and OpenClaw Foundation logo assets and usage.
+
 All files have transparent backgrounds. Use dark text on light backgrounds and light or white text on dark backgrounds. SVG lettering is outlined; PNG sizes indicate width in pixels.
 
 ## OpenClaw horizontal
