@@ -6,6 +6,8 @@ user-facing arc per release.
 
 ## Unreleased
 
+- Update terminal previews to libterminal 0.3.11 for startup cancellation and streaming performance fixes.
+
 - Update preview icons to Lucide 1.61.0, Vite to 8.3.5, and paired CodeQL actions to 4.39.1 while preserving Bun 1.3.0 compatibility and the 48-hour dependency maturity window. Thanks @dependabot[bot].
 
 ## 0.6.3 — 2026-10-20
