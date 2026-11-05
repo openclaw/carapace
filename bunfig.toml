@@ -1,5 +1,3 @@
 [install]
 # Match OpenClaw's 48-hour dependency maturity window for new resolutions.
 minimumReleaseAge = 172800
-# Reviewed libterminal 0.3.11 release; remove after 2026-11-03T02:20:47.166Z.
-minimumReleaseAgeExcludes = ["@openclaw/libterminal@0.3.11"]

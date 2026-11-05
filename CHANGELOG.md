@@ -6,6 +6,8 @@ user-facing arc per release.
 
 ## Unreleased
 
+- Update Lucide preview icons to 1.66.0 and remove the expired libterminal maturity exception while retaining the 48-hour dependency policy. Thanks @dependabot! #115
+
 - Keep full weekly CodeQL analysis without duplicate main-push scans, isolate scheduled and manual runs, and analyze PRs when marked ready for review.
 
 - Update terminal previews to libterminal 0.3.11 for startup cancellation and streaming performance fixes.
