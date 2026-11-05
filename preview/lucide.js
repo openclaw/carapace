@@ -11,7 +11,7 @@ import AudioLines from "lucide/dist/esm/icons/audio-lines.mjs";
 import AudioWaveform from "lucide/dist/esm/icons/audio-waveform.mjs";
 import Bell from "lucide/dist/esm/icons/bell.mjs";
 import Blocks from "lucide/dist/esm/icons/blocks.mjs";
-import Bold from "lucide/dist/esm/icons/bold.mjs";
+import Bold from "lucide/dist/esm/icons/letter-b.mjs";
 import Bookmark from "lucide/dist/esm/icons/bookmark.mjs";
 import Bot from "lucide/dist/esm/icons/bot.mjs";
 import Box from "lucide/dist/esm/icons/box.mjs";
