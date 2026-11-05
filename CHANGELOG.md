@@ -6,6 +6,8 @@ user-facing arc per release.
 
 ## Unreleased
 
+- Refresh Lucide to 1.67.0, Tailwind to 4.3.4, and CodeQL to 4.39.2 within the dependency maturity policy. Thanks @dependabot! #118 #119
+
 - Update Lucide preview icons to 1.66.0, preserve the Bold icon through its renamed module, and remove the expired libterminal maturity exception while retaining the 48-hour dependency policy. Thanks @dependabot! #115
 
 - Keep full weekly CodeQL analysis without duplicate main-push scans, isolate scheduled and manual runs, and analyze PRs when marked ready for review.
