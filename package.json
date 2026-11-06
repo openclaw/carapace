@@ -52,9 +52,9 @@
     "release:check": "bun scripts/check-release-version.ts"
   },
   "devDependencies": {
-    "@openclaw/libterminal": "0.3.11",
+    "@openclaw/libterminal": "0.4.0",
     "lightningcss": "1.33.0",
-    "lucide": "1.67.0",
+    "lucide": "1.68.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "tailwindcss": "4.3.4",
