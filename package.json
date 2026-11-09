@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@openclaw/libterminal": "0.4.0",
+    "ghostty-web": "0.4.0",
     "lightningcss": "1.33.0",
     "lucide": "1.68.0",
     "react": "19.3.1",
