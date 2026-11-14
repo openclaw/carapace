@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, test } from "bun:test";
+import { GHOSTTY_ASSET_PATHS, readGhosttyAsset } from "@openclaw/libterminal/node";
 import { getReferenceMaturity, referenceAreas } from "../preview/navigation.js";
 import { getReferenceContent } from "../preview/reference-content.js";
 import { terminalUiFixtureManifest } from "../preview/terminal-fixtures/manifest.js";
@@ -9,6 +10,14 @@ import { createTerminalLiveWidget } from "../preview/terminal-live.js";
 import { getTerminalUiContent, terminalUiContentIds } from "../preview/terminal-ui.js";
 
 describe("Terminal UI reference", () => {
+  test("resolves the Ghostty WASM required by the preview", async () => {
+    const asset = await readGhosttyAsset(GHOSTTY_ASSET_PATHS.wasm);
+    expect(asset?.contentType).toBe("application/wasm");
+    expect(Array.from(new Uint8Array(asset!.body).subarray(0, 8))).toEqual([
+      0, 97, 115, 109, 1, 0, 0, 0,
+    ]);
+  });
+
   test("publishes shared cell geometry and validation width tokens", () => {
     expect(terminalTokens.spacing.markerLabel).toEqual({
       name: "terminal.space.marker-label",
