@@ -26,6 +26,8 @@ bun install --frozen-lockfile
 bun run check
 ```
 
+The preview declares `ghostty-web` directly because libterminal exposes its browser runtime as an optional peer.
+
 Use the smallest relevant command while iterating:
 
 ```bash

@@ -6,6 +6,8 @@ user-facing arc per release.
 
 ## Unreleased
 
+- Refresh libterminal to 0.4.0, Lucide to 1.72.0, Tailwind to 4.3.5, Vite to 8.3.8, and CodeQL to 4.39.3; preserve alert icons across module renames and declare the Ghostty browser peer while retaining the 48-hour dependency policy. Thanks @dependabot! #121 #123
+
 - Refresh Lucide to 1.67.0, Tailwind to 4.3.4, and CodeQL to 4.39.2 within the dependency maturity policy. Thanks @dependabot! #118 #119
 
 - Update Lucide preview icons to 1.66.0, preserve the Bold icon through its renamed module, and remove the expired libterminal maturity exception while retaining the 48-hour dependency policy. Thanks @dependabot! #115
