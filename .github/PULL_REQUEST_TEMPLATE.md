@@ -26,6 +26,16 @@ Use one short, plain-language sentence. For fixes, prefer:
 "Fixes: <what goes wrong> when <trigger or condition>."
 For other changes, describe the need without inventing a bug.
 Name the affected workflow, not the code-level cause.
+Lead with that problem or task and why it matters to the affected consumer,
+before describing the implementation.
+
+Illustrative examples, not claims about current behavior or required wording:
+- Implementation-first: "Adjust focus-ring colors in the theme stylesheet."
+  Reader-first: "Fixes: keyboard users lose track of the focused control when
+  a consumer switches to the light theme."
+- Implementation-first: "Add another focused CSS export."
+  Reader-first: "Consumers need to import chart styling without loading the
+  rest of the design system."
 -->
 
 ## User Impact
@@ -41,6 +51,8 @@ Keep important risks, breaking changes, migrations, and required user actions vi
 
 <!--
 Briefly explain how the change addresses the problem without repeating the impact.
+With the problem or task and its value established above, describe the chosen
+approach and any material alternatives or tradeoffs.
 Keep the body short. Leave file lists, internal acronyms, and root-cause walkthroughs
 in the diff or optional <details>; include technical detail only when it explains
 behavior or a material tradeoff. Do not hide risks or required actions in <details>.
@@ -58,6 +70,11 @@ Reviewers will inspect the code, tests, and CI. Use this section to make the
 validation easy to understand, not to restate the diff.
 Summarize what was checked and the result; note meaningful gaps. Link long output
 or put it in optional <details>, keeping the useful evidence summary visible.
+Put those outcomes before commands or logs; a command alone does not explain
+what passed, failed, or remains unverified. For example, when actually verified:
+- Command-only: "Ran bun run pack:check."
+  Outcome-first: "The package includes every declared CSS entry point;
+  bun run pack:check passed."
 -->
 
 ## Design System Checks
@@ -65,6 +82,8 @@ or put it in optional <details>, keeping the useful evidence summary visible.
 <!--
 Include the most useful design-system proof: `bun run check`, focused tests,
 package contents, rendered consumer checks, screenshots, or audit output.
+State the relevant outcome before the command or artifact, and distinguish
+checks that passed from checks not run.
 -->
 
 - [ ] Tests or contract checks cover behavior changes
