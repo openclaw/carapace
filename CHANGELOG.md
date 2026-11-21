@@ -6,6 +6,8 @@ user-facing arc per release.
 
 ## Unreleased
 
+- Refresh Lucide to 1.73.0 and eligible preview build dependencies while preserving the 48-hour dependency maturity policy. Thanks @dependabot! #125
+
 - Refresh libterminal to 0.4.0, Lucide to 1.72.0, Tailwind to 4.3.5, Vite to 8.3.8, and CodeQL to 4.39.3; preserve alert icons across module renames and declare the Ghostty browser peer while retaining the 48-hour dependency policy. Thanks @dependabot! #121 #123
 
 - Refresh Lucide to 1.67.0, Tailwind to 4.3.4, and CodeQL to 4.39.2 within the dependency maturity policy. Thanks @dependabot! #118 #119
