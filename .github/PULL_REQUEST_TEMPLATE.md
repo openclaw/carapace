@@ -30,19 +30,6 @@ Could a reader understand the problem without knowing your proposed fix?
 Good: "Background checks can use up a new user's model allowance before they've
 asked the assistant to monitor anything."
 Bad: "Turn off periodic checks on fresh installs."
-
-For fixes, this format can help:
-"Fixes: <what goes wrong> when <trigger or condition>."
-Lead with that problem or task and why it matters to the affected consumer,
-before describing the implementation.
-
-Illustrative examples, not claims about current behavior or required wording:
-- Implementation-first: "Adjust focus-ring colors in the theme stylesheet."
-  Reader-first: "Fixes: keyboard users lose track of the focused control when
-  a consumer switches to the light theme."
-- Implementation-first: "Add another focused CSS export."
-  Reader-first: "Consumers need to import chart styling without loading the
-  rest of the design system."
 -->
 
 ## User Impact
@@ -83,16 +70,3 @@ what passed, failed, or remains unverified. For example, when actually verified:
   Outcome-first: "The package includes every declared CSS entry point;
   bun run pack:check passed."
 -->
-
-## Design System Checks
-
-<!--
-Include the most useful design-system proof: `bun run check`, focused tests,
-package contents, rendered consumer checks, screenshots, or audit output.
-State the relevant outcome before the command or artifact, and distinguish
-checks that passed from checks not run.
--->
-
-- [ ] Tests or contract checks cover behavior changes
-- [ ] Affected consumer and compatibility surfaces were considered
-- [ ] No credentials, private paths, private hosts, or restricted assets are included
