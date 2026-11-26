@@ -16,7 +16,7 @@ Carapace is the shared visual foundation for OpenClaw public sites and products.
 <button class="oc-action oc-action-primary" type="button">Continue</button>
 ```
 
-The package owns the visual contract; the consumer owns the product.
+The package owns the visual contract, and the consumer owns the product.
 
 ## Install
 
